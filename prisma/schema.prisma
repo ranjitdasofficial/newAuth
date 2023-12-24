@@ -19,3 +19,29 @@ model User{
   password String
 
 }
+
+
+
+// schema.prisma
+
+
+
+model Review {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating       Float
+  commentedBy String
+  internalScore Int
+  comments     String
+  teacherId     String @db.ObjectId
+  teacher       Teacher @relation(fields: [teacherId], references: [id])
+}
+
+model Teacher {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  section Int[]
+  subject String
+  likes   String[]
+  dislikes String[]
+  reviews Review[] 
+}
