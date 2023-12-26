@@ -36,6 +36,8 @@ model Review {
   teacher       Teacher @relation(fields: [teacherId], references: [id])
 }
 
+
+
 model Teacher {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   name    String
@@ -45,3 +47,26 @@ model Teacher {
   dislikes String[]
   reviews Review[] 
 }
+
+
+
+
+model ElectiveReview {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating       Float
+  commentedBy String
+  internalScore Int
+  comments     String
+  teacherId     String @db.ObjectId
+  teacher       Elective @relation(fields: [teacherId], references: [id])
+}
+
+model Elective {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  subject String
+  section Int[]
+  likes   String[]
+  dislikes String[]
+  reviews ElectiveReview[]
+  }
