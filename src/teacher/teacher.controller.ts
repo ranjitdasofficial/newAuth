@@ -18,6 +18,11 @@ export class TeacherController {
         return this.teacherService.getAllElective();
     }
 
+    @Get("/")
+    async getAllTea(){
+        return this.teacherService.getAllTeacher();
+    }
+
     @Get("getData")
     async getData(){
         return this.teacherService.getData();
