@@ -2,11 +2,11 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { NextAuth } from 'src/auth/guard/NextAuth.guard';
 import { TeacherService } from './teacher.service';
 import { AddLinks, ReviewDto, TeacherDto } from './dto/Teacher.dto';
-import { SpreadsheetService } from 'src/google.service';
+// import { SpreadsheetService } from 'src/google.service';
 
 @Controller('teacher')
 export class TeacherController {
-    constructor(private readonly teacherService:TeacherService,private readonly spreadSheetServie:SpreadsheetService){}
+    constructor(private readonly teacherService:TeacherService){}
     @Post("addTeacher")
     async addTeacher(){
         console.log("here")
@@ -74,23 +74,23 @@ export class TeacherController {
     }
 
 
-    @Post('convert')
-    async convertToGoogleSheet() {
-      const filePath = 'sec-2.xlsx';
-      const sheetTitle = 'ConvertedSheet';
+    // @Post('convert')
+    // async convertToGoogleSheet() {
+    //   const filePath = 'sec-2.xlsx';
+    //   const sheetTitle = 'ConvertedSheet';
   
-      const spreadsheetId = await this.spreadSheetServie.convertFileToGoogleSheet(filePath, sheetTitle);
+    //   const spreadsheetId = await this.spreadSheetServie.convertFileToGoogleSheet(filePath, sheetTitle);
   
-      return { spreadsheetId };
-    }
+    //   return { spreadsheetId };
+    // }
 
-    @Get('spread/:spreadsheetId')
-    async readData(@Param('spreadsheetId') spreadsheetId: string) {
-      const range = 'Sheet1!A1:B10'; // Update with your actual sheet and range
-      const data = await this.spreadSheetServie.readDataFromGoogleSheet(spreadsheetId, range);
+    // @Get('spread/:spreadsheetId')
+    // async readData(@Param('spreadsheetId') spreadsheetId: string) {
+    //   const range = 'Sheet1!A1:B10'; // Update with your actual sheet and range
+    //   const data = await this.spreadSheetServie.readDataFromGoogleSheet(spreadsheetId, range);
       
-      return { data };
-    }
+    //   return { data };
+    // }
 
     @Get("getNames")
     async getNames(){

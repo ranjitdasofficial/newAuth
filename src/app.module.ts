@@ -9,12 +9,12 @@ import { AuthController } from './auth/auth.controller';
 import { UserService } from './user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { TeacherModule } from './teacher/teacher.module';
-import { SpreadsheetService } from './google.service';
+// import { SpreadsheetService } from './google.service';
 
 
 @Module({
   imports: [UserModule, AuthModule,ConfigModule.forRoot(), TeacherModule],
   controllers: [UserController,AuthController],
-  providers: [AuthService,PrismaService,UserService,JwtService,SpreadsheetService],
+  providers: [AuthService,PrismaService,UserService,JwtService],
 })
 export class AppModule {}
