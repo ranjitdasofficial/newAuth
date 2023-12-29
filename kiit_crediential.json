@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "elite-crossbar-374713",
+  "private_key_id": "7371c6074cf5caf3d5be5a5f17bf4b418fa5d081",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDB1XL5uZoH9aUf\ngtWXdrVdAa44VI3LUrCQGNGcRw7Xi32Z077YXZwKS9km6ieRk3WNwC/77K83B0PC\nGYK/6ius6NoXfdauveBqdm6PHThdU38mqu2wO4CB7SfR3OKKTtLEKdcZmqgJNl5t\ndLkm6tjj38sPxJMqFYzojH5sZP8g6376JLE6oE7hWT4omu7ij2BThCeaF7kK8pW2\n1EiNYsUa4PbtCceeaKGuK07DYLcLJl7X7zb2svmmPjlpQVFpAfPMsqiM1hsE7+7a\nQGwRbCTLK4YEYAJ+4XPoRTH+1gq9Y+6yFxmLRz20au7Sp1OfHrrv8Ymds8RDCdYM\nUBRlp7S7AgMBAAECggEAC/Xr3lUBmDQkOEmOfIYqss6DvZ4aEc3Mb1fYt1f7JnnJ\nClDymc9M7aW4hJo2TtlWi6SsUVNNjIu6NqP0WXtNrqG/s2tkb+vviSI9uD8JV1jr\no6swd4t0ZpAHwP9sSzSJ9OjQCRht/gOI2CA3vJsJPyZ0FUj/+7zQsRjaRD4HMDS8\nYaTzZ0wd25DDHcYsoy3DurF+h0/xpvJmemgZJrDAMyWhdskVkc1bnk57ecf2hdHk\nlJGJ0u2R8Jb56fHzjBfaTnX+nwVjJ3ndp7LVWUgReaKtzDrOdlfHt0QlAtUWUbF3\n92G71sUiSvp1Yd0Gfr6cflDAscA1b14jXVx4o223gQKBgQDn4223xQXbsXoiWc03\nNkneq5BbISgFdOuK6EcXdI5KjIERAHsEmPo2CCQWKotEBnfkuyHY4AzV1tIMtGFa\nj6YtvaxvT5KJw0rLLNvx3zsl43i6I81pLCSciQOuzWUFpAC8Ygkfu44PH/VjJyhx\n9SuY92gEM9oGBoYh67ukehOlCwKBgQDV/Q5EZSy8Igg2fO79OKdRAoaV+u6gqkgH\nNfQGYWHXvuA9QbrMde0w7IrHpYexcw6L71e5eCzLjgkCXILwpHmARzgJ0unKrnZ5\n7KpMW2AsH2VZPXbT/wjttyFWL4lBcQNgWAzCU1VZHOTv7CqJ0B13wH90ivbqEb+K\n4o15S6adEQKBgHgVDDJIMxprs8WqH11iHarTyXOHngQFYhyS4I3C7BSq4gN97jaZ\nSalFWfqomWnmt5uZVJPMopjyH+A4YNnW3cV+HZee61Gv8kF4v4Vnhme+fjxWYf7+\nvw7Y3TFeZ9wd68uiMPtf0tb+Q8LO+mDZB3S1WgYjG9pW8osKWid4mEe1AoGBAK1b\nXgSQxoX/OBIUcnSYQgxB9JBqgomMid+1mOTWXbKvwvA9YLylSKva5a9J7b0XThCV\nrMbnkbqybaAJHFchmAERMVfcE2UMo5Sw42IKoMX+BVgfkDW8phoWwx4UUqi+ipKx\nolyHsFwKKXopJGkTPdw3Ccp7jf8gs8ErOpuqaudRAoGBAOEtEnbSxxWNbcnkYU3X\n3qprcEjFwcuhW1NW8xm8QVAsPDTD+1O45tWUtdiYe8MjkqtFhdhd2QMY/kM9SdTF\nXZB6euaHd85w3+znRkJvdLw1jWoIzfHA4gGo4crX8DwNzexf/X68HIL9XnIEk9pp\nj6rBovFz0b4G9KcFDC936xGc\n-----END PRIVATE KEY-----\n",
+  "client_email": "kiit-google-drive@elite-crossbar-374713.iam.gserviceaccount.com",
+  "client_id": "117620180066157252139",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kiit-google-drive%40elite-crossbar-374713.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

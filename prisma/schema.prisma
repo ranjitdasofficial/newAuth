@@ -70,3 +70,11 @@ model Elective {
   dislikes String[]
   reviews ElectiveReview[]
   }
+
+
+model GroupLinks {
+   id       String   @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+   link String
+   createdBy String
+}

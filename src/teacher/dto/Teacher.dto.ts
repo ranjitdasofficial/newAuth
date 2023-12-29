@@ -25,3 +25,16 @@ export class ReviewDto {
 
 
 }
+
+
+export class AddLinks{
+    @IsString()
+    name:string;
+
+    @IsString()
+    link:string;
+
+    @IsString()
+    createdBy:string;
+
+}

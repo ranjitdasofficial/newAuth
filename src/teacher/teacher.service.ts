@@ -1,6 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { ReviewDto, TeacherDto } from './dto/Teacher.dto';
+import { AddLinks, ReviewDto, TeacherDto } from './dto/Teacher.dto';
 import * as ExcelJS from 'exceljs';
 
 // import dap from './dap.json';
@@ -343,6 +343,10 @@ export class TeacherService {
       });
     }
 
+
+
+    console.log(this.Teachers);
+
     const headers = Object.keys(this.Teachers[0].data[0]);
     console.log(headers);
 
@@ -411,6 +415,120 @@ export class TeacherService {
     await workbook.xlsx.writeFile('sec-2.xlsx');
 
     return this.Teachers;
+  }
+
+
+
+
+   Electives:any[] = [
+    "ML",
+    "IOT",
+    "NLP",
+    "DA"
+  ]
+
+  async getDataForElective() {
+   const Elective = [];
+    const teacherData = await this.prismService.elective.findMany({
+        include: { reviews: true },
+        });
+        
+   for (let i = 0; i < this.Electives.length; i++) {
+      const sec1 = await Promise.all(
+        teacherData.map(async (teacher) => {
+          if (teacher.subject===this.Electives[i]) {
+            return {
+            //   id: teacher.id,
+              name: teacher.name,
+              subject: teacher.subject,
+              likes: teacher.likes.length,
+              dislikes: teacher.dislikes.length,
+              reviews: teacher.reviews.map((review) => review.comments),
+            };
+          }
+        })
+      );
+
+      const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+      Elective.push({
+        subject: this.Electives[i],
+        data: filteredSec1,
+      });
+    }
+  
+
+
+   
+
+    const headers = Object.keys(Elective[0].data[0]);
+    console.log(headers);
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(`Elective_1`);
+
+    this.addSiteInformation(worksheet);
+    this.addReportGeneratedTime(worksheet);
+
+
+    worksheet.addRow(['Color Legend']);
+    this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+    this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+    this.addLegendRow(worksheet, 'Average', 'FFFF00');
+    this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+    this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
+    worksheet.addRow([]);
+    worksheet.addRow(headers);
+
+  Elective.forEach((sec) => {
+      worksheet.addRow([`Subject:- ${sec.subject}`]);
+    //   worksheet.addRow([`Section ${sec.section}`]);
+    //add some space to row
+        
+
+      sec.data.forEach((row) => {
+        const values = headers.map((header) => row[header]);
+        const rowRef = worksheet.addRow(values);
+
+        const rat = row.likes / Math.max(row.dislikes, 1);
+        // Avoid division by zero
+
+        // Round off value to 2 decimal places
+        const ratio = Math.round(rat * 100) / 100;
+        console.log(ratio);
+
+        switch (true) {
+          case ratio >= 3:
+            // Highly recommended
+            this.applyColor(rowRef, '00FF00'); // Green color
+            break;
+          case ratio >= 2 && ratio < 3:
+            // Recommended
+            this.applyColor(rowRef, '00FFFF'); // Blue color
+            break;
+          case ratio >= 1.6 && ratio < 2:
+            // Average
+            this.applyColor(rowRef, 'FFFF00'); // Yellow color
+            break;
+          case ratio >= 1 && ratio < 1.6:
+            // Moderately Recommended
+            this.applyColor(rowRef, 'FFA500'); // Orange color
+            break;
+          case ratio < 1:
+            // Not Recommended
+            this.applyColor(rowRef, 'FF0000'); // Red color
+            break;
+          default:
+            break;
+        }
+      });
+      worksheet.addRow([null]);
+    });
+
+    // Save workbook to a file
+    await workbook.xlsx.writeFile('Electives-Export.xlsx');
+    console.log( Elective)
+    return Elective;
   }
 
   applyColor(rowRef: ExcelJS.Row, color: string) {
@@ -497,5 +615,28 @@ export class TeacherService {
     worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
     worksheet.addRow([null]); // Add an empty row for separation
   }
+
+
+  // getAllGroupLinkss
+
+  async GetAllGroupLinks(){
+    return await this.prismService.groupLinks.findMany({});
+  }
+
+
+
+  async addGroupLinks(dto:AddLinks){
+    try {
+     return await this.prismService.groupLinks.create({
+        data:dto
+      });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException("Interal Server Error");
+    }
+  }
+
+
+  
 
 }
