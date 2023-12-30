@@ -2,6 +2,10 @@ import { Injectable, InternalServerErrorException, UnauthorizedException } from 
 import { PrismaService } from 'src/prisma.service';
 import { AddLinks, ReviewDto, TeacherDto } from './dto/Teacher.dto';
 import * as ExcelJS from 'exceljs';
+import * as path from 'path';
+
+import * as xlsx from 'xlsx';
+import * as fs from 'fs';
 
 // import dap from './dap.json';
 
@@ -86,6 +90,1948 @@ const Ml= [
       ]
   
 
+    const sec = 
+    {
+      "Prof. Pramod Kumar Das": {
+          "name": "Prof. Pramod Kumar Das",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              1,
+              52
+          ]
+      },
+      "Dr. Arghya Kundu": {
+          "name": "Dr. Arghya Kundu",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              1
+          ]
+      },
+      "Ms. Sarita Mishra": {
+          "name": "Ms. Sarita Mishra",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)",
+              "OS"
+          ],
+          "sections": [
+              1,
+              7,
+              26
+          ]
+      },
+      "Mr. Abhishek Raj": {
+          "name": "Mr. Abhishek Raj",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              1,
+              23
+          ]
+      },
+      "Dr. Himansu Das": {
+          "name": "Dr. Himansu Das",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              1,
+              51
+          ]
+      },
+      "Dr. Kalyani Mohanta": {
+          "name": "Dr. Kalyani Mohanta",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              1
+          ]
+      },
+      "Dr. Srikumar Acharya": {
+          "name": "Dr. Srikumar Acharya",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              2,
+              55
+          ]
+      },
+      "Dr. Abhaya Kumar Sahoo": {
+          "name": "Dr. Abhaya Kumar Sahoo",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              2,
+              18
+          ]
+      },
+      "Ms. Mandakini Priyadarshani Behera": {
+          "name": "Ms. Mandakini Priyadarshani Behera",
+          "subjects": [
+              "DBMS",
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              2,
+              29,
+              52
+          ]
+      },
+      "Dr. Murari Mandal": {
+          "name": "Dr. Murari Mandal",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              2,
+              49
+          ]
+      },
+      "Mr. Ajit Kumar Pasayat": {
+          "name": "Mr. Ajit Kumar Pasayat",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              2,
+              17
+          ]
+      },
+      "Dr. Swayam B Mishra": {
+          "name": "Dr. Swayam B Mishra",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              2
+          ]
+      },
+      "Dr. Jayanta Mondal": {
+          "name": "Dr. Jayanta Mondal",
+          "subjects": [
+              "DBMS(L)",
+              "DBMS"
+          ],
+          "sections": [
+              2,
+              49
+          ]
+      },
+      "Dr. Prasanta Ku. Mohanty": {
+          "name": "Dr. Prasanta Ku. Mohanty",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              3,
+              46,
+              54
+          ]
+      },
+      "Dr. Soumya Ranjan Mishra": {
+          "name": "Dr. Soumya Ranjan Mishra",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              3,
+              45
+          ]
+      },
+      "Mr. Kunal Anand": {
+          "name": "Mr. Kunal Anand",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              3,
+              13,
+              30
+          ]
+      },
+      "Dr. Raghunath Dey": {
+          "name": "Dr. Raghunath Dey",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              3,
+              15
+          ]
+      },
+      "Prof. Bikash Kumar Behera": {
+          "name": "Prof. Bikash Kumar Behera",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              3,
+              24
+          ]
+      },
+      "Dr. S. Chaudhuri": {
+          "name": "Dr. S. Chaudhuri",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              3
+          ]
+      },
+      "Dr. Arjun Kumar Paul": {
+          "name": "Dr. Arjun Kumar Paul",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              4,
+              53
+          ]
+      },
+      "Mr. Sunil Kumar Gouda": {
+          "name": "Mr. Sunil Kumar Gouda",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              4,
+              25
+          ]
+      },
+      "Dr. Rajat Kumar Behera": {
+          "name": "Dr. Rajat Kumar Behera",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              4
+          ]
+      },
+      "Ms. Krutika Verma": {
+          "name": "Ms. Krutika Verma",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              4,
+              14
+          ]
+      },
+      "Dr. Namita Panda": {
+          "name": "Dr. Namita Panda",
+          "subjects": [
+              "COA",
+              "OS(L)"
+          ],
+          "sections": [
+              4,
+              5,
+              53
+          ]
+      },
+      "Dr. Basanta Kumar Rana": {
+          "name": "Dr. Basanta Kumar Rana",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              4
+          ]
+      },
+      "Dr. Manoranjan Sahoo": {
+          "name": "Dr. Manoranjan Sahoo",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              5,
+              50
+          ]
+      },
+      "Mr. Sujoy Datta": {
+          "name": "Mr. Sujoy Datta",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              5,
+              29,
+              37
+          ]
+      },
+      "Dr. Hrudaya Kumar Tripathy": {
+          "name": "Dr. Hrudaya Kumar Tripathy",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              5,
+              29
+          ]
+      },
+      "Dr. Biswajit Sahoo": {
+          "name": "Dr. Biswajit Sahoo",
+          "subjects": [
+              "OS"
+          ],
+          "sections": [
+              5,
+              35
+          ]
+      },
+      "Prof.  K. B. Ray": {
+          "name": "Prof.  K. B. Ray",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              5,
+              22
+          ]
+      },
+      "Dr. Jitendra Ku. Patel": {
+          "name": "Dr. Jitendra Ku. Patel",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              5
+          ]
+      },
+      "Dr. M. M. Acharya": {
+          "name": "Dr. M. M. Acharya",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              6,
+              49
+          ]
+      },
+      "Dr. Junali Jasmine Jena": {
+          "name": "Dr. Junali Jasmine Jena",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              6,
+              40
+          ]
+      },
+      "Mr. Vishal Meena": {
+          "name": "Mr. Vishal Meena",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              6,
+              28
+          ]
+      },
+      "Dr. Alok Kumar Jagadev": {
+          "name": "Dr. Alok Kumar Jagadev",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              6
+          ]
+      },
+      "Dr. Anuja Kumar Acharya": {
+          "name": "Dr. Anuja Kumar Acharya",
+          "subjects": [
+              "COA",
+              "DBMS(L)"
+          ],
+          "sections": [
+              6,
+              14,
+              21,
+              54
+          ]
+      },
+      "Dr. Avinash Chaudhary": {
+          "name": "Dr. Avinash Chaudhary",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              6
+          ]
+      },
+      "Dr. Laxmipriya Nayak": {
+          "name": "Dr. Laxmipriya Nayak",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              7,
+              48
+          ]
+      },
+      "Mr. Harish Kumar Patnaik": {
+          "name": "Mr. Harish Kumar Patnaik",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              7
+          ]
+      },
+      "Dr. Prasant Kumar Pattnaik": {
+          "name": "Dr. Prasant Kumar Pattnaik",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              7
+          ]
+      },
+      "Dr. Dayal Kumar Behera": {
+          "name": "Dr. Dayal Kumar Behera",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              7,
+              41
+          ]
+      },
+      "Dr. Promod Mallick": {
+          "name": "Dr. Promod Mallick",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              7
+          ]
+      },
+      "Mr. Nayan Kumar S. Behera": {
+          "name": "Mr. Nayan Kumar S. Behera",
+          "subjects": [
+              "OS(L)"
+          ],
+          "sections": [
+              7,
+              45
+          ]
+      },
+      "Dr. Arun Kumar Gupta": {
+          "name": "Dr. Arun Kumar Gupta",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              8,
+              47
+          ]
+      },
+      "Dr. Monideepa Roy": {
+          "name": "Dr. Monideepa Roy",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              8
+          ]
+      },
+      "Dr. Chittaranjan Pradhan": {
+          "name": "Dr. Chittaranjan Pradhan",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              8
+          ]
+      },
+      "Dr. Banchhanidhi Dash": {
+          "name": "Dr. Banchhanidhi Dash",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              8,
+              48
+          ]
+      },
+      "Prof. S. K. Badi": {
+          "name": "Prof. S. K. Badi",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              8,
+              26
+          ]
+      },
+      "Dr. Spandan Guha": {
+          "name": "Dr. Spandan Guha",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              8
+          ]
+      },
+      "Dr. Akshaya Kumar Panda": {
+          "name": "Dr. Akshaya Kumar Panda",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              9
+          ]
+      },
+      "Mrs. Naliniprava Behera": {
+          "name": "Mrs. Naliniprava Behera",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              9,
+              27
+          ]
+      },
+      "Mr. Rakesh Kumar Rai": {
+          "name": "Mr. Rakesh Kumar Rai",
+          "subjects": [
+              "DBMS",
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              9,
+              13
+          ]
+      },
+      "Mr. Prasenjit Maiti": {
+          "name": "Mr. Prasenjit Maiti",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              9
+          ]
+      },
+      "Prof. S. Padhy": {
+          "name": "Prof. S. Padhy",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              9
+          ]
+      },
+      "Dr. Swarup K. Nayak": {
+          "name": "Dr. Swarup K. Nayak",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              9
+          ]
+      },
+      "Dr. Kumar Devadutta": {
+          "name": "Dr. Kumar Devadutta",
+          "subjects": [
+              "DBMS(L)",
+              "DBMS"
+          ],
+          "sections": [
+              9,
+              12
+          ]
+      },
+      "Dr. Mitali Routaray": {
+          "name": "Dr. Mitali Routaray",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              10,
+              45
+          ]
+      },
+      "Dr. Nibedan Panda": {
+          "name": "Dr. Nibedan Panda",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              10,
+              47
+          ]
+      },
+      "Dr. Samaresh Mishra": {
+          "name": "Dr. Samaresh Mishra",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              10
+          ]
+      },
+      "Ms. Swagatika Sahoo": {
+          "name": "Ms. Swagatika Sahoo",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              10
+          ]
+      },
+      "Dr. Mohit Ranjan Panda": {
+          "name": "Dr. Mohit Ranjan Panda",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              10,
+              36,
+              45
+          ]
+      },
+      "Dr. Banishree Misra": {
+          "name": "Dr. Banishree Misra",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              10
+          ]
+      },
+      "Dr. Suvasis Nayak": {
+          "name": "Dr. Suvasis Nayak",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              11,
+              31
+          ]
+      },
+      "Mr. Rabi Shaw": {
+          "name": "Mr. Rabi Shaw",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              11,
+              46
+          ]
+      },
+      "Dr. Debanjan Pathak": {
+          "name": "Dr. Debanjan Pathak",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              11,
+              22
+          ]
+      },
+      "Dr. Amulya Ratna Swain": {
+          "name": "Dr. Amulya Ratna Swain",
+          "subjects": [
+              "OS"
+          ],
+          "sections": [
+              11,
+              41
+          ]
+      },
+      "Dr. Sujata Swain": {
+          "name": "Dr. Sujata Swain",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              11,
+              12,
+              55
+          ]
+      },
+      "Dr. Sriparna Roy Ghatak": {
+          "name": "Dr. Sriparna Roy Ghatak",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              11,
+              32
+          ]
+      },
+      "Dr. Tanmoy Maitra": {
+          "name": "Dr. Tanmoy Maitra",
+          "subjects": [
+              "OS(L)",
+              "OS"
+          ],
+          "sections": [
+              11,
+              25
+          ]
+      },
+      "Dr. Joydeb Pal": {
+          "name": "Dr. Joydeb Pal",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              12,
+              32
+          ]
+      },
+      "Dr. Arup Abhinna Acharya": {
+          "name": "Dr. Arup Abhinna Acharya",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              12,
+              43
+          ]
+      },
+      "Dr. Manas Ranjan Lenka": {
+          "name": "Dr. Manas Ranjan Lenka",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              12,
+              54
+          ]
+      },
+      "Dr. Alivarani Mohapatra": {
+          "name": "Dr. Alivarani Mohapatra",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              12
+          ]
+      },
+      "Dr. Madhusudan Bera": {
+          "name": "Dr. Madhusudan Bera",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              13,
+              44
+          ]
+      },
+      "Dr. Santosh Kumar Baliarsingh": {
+          "name": "Dr. Santosh Kumar Baliarsingh",
+          "subjects": [
+              "DBMS"
+          ],
+          "sections": [
+              13
+          ]
+      },
+      "Dr. Saurabh Bilgaiyan": {
+          "name": "Dr. Saurabh Bilgaiyan",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              13,
+              55
+          ]
+      },
+      "Dr. Suchismita Das": {
+          "name": "Dr. Suchismita Das",
+          "subjects": [
+              "COA",
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              13,
+              26
+          ]
+      },
+      "Dr. Ranjeeta Patel": {
+          "name": "Dr. Ranjeeta Patel",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              13
+          ]
+      },
+      "Dr. Manas Ranjan Mohapatra": {
+          "name": "Dr. Manas Ranjan Mohapatra",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              14,
+              30,
+              51
+          ]
+      },
+      "Mr. Pradeep Kandula": {
+          "name": "Mr. Pradeep Kandula",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              14,
+              15
+          ]
+      },
+      "Dr. Dipti Dash": {
+          "name": "Dr. Dipti Dash",
+          "subjects": [
+              "DBMS"
+          ],
+          "sections": [
+              14
+          ]
+      },
+      "Dr. Suresh Chandra Satapathy": {
+          "name": "Dr. Suresh Chandra Satapathy",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              14,
+              29,
+              33
+          ]
+      },
+      "Prof. Anil Kumar Behera": {
+          "name": "Prof. Anil Kumar Behera",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              14
+          ]
+      },
+      "Dr. Utkal Keshari Dutta": {
+          "name": "Dr. Utkal Keshari Dutta",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              15,
+              29
+          ]
+      },
+      "Dr. Subhadip Pramanik": {
+          "name": "Dr. Subhadip Pramanik",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              15
+          ]
+      },
+      "Prof. P. Biswal": {
+          "name": "Prof. P. Biswal",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              15,
+              21
+          ]
+      },
+      "Dr. Subarna  Bhattacharya": {
+          "name": "Dr. Subarna  Bhattacharya",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              15,
+              18
+          ]
+      },
+      "Dr. Sudipta Kumar Ghosh": {
+          "name": "Dr. Sudipta Kumar Ghosh",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              16,
+              28
+          ]
+      },
+      "Dr. Partha Pratim Sarangi": {
+          "name": "Dr. Partha Pratim Sarangi",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              16,
+              28
+          ]
+      },
+      "Dr. Pradeep Kumar Mallick": {
+          "name": "Dr. Pradeep Kumar Mallick",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)",
+              "OOPJ"
+          ],
+          "sections": [
+              16,
+              17,
+              44
+          ]
+      },
+      "Mr. Abinas Panda": {
+          "name": "Mr. Abinas Panda",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              16,
+              46
+          ]
+      },
+      "Prof. Ruby Mishra": {
+          "name": "Prof. Ruby Mishra",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              16
+          ]
+      },
+      "Dr. Sudeshna Datta Chaudhuri": {
+          "name": "Dr. Sudeshna Datta Chaudhuri",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              16
+          ]
+      },
+      "Dr. Suman Sarkar": {
+          "name": "Dr. Suman Sarkar",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              17,
+              33,
+              43
+          ]
+      },
+      "Dr. Saikat Chakraborty": {
+          "name": "Dr. Saikat Chakraborty",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              17,
+              25
+          ]
+      },
+      "Dr. Subhasis Dash": {
+          "name": "Dr. Subhasis Dash",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              17,
+              30,
+              36
+          ]
+      },
+      "Dr. Arpita Goswami": {
+          "name": "Dr. Arpita Goswami",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              17
+          ]
+      },
+      "Ms. Ipsita Paul": {
+          "name": "Ms. Ipsita Paul",
+          "subjects": [
+              "OPPJ(L)"
+          ],
+          "sections": [
+              17
+          ]
+      },
+      "Dr. Arijit Patra": {
+          "name": "Dr. Arijit Patra",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              18,
+              27,
+              42
+          ]
+      },
+      "Dr. Sushruta Mishra": {
+          "name": "Dr. Sushruta Mishra",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              18,
+              25
+          ]
+      },
+      "Dr. Ajay Kumar Jena": {
+          "name": "Dr. Ajay Kumar Jena",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              18,
+              47
+          ]
+      },
+      "Prof. Shruti": {
+          "name": "Prof. Shruti",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              18,
+              31
+          ]
+      },
+      "Dr. Vishal Pradhan": {
+          "name": "Dr. Vishal Pradhan",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              19,
+              34
+          ]
+      },
+      "Mr. Sourav Kumar Giri": {
+          "name": "Mr. Sourav Kumar Giri",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)",
+              "DBMS"
+          ],
+          "sections": [
+              19,
+              30,
+              32
+          ]
+      },
+      "Dr. Jayeeta Chakraborty": {
+          "name": "Dr. Jayeeta Chakraborty",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              19,
+              34
+          ]
+      },
+      "Dr. Mainak Bandyopadhyay": {
+          "name": "Dr. Mainak Bandyopadhyay",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              19,
+              33
+          ]
+      },
+      "Mr. Anil Kumar Swain": {
+          "name": "Mr. Anil Kumar Swain",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              19,
+              34
+          ]
+      },
+      "Prof. J. R. Panda": {
+          "name": "Prof. J. R. Panda",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              19,
+              34
+          ]
+      },
+      "Dr. Debdulal Ghosh": {
+          "name": "Dr. Debdulal Ghosh",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              20,
+              41
+          ]
+      },
+      "Mr. Vijay Kumar Meena": {
+          "name": "Mr. Vijay Kumar Meena",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              20,
+              34,
+              44
+          ]
+      },
+      "Ms. Susmita Das": {
+          "name": "Ms. Susmita Das",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              20,
+              23
+          ]
+      },
+      "Mr. A Ranjith": {
+          "name": "Mr. A Ranjith",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              20,
+              32
+          ]
+      },
+      "Prof. Swati Swayamsiddha": {
+          "name": "Prof. Swati Swayamsiddha",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              20,
+              43
+          ]
+      },
+      "Prof. Sunil Kr. Mishra": {
+          "name": "Prof. Sunil Kr. Mishra",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              20,
+              36
+          ]
+      },
+      "Mr. Mainak Chakraborty": {
+          "name": "Mr. Mainak Chakraborty",
+          "subjects": [
+              "OPPJ(L)"
+          ],
+          "sections": [
+              20
+          ]
+      },
+      "Dr. Srikanta Behera": {
+          "name": "Dr. Srikanta Behera",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              21,
+              40
+          ]
+      },
+      "Mr. Tanik Saikh": {
+          "name": "Mr. Tanik Saikh",
+          "subjects": [
+              "OOPJ"
+          ],
+          "sections": [
+              21
+          ]
+      },
+      "Dr. Jagannath Singh": {
+          "name": "Dr. Jagannath Singh",
+          "subjects": [
+              "DBMS"
+          ],
+          "sections": [
+              21
+          ]
+      },
+      "Mr. Gananath Bhuyan": {
+          "name": "Mr. Gananath Bhuyan",
+          "subjects": [
+              "OS",
+              "OS(L)",
+              "DBMS"
+          ],
+          "sections": [
+              21,
+              37,
+              40
+          ]
+      },
+      "Ms. Mamita Dash": {
+          "name": "Ms. Mamita Dash",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              21,
+              49,
+              51
+          ]
+      },
+      "Mr. Pragma Kar": {
+          "name": "Mr. Pragma Kar",
+          "subjects": [
+              "OPPJ(L)"
+          ],
+          "sections": [
+              21
+          ]
+      },
+      "Dr. Kartikeswar Mahalik": {
+          "name": "Dr. Kartikeswar Mahalik",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              22,
+              39
+          ]
+      },
+      "Dr. Mainak Biswas": {
+          "name": "Dr. Mainak Biswas",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              22,
+              40
+          ]
+      },
+      "Dr. Pratyusa Mukherjee": {
+          "name": "Dr. Pratyusa Mukherjee",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              22,
+              27
+          ]
+      },
+      "Prof. S. K. Mohapatra": {
+          "name": "Prof. S. K. Mohapatra",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              22
+          ]
+      },
+      "Dr. Bapuji Sahoo": {
+          "name": "Dr. Bapuji Sahoo",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              23,
+              38
+          ]
+      },
+      "Mr. Debashis Hati": {
+          "name": "Mr. Debashis Hati",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              23,
+              52
+          ]
+      },
+      "Prof. Ganaraj P. S.": {
+          "name": "Prof. Ganaraj P. S.",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              23,
+              42
+          ]
+      },
+      "Dr. Ananda Meher": {
+          "name": "Dr. Ananda Meher",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              23,
+              47,
+              50,
+              54,
+              55
+          ]
+      },
+      "Dr. Abhijit Sutradhar": {
+          "name": "Dr. Abhijit Sutradhar",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              24,
+              37
+          ]
+      },
+      "Dr. Sourajit Behera": {
+          "name": "Dr. Sourajit Behera",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              24,
+              33
+          ]
+      },
+      "Dr. Mukesh Kumar": {
+          "name": "Dr. Mukesh Kumar",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              24,
+              38
+          ]
+      },
+      "Mr. Deependra Singh": {
+          "name": "Mr. Deependra Singh",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              24
+          ]
+      },
+      "Prof. Satish Kumar Gannamaneni": {
+          "name": "Prof. Satish Kumar Gannamaneni",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              24,
+              38
+          ]
+      },
+      "Dr. Habibul Islam": {
+          "name": "Dr. Habibul Islam",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              25,
+              36
+          ]
+      },
+      "Prof. Kumar Biswal": {
+          "name": "Prof. Kumar Biswal",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              25,
+              47
+          ]
+      },
+      "Dr. Sarbeswar Mohanty": {
+          "name": "Dr. Sarbeswar Mohanty",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              25,
+              27,
+              52,
+              53
+          ]
+      },
+      "Dr. Amalesh Kumar Manna": {
+          "name": "Dr. Amalesh Kumar Manna",
+          "subjects": [
+              "DSS"
+          ],
+          "sections": [
+              26,
+              35
+          ]
+      },
+      "Mr. N. Biraja Isac": {
+          "name": "Mr. N. Biraja Isac",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              26,
+              32,
+              48
+          ]
+      },
+      "Prof. Rachita Panda": {
+          "name": "Prof. Rachita Panda",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              26
+          ]
+      },
+      "Mr. Sankalp Nayak": {
+          "name": "Mr. Sankalp Nayak",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              27,
+              51
+          ]
+      },
+      "Dr. Manoj Kumar Mishra": {
+          "name": "Dr. Manoj Kumar Mishra",
+          "subjects": [
+              "COA",
+              "OS(L)"
+          ],
+          "sections": [
+              27,
+              35,
+              49
+          ]
+      },
+      "Dr. Kumar Surjeet Chaudhury": {
+          "name": "Dr. Kumar Surjeet Chaudhury",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              28,
+              44
+          ]
+      },
+      "Dr. Bhabani Shankar Prasad Mishra": {
+          "name": "Dr. Bhabani Shankar Prasad Mishra",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              28,
+              48
+          ]
+      },
+      "Prof. Sushree S. Panda": {
+          "name": "Prof. Sushree S. Panda",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              28
+          ]
+      },
+      "Dr. Seba Mohanty": {
+          "name": "Dr. Seba Mohanty",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              29,
+              31,
+              33,
+              35,
+              37
+          ]
+      },
+      "Dr. VIkas Hassija": {
+          "name": "Dr. VIkas Hassija",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              30,
+              37,
+              52
+          ]
+      },
+      "Prof. Nazia T. Imran": {
+          "name": "Prof. Nazia T. Imran",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              30
+          ]
+      },
+      "Ms. Chandani Kumari": {
+          "name": "Ms. Chandani Kumari",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              31,
+              36,
+              50
+          ]
+      },
+      "Dr. Rajdeep Chatterjee": {
+          "name": "Dr. Rajdeep Chatterjee",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              31
+          ]
+      },
+      "Dr. Krishnandu Hazra": {
+          "name": "Dr. Krishnandu Hazra",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              31,
+              51
+          ]
+      },
+      "Prof. S. Mishra": {
+          "name": "Prof. S. Mishra",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              32,
+              40
+          ]
+      },
+      "Mr. Arup Sarkar": {
+          "name": "Mr. Arup Sarkar",
+          "subjects": [
+              "DBMS(L)",
+              "DBMS"
+          ],
+          "sections": [
+              32,
+              36
+          ]
+      },
+      "Ms. Benazir Neha": {
+          "name": "Ms. Benazir Neha",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)",
+              "OOPJ"
+          ],
+          "sections": [
+              33,
+              37,
+              51
+          ]
+      },
+      "Dr. Santosh Kumar Pani": {
+          "name": "Dr. Santosh Kumar Pani",
+          "subjects": [
+              "OS"
+          ],
+          "sections": [
+              34
+          ]
+      },
+      "Dr. Partha Sarathi Paul": {
+          "name": "Dr. Partha Sarathi Paul",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              35
+          ]
+      },
+      "Dr. Aleena Swetapadma": {
+          "name": "Dr. Aleena Swetapadma",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              35,
+              45
+          ]
+      },
+      "Prof. P. Dutta": {
+          "name": "Prof. P. Dutta",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              35
+          ]
+      },
+      "Dr. Manas Ranjan Nayak": {
+          "name": "Dr. Manas Ranjan Nayak",
+          "subjects": [
+              "OOPJ",
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              36,
+              53
+          ]
+      },
+      "Dr. Pinaki Sankar Chatterjee": {
+          "name": "Dr. Pinaki Sankar Chatterjee",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              38,
+              55
+          ]
+      },
+      "Mr. Rohit Kumar Tiwari": {
+          "name": "Mr. Rohit Kumar Tiwari",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              38
+          ]
+      },
+      "Dr. Asif Uddin Khan": {
+          "name": "Dr. Asif Uddin Khan",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              38,
+              50
+          ]
+      },
+      "Mr. Sohail Khan": {
+          "name": "Mr. Sohail Khan",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              39,
+              49
+          ]
+      },
+      "Mr. R. N. Ramakant Parida": {
+          "name": "Mr. R. N. Ramakant Parida",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              39,
+              55
+          ]
+      },
+      "Dr. Satya Champati Rai": {
+          "name": "Dr. Satya Champati Rai",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              39
+          ]
+      },
+      "Prof. A. Bakshi": {
+          "name": "Prof. A. Bakshi",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              39,
+              44
+          ]
+      },
+      "Dr. Suvendu Barik": {
+          "name": "Dr. Suvendu Barik",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              39,
+              41,
+              43,
+              45,
+              48
+          ]
+      },
+      "Mr. Chandra Shekhar": {
+          "name": "Mr. Chandra Shekhar",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              40,
+              50
+          ]
+      },
+      "Dr. Swapnomayee Palit": {
+          "name": "Dr. Swapnomayee Palit",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              40,
+              42
+          ]
+      },
+      "Dr. Mahendra Kumar Gourisaria": {
+          "name": "Dr. Mahendra Kumar Gourisaria",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              41,
+              42
+          ]
+      },
+      "Dr. Ramesh Kumar Thakur": {
+          "name": "Dr. Ramesh Kumar Thakur",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              41,
+              42
+          ]
+      },
+      "Dr. Santwana Sagnika": {
+          "name": "Dr. Santwana Sagnika",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              42
+          ]
+      },
+      "Dr. Amiya Ranjan Panda": {
+          "name": "Dr. Amiya Ranjan Panda",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              43
+          ]
+      },
+      "Mr. Sampriti Soor": {
+          "name": "Mr. Sampriti Soor",
+          "subjects": [
+              "OS",
+              "OS(L)"
+          ],
+          "sections": [
+              43
+          ]
+      },
+      "Dr. Smrutirekha Mohanty": {
+          "name": "Dr. Smrutirekha Mohanty",
+          "subjects": [
+              "STW"
+          ],
+          "sections": [
+              44,
+              46
+          ]
+      },
+      "Dr. Saurabh Jha": {
+          "name": "Dr. Saurabh Jha",
+          "subjects": [
+              "OS"
+          ],
+          "sections": [
+              45
+          ]
+      },
+      "Dr. Minakhi Rout": {
+          "name": "Dr. Minakhi Rout",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              46
+          ]
+      },
+      "Prof. Niten Kumar Panda": {
+          "name": "Prof. Niten Kumar Panda",
+          "subjects": [
+              "COA"
+          ],
+          "sections": [
+              46
+          ]
+      },
+      "Mrs. Krishna Chakravarty": {
+          "name": "Mrs. Krishna Chakravarty",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              47
+          ]
+      },
+      "Dr. Leena Das": {
+          "name": "Dr. Leena Das",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              48,
+              53
+          ]
+      },
+      "Mrs. Meghana G Raj": {
+          "name": "Mrs. Meghana G Raj",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              50
+          ]
+      },
+      "Mr. Bijay Das": {
+          "name": "Mr. Bijay Das",
+          "subjects": [
+              "OS"
+          ],
+          "sections": [
+              51
+          ]
+      },
+      "Dr. Soumya Ranjan Nayak": {
+          "name": "Dr. Soumya Ranjan Nayak",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              52
+          ]
+      },
+      "Dr. Rinku Datta Rakshit": {
+          "name": "Dr. Rinku Datta Rakshit",
+          "subjects": [
+              "OOPJ",
+              "OPPJ(L)"
+          ],
+          "sections": [
+              53,
+              54
+          ]
+      },
+      "Dr. Ashish Singh": {
+          "name": "Dr. Ashish Singh",
+          "subjects": [
+              "DBMS"
+          ],
+          "sections": [
+              53
+          ]
+      },
+      "Ms. Priyanka Roy": {
+          "name": "Ms. Priyanka Roy",
+          "subjects": [
+              "DBMS",
+              "DBMS(L)"
+          ],
+          "sections": [
+              54
+          ]
+      }
+  }
+    
+
 @Injectable()
 export class TeacherService {
   constructor(private readonly prismService: PrismaService) {}
@@ -94,25 +2040,42 @@ export class TeacherService {
     console.log('hello');
     try {
       //send all data to prisma
-      const complete = await Promise.all(
-        DA.map(async (teacher) => {
-          const { name, subject, section } = teacher;
-          const teacherData = await this.prismService.elective.create({
-            data: {
-              name: name,
-              subject: subject,
-              section: section, // Convert Section array to an array of numbers
-              dislikes: [],
-              likes: [],
-              reviews: { create: [] },
-            },
-          });
-          return teacherData;
-        }),
-      );
-      console.log(complete);
+      
+      // const complete = await Promise.all(
+      //   DA.map(async (teacher) => {
+      //     const { name, subject, section } = teacher;
+      //     const teacherData = await this.prismService.elective.create({
+      //       data: {
+      //         name: name,
+      //         subject: subject,
+      //         section: section, // Convert Section array to an array of numbers
+      //         dislikes: [],
+      //         likes: [],
+      //         reviews: { create: [] },
+      //       },
+      //     });
+      //     return teacherData;
+      //   }),
+      // );
+      // console.log(complete);
 
-      return complete;
+const allCreate = await Promise.all(
+  Object.keys(sec).map(async (key) => {
+    const teacherData = await this.prismService.teacher.create({
+      data: {
+        name: sec[key].name,
+        subject: sec[key].subjects.join(','),
+        section: sec[key].sections, // Convert Section array to an array of numbers
+        dislikes: [],
+        likes: [],
+        reviews: { create: [] },
+      },
+    });
+    return teacherData;
+  })
+);
+
+return allCreate;
     } catch (error) {
       console.log(error);
       throw new UnauthorizedException('Invalid credentials');
@@ -637,6 +2600,93 @@ export class TeacherService {
   }
 
 
+
+
+   subjects={
+    0:"CSE",
+    1:"DSS",
+    2:"OOPJ",
+    3:"DBMS",
+    4:"OS",
+    5:"COA",
+    6:"STW",
+    7:"OS(L)",
+    8:"OPPJ(L)",
+    9:"DBMS(L)",
+    10:"VT(L)",
+  }
+
+
+ AllFaculty:{}={}
+
+ idp =0;
+
+  //async fetch all data from xls file
+  async fetchAllDataFromXls(){
+    // const workbook = new ExcelJS.Workbook();
+
+    const filepath =  path.join(process.cwd(),"forthsem.xlsx");
+   const workbook = await xlsx.readFile(filepath);
+
+   
+  //  const workbook = xlsx.readFile('./Quiz_Question.xlsx');  // Step 2
+   let workbook_sheet = workbook.SheetNames; 
+   let workbook_response = xlsx.utils.sheet_to_json(        // Step 4
+      workbook.Sheets[workbook_sheet[0]]
+    );
+
+
+    const first = workbook_response[2];
+    const headers = workbook_response[1];
+    console.log(headers,first)
+
+    
+    workbook_response.forEach(async (element,index) => {
+      if(index===0 || index===1)
+      return;
+    Object.keys(element).forEach((key,idx)=>{
+      if(idx===0)
+      return;
+
+      if(element[key].includes("New Faculty")){
+        return;
+      }
+
+      if(this.AllFaculty[element[key]]){
+       if(!this.AllFaculty[element[key]].subjects.includes(this.subjects[idx])){
+        this.AllFaculty[element[key]].subjects.push(this.subjects[idx]);
+       }
+        if(!this.AllFaculty[element[key]].sections.includes(index-1)){
+          this.AllFaculty[element[key]].sections.push(index-1);
+        }
+      }else{
+        this.AllFaculty[element[key]]={
+          name:element[key],
+          subjects:[this.subjects[idx]],
+          sections:[index-1]
+        };
+      }
+        
+      })
+    }
+    );
+
+
+    // workbook_response.forEach(async (element) => {
+    //  console.log(element)
+
+    
+
+     
+    //   });
+      // console.log(addData);
+    
+
+    // console.log(workbook_response);
+
+
+    return this.AllFaculty
+  }
   
 
 }

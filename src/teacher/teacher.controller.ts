@@ -7,7 +7,7 @@ import { AddLinks, ReviewDto, TeacherDto } from './dto/Teacher.dto';
 @Controller('teacher')
 export class TeacherController {
     constructor(private readonly teacherService:TeacherService){}
-    @Post("addTeacher")
+    @Post("add/addTeacher")
     async addTeacher(){
         console.log("here")
         return this.teacherService.addTeacher();
@@ -108,6 +108,12 @@ export class TeacherController {
     @Post("links/addGroupLinks")
     async addGroupLiks(@Body() dto:AddLinks ){
         return this.teacherService.addGroupLinks(dto)
+    }
+
+
+    @Get("get/fetchAll")
+    async fetchAll(){
+        return this.teacherService.fetchAllDataFromXls();
     }
 
    
