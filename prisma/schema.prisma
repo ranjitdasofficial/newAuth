@@ -78,3 +78,44 @@ model GroupLinks {
    link String
    createdBy String
 }
+
+
+model Polling {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  respondedUsersList String[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  sections           Section[]
+}
+
+model Section {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  sectionNumber Int
+  votes    Int      @default(0)
+  pollid String @db.ObjectId
+  poll       Polling @relation(fields: [pollid], references: [id])
+}
+
+
+model PremiumMember {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  email            String      @unique
+  whatsappNumber   String
+  branch           String
+  year             String
+  message          String?
+  paymentScreenshot String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  isPremium        Boolean     @default(false)
+}
+
+
+model ProfessorContacts{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  phone String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

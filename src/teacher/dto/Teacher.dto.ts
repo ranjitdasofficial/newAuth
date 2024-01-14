@@ -38,3 +38,12 @@ export class AddLinks{
     createdBy:string;
 
 }
+
+export class FacultiesContactDto{
+    @IsString()
+    name:string;
+
+
+    @IsString()
+    phone:string;
+}

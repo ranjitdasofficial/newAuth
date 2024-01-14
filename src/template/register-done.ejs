@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 150px;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .activation-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-top: 20px;
+        }
+
+        .user-info {
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #777;
+        }
+
+        .social-media {
+            margin-top: 10px;
+        }
+
+        .social-media a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/ranjitdasofficial/rdserver/main/Premium/1704973749103_im.png" alt="Your Company" class="logo">
+            <h2>Account Registered Successfully!</h2>
+        </div>
+
+        <div class="content">
+            <p> <strong> Dear <%= name %>,</strong></p>
+
+            <p>Welcome to KIIT CONNECT, your gateway to an enhanced academic experience! Your premium membership unlocks
+                exclusive services tailored for KIIT University students:</p>
+
+            <ul>
+                <li><strong>Notes:</strong> Access comprehensive notes for all semesters, providing valuable insights
+                    and supplementary materials to enhance your understanding of the course content.</li>
+                <li><strong>Books:</strong> Explore a vast collection of semester-specific books, ensuring you have the
+                    resources needed to excel in your studies.</li>
+                <li><strong>PYQS (Previous Year Questions with Solutions):</strong> Prepare effectively with access to
+                    previous year's questions and detailed solutions, aiding in exam readiness.</li>
+                <li><strong>Faculty Review for Section Selection:</strong> Make informed decisions about your course
+                    by reading and providing reviews on faculty members, facilitating a more personalized learning
+                    experience.</li>
+                <li><strong>Section Swapping System:</strong> Optimize your schedule by easily swapping sections with
+                    fellow students, ensuring flexibility in your academic journey.</li>
+                <li><strong>Group Links:</strong> Find all the relevant group links in one place, fostering
+                    collaboration and knowledge sharing among KIITians.</li>
+                <li><strong>KIIT SGPA Calculator:</strong> Calculate your semester GPA effortlessly, allowing you to
+                    track your academic progress.</li>
+                <li><strong>KIIT-LAB (Coming Soon):</strong> Stay tuned for our upcoming feature dedicated to
+                    hands-on lab experiences and experiments.</li>
+                <li><strong>10PM Chat with KIITians (Coming Soon):</strong> Connect with fellow students in a
+                    real-time chat environment, fostering community and support.</li>
+                <li><strong>KIIT WhatsApp Community for Real-time Notifications:</strong> Receive timely updates and
+                    announcements directly to your WhatsApp, ensuring you stay informed.</li>
+                <li><strong>24/7 Chat Support:</strong> Get assistance whenever you need it through our round-the-clock
+                    chat support, addressing any queries or concerns you may have.</li>
+                <li><strong>And more features coming soon!</strong> We are constantly working to enhance your
+                    experience with additional features and services.</li>
+            </ul>
+
+            <p style="font-weight: bold;">Subscription Information:</p>
+            <p style="color: red;">Enjoy all these services for just Rs.50 per semester. Pay once and access all features for the entire
+                semester!</p>
+
+            <a href="<%= activateLink %>" class="activation-button">Activate Premium Membership</a>
+
+            <div class="user-info">
+                <p><strong>Name:</strong> <%= name %></p>
+                <p><strong>Email:</strong> <%= email %></p>
+                <p><strong>Branch:</strong> <%= branch %></p>
+                <p><strong>Year:</strong> <%= year %></p>
+                <p><strong>Payment Status:</strong> Payment Pending</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>For further assistance, contact our support team at 21053420@kiit.ac.in</p>
+            <div class="social-media">
+                <a href="https://github.com/technicalranjitofficial/" target="_blank">Github</a>
+                <a href="https://chat.whatsapp.com/C2RE26X5AMWDbswA7EbFVa" target="_blank">WhatsApp-1</a>
+                <a href="https://chat.whatsapp.com/BAgHPirA4JzANjGKDd8z2q" target="_blank">WhatsApp-2</a>
+                <a href="https://www.instagram.com/kiitconnect/" target="_blank">Instagram</a>
+            </div>
+            <p>&copy; 2024 KIIT-CONNECT. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>
