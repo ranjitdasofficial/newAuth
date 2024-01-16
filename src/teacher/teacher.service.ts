@@ -3200,7 +3200,8 @@ export class TeacherService {
     try {
       const update = await this.prismService.facultiesDetails.update({
         where:{
-          id:dto.id
+          id:dto.id,
+          email:null
         },
         data:{
           email:dto.data
@@ -3211,8 +3212,8 @@ export class TeacherService {
 
    
     } catch (error) {
-      console.log(error)
-      return new InternalServerErrorException(error)
+      // console.log(error)
+      throw new InternalServerErrorException(error)
     }
   }
 
@@ -3222,7 +3223,8 @@ export class TeacherService {
     try {
       const update = await this.prismService.facultiesDetails.update({
         where:{
-          id:dto.id
+          id:dto.id,
+          phone:null
         },
         data:{
           phone:dto.data

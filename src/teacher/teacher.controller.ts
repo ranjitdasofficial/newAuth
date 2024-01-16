@@ -144,6 +144,7 @@ export class TeacherController {
 
     @Post("update/phone")
     async updatePhone(@Body() dto:UpdateDataDTO){
+        
         return this.teacherService.updatePhone(dto);
     }
 }
