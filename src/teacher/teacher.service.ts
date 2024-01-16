@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
@@ -3197,22 +3198,43 @@ export class TeacherService {
   }
 
   async updateEmail(dto:UpdateDataDTO){
+
+    
+    
     try {
+      const user = await this.prismService.facultiesDetails.findUnique({
+        where:{
+          id:dto.id
+        }
+      });
+
+      if(user.email){
+        throw new ConflictException("Email already updated!");
+      }
       const update = await this.prismService.facultiesDetails.update({
         where:{
           id:dto.id,
-          email:null
+      
         },
         data:{
           email:dto.data
         }
       })
 
-      return update;
+      // if()
+
+      console.log(update);
+
+      return user;
 
    
     } catch (error) {
-      // console.log(error)
+
+      console.log(error)
+      console.log(error.status,error.statusCode)
+      if(error.status == 409){
+        throw error;
+      }
       throw new InternalServerErrorException(error)
     }
   }
@@ -3221,10 +3243,19 @@ export class TeacherService {
   //update phone
   async updatePhone(dto:UpdateDataDTO){
     try {
+      const user = await this.prismService.facultiesDetails.findUnique({
+        where:{
+          id:dto.id
+        }
+      });
+
+      if(user.phone){
+        throw new ConflictException("Phone already updated!");
+      }
       const update = await this.prismService.facultiesDetails.update({
         where:{
           id:dto.id,
-          phone:null
+          
         },
         data:{
           phone:dto.data
@@ -3235,7 +3266,11 @@ export class TeacherService {
 
    
     } catch (error) {
-      console.log(error)
+      console.log("hello")
+      console.log(error.status,error.statusCode)
+      if(error.status === 409){
+        throw error;
+      }
       return new InternalServerErrorException(error)
     }
   }
