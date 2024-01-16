@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsEmail, IsNumber, IsString } from "class-validator";
 
 export class TeacherDto {
     @IsString()
@@ -47,3 +47,13 @@ export class FacultiesContactDto{
     @IsString()
     phone:string;
 }
+
+
+export class UpdateDataDTO{
+    @IsString()
+    data:string;
+
+    @IsString()
+    id:string;
+}
+

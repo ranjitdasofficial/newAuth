@@ -119,3 +119,17 @@ model ProfessorContacts{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model FacultiesDetails{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  phone String?
+  email String?
+  description String?
+  jobTitle String?
+  moreInfo String?
+  profileUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

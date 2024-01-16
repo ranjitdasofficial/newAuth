@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { NextAuth } from 'src/auth/guard/NextAuth.guard';
 import { TeacherService } from './teacher.service';
-import { AddLinks, FacultiesContactDto, ReviewDto, TeacherDto } from './dto/Teacher.dto';
+import { AddLinks, FacultiesContactDto, ReviewDto, TeacherDto, UpdateDataDTO } from './dto/Teacher.dto';
 // import { SpreadsheetService } from 'src/google.service';
 
 @Controller('teacher')
@@ -127,5 +127,23 @@ export class TeacherController {
         return this.teacherService.getAllFacultiesContacts();
     }
 
+    @Get("add/facultiesDetails")
+    async addFacultiesDetails(){
+        return this.teacherService.addFacultiesDetails();
+    }
+
+    @Get("get/facultiesDetails")
+    async getFacultiesDetails(){
+        return this.teacherService.getFacultiesDetails();
+    }
    
+    @Post("update/email")
+    async updateEmail(@Body() dto:UpdateDataDTO){
+        return this.teacherService.updateEmail(dto);
+    }
+
+    @Post("update/phone")
+    async updatePhone(@Body() dto:UpdateDataDTO){
+        return this.teacherService.updatePhone(dto);
+    }
 }
