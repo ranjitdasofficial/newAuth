@@ -19,6 +19,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import * as path from 'path';
 import { MyMailService } from './mail.service';
+import { KiitsocialController } from './kiitsocial/kiitsocial.controller';
+import { KiitsocialModule } from './kiitsocial/kiitsocial.module';
+import { KiitsocialService } from './kiitsocial/kiitsocial.service';
+import { StorageService } from './storage/storage.service';
+import { WhatsappService } from './whatsappweb/whatsappweb.service';
 
 
 @Module({
@@ -45,8 +50,8 @@ import { MyMailService } from './mail.service';
         strict: false,
       },
     },
-  })],
-  controllers: [UserController,AuthController, PremiumController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService ],
+  }), KiitsocialModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService ],
 })
 export class AppModule {}

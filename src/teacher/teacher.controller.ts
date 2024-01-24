@@ -132,7 +132,7 @@ export class TeacherController {
         return this.teacherService.addFacultiesDetails();
     }
 
-    @UseGuards(NextAuth)
+    // @UseGuards(NextAuth)
     @Get("get/facultiesDetails")
     async getFacultiesDetails(){
         return this.teacherService.getFacultiesDetails();

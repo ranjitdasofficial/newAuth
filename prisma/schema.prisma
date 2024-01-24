@@ -10,126 +10,145 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User{
-
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  email String @unique
-  password String
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  profileImage String?
 
 }
-
-
 
 // schema.prisma
 
-
-
 model Review {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  rating       Float
-  commentedBy String
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  rating        Float
+  commentedBy   String
   internalScore Int
-  comments     String
-  teacherId     String @db.ObjectId
+  comments      String
+  teacherId     String  @db.ObjectId
   teacher       Teacher @relation(fields: [teacherId], references: [id])
 }
 
-
-
 model Teacher {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  section Int[]
-  subject String
-  likes   String[]
+  name     String
+  section  Int[]
+  subject  String
+  likes    String[]
   dislikes String[]
-  reviews Review[] 
+  reviews  Review[]
 }
 
-
-
-
 model ElectiveReview {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  rating       Float
-  commentedBy String
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating        Float
+  commentedBy   String
   internalScore Int
-  comments     String
-  teacherId     String @db.ObjectId
+  comments      String
+  teacherId     String   @db.ObjectId
   teacher       Elective @relation(fields: [teacherId], references: [id])
 }
 
 model Elective {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  subject String
-  section Int[]
-  likes   String[]
+  id       String           @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  subject  String
+  section  Int[]
+  likes    String[]
   dislikes String[]
-  reviews ElectiveReview[]
-  }
-
-
-model GroupLinks {
-   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-   name String
-   link String
-   createdBy String
+  reviews  ElectiveReview[]
 }
 
+model GroupLinks {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  link      String
+  createdBy String
+}
 
 model Polling {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   respondedUsersList String[]
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
   sections           Section[]
 }
 
 model Section {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
   sectionNumber Int
-  votes    Int      @default(0)
-  pollid String @db.ObjectId
-  poll       Polling @relation(fields: [pollid], references: [id])
+  votes         Int     @default(0)
+  pollid        String  @db.ObjectId
+  poll          Polling @relation(fields: [pollid], references: [id])
 }
-
 
 model PremiumMember {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  email            String      @unique
-  whatsappNumber   String
-  branch           String
-  year             String
-  message          String?
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String   @unique
+  whatsappNumber    String
+  branch            String
+  year              String
+  message           String?
   paymentScreenshot String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  isPremium        Boolean     @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  isPremium         Boolean  @default(false)
 }
 
-
-model ProfessorContacts{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  phone String
+model ProfessorContacts {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-
-model FacultiesDetails{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  phone String?
-  email String?
+model FacultiesDetails {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       String?
+  email       String?
   description String?
-  jobTitle String?
-  moreInfo String?
-  profileUrl String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  jobTitle    String?
+  moreInfo    String?
+  profileUrl  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Comments {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment          String
+  commentedBy      String
+  commentedByEmail String
+  isAnonymous      Boolean  @default(true)
+  image            String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  kiitsocialId String     @db.ObjectId
+  kiitsocial   kiitsocial @relation(fields: [kiitsocialId], references: [id], onDelete: Cascade)
+}
+
+
+
+model kiitsocial {
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  description    String
+  tags           String[]
+  image          String?
+  eventType      String?
+  isApproved     Boolean    @default(false)
+  createdByEmail String
+  createdByName  String
+  createdByImage String?
+  isAnonymous    Boolean    @default(true)
+  likes          String[]
+
+  comments       Comments[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }

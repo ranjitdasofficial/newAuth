@@ -12,21 +12,22 @@ export class PremiumController {
     constructor(private readonly premiumService:PremiumService,private readonly driveService:DriveService) { }
 
     @Get('getUser')
-    getPremium(@Query("email") email:string){
+    getPremium(@Query("email") email:string){ 
         return this.premiumService.getUserPremium(email);
     }
 
     @Post('createUser')
     createPremium(@Body() dto: PremiumUserRegister){
-        console.log("hello")
+        console.log("hello",dto)
         return this.premiumService.createPremiumMember(dto);
     }
 
-    
+
   @Post('upload')
-  @UseInterceptors(FileInterceptor('image'))
-  async uploadImage(@UploadedFile() file: Express.Multer.File,@Query("email") email:string) {
-   return this.premiumService.uploadPaymentScreentShot(file,email);
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    console.log('first', file)
+  //  return this.premiumService.uploadPaymentScreentShot(file,email);
   }
 
   @UseGuards(SuperAdmin)
