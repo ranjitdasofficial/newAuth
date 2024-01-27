@@ -7,17 +7,17 @@ export class UserController {
 
     constructor(private userService:UserService){}
 
-    @UseGuards(JWTGuard)
-    @Get(":id")
-    async getUser(@Param("id") id:string){
-        return this.userService.findUserById(id);
-    }
+    // @UseGuards(JWTGuard)
+    // @Get(":id")
+    // async getUser(@Param("id") id:string){
+    //     return this.userService.findUserById(id);
+    // }
 
 
-    @Get("get/getAllUser")
-    async getAllUser(){
-        console.log("fired user")
-        return this.userService.getAllUser();
-    }
+    // @Get("get/getAllUser")
+    // async getAllUser(){
+    //     console.log("fired user")
+    //     return this.userService.getAllUser();
+    // }
  
 }

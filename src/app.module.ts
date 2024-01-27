@@ -24,6 +24,7 @@ import { KiitsocialModule } from './kiitsocial/kiitsocial.module';
 import { KiitsocialService } from './kiitsocial/kiitsocial.service';
 import { StorageService } from './storage/storage.service';
 import { WhatsappService } from './whatsappweb/whatsappweb.service';
+import { KiitUsersModule } from './kiit-users/kiit-users.module';
 
 
 @Module({
@@ -50,7 +51,7 @@ import { WhatsappService } from './whatsappweb/whatsappweb.service';
         strict: false,
       },
     },
-  }), KiitsocialModule],
+  }), KiitsocialModule, KiitUsersModule],
   controllers: [UserController,AuthController, PremiumController, KiitsocialController],
   providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService ],
 })

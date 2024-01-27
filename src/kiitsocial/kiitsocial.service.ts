@@ -12,6 +12,7 @@ import { Readable } from 'stream';
 import { WhatsappService } from 'src/whatsappweb/whatsappweb.service';
 import { CustomPostSelect } from './prisma-types';
 import { kiitsocial } from '@prisma/client';
+import * as sharp from 'sharp';
 
 
 
@@ -34,36 +35,62 @@ export class KiitsocialService {
       title,
       description,
       eventType,
-
-      createdByEmail,
-      createdByName,
-      createdByImage,
       isAnonymous,
+      userId,
+      foundDate,
+      foundPlace,
+      githubLink,
+      image,
+      isApproved,
+      lostDate,
+      lostPlace,
+      projectLink,
+      tags,
     } = dto;
-    const isAnonymousVal = isAnonymous === 'true';
+   
     const data = {
       title,
       description,
-      image: null,
+      image,
+      foundDate,
+      foundPlace,
+      githubLink,
+      isApproved,
+      lostDate,
+      lostPlace,
+      projectLink,
+      tags,
+      userId,
       eventType,
-
-      createdByEmail,
-      createdByName,
-      createdByImage,
-      isAnonymous: isAnonymousVal,
+      isAnonymous,
+      
     };
 
     try {
       console.log(file);
       if (file) {
-        const mediaId = await this.generateMediaId();
+        // const mediaId = await this.generateMediaId();
         const buffer = await this.streamToBuffer(
           fs.createReadStream(file.path),
         );
+        // const p = await this.storageService.save(
+        //   'media/' + mediaId,
+        //   file.mimetype,
+        //   buffer,
+        //   [{ mediaId: mediaId }],
+        // );
+
+        const mediaId = await this.generateMediaId();
+        const filebuffer = await sharp(buffer)
+          .webp({ quality: 70 }) // Adjust quality as needed
+          .toBuffer();
+
+          console.log(buffer,"buffer");
+  
         const p = await this.storageService.save(
           'media/' + mediaId,
-          file.mimetype,
-          buffer,
+          'image/webp', // Set the mimetype for WebP
+          filebuffer,
           [{ mediaId: mediaId }],
         );
         // const fileId = await this.uploadImage(file, createdByEmail);
@@ -78,20 +105,89 @@ export class KiitsocialService {
 
       const p = await this.prisma.kiitsocial.create({
         data,
+        include: {
+          comments: {
+            include:{
+              user:{
+                select:{
+                  name:true,
+                  email:true,
+                  profileImage:true,
+                  id:true,
+                }
+              }
+            }
+          
+          },
+          
+          user:{
+            select:{
+              name:true,
+              email:true,
+              profileImage:true,
+              id:true,
+            }
+          }
+        },
+      
+        
       });
 
       if (!p) {
         throw new InternalServerErrorException('Something went wrong!!');
       }
 
+
+      const truncatedDescription = p.description.slice(0, 40);
+
+
+      const response = await fetch("https://botserver.rajmohandas.com.np/sendMessage",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({ 
+          chatId:"120363225438657833@g.us",
+          description:truncatedDescription,
+          image:p.image,
+          title:p.title,
+          postId:p.id,
+          eventType:p.eventType,
+        }),
+      });
+
+      console.log(response);
+      // await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
+
+      const likeLength =0;
+      const isLikedByYou =false;
+      // console.log(post.likes,post.likes.includes(id),id);
+      const commentsLength = 0;
+      const lastComment = [];
+      const { likes, ...rest } = p;
+      return {
+        ...rest,
+        commentsLength,
+        lastComment,
+        likeLength:likeLength,
+        isLikedByYou:isLikedByYou,
+        
+      };
+
       // await this.whatsAppWebService.sendMessage("ddssd","Someone has just uploaded a post on KIIT Social");
-      return p;
+      // return p;
+
+
     } catch (error) {
       console.log(error);
 
       throw new InternalServerErrorException('Something went wrong!!');
     }
   }
+
+
+
+
 
   private async streamToBuffer(stream: Readable): Promise<Buffer> {
     return new Promise((resolve, reject) => {
@@ -102,62 +198,84 @@ export class KiitsocialService {
     });
   }
 
-//   async getAllPost() {
+// //   async getAllPost() {
 
-//     //return all post with no of comments and include only one comments last one 
-// // Your file where you use Prisma queries
+// //     //return all post with no of comments and include only one comments last one 
+// // // Your file where you use Prisma queries
 
-// const postsWithComments = await this.prisma.kiitsocial.findMany({
-//   include: {
-//     comments:true,
-//   },
-//   orderBy:{
-//     createdAt:'desc',
-//   }
-// });
+// // const postsWithComments = await this.prisma.kiitsocial.findMany({
+// //   include: {
+// //     comments:true,
+// //   },
+// //   orderBy:{
+// //     createdAt:'desc',
+// //   }
+// // });
 
-// const postsWithCommentsDetails = postsWithComments.map((post) => {
-//   const commentsLength = post.comments.length;
-//   const lastComment = commentsLength > 0 ? post.comments[0] : null;
+// // const postsWithCommentsDetails = postsWithComments.map((post) => {
+// //   const commentsLength = post.comments.length;
+// //   const lastComment = commentsLength > 0 ? post.comments[0] : null;
 
-// const {comments,...rest} = post;
+// // const {comments,...rest} = post;
 
-//   return {
-//     ...rest,
-//     commentsLength,
-//     lastComment,
-//   };
-// });
+// //   return {
+// //     ...rest,
+// //     commentsLength,
+// //     lastComment,
+// //   };
+// // });
 
-// console.log(postsWithCommentsDetails);
+// // console.log(postsWithCommentsDetails);
 
-// // 
-//     // const {comments, ...rest} = postsWithComments[0];
+// // // 
+// //     // const {comments, ...rest} = postsWithComments[0];
 
-//     // const commentCount = comments
+// //     // const commentCount = comments
 
-//     return postsWithCommentsDetails;
+// //     return postsWithCommentsDetails;
 
 
     
-//     console.log(postsWithComments);
+// //     console.log(postsWithComments);
     
 
 
 
 
-//   }
+// //   }
 
 
 
-async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
+async getAllPost(page: number = 1, pageSize: number = 5,id?:string|null) {
   const skipCount = (page - 1) * pageSize;
 
   const postCount = await this.prisma.kiitsocial.count();
 
   const postsWithComments = await this.prisma.kiitsocial.findMany({
     include: {
-      comments: true
+      comments: {
+        include:{
+          user:{
+            select:{
+              name:true,
+              email:true,
+              profileImage:true,
+              id:true,
+            }
+          }
+        }
+      
+      },
+      
+      user:{
+        select:{
+          name:true,
+          email:true,
+          profileImage:true,
+          id:true,
+        }
+      }
+
     },
     orderBy: {
       createdAt: 'desc',
@@ -166,11 +284,13 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
     take: Number(pageSize),
   });
 
+  // console.log("post",postsWithComments)
   
 
   const postsWithCommentsDetails = postsWithComments.map((post) => {
     const likeLength = post.likes.length;
-    const isLikedByYou = !email?false:post.likes.includes(email)?true:false;
+    const isLikedByYou = !id?false:post.likes.includes(id)?true:false;
+    console.log(post.likes,post.likes.includes(id),id);
     const commentsLength = post.comments.length;
     const lastComment = commentsLength ===1? 
       [
@@ -182,19 +302,20 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
       post.comments[post.comments.length - 2],
     ] : [];
 
-    const { comments,likes, ...rest } = post;
+    const { likes, ...rest } = post;
 
     return {
       ...rest,
       commentsLength,
       lastComment,
+
       likeLength:likeLength,
       isLikedByYou:isLikedByYou,
       
     };
   });
 
-  console.log(postsWithCommentsDetails);
+  console.log(postsWithCommentsDetails,);
 
   return {
     posts: postsWithCommentsDetails,
@@ -203,35 +324,35 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
 }
 
 
-  async uploadImage(file: Express.Multer.File, email: string) {
-    try {
-      const fileBuffer = fs.createReadStream(file.path);
+//   async uploadImage(file: Express.Multer.File, email: string) {
+//     try {
+//       const fileBuffer = fs.createReadStream(file.path);
 
-      console.log('fileBuffer', fileBuffer);
-      const fileId = await this.driveService.uploadImage(
-        fileBuffer,
-        email,
-        '19TfG7QXBToAyBzY27s0Pev_kwJ2le_WK',
-        file.mimetype,
-        file.path,
-      );
+//       console.log('fileBuffer', fileBuffer);
+//       const fileId = await this.driveService.uploadImage(
+//         fileBuffer,
+//         email,
+//         '19TfG7QXBToAyBzY27s0Pev_kwJ2le_WK',
+//         file.mimetype,
+//         file.path,
+//       );
 
-      if (!fileId) {
-        throw new InternalServerErrorException('Something went wrong!!');
-      }
+//       if (!fileId) {
+//         throw new InternalServerErrorException('Something went wrong!!');
+//       }
 
-      return fileId;
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Something went wrong!!');
-    }
-  }
+//       return fileId;
+//     } catch (error) {
+//       console.log(error);
+//       throw new InternalServerErrorException('Something went wrong!!');
+//     }
+//   }
 
-  async sendWhatsAppMessage() {
-    this.whatsAppWebService.sendMessage('120363225438657833@g.us', 'Hey Babe');
-  }
+  // async sendWhatsAppMessage() {
+  //   this.whatsAppWebService.sendMessage('120363225438657833@g.us', 'Hey Babe',);
+  // }
 
-  async likeAndDislikePost(postId: string, email: string) {
+  async likeAndDislikePost(postId: string, userId: string) {
     try {
       const post = await this.prisma.kiitsocial.findUnique({
         where: {
@@ -244,8 +365,8 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
       }
       const likedBy = post.likes;
 
-      if (likedBy.includes(email)) {
-        const index = likedBy.indexOf(email);
+      if (likedBy.includes(userId)) {
+        const index = likedBy.indexOf(userId);
 
         likedBy.splice(index, 1);
         const p = await this.prisma.kiitsocial.update({
@@ -268,7 +389,7 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
             id: postId,
           },
           data: {
-            likes: [...likedBy, email],
+            likes: [...likedBy, userId],
           },
         });
 
@@ -291,9 +412,6 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
         where: {
           id: dto.kiitSocialId,
         },
-        include: {
-          comments: true,
-        },
       });
 
       if (!post) {
@@ -303,12 +421,13 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
       const p = await this.prisma.comments.create({
         data: {
           comment: dto.comment,
-          commentedBy: dto.commentedBy,
-          commentedByEmail: dto.commentedByEmail,
+         userId:dto.userId,
           isAnonymous:dto.isAnonymous,
-          image: dto.image,
           kiitsocialId: dto.kiitSocialId,
         },
+        include:{
+          user:true
+        }
       });
 
       if (!p) {
@@ -323,7 +442,7 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
     }
   }
 
-  async deleteComments(commentId: string,commentedByEmail:string) {
+  async deleteComments(commentId: string,userId:string) {
     try {
       const comment = await this.prisma.comments.findUnique({
         where: {
@@ -335,7 +454,7 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
         throw new NotFoundException('Comment Not Found.');
       }
 
-      if(comment.commentedByEmail !== commentedByEmail){
+      if(comment.userId !== userId){
         throw new NotFoundException('Comment Not Found.');
       }
 
@@ -357,7 +476,7 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
     }
   }
 
-  async deletePost(postId: string,createdByEmail:string) {
+  async deletePost(postId: string,userId:string) {
     try {
       const post = await this.prisma.kiitsocial.findUnique({
         where: {
@@ -372,8 +491,13 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
       }
 
       // console.log(post.createdByEmail,createdByEmail,post.createdByEmail!=createdByEmail,post.createdByEmail.toString() != createdByEmail);
-      if(post.createdByEmail.toString() !== createdByEmail){
+      if(post.userId !== userId){
         throw new NotFoundException('Post Not Found.');
+      }
+
+      const mediaId = post.image;
+      if (mediaId) {
+        await this.storageService.delete('media/' + mediaId);
       }
 
       
@@ -418,52 +542,47 @@ async getAllPost(page: number = 1, pageSize: number = 5,email?:string) {
     }
   }
     
-  async getCommentsByPostId(postId: string) {
-    try {
-      const post = await this.prisma.kiitsocial.findUnique({
-        where: {
-          id: postId,
-      
-        },
-        
-        include: {
-          comments: true,
-        },
-        
-        
-      });
 
-      if (!post) {
-        throw new NotFoundException('Post Not Found.');
-      }
-
-      return post.comments.reverse();
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Something went wrong');
-    }
-  }
-
-  async fetchPostById(postId:string,email?:string){
+  async fetchPostById(postId:string,id?:string){
     try {
       const posts = await this.prisma.kiitsocial.findUnique({
         where:{
           id:postId
         },
         include:{
-          comments:true
+          comments:{
+            include:{
+              user:{
+                select:{
+                  name:true,
+                  email:true,
+                  profileImage:true,
+                  id:true,
+                }
+              }
+            }
+          },
+          user:{
+            select:{
+              name:true,
+              email:true,
+              profileImage:true,
+              id:true,
+            }
+          },
+          
         }
       });
       if(!posts){
         throw new NotFoundException("Post Not Found");
       }
 
+      console.log("posts",posts)
+
       const likeLength = posts.likes.length;
 
     
-      const isLikedByYou = !email?false:posts.likes.includes(email)?true:false;
+      const isLikedByYou = !id?false:posts.likes.includes(id)?true:false;
 
       const {likes,comments,...rest} = posts;
 

@@ -12,20 +12,20 @@ export class AuthController {
 
     }
 
-    // @Post('signup')
-    @Post("signup")
-    async createUser(@Body() dto:createUserDto){
-        return this.userService.createUser(dto);
-    }
+    // // @Post('signup')
+    // @Post("signup")
+    // async createUser(@Body() dto:createUserDto){
+    //     return this.userService.createUser(dto);
+    // }
 
-    @Post('login')
-    async login(@Body() dto:LoginDTO,@Res() Response){
-        return Response.status(200).send(await this.AuthService.login(dto));
-    }
+    // @Post('login')
+    // async login(@Body() dto:LoginDTO,@Res() Response){
+    //     return Response.status(200).send(await this.AuthService.login(dto));
+    // }
 
-    @UseGuards(RefreshGuard)
-    @Post("refresh")
-    async refreshToken(@Request() request){
-      return this.AuthService.refreshToken(request.user);
-    }
+    // @UseGuards(RefreshGuard)
+    // @Post("refresh")
+    // async refreshToken(@Request() request){
+    //   return this.AuthService.refreshToken(request.user);
+    // }
 }

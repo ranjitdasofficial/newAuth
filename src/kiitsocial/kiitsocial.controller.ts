@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -15,6 +16,8 @@ import { StorageService } from 'src/storage/storage.service';
 import * as fs from 'fs';
 import { Readable } from 'stream';
 
+
+
 @Controller('kiitsocial')
 export class KiitsocialController {
   constructor(private readonly kiitSocialService: KiitsocialService,private readonly storageService:StorageService) {}
@@ -26,69 +29,112 @@ export class KiitsocialController {
     @Body() dto:Upload
    
   ) {
+    if(file){
+      await this.checkIfImage(file);
+  
+    }
+    
     console.log("here",file,dto)
     return this.kiitSocialService.uploadPost(dto, file);
   }
 
   @Get("getAllPost")
-  getAllPost(@Query() dto:{page:number,limit:number,email:string}){
+  getAllPost(@Query() dto:{page:number,limit:number,id?:string|null}){
     console.log("here"); 
+    console.log("dto is here:",dto);
 
-    return this.kiitSocialService.getAllPost(dto.page,dto.limit,dto.email);
+    return this.kiitSocialService.getAllPost(dto.page,dto.limit,dto.id);
   }
 
-  // async generateMediaId() {
-  //   return await this.storageService.generateMediaId();
-  // }
+
+  async checkIfImage(fileInfo: { mimetype: string,path:string }): Promise<void> {
+    if (!fileInfo.mimetype.startsWith('image/')) {
+       fs.unlinkSync(fileInfo.path);
+      throw new BadRequestException('File is not an image.');
+    }
+  }
+ 
+  // // async generateMediaId() { 
+  // //   return await this.storageService.generateMediaId();
+  // // }
   
 
-  @Post("uploadPost")
-  @UseInterceptors(
-    FileInterceptor("image", {
-      limits: {
-        files: 1,
-        fileSize: 1024 * 1024,
-      },
-    })
-  )
-  async uploadMedia(
-    @UploadedFile() file: Express.Multer.File,
-  ) {
+  // @Post("uploadPost")
+  // @UseInterceptors(
+  //   FileInterceptor("image", {
+  //     limits: {
+  //       files: 1,
+  //       fileSize: 1024 * 1024,
+  //     },
+  //   })
+  // )
+  // async uploadMedia(
+  //   @UploadedFile() file: Express.Multer.File,
+  // ) {
 
-    // return this.kiitSocialService.uploadPost(file);
+  //   // return this.kiitSocialService.uploadPost(file);
    
-  //   const mediaId = await this.generateMediaId();
-  //   const buffer = await this.streamToBuffer(fs.createReadStream(file.path));
-  //  const p = await this.storageService.save(
-  //     "media/" + mediaId, 
-  //     file.mimetype,
-  //     buffer,
-  //     [{ mediaId: mediaId }]
-  //   );
+  // //   const mediaId = await this.generateMediaId();
+  // //   const buffer = await this.streamToBuffer(fs.createReadStream(file.path));
+  // //  const p = await this.storageService.save(
+  // //     "media/" + mediaId, 
+  // //     file.mimetype,
+  // //     buffer,
+  // //     [{ mediaId: mediaId }]
+  // //   );
 
-  //   console.log(p);
+  // //   console.log(p);
 
 
-  }
-
-  // private async streamToBuffer(stream: Readable): Promise<Buffer> {
-  //   return new Promise((resolve, reject) => {
-  //     const chunks: Buffer[] = [];
-  //     stream.on('data', (chunk) => chunks.push(chunk));
-  //     stream.on('error', reject);
-  //     stream.on('end', () => resolve(Buffer.concat(chunks)));
-  //   }); 
   // }
 
-  @Get("sendWhatsApp")
-  async sendNotification() {
-    return this.kiitSocialService.sendWhatsAppMessage();
+  // // private async streamToBuffer(stream: Readable): Promise<Buffer> {
+  // //   return new Promise((resolve, reject) => {
+  // //     const chunks: Buffer[] = [];
+  // //     stream.on('data', (chunk) => chunks.push(chunk));
+  // //     stream.on('error', reject); 
+  // //     stream.on('end', () => resolve(Buffer.concat(chunks)));
+  // //   });  
+  // // } 
+
+  // @Get("sendWhatsApp")
+  // async sendNotification() {
+  //   return this.kiitSocialService.sendWhatsAppMessage();
+  // }
+
+
+  @Get("sendReq")
+  async sendReq(){
+    try {
+      const res = await fetch("http://localhost:9000/sendMessage",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          chatId:"ChatId",
+          description:"Description",
+          image:"ImageId",
+          title:"Title",
+          postId:"PostId",
+          eventType:"PostType",
+        
+        })
+      });
+
+      console.log(res);
+      return await res.json();
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException("Something went wrong");
+    }
   }
 
+
   @Post("likeDislike")
-  async likeDislike(@Body() dto:{postId:string,email:string}){
+  async likeDislike(@Body() dto:{postId:string,userId:string}){
     console.log("here",dto);
-    return this.kiitSocialService.likeAndDislikePost(dto.postId,dto.email);
+    return this.kiitSocialService.likeAndDislikePost(dto.postId,dto.userId);
   }
 
   @Post("addComments")
@@ -97,29 +143,29 @@ export class KiitsocialController {
     return this.kiitSocialService.addComment(dto);
   }
 
-  @Post("deletePosts")
-  async deletePost(@Body() dto:any){
+  @Post("deletePosts") 
+  async deletePost(@Body() dto:{postId:string,userId:string}){
     console.log("hello",dto);
-
+ 
     // return "hello World";
-    return this.kiitSocialService.deletePost(dto.postId,dto.createdByEmail);
+    return this.kiitSocialService.deletePost(dto.postId,dto.userId);
   }
 
   @Post("deleteComment")
-  async deleteComment(@Body() dto:{commentId:string,createdByEmail:string}){
-    return this.kiitSocialService.deleteComments(dto.commentId,dto.createdByEmail);
+  async deleteComment(@Body() dto:{commentId:string,userId:string}){
+    return this.kiitSocialService.deleteComments(dto.commentId,dto.userId);
   }
 
-  @Get("getcomment/:postId")
-  async getComment(@Param("postId") postId:string){
-    return this.kiitSocialService.getCommentsByPostId(postId);
-  }
+  // @Get("getcomment/:postId")
+  // async getComment(@Param("postId") postId:string){
+  //   return this.kiitSocialService.getCommentsByPostId(postId);
+  // }
 
   @Get("getPostbyId")
-  async getPostById(@Query() dto:{postId:string,email:string}){
+  async getPostById(@Query() dto:{postId:string,id:string}){
     console.log(dto);
-    return this.kiitSocialService.fetchPostById(dto.postId,dto.email);
+    return this.kiitSocialService.fetchPostById(dto.postId,dto.id);
   } 
 
 }   
- 
+  

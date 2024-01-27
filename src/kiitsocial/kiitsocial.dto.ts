@@ -1,8 +1,11 @@
 import { IsArray, IsBoolean, IsOptional, IsString, isArray } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 export class Upload {
+  @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
+
   @IsString()
   description: string;
 
@@ -13,18 +16,58 @@ export class Upload {
   @IsString()
   eventType?: string;
 
+  @IsOptional()
+  @Transform(({ value }) => (value ==="Anonymous"?true:false))
+  isAnonymous?: boolean;
 
   @IsString()
-  createdByEmail: string;
-  @IsString()
-  createdByName: string;
+  userId : string;
+
+  @IsOptional()
+  @Transform(({ value }) => (value ? JSON.parse(value) : []))
+  @Type(() => String)
+  tags?: string[];
+
+
+  @IsOptional()
+  @Transform(({ value }) => (value==="true"?true:false))
+  isApproved?: boolean;
 
   @IsOptional()
   @IsString()
-  createdByImage?: string;
+  lostPlace?: string;
 
+  @IsOptional()
   @IsString()
-  isAnonymous: string;
+  foundPlace?: string;
+
+  @IsOptional()
+  @IsString()
+  lostDate?: string;
+
+  @IsOptional()
+  @IsString()
+  foundDate?: string;
+
+
+  @IsOptional()
+  @IsString()
+  githubLink?: string;
+
+  @IsOptional()
+  @IsString()
+  projectLink?: string;
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
@@ -45,18 +88,13 @@ export class AddComments{
   comment:string;
 
   @IsString()
-  commentedByEmail:string;
-
-  @IsString()
-  commentedBy:string;
-
-
-  @IsString()
-  image:string;
+  userId:string;
 
   @IsBoolean()
   isAnonymous:boolean;
   
   @IsString()
   kiitSocialId:string;
+
+  
 }

@@ -12,66 +12,66 @@ export class AuthService {
 
     constructor(private readonly userService:UserService,private JwtService:JwtService){}
 
-    async login(dto:LoginDTO){
+    // async login(dto:LoginDTO){
 
-        const user = await this.validateUser(dto);
-        const payload = {
-            user,
-            sub:{
-                name:user.name,
-            }
-        }
+    //     const user = await this.validateUser(dto);
+    //     const payload = {
+    //         user,
+    //         sub:{
+    //             name:user.name,
+    //         }
+    //     }
 
-       return {
-            user,
-            backendToken:{
-                accessToken:await this.JwtService.signAsync(payload,{
-                    //expiresIn 5 MINUTES,
-                    expiresIn:"1d",
+    //    return {
+    //         user,
+    //         backendToken:{
+    //             accessToken:await this.JwtService.signAsync(payload,{
+    //                 //expiresIn 5 MINUTES,
+    //                 expiresIn:"1d",
                 
-                   secret:process.env.ACCESS_TOKEN_SECRET
-                }),
+    //                secret:process.env.ACCESS_TOKEN_SECRET
+    //             }),
 
-                refreshToken:await this.JwtService.signAsync(payload,{
-                    expiresIn:"7d",
-                    secret:process.env.REFRESH_TOKEN_SECRET
-                }),
-                expiresIn:new Date().setTime(new Date().getTime()+expiresIn)
+    //             refreshToken:await this.JwtService.signAsync(payload,{
+    //                 expiresIn:"7d",
+    //                 secret:process.env.REFRESH_TOKEN_SECRET
+    //             }),
+    //             expiresIn:new Date().setTime(new Date().getTime()+expiresIn)
 
-            }
-        }
+    //         }
+    //     }
 
-    }
+    // }
 
-    async validateUser(dto:LoginDTO){
+    // async validateUser(dto:LoginDTO){
 
-        const user = await this.userService.findUserByEmail(dto.email);
-        if(user && (await compare(dto.password,user.password))){
-            const {password,...result} = user;
-            return result;
-        }
+    //     const user = await this.userService.findUserByEmail(dto.email);
+    //     if(user && (await compare(dto.password,user.password))){
+    //         const {password,...result} = user;
+    //         return result;
+    //     }
 
-        throw new UnauthorizedException('Invalid credentials');        
+    //     throw new UnauthorizedException('Invalid credentials');        
 
-    }
+    // }
 
-    async refreshToken(user:any){
-        console.log("fired");
-        const payload={
-            user:user.user,
-            sub:user.sub
-        }
+    // async refreshToken(user:any){
+    //     console.log("fired");
+    //     const payload={
+    //         user:user.user,
+    //         sub:user.sub
+    //     }
 
-        return {
-            accessToken:await this.JwtService.signAsync(payload,{
-                expiresIn:"1d",
-                secret:process.env.ACCESS_TOKEN_SECRET
-            }),
-            refreshToken:await this.JwtService.signAsync(payload,{
-                expiresIn:"7d",
-                secret:process.env.REFRESH_TOKEN_SECRET
-            }),
-            expiresIn:new Date().setTime(new Date().getTime()+expiresIn)
-        }
-    }
+    //     return {
+    //         accessToken:await this.JwtService.signAsync(payload,{
+    //             expiresIn:"1d",
+    //             secret:process.env.ACCESS_TOKEN_SECRET
+    //         }),
+    //         refreshToken:await this.JwtService.signAsync(payload,{
+    //             expiresIn:"7d",
+    //             secret:process.env.REFRESH_TOKEN_SECRET
+    //         }),
+    //         expiresIn:new Date().setTime(new Date().getTime()+expiresIn)
+    //     }
+    // }
 }

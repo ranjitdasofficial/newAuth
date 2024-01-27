@@ -11,35 +11,35 @@ import { SuperAdmin } from 'src/auth/guard/superAdmin.guard';
 export class PremiumController {
     constructor(private readonly premiumService:PremiumService,private readonly driveService:DriveService) { }
 
-    @Get('getUser')
-    getPremium(@Query("email") email:string){ 
-        return this.premiumService.getUserPremium(email);
-    }
+  //   @Get('getUser')
+  //   getPremium(@Query("email") email:string){ 
+  //       return this.premiumService.getUserPremium(email);
+  //   }
 
-    @Post('createUser')
-    createPremium(@Body() dto: PremiumUserRegister){
-        console.log("hello",dto)
-        return this.premiumService.createPremiumMember(dto);
-    }
+  //   @Post('createUser')
+  //   createPremium(@Body() dto: PremiumUserRegister){
+  //       console.log("hello",dto)
+  //       return this.premiumService.createPremiumMember(dto);
+  //   }
 
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    console.log('first', file)
-  //  return this.premiumService.uploadPaymentScreentShot(file,email);
-  }
+  // @Post('upload')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async uploadImage(@UploadedFile() file: Express.Multer.File) {
+  //   console.log('first', file)
+  // //  return this.premiumService.uploadPaymentScreentShot(file,email);
+  // }
 
-  @UseGuards(SuperAdmin)
-  @Get('activateUser')
-    activateUser(@Query("email") email:string){
-        return this.premiumService.activatePremium(email);
-    }
+  // @UseGuards(SuperAdmin)
+  // @Get('activateUser')
+  //   activateUser(@Query("email") email:string){
+  //       return this.premiumService.activatePremium(email);
+  //   }
 
-    // @UseGuards(SuperAdmin)
-    @Get("getPremiumUserWithPayment")
-    getPremiumUserWithPayment(){
-      return this.premiumService.getPremiumUserWithPaymentScreenshot();
-    }
+  //   // @UseGuards(SuperAdmin)
+  //   @Get("getPremiumUserWithPayment")
+  //   getPremiumUserWithPayment(){
+  //     return this.premiumService.getPremiumUserWithPaymentScreenshot();
+  //   }
 }
  

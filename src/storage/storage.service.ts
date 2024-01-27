@@ -67,4 +67,14 @@ export class StorageService {
     const id = Math.random().toString(36).substring(2, 15);
     return id;
   }
+
+
+
+
+  async delete(path: string) {
+    await this.storage
+      .bucket(this.bucket)
+      .file(path)
+      .delete({ ignoreNotFound: true });
+  }
 }
