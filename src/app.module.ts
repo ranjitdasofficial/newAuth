@@ -39,10 +39,10 @@ import { KiitUsersModule } from './kiit-users/kiit-users.module';
         user: `${process.env.MAIL_USERNAME}`,
         pass: `${process.env.MAIL_PASSWORD}`,
       
-      },
+      }, 
     },
     defaults: {
-      from: 'KIIT-CONNECT<noreply@kiitconnect.live>',
+      from: 'KIIT-CONNECT<support@kiitconnect.live>',
     },
     template: {
       dir: path.join(__dirname , '../src/template'), // Replace with the actual path to your templates

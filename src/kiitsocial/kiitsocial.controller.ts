@@ -28,7 +28,7 @@ export class KiitsocialController {
     @UploadedFile() file: Express.Multer.File,
     @Body() dto:Upload
    
-  ) {
+  ) { 
     if(file){
       await this.checkIfImage(file);
   
