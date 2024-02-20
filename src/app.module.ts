@@ -25,6 +25,9 @@ import { KiitsocialService } from './kiitsocial/kiitsocial.service';
 import { StorageService } from './storage/storage.service';
 import { WhatsappService } from './whatsappweb/whatsappweb.service';
 import { KiitUsersModule } from './kiit-users/kiit-users.module';
+import { NotesService } from './notes/notes.service';
+import { NotesModule } from './notes/notes.module';
+import { NotesController } from './notes/notes.controller';
 
 
 @Module({
@@ -51,8 +54,8 @@ import { KiitUsersModule } from './kiit-users/kiit-users.module';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService ],
+  }), KiitsocialModule, KiitUsersModule, NotesModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService ],
 })
 export class AppModule {}

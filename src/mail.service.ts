@@ -125,4 +125,38 @@ async passwordChanged(to: string,username:string) {
 }
 
 
+async sendPaymentReminder(data:{email:string,name:string,branch:string,year:string}) {
+  await this.mailService.sendMail({
+    to: data.email,
+    subject: 'Payment Reminder!',
+    template: 'payment-remainder', // Name of your template file without extension
+    context:data,
+  }).then(()=>{ 
+    console.log("Email Has been Sent");
+  }).catch((err)=>{
+    console.log(err);
+  }); 
+}
+
+
+async sendNotPremium(name:string,email:string,index:number){
+  if(!email){
+    return;
+  }
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Join KIIT-CONNECT Premium!',
+    template: 'not-premium', // Name of your template file without extension
+    context:{
+      name:name
+    },
+  }).then(()=>{
+    console.log("Email Has been Sent",index);
+  } 
+  ).catch((err)=>{
+    console.log(err);
+  });
+
+}
+
 }

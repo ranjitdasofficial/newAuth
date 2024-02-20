@@ -41,6 +41,7 @@ export class KiitUsersController {
     console.log(dto);
     return this.kiitUserService.registerPremiumUser(dto);
   }
+  
 
   @Get('getUsers')
   async getAllPremiumUser() {
@@ -80,4 +81,38 @@ export class KiitUsersController {
       throw new BadRequestException('File is not an image.');
     }
   }
+
+
+  @Get("getpremiumWithoutPaymentScreenshot")
+  async getPremiumUserWithPaymentStatus(){
+    return this.kiitUserService.getPremiumUserWithoutPaymentScreenshot();
+  }
+
+  @Get("sendPaymentReminder")
+  async sendPaymentReminder(){
+    return this.kiitUserService.sendRemainderMail();
+  }
+
+
+  @Get("getUserWithoutPremium")
+  async getUserWithoutPremium(){
+    return this.kiitUserService.getUserWithoutPremiumAccount();
+  }
+
+  @Get("sendMailToNonPremiumUser")
+  async sendMailToNonPremiumUser(){
+    return this.kiitUserService.sendMailToUserWithoutPremiumAccount();
+  }
+
+
+  @Get("addTotalEarnedToAllUsers")
+  async addTotalEarnedToAllUsers(){
+    return this.kiitUserService.addTotalEarnedToAllUsers();
+  }
+
+
+
+
+
+
 }

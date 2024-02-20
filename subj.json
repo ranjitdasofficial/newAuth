@@ -1,0 +1,262 @@
+[
+    {
+        "id": "65d212841bdc9aab413387ec",
+        "name": "PHYSICS"
+    },
+    {
+        "id": "65d212841bdc9aab413387ed",
+        "name": "Differential Equations and Linear Algebra"
+    },
+    {
+        "id": "65d212841bdc9aab413387ee",
+        "name": "SCIENCE OF LIVING SYSTEMS"
+    },
+    {
+        "id": "65d212841bdc9aab413387ef",
+        "name": "ENVIROMENTAL SCIENCE"
+    },
+    {
+        "id": "65d212841bdc9aab413387f0",
+        "name": "PHYSICS LAB"
+    },
+    {
+        "id": "65d212841bdc9aab413387f1",
+        "name": "PROGRAMMING LAB"
+    },
+    {
+        "id": "65d212841bdc9aab413387f2",
+        "name": "ENGINEERING DRAWING & GRAPHICS"
+    },
+    {
+        "id": "65d212841bdc9aab413387f3",
+        "name": "ENGINEERING ELECTIVE-II"
+    },
+    {
+        "id": "65d212841bdc9aab413387f4",
+        "name": "SCIENCE ELECTIVE"
+    },
+    {
+        "id": "65d213b11bdc9aab413387f5",
+        "name": "CHEMISTRY"
+    },
+    {
+        "id": "65d213b11bdc9aab413387f6",
+        "name": "Transform Calculus and Numerical Analysis"
+    },
+    {
+        "id": "65d213b11bdc9aab413387f7",
+        "name": "ENGLISH"
+    },
+    {
+        "id": "65d213b11bdc9aab413387f8",
+        "name": "BASIC ELECTRONICS"
+    },
+    {
+        "id": "65d213b11bdc9aab413387f9",
+        "name": "CHEMISTRY LAB"
+    },
+    {
+        "id": "65d213b11bdc9aab413387fa",
+        "name": "YOGA"
+    },
+    {
+        "id": "65d213b11bdc9aab413387fb",
+        "name": "ENGINEERING LAB"
+    },
+    {
+        "id": "65d213b11bdc9aab413387fc",
+        "name": "WORKSHOP"
+    },
+    {
+        "id": "65d213b11bdc9aab413387fd",
+        "name": "COMMUNICATION LAB"
+    },
+    {
+        "id": "65d213b11bdc9aab413387fe",
+        "name": "ENGINEERING ELECTIVE-I"
+    },
+    {
+        "id": "65d214db1bdc9aab413387ff",
+        "name": "Data Structure"
+    },
+    {
+        "id": "65d214db1bdc9aab41338800",
+        "name": "Digital Systems Design"
+    },
+    {
+        "id": "65d214db1bdc9aab41338801",
+        "name": "Scientific and Technical Writing"
+    },
+    {
+        "id": "65d214db1bdc9aab41338802",
+        "name": "HASS Elective - II"
+    },
+    {
+        "id": "65d214db1bdc9aab41338803",
+        "name": "Industry 4.0 Technologies"
+    },
+    {
+        "id": "65d214db1bdc9aab41338804",
+        "name": "Automata Theory and Formal Languages"
+    },
+    {
+        "id": "65d214db1bdc9aab41338805",
+        "name": "Probability and Statistics"
+    },
+    {
+        "id": "65d2211d1bdc9aab41338806",
+        "name": "COMPUTER NETWORKS"
+    },
+    {
+        "id": "65d2211d1bdc9aab41338807",
+        "name": "DESIGN & ANALYSIS OF ALGO"
+    },
+    {
+        "id": "65d2211d1bdc9aab41338808",
+        "name": "HIGH PERFORMANCE COMPUT"
+    },
+    {
+        "id": "65d2211d1bdc9aab41338809",
+        "name": "SOFTWARE ENGINEERING"
+    },
+    {
+        "id": "65d2211d1bdc9aab4133880a",
+        "name": "D_ELECTIVE-1"
+    },
+    {
+        "id": "65d2211d1bdc9aab4133880b",
+        "name": "D_ELECTIVE-2"
+    },
+    {
+        "id": "65d221b01bdc9aab4133880c",
+        "name": "COMPUTER DESIGN"
+    },
+    {
+        "id": "65d221b01bdc9aab4133880d",
+        "name": "CLOUD COMPUTING"
+    },
+    {
+        "id": "65d221b01bdc9aab4133880e",
+        "name": "Software Project Management"
+    },
+    {
+        "id": "65d222721bdc9aab4133880f",
+        "name": "Machine Learning"
+    },
+    {
+        "id": "65d222721bdc9aab41338810",
+        "name": "Data Analytics"
+    },
+    {
+        "id": "65d222721bdc9aab41338811",
+        "name": "Natural Language Prcessing"
+    },
+    {
+        "id": "65d222721bdc9aab41338812",
+        "name": "Internet Of Things"
+    },
+    {
+        "id": "65d243b8567cea6553c6b517",
+        "name": "Scientific and Technical Writing"
+    },
+    {
+        "id": "65d243b8567cea6553c6b518",
+        "name": "HASS Elective - II"
+    },
+    {
+        "id": "65d243b8567cea6553c6b519",
+        "name": "OOP JAVA"
+    },
+    {
+        "id": "65d243b8567cea6553c6b51a",
+        "name": "OS"
+    },
+    {
+        "id": "65d243b8567cea6553c6b51b",
+        "name": "Discrete Structures"
+    },
+    {
+        "id": "65d243b8567cea6553c6b51c",
+        "name": "COA"
+    },
+    {
+        "id": "65d243b8567cea6553c6b51d",
+        "name": "DBMS"
+    },
+    {
+        "id": "65d2d560883f3cc806388702",
+        "name": "PDC"
+    },
+    {
+        "id": "65d2d560883f3cc806388703",
+        "name": "Engineering Economics"
+    },
+    {
+        "id": "65d2d560883f3cc806388704",
+        "name": "Mobile Computing"
+    },
+    {
+        "id": "65d2d560883f3cc806388705",
+        "name": "Communication Engineering"
+    },
+    {
+        "id": "65d2d560883f3cc806388706",
+        "name": "Mathematics Part One"
+    },
+    {
+        "id": "65d2d560883f3cc806388707",
+        "name": "Mathematics Part Two"
+    },
+    {
+        "id": "65d2d560883f3cc806388708",
+        "name": "Analog Electronic Circuits"
+    },
+    {
+        "id": "65d2d560883f3cc806388709",
+        "name": "Artificial Intelligence"
+    },
+    {
+        "id": "65d2d560883f3cc80638870a",
+        "name": "Computational Intelligence"
+    },
+    {
+        "id": "65d2d560883f3cc80638870b",
+        "name": "Big Data"
+    },
+    {
+        "id": "65d2d560883f3cc80638870c",
+        "name": "Cryptography"
+    },
+    {
+        "id": "65d2d560883f3cc80638870d",
+        "name": "Cellular Communication"
+    },
+    {
+        "id": "65d2d560883f3cc80638870e",
+        "name": "Object Oriented System Design"
+    },
+    {
+        "id": "65d2d560883f3cc80638870f",
+        "name": "Data Mining and Data Warehousing"
+    },
+    {
+        "id": "65d2d560883f3cc806388710",
+        "name": "Principle of Digital Communication"
+    },
+    {
+        "id": "65d2d560883f3cc806388711",
+        "name": "Information Security"
+    },
+    {
+        "id": "65d2d560883f3cc806388712",
+        "name": "Object Oriented Programming"
+    },
+    {
+        "id": "65d2d82c883f3cc806388713",
+        "name": "Biology"
+    },
+    {
+        "id": "65d2df4517082e98c7f1c1b5",
+        "name": "BiolEmbedded Systems Design and Application"
+    }
+]

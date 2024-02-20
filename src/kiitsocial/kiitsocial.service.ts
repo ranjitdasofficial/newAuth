@@ -149,16 +149,16 @@ export class KiitsocialService {
         body:JSON.stringify({ 
           chatId:"120363225438657833@g.us",
           description:truncatedDescription,
-          image:p.image,
-          title:p.title,
+          image:p.image, 
+          title:p.title, 
           postId:p.id,
           eventType:p.eventType,
         }),
       });
-
+ 
       console.log(response);
       // await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
-
+ 
       const likeLength =0;
       const isLikedByYou =false;
       // console.log(post.likes,post.likes.includes(id),id);
