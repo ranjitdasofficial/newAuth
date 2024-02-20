@@ -106,7 +106,7 @@ export class KiitUsersController {
 
 
   @Get("addTotalEarnedToAllUsers")
-  async addTotalEarnedToAllUsers(){
+  async addTotalEarnedToAllUsers(){ 
     return this.kiitUserService.addTotalEarnedToAllUsers();
   }
 
