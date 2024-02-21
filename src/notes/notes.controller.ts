@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { AddNotesDTO, AddPyqsDTO, SolutionDto } from './notes.dto';
+import { AddNotesDTO, AddPyqsDTO, AddPyqsSingleDTO, SolutionDto } from './notes.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('notes')
@@ -79,13 +79,29 @@ export class NotesController {
     return this.notesService.addPyqsToSubject(dto.subjectId, dto.pyqs);
   }
 
+  @Post("deletePYQS")
+  async deletePYQS(@Body() dto: {pyqsId: string,subjectId: string,solutionId: string|null}){
+    return this.notesService.deletePYQS(dto);
+  } 
+  
+  @Post("deleteSolution")
+  async deleteSolution(@Body() dto: {pyqsId: string,subjectId: string,solutionId: string}){
+    return this.notesService.deleteSolution(dto);
+  }
+
+  @Post('addPYQSToSubjectSingle')
+  async addPYQSToSubjectSingle(@Body() dto: AddPyqsSingleDTO) {
+    console.log(dto);
+    return this.notesService.addPyqsToSubjectSingle(dto.subjectId, dto.pyqs);
+  }
+
   @Post('addNotesToSubject')
   async addNotesToSubject(@Body() dto: AddNotesDTO) {
     console.log(dto);
-    return this.notesService.addNotesToSubject(dto);
+    return this.notesService.addNotesToSubject(dto);  
   }
 
-  @Get('getPYQSByBranchIdAndSemesterId')
+  @Get('getPYQSByBranchIdAndSemesterId') 
   async getPYQSByBranchIdAndSemesterId(
     @Query() dto: { branchId: string; semesterId: string },
   ) {

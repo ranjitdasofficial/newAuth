@@ -60,6 +60,21 @@ export class AddPyqsDTO {
   }[];
 }
 
+export class AddPyqsSingleDTO {
+  @IsString()
+  subjectId: string;
+
+  @IsObject()
+  pyqs: {
+    mimeType: string;
+    year: string;
+    type: string;
+    name: string;
+    Question: string;
+    solution: string | null;
+  };
+}
+
 // type PYQSVerify{
 //   id       String // Unique identifier for PYQS
 //   name     String
@@ -87,19 +102,18 @@ export class SolutionDto {
   subjectId: string;
 
   @IsObject()
-  pyqs:{
+  pyqs: {
     id: string;
     name: string;
     year: string;
     type: string;
-  }
+  };
 
   @IsString()
-  fileId:string
+  fileId: string;
 
   @IsString()
   upiId: string;
-
 
   @IsString()
   userId: string;

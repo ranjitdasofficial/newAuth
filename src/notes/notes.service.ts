@@ -273,10 +273,134 @@ export class NotesService {
         },
       });
 
-      return updateSubject;
+      if(!updateSubject) throw new InternalServerErrorException("Failed to update");
+      return {
+        message:"Successfully Uploaded"
+      };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+  async addPyqsToSubjectSingle(
+    subjectId: string,
+    pyqs: {
+      mimeType: string;
+      year: string;
+      type: string;
+      name: string;
+      Question: string;
+      solution: string | null;
+    },
+  ) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const updateSubject = await this.prismaService.subject.update({
+        where: { id: subjectId },
+        data: {
+          pyqs:{
+            push:{
+              ...pyqs,
+              status: pyqs.solution ? 'VERIFIED' : 'NO-SOLUTION',
+            }
+          }
+        },
+      });
+
+      // return {
+      //   ...p,
+      //   status: p.solution ? 'VERIFIED' : 'NO-SOLUTION',
+      // };
+
+      if(!updateSubject) throw new InternalServerErrorException("Failed to update");
+      return {
+        message:"Successfully Uploaded"
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+
+  async deletePYQS(dto: {pyqsId: string,subjectId: string,solutionId: string|null}){
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      if(dto.solutionId){
+        await this.driveService.deleteFile(dto.solutionId);
+      }
+      const pyqs = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          pyqs:{
+            deleteMany:{
+              where:{
+                id:dto.pyqsId
+              }
+            }
+          }
+        },
+      });
+      if(!pyqs) throw new InternalServerErrorException("Failed to delete");
+      return {
+        message:"Successfully Deleted"
+      };
+
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+      
+    }
+  }
+
+
+  async deleteSolution(dto: {pyqsId: string,subjectId: string,solutionId: string}){
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      await this.driveService.deleteFile(dto.solutionId);
+      const pyqs = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          pyqs:{
+            updateMany:{
+              where:{
+                id:dto.pyqsId
+              },
+              data:{
+                solution:null,
+                status:"NO-SOLUTION"
+              }
+            }
+          }
+        },
+      });
+      if(!pyqs) throw new InternalServerErrorException("Failed to delete");
+      return {
+        message:"Successfully Deleted"
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+      
     }
   }
 
@@ -428,7 +552,14 @@ export class NotesService {
       // if (!file || !pyqs.id || !pyqs.name || !pyqs.type || !pyqs.year)
       //   throw new UnauthorizedException('Please provide valid data');
 
-      if(!dto.fileId || !dto.pyqs.id || !dto.pyqs.name || !dto.pyqs.type || !dto.pyqs.year) throw new BadRequestException('Please provide valid data');
+      if (
+        !dto.fileId ||
+        !dto.pyqs.id ||
+        !dto.pyqs.name ||
+        !dto.pyqs.type ||
+        !dto.pyqs.year
+      )
+        throw new BadRequestException('Please provide valid data');
 
       const subject = await this.prismaService.subject.findUnique({
         where: {

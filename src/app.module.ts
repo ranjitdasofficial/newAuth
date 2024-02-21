@@ -45,7 +45,7 @@ import { NotesController } from './notes/notes.controller';
       }, 
     },
     defaults: {
-      from: 'KIIT-CONNECT<support@kiitconnect.live>',
+      from: 'KIIT-CONNECT<account@kiitconnect.live>',
     },
     template: {
       dir: path.join(__dirname , '../src/template'), // Replace with the actual path to your templates
