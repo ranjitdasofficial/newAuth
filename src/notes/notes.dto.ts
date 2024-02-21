@@ -86,9 +86,16 @@ export class SolutionDto {
   @IsString()
   subjectId: string;
 
+  @IsObject()
+  pyqs:{
+    id: string;
+    name: string;
+    year: string;
+    type: string;
+  }
+
   @IsString()
- 
-  pyqs: string
+  fileId:string
 
   @IsString()
   upiId: string;

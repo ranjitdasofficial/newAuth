@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -420,19 +421,21 @@ export class NotesService {
     }
   }
 
-  async addSolutionToPyqs(dto: SolutionDto, file: Express.Multer.File) {
+  async addSolutionToPyqs(dto: SolutionDto) {
     try {
-      const pyqs: pyqs = JSON.parse(dto.pyqs);
+      // const pyqs: pyqs = JSON.parse(dto.pyqs);
+      //
+      // if (!file || !pyqs.id || !pyqs.name || !pyqs.type || !pyqs.year)
+      //   throw new UnauthorizedException('Please provide valid data');
 
-      if (!file || !pyqs.id || !pyqs.name || !pyqs.type || !pyqs.year)
-        throw new UnauthorizedException('Please provide valid data');
+      if(!dto.fileId || !dto.pyqs.id || !dto.pyqs.name || !dto.pyqs.type || !dto.pyqs.year) throw new BadRequestException('Please provide valid data');
 
       const subject = await this.prismaService.subject.findUnique({
         where: {
           id: dto.subjectId,
           pyqs: {
             some: {
-              id: pyqs.id,
+              id: dto.pyqs.id,
               OR: [{ status: 'REVIEW' }, { status: 'VERIFIED' }],
             },
           },
@@ -444,23 +447,10 @@ export class NotesService {
           'Already Updated or Uploaded by someone else',
         );
 
-      const buffer = await this.streamToBuffer(fs.createReadStream(file.path));
-
-      const driveId = await this.driveService.uploadSolution(
-        buffer,
-        file.originalname,
-        '1MzhwKlQj2PdwXOqsjh97Q88jDVIcSB8x',
-        file.mimetype,
-        file.path,
-      );
-
-      if (!driveId)
-        throw new InternalServerErrorException('Not able to Upload file');
-
       const crateReview = await this.prismaService.verifySolution.create({
         data: {
-          pyqs: pyqs,
-          solution: driveId,
+          pyqs: dto.pyqs,
+          solution: dto.fileId,
           status: 'REVIEW',
           // subjectName:dto.subjectName,
           subjectId: dto.subjectId,
@@ -480,7 +470,7 @@ export class NotesService {
           pyqs: {
             updateMany: {
               where: {
-                id: pyqs.id,
+                id: dto.pyqs.id,
                 status: 'NO-SOLUTION',
               },
               data: {
@@ -516,7 +506,6 @@ export class NotesService {
   ) {
     // console.log(status, subjecId, pyqsId, createdById);
     try {
-
       const isReviewExist = await this.prismaService.verifySolution.findUnique({
         where: {
           id: createdById,
@@ -540,21 +529,21 @@ export class NotesService {
         if (!ap)
           throw new InternalServerErrorException('Failed to Update Review');
         if (ap.status === 'REJECTED' && ap.solution) {
-          try {
-            await this.driveService.deleteFile(ap.solution);
-          } catch (error) {
-            await this.prismaService.verifySolution.update({
-              where: {
-                id: createdById,
-              },
-              data: {
-                status: 'REVIEW',
-                paymentStatus: 'PENDING',
-                rejectedReason: null,
-              },
-            });
-            throw error;
-          }
+          // try {
+          //   await this.driveService.deleteFile(ap.solution);
+          // } catch (error) {
+          //   await this.prismaService.verifySolution.update({
+          //     where: {
+          //       id: createdById,
+          //     },
+          //     data: {
+          //       status: 'REVIEW',
+          //       paymentStatus: 'PENDING',
+          //       rejectedReason: null,
+          //     },
+          //   });
+          //   throw error;
+          // }
           await this.prismaService.subject.update({
             where: {
               id: isReviewExist.subjectId,
@@ -641,12 +630,12 @@ export class NotesService {
       return await this.prismaService.verifySolution.findMany({
         include: {
           user: true,
-          subject:{
-            select:{
-              name:true,
-              id:true
-            }
-          }
+          subject: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -662,14 +651,14 @@ export class NotesService {
         where: {
           userId: userId,
         },
-        include:{
-          subject:{
-            select:{
-              name:true,
-              id:true
-            }
-          }
-        }
+        include: {
+          subject: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
       });
 
       const totalEarned = await this.prismaService.user.findUnique({
@@ -694,12 +683,12 @@ export class NotesService {
       return await this.prismaService.verifySolution.findMany({
         include: {
           user: true,
-          subject:{
-            select:{
-              name:true,
-              id:true
-            }
-          }
+          subject: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
         orderBy: {
           createdAt: 'desc',

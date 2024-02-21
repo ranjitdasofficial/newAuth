@@ -108,15 +108,15 @@ export class NotesController {
     return this.notesService.updateDocuments();
   }
 
-  @UseInterceptors(FileInterceptor('file'))
+
   @Post('addSolutionsToPyqs')
   async addSolutionsToPyqs(
-    @UploadedFile() file: Express.Multer.File,
+
     @Body() dto: SolutionDto,
   ) {
-    console.log(dto, JSON.parse(dto.pyqs), file);
-    return this.notesService.addSolutionToPyqs(dto, file);
-  }
+    console.log(dto);
+    return this.notesService.addSolutionToPyqs(dto);
+  } 
 
   @Post('ActionOnSolutionReview')
   async actionOnSolutionReview(

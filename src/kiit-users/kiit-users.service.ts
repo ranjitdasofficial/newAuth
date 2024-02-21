@@ -2730,7 +2730,7 @@ export class KiitUsersService {
       {
         name: '3818 SUBHAM MOHARANA',
         email: '22053818@kiit.ac.in',
-      },
+      }, 
       {
         name: '2628_AyushKumar',
         email: '22052628@kiit.ac.in',
