@@ -16,6 +16,9 @@ export class NoteDTO {
 
   @IsString()
   id: string;
+
+  @IsString()
+  Notes: string;
 }
 
 export class AddNotesDTO {
@@ -33,6 +36,17 @@ export class AddNotesDTO {
   // @ValidateNested({ each: true, }) // Skip validation for properties not defined in NoteDTO
   @Type(() => NoteDTO) // Use Type decorator to ensure transformation is applied
   Notes: NoteDTO[];
+}
+
+export class AddNotesSingleDTO {
+  @IsString()
+  subjectId: string;
+
+  @IsObject()
+  Note: {
+    name: string;
+    Notes: string;
+  };
 }
 
 export class AddPyqsDTO {
@@ -107,6 +121,7 @@ export class SolutionDto {
     name: string;
     year: string;
     type: string;
+    Question: string;
   };
 
   @IsString()

@@ -177,9 +177,10 @@ model kiitsocial {
 type Note {
   id       String  @default(uuid()) // Unique identifier for notes
   name     String
-  mimeType String
+  mimeType String? @default("application/pdf")
+  isDownloadable Boolean @default(false)
   status   String? @default("VERIFIED")
-  Notes    String?
+  Notes    String
 }
 
 type PYQS {
@@ -230,6 +231,7 @@ type PYQSVerify {
   name String
   year String
   type String
+  Question String?
 }
 
 model VerifySolution {

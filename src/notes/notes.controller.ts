@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { AddNotesDTO, AddPyqsDTO, AddPyqsSingleDTO, SolutionDto } from './notes.dto';
+import { AddNotesDTO, AddNotesSingleDTO, AddPyqsDTO, AddPyqsSingleDTO, SolutionDto } from './notes.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('notes')
@@ -101,6 +101,17 @@ export class NotesController {
     return this.notesService.addNotesToSubject(dto);  
   }
 
+  @Post('addNotesToSubjectSingle')
+  async addNotesToSubjectSingle(@Body() dto: AddNotesSingleDTO) {
+    console.log(dto);
+    return this.notesService.addNotesToSubjectSingle(dto);
+  }
+
+  @Post('deleteNotes')
+  async deleteNotes(@Body() dto: { noteId: string, subjectId: string }) {
+    return this.notesService.deleteNote(dto);
+  }
+
   @Get('getPYQSByBranchIdAndSemesterId') 
   async getPYQSByBranchIdAndSemesterId(
     @Query() dto: { branchId: string; semesterId: string },
@@ -171,4 +182,7 @@ export class NotesController {
   async getAllSubmission(){
     return this.notesService.getAllSubmission();
   }
+
+
+
 }

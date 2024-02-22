@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { AddNotesDTO, SolutionDto } from './notes.dto';
+import { AddNotesDTO, AddNotesSingleDTO, SolutionDto } from './notes.dto';
 import { Readable } from 'stream';
 
 import * as fs from 'fs';
@@ -427,6 +427,66 @@ export class NotesService {
     }
   }
 
+  async addNotesToSubjectSingle(dto: AddNotesSingleDTO) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const updateSubject = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          notes:{
+            push:dto.Note
+          },
+        },
+      });
+
+      return updateSubject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+
+  async deleteNote(dto: {noteId: string,subjectId: string}){
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const notes = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          notes:{
+            deleteMany:{
+              where:{
+                id:dto.noteId
+              }
+            }
+          }
+        },
+      });
+      if(!notes) throw new InternalServerErrorException("Failed to delete");
+      return {
+        message:"Successfully Deleted"
+      };
+
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+      
+    }
+  }
+
+
   async getPYQSByBranchIdAndSemesterId(branchId: string, semesterId: string) {
     try {
       const branch = await this.prismaService.branch.findUnique({
@@ -813,7 +873,11 @@ export class NotesService {
     try {
       return await this.prismaService.verifySolution.findMany({
         include: {
-          user: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
           subject: {
             select: {
               name: true,
@@ -829,4 +893,6 @@ export class NotesService {
       throw new InternalServerErrorException('Internal Server Error!');
     }
   }
+
+
 }
