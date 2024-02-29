@@ -273,9 +273,10 @@ export class NotesService {
         },
       });
 
-      if(!updateSubject) throw new InternalServerErrorException("Failed to update");
+      if (!updateSubject)
+        throw new InternalServerErrorException('Failed to update');
       return {
-        message:"Successfully Uploaded"
+        message: 'Successfully Uploaded',
       };
     } catch (error) {
       console.log(error);
@@ -305,12 +306,12 @@ export class NotesService {
       const updateSubject = await this.prismaService.subject.update({
         where: { id: subjectId },
         data: {
-          pyqs:{
-            push:{
+          pyqs: {
+            push: {
               ...pyqs,
               status: pyqs.solution ? 'VERIFIED' : 'NO-SOLUTION',
-            }
-          }
+            },
+          },
         },
       });
 
@@ -319,9 +320,10 @@ export class NotesService {
       //   status: p.solution ? 'VERIFIED' : 'NO-SOLUTION',
       // };
 
-      if(!updateSubject) throw new InternalServerErrorException("Failed to update");
+      if (!updateSubject)
+        throw new InternalServerErrorException('Failed to update');
       return {
-        message:"Successfully Uploaded"
+        message: 'Successfully Uploaded',
       };
     } catch (error) {
       console.log(error);
@@ -329,8 +331,11 @@ export class NotesService {
     }
   }
 
-
-  async deletePYQS(dto: {pyqsId: string,subjectId: string,solutionId: string|null}){
+  async deletePYQS(dto: {
+    pyqsId: string;
+    subjectId: string;
+    solutionId: string | null;
+  }) {
     try {
       const subject = await this.prismaService.subject.findUnique({
         where: { id: dto.subjectId },
@@ -339,35 +344,36 @@ export class NotesService {
         throw new NotFoundException('Subject not found');
       }
 
-      if(dto.solutionId){
+      if (dto.solutionId) {
         await this.driveService.deleteFile(dto.solutionId);
       }
       const pyqs = await this.prismaService.subject.update({
         where: { id: dto.subjectId },
         data: {
-          pyqs:{
-            deleteMany:{
-              where:{
-                id:dto.pyqsId
-              }
-            }
-          }
+          pyqs: {
+            deleteMany: {
+              where: {
+                id: dto.pyqsId,
+              },
+            },
+          },
         },
       });
-      if(!pyqs) throw new InternalServerErrorException("Failed to delete");
+      if (!pyqs) throw new InternalServerErrorException('Failed to delete');
       return {
-        message:"Successfully Deleted"
+        message: 'Successfully Deleted',
       };
-
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error');
-      
     }
   }
 
-
-  async deleteSolution(dto: {pyqsId: string,subjectId: string,solutionId: string}){
+  async deleteSolution(dto: {
+    pyqsId: string;
+    subjectId: string;
+    solutionId: string;
+  }) {
     try {
       const subject = await this.prismaService.subject.findUnique({
         where: { id: dto.subjectId },
@@ -380,27 +386,26 @@ export class NotesService {
       const pyqs = await this.prismaService.subject.update({
         where: { id: dto.subjectId },
         data: {
-          pyqs:{
-            updateMany:{
-              where:{
-                id:dto.pyqsId
+          pyqs: {
+            updateMany: {
+              where: {
+                id: dto.pyqsId,
               },
-              data:{
-                solution:null,
-                status:"NO-SOLUTION"
-              }
-            }
-          }
+              data: {
+                solution: null,
+                status: 'NO-SOLUTION',
+              },
+            },
+          },
         },
       });
-      if(!pyqs) throw new InternalServerErrorException("Failed to delete");
+      if (!pyqs) throw new InternalServerErrorException('Failed to delete');
       return {
-        message:"Successfully Deleted"
+        message: 'Successfully Deleted',
       };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error');
-      
     }
   }
 
@@ -439,8 +444,8 @@ export class NotesService {
       const updateSubject = await this.prismaService.subject.update({
         where: { id: dto.subjectId },
         data: {
-          notes:{
-            push:dto.Note
+          notes: {
+            push: dto.Note,
           },
         },
       });
@@ -452,8 +457,7 @@ export class NotesService {
     }
   }
 
-
-  async deleteNote(dto: {noteId: string,subjectId: string}){
+  async deleteNote(dto: { noteId: string; subjectId: string }) {
     try {
       const subject = await this.prismaService.subject.findUnique({
         where: { id: dto.subjectId },
@@ -465,27 +469,24 @@ export class NotesService {
       const notes = await this.prismaService.subject.update({
         where: { id: dto.subjectId },
         data: {
-          notes:{
-            deleteMany:{
-              where:{
-                id:dto.noteId
-              }
-            }
-          }
+          notes: {
+            deleteMany: {
+              where: {
+                id: dto.noteId,
+              },
+            },
+          },
         },
       });
-      if(!notes) throw new InternalServerErrorException("Failed to delete");
+      if (!notes) throw new InternalServerErrorException('Failed to delete');
       return {
-        message:"Successfully Deleted"
+        message: 'Successfully Deleted',
       };
-
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error');
-      
     }
   }
-
 
   async getPYQSByBranchIdAndSemesterId(branchId: string, semesterId: string) {
     try {
@@ -526,9 +527,10 @@ export class NotesService {
         name: true,
         SUBCODE: true,
         id: true,
+        folderId:true
       };
 
-      console.log(dto.type === 'pyqs', dto.type);
+      // console.log(dto.type === 'pyqs', dto.type);
 
       if (dto.type === 'pyqs') {
         selectFields.pyqs = true;
@@ -553,10 +555,10 @@ export class NotesService {
               },
             },
           },
-        },
+        }, 
       });
-
-      console.log(material);
+ 
+      // console.log(material);
 
       return material;
     } catch (error) {
@@ -612,6 +614,7 @@ export class NotesService {
       // if (!file || !pyqs.id || !pyqs.name || !pyqs.type || !pyqs.year)
       //   throw new UnauthorizedException('Please provide valid data');
 
+      console.log(dto);
       if (
         !dto.fileId ||
         !dto.pyqs.id ||
@@ -894,5 +897,122 @@ export class NotesService {
     }
   }
 
+  async createfolder() {
+    try {
+      const allSubjects = await this.prismaService.subject.findMany({});
+      for (const sub of allSubjects) {
+        const createSUbjectFolder = await this.driveService.createFolder(
+          sub.name,
+        );
+        if (!createSUbjectFolder) {
+          throw new InternalServerErrorException('Failed to create folder');
+        }
 
+        await this.prismaService.subject.update({
+          where: {
+            id: sub.id,
+          },
+          data: {
+            folderId: createSUbjectFolder,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async updateQuestions(subjectId: string, PyqId: string, Question: string,Type:string) {
+    try {
+
+      console.log(!subjectId , !PyqId , !Question , !Type,subjectId,PyqId,Question,Type)
+      if(!subjectId || !PyqId || !Question || !Type) throw new BadRequestException('Please provide all the required fields');
+
+      console.log(PyqId,subjectId,Question,Type);
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+      const updateSUbject =  await this.prismaService.subject.update({
+        where:{
+          id:subjectId
+      },
+      data:{
+        pyqs:{
+          updateMany:{
+            where:{
+              id:PyqId
+            },
+            data:{
+              Question:Question,
+              type:Type,
+            }
+          
+          }
+        }
+      }
+    }
+      )
+      
+
+      console.log(updateSUbject)
+      // console.log(subject.pyqs);
+
+      if (!updateSUbject)
+        throw new InternalServerErrorException('Failed to update');
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+
+  async testC(){
+
+    const subjectId="65d2211d1bdc9aab41338806";
+    const PyqId="2bd33cf1-eca6-4fd0-a23c-2e6677da93bb";
+    try {
+      // const findUnique = await this.prismaService.subject.findMany({
+      //   where:{
+      //     id:subjectId,
+      //     pyqs:{
+      //       some:{
+      //         id:PyqId
+      //       }
+      //     }
+      //   }
+      // })
+
+      const updateSUbject =  await this.prismaService.subject.update({
+        where:{
+          id:subjectId
+      },
+      data:{
+        pyqs:{
+          updateMany:{
+            where:{
+              id:PyqId
+            },
+            data:{
+              Question:"Hello",
+              type:"MCQ",
+            }
+          
+          }
+        }
+      }
+    }
+      )
+
+      console.log(updateSUbject)
+      return updateSUbject
+    } catch (error) {
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
 }

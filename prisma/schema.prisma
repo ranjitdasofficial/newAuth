@@ -175,12 +175,12 @@ model kiitsocial {
 //
 
 type Note {
-  id       String  @default(uuid()) // Unique identifier for notes
-  name     String
-  mimeType String? @default("application/pdf")
+  id             String  @default(uuid()) // Unique identifier for notes
+  name           String
+  mimeType       String? @default("application/pdf")
   isDownloadable Boolean @default(false)
-  status   String? @default("VERIFIED")
-  Notes    String
+  status         String? @default("VERIFIED")
+  Notes          String
 }
 
 type PYQS {
@@ -189,7 +189,7 @@ type PYQS {
   year               String
   type               String
   status             String?
-  solutionUploadedBy String?  @db.ObjectId
+  solutionUploadedBy String? @db.ObjectId
   QuestionUploadedBy String? @db.ObjectId
   mimeType           String?
   Question           String?
@@ -197,17 +197,18 @@ type PYQS {
 }
 
 model Subject {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  SUBCODE     String?
-  Credit      String?
-  description String?
-  notes       Note[]
-  pyqs        PYQS[]
-  semesterId  String[]   @db.ObjectId
-  semester    Semester[] @relation(fields: [semesterId], references: [id])
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  SUBCODE       String?
+  Credit        String?
+  description   String?
+  folderId      String?
+  notes         Note[]
+  pyqs          PYQS[]
+  semesterId    String[]         @db.ObjectId
+  semester      Semester[]       @relation(fields: [semesterId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
   verfySolution VerifySolution[]
 }
 
@@ -227,28 +228,28 @@ model Semester {
 }
 
 type PYQSVerify {
-  id   String // Unique identifier for PYQS
-  name String
-  year String
-  type String
+  id       String // Unique identifier for PYQS
+  name     String
+  year     String
+  type     String
   Question String?
 }
 
 model VerifySolution {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  solution    String
-  status      String     @default("REVIEW")
-  maxAttempts Int?       @default(2)
-  upiId       String
-  pyqs        PYQSVerify
-  paymentStatus String?  @default("PENDING")
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  solution       String
+  status         String     @default("REVIEW")
+  maxAttempts    Int?       @default(2)
+  upiId          String
+  pyqs           PYQSVerify
+  paymentStatus  String?    @default("PENDING")
   rejectedReason String?
-  userId      String     @db.ObjectId
-  user        User       @relation(fields: [userId], references: [id])
-  subjectId   String     @db.ObjectId
-  subject     Subject    @relation(fields: [subjectId], references: [id])
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  userId         String     @db.ObjectId
+  user           User       @relation(fields: [userId], references: [id])
+  subjectId      String     @db.ObjectId
+  subject        Subject    @relation(fields: [subjectId], references: [id])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
 
 // model Subject {

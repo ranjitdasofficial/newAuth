@@ -128,7 +128,7 @@ async passwordChanged(to: string,username:string) {
 async sendPaymentReminder(data:{email:string,name:string,branch:string,year:string}) {
   await this.mailService.sendMail({
     to: data.email,
-    subject: 'Payment Reminder!',
+    subject: 'Access well structured Pyqs/Solution and Notes.Are you still thinking?',
     template: 'payment-remainder', // Name of your template file without extension
     context:data,
   }).then(()=>{ 
@@ -145,11 +145,48 @@ async sendNotPremium(name:string,email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Join KIIT-CONNECT Premium!',
-    template: 'not-premium', // Name of your template file without extension
+    subject: 'Tired of Searching for Notes and PYQS? Get it all at one place!',
+    template: 'non-registered', // Name of your template file without extension
     context:{
       name:name
     },
+  }).then(()=>{
+    console.log("Email Has been Sent",index,email,name);
+  } 
+  ).catch((err)=>{
+    console.log(err);
+  });
+
+}
+
+
+async sendMailToNonKiitconnectUser(name:string,email:string,index:number){
+  if(!email){
+    return;
+  }
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'KIIT-CONNECT - Registration is closing tonight!',
+    template: 'non-registered', // Name of your template file without extension
+    context:{
+      name:name
+    },
+  }).then(()=>{
+    console.log("Email Has been Sent",index);
+  } 
+  ).catch((err)=>{
+    console.log(err);
+  });
+
+}
+async sendMailToNonKiitconnectUserSem4(email:string,index:number){
+  if(!email){
+    return;
+  }
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Access well structured Pyqs/Solution and Notes.Are you still thinking?',
+    template: '2nd-sem', // Name of your template file without extension
   }).then(()=>{
     console.log("Email Has been Sent",index);
   } 

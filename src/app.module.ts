@@ -35,17 +35,38 @@ import { NotesController } from './notes/notes.controller';
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-      // service:"Mailgun",
-    host: 'smtp.gmail.com',
-
-      auth: {
+    pool: true,
+    // host: 'smtp.gmail.com',
+    host: 'smtp.mailgun.com',
+    // host:"rdmails.me",
+    // port: 25,
+    port:587,
+      auth: { 
         user: `${process.env.MAIL_USERNAME}`,
         pass: `${process.env.MAIL_PASSWORD}`,
+
+
+        // user: `postmaster@kiitconnect.live`,
+        // pass: `ee2d617b16ea7116cb06a66ca6d223a2-408f32f3-2dc250bf`,
+
+
+        //  user: `support@rdmails.me`,
+        // pass: `Hijecked@#98`,
       
       }, 
+      tls:{ 
+        rejectUnauthorized:false
+      }
     },
     defaults: {
-      from: 'KIIT-CONNECT<account@kiitconnect.live>',
+      // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
+      // from: 'KIIT-CONNECT<notifications@kiitconnect.live>',
+      // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
+      // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
+      from: 'KIIT-CONNECT <mail@kiitconnect.live>',
+      // from: 'KIIT-CONNECT <support@rdmails.me>',
+      // from: 'KIIT-CONNECT<account@kiitconnect.live>',
+      // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
     },
     template: {
       dir: path.join(__dirname , '../src/template'), // Replace with the actual path to your templates
@@ -57,5 +78,5 @@ import { NotesController } from './notes/notes.controller';
   }), KiitsocialModule, KiitUsersModule, NotesModule],
   controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController],
   providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService ],
-})
+}) 
 export class AppModule {}

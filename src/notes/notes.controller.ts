@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -10,7 +11,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { AddNotesDTO, AddNotesSingleDTO, AddPyqsDTO, AddPyqsSingleDTO, SolutionDto } from './notes.dto';
+import {
+  AddNotesDTO,
+  AddNotesSingleDTO,
+  AddPyqsDTO,
+  AddPyqsSingleDTO,
+  SolutionDto,
+} from './notes.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('notes')
@@ -79,13 +86,22 @@ export class NotesController {
     return this.notesService.addPyqsToSubject(dto.subjectId, dto.pyqs);
   }
 
-  @Post("deletePYQS")
-  async deletePYQS(@Body() dto: {pyqsId: string,subjectId: string,solutionId: string|null}){
+  @Post('deletePYQS')
+  async deletePYQS(
+    @Body()
+    dto: {
+      pyqsId: string;
+      subjectId: string;
+      solutionId: string | null;
+    },
+  ) {
     return this.notesService.deletePYQS(dto);
-  } 
-  
-  @Post("deleteSolution")
-  async deleteSolution(@Body() dto: {pyqsId: string,subjectId: string,solutionId: string}){
+  }
+
+  @Post('deleteSolution')
+  async deleteSolution(
+    @Body() dto: { pyqsId: string; subjectId: string; solutionId: string },
+  ) {
     return this.notesService.deleteSolution(dto);
   }
 
@@ -98,7 +114,7 @@ export class NotesController {
   @Post('addNotesToSubject')
   async addNotesToSubject(@Body() dto: AddNotesDTO) {
     console.log(dto);
-    return this.notesService.addNotesToSubject(dto);  
+    return this.notesService.addNotesToSubject(dto);
   }
 
   @Post('addNotesToSubjectSingle')
@@ -108,11 +124,11 @@ export class NotesController {
   }
 
   @Post('deleteNotes')
-  async deleteNotes(@Body() dto: { noteId: string, subjectId: string }) {
+  async deleteNotes(@Body() dto: { noteId: string; subjectId: string }) {
     return this.notesService.deleteNote(dto);
   }
 
-  @Get('getPYQSByBranchIdAndSemesterId') 
+  @Get('getPYQSByBranchIdAndSemesterId')
   async getPYQSByBranchIdAndSemesterId(
     @Query() dto: { branchId: string; semesterId: string },
   ) {
@@ -135,15 +151,11 @@ export class NotesController {
     return this.notesService.updateDocuments();
   }
 
-
   @Post('addSolutionsToPyqs')
-  async addSolutionsToPyqs(
-
-    @Body() dto: SolutionDto,
-  ) {
+  async addSolutionsToPyqs(@Body() dto: any) {
     console.log(dto);
     return this.notesService.addSolutionToPyqs(dto);
-  } 
+  }
 
   @Post('ActionOnSolutionReview')
   async actionOnSolutionReview(
@@ -161,28 +173,57 @@ export class NotesController {
     );
   }
 
-
   @Get('getAllReviewSolution')
-  async getAllReviewSolution(){
+  async getAllReviewSolution() {
     return this.notesService.getSolutionReview();
   }
 
-  @Get("mysubmission")
-  async getMySubmission(@Query() dto: {userId: string}){
+  @Get('mysubmission')
+  async getMySubmission(@Query() dto: { userId: string }) {
     return this.notesService.getMySubmission(dto.userId);
   }
 
-
-  @Get("payToUser/:refId")
-  async payToUser(@Param("refId") refId:string){
+  @Get('payToUser/:refId')
+  async payToUser(@Param('refId') refId: string) {
     return this.notesService.paidToUser(refId);
   }
 
-  @Get("getAllSubmission")
-  async getAllSubmission(){
+  @Get('getAllSubmission')
+  async getAllSubmission() {
     return this.notesService.getAllSubmission();
   }
 
+  // CReating folders for all subjects
+
+  @Get('CreateSubjectFolder')
+  async createSubjectFolder() {
+    return await this.notesService.createfolder();
+  }
+   
+  @Post('updatePYQSQuestion')
+  async updatePYQSQuestion(
+    @Body()
+    dto: {
+      subjectId: string;
+      pyqId: string;
+      Question: string;
+      Type: string;
+    },
+  ) {
+    console.log("dto",dto);
+    // if (!dto.subjectId || !dto.PyqId || !dto.Question || !dto.Type)
+    //   throw new BadRequestException('Please provide all the required fields');
+    return this.notesService.updateQuestions(
+      dto.subjectId,
+      dto.pyqId,
+      dto.Question,
+      dto.Type,
+    );
+  }
 
 
+  @Get("testsub")
+  async testsub() {
+    return this.notesService.testC();
+  }
 }
