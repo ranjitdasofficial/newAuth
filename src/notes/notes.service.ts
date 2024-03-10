@@ -130,6 +130,7 @@ export class NotesService {
   }
   async addExistingSubjectToSemester(subjectId: string, semesterId: string) {
     try {
+      if(!subjectId || !semesterId) throw new BadRequestException('Please provide valid data');
       const existingSubject = await this.prismaService.subject.findUnique({
         where: { id: subjectId },
         include: { semester: true },
@@ -149,6 +150,46 @@ export class NotesService {
           data: {
             semester: {
               connect: { id: semesterId },
+            },
+          },
+          include: { semester: true },
+        });
+
+        return updatedSubject;
+      }
+
+      // Return the existing subject if already associated with the semester
+      return existingSubject;
+    } catch (error) {
+      console.log(error);
+      // Handle errors gracefully
+      throw new InternalServerErrorException(
+        'Error while adding subject to semester',
+      );
+    }
+  }
+
+  async removeSubjectFromSemester(subjectId: string, semesterId: string) {
+    try {
+      const existingSubject = await this.prismaService.subject.findUnique({
+        where: { id: subjectId },
+        include: { semester: true },
+      });
+
+      if (!existingSubject) {
+        return null;
+      }
+
+      const isAlreadyAssociated = existingSubject.semester.some(
+        (semester) => semester.id === semesterId,
+      );
+
+      if (isAlreadyAssociated) {
+        const updatedSubject = await this.prismaService.subject.update({
+          where: { id: subjectId },
+          data: {
+            semester: {
+              disconnect: { id: semesterId },
             },
           },
           include: { semester: true },
@@ -209,15 +250,90 @@ export class NotesService {
   async getAllSubjects() {
     try {
       return await this.prismaService.subject.findMany({
-        select: {
+        select: { 
           id: true,
           name: true,
-          //   SUBCODE:true,
-          //   Credit:true
+          SUBCODE: true,
+          Credit: true,  
+          folderId: true,
         },
       });
     } catch (error) {
       throw new InternalServerErrorException('Internal Server Error!');
+    }
+  }
+
+
+  async getAllSemesterAndBranch(){
+    try {
+      const branch= await this.prismaService.branch.findMany({
+        include:{
+          semesters:{
+            select:{
+             number:true,
+             id:true,
+            },
+
+            
+          
+          }
+        }
+      })
+
+      const allSubjects = await this.prismaService.subject.findMany({
+        select: {
+          id: true,
+          name: true,
+        }
+      });
+
+      return{
+        branch,
+        allSubjects
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Internal Server Error!');
+    }
+  }
+
+  async getSubjectsByBranchNameAndSemesterNumber(dto: {
+    branchName: string;
+    semesterNumber: string;
+  }) {
+    try {
+      const branch = await this.prismaService.branch.findUnique({
+        where: {
+          name: dto.branchName,
+        },
+        include: {
+          semesters: {
+            where: {
+              number: Number(dto.semesterNumber),
+            },
+            include: {
+              subjects: {
+                select: {
+                  name: true,
+                  SUBCODE: true,
+                  Credit: true,
+                  id: true,
+                },
+
+              },
+              branch:{
+                select:{
+                  name:true,
+                  id:true
+                }
+              }
+            },
+          },
+        },
+      });
+
+      return branch;
+    } catch (error) {
+      throw new InternalServerErrorException('Error while fetching subjects');
     }
   }
 
@@ -313,6 +429,13 @@ export class NotesService {
             },
           },
         },
+        select: {
+          pyqs: true,
+          notes: true,
+          id: true,
+          folderId: true,
+          name: true,
+        },
       });
 
       // return {
@@ -322,9 +445,7 @@ export class NotesService {
 
       if (!updateSubject)
         throw new InternalServerErrorException('Failed to update');
-      return {
-        message: 'Successfully Uploaded',
-      };
+      return updateSubject;
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error while adding pyqs');
@@ -382,7 +503,7 @@ export class NotesService {
         throw new NotFoundException('Subject not found');
       }
 
-      await this.driveService.deleteFile(dto.solutionId);
+      // await this.driveService.deleteFile(dto.solutionId);
       const pyqs = await this.prismaService.subject.update({
         where: { id: dto.subjectId },
         data: {
@@ -527,7 +648,7 @@ export class NotesService {
         name: true,
         SUBCODE: true,
         id: true,
-        folderId:true
+        folderId: true,
       };
 
       // console.log(dto.type === 'pyqs', dto.type);
@@ -555,9 +676,9 @@ export class NotesService {
               },
             },
           },
-        }, 
+        },
       });
- 
+
       // console.log(material);
 
       return material;
@@ -684,6 +805,46 @@ export class NotesService {
     }
   }
 
+  async adminAddSolution(dto: {
+    subjectId: string;
+    questionId: string;
+    solution: string;
+  }) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: {
+          id: dto.subjectId,
+        },
+      });
+
+      if (!subject) throw new NotFoundException('Subject not found');
+      const pyqs = await this.prismaService.subject.update({
+        where: {
+          id: dto.subjectId,
+        },
+        data: {
+          pyqs: {
+            updateMany: {
+              where: {
+                id: dto.questionId,
+              },
+              data: {
+                status: 'APPROVED',
+                solution: dto.solution,
+              },
+            },
+          },
+        },
+      });
+      if (!pyqs) throw new InternalServerErrorException('Failed to update');
+      return {
+        success: true,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
   private async streamToBuffer(stream: Readable): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
@@ -738,6 +899,7 @@ export class NotesService {
           //   });
           //   throw error;
           // }
+
           await this.prismaService.subject.update({
             where: {
               id: isReviewExist.subjectId,
@@ -923,42 +1085,53 @@ export class NotesService {
     }
   }
 
-  async updateQuestions(subjectId: string, PyqId: string, Question: string,Type:string) {
+  async updateQuestions(
+    subjectId: string,
+    PyqId: string,
+    Question: string,
+    Type: string,
+  ) {
     try {
+      console.log(
+        !subjectId,
+        !PyqId,
+        !Question,
+        !Type,
+        subjectId,
+        PyqId,
+        Question,
+        Type,
+      );
+      if (!subjectId || !PyqId || !Question || !Type)
+        throw new BadRequestException('Please provide all the required fields');
 
-      console.log(!subjectId , !PyqId , !Question , !Type,subjectId,PyqId,Question,Type)
-      if(!subjectId || !PyqId || !Question || !Type) throw new BadRequestException('Please provide all the required fields');
-
-      console.log(PyqId,subjectId,Question,Type);
+      console.log(PyqId, subjectId, Question, Type);
       const subject = await this.prismaService.subject.findUnique({
         where: { id: subjectId },
       });
       if (!subject) {
         throw new NotFoundException('Subject not found');
       }
-      const updateSUbject =  await this.prismaService.subject.update({
-        where:{
-          id:subjectId
-      },
-      data:{
-        pyqs:{
-          updateMany:{
-            where:{
-              id:PyqId
+      const updateSUbject = await this.prismaService.subject.update({
+        where: {
+          id: subjectId,
+        },
+        data: {
+          pyqs: {
+            updateMany: {
+              where: {
+                id: PyqId,
+              },
+              data: {
+                Question: Question,
+                type: Type,
+              },
             },
-            data:{
-              Question:Question,
-              type:Type,
-            }
-          
-          }
-        }
-      }
-    }
-      )
-      
+          },
+        },
+      });
 
-      console.log(updateSUbject)
+      console.log(updateSUbject);
       // console.log(subject.pyqs);
 
       if (!updateSUbject)
@@ -971,11 +1144,9 @@ export class NotesService {
     }
   }
 
-
-  async testC(){
-
-    const subjectId="65d2211d1bdc9aab41338806";
-    const PyqId="2bd33cf1-eca6-4fd0-a23c-2e6677da93bb";
+  async testC() {
+    const subjectId = '65d2211d1bdc9aab41338806';
+    const PyqId = '2bd33cf1-eca6-4fd0-a23c-2e6677da93bb';
     try {
       // const findUnique = await this.prismaService.subject.findMany({
       //   where:{
@@ -988,31 +1159,173 @@ export class NotesService {
       //   }
       // })
 
-      const updateSUbject =  await this.prismaService.subject.update({
-        where:{
-          id:subjectId
-      },
-      data:{
-        pyqs:{
-          updateMany:{
-            where:{
-              id:PyqId
+      const updateSUbject = await this.prismaService.subject.update({
+        where: {
+          id: subjectId,
+        },
+        data: {
+          pyqs: {
+            updateMany: {
+              where: {
+                id: PyqId,
+              },
+              data: {
+                Question: 'Hello',
+                type: 'MCQ',
+              },
             },
-            data:{
-              Question:"Hello",
-              type:"MCQ",
-            }
-          
-          }
-        }
-      }
-    }
-      )
+          },
+        },
+      });
 
-      console.log(updateSUbject)
-      return updateSUbject
+      console.log(updateSUbject);
+      return updateSUbject;
     } catch (error) {
       throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+  async getNotesAndPyqsBySubjectId(subjectId: string) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: {
+          id: subjectId,
+        },
+        select: {
+          pyqs: true,
+          notes: true,
+          id: true,
+          folderId: true,
+          name: true,
+        },
+      });
+
+      return subject;
+    } catch (error) {
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async deleteMutiplePYQSAndSolution(dto: {
+    ids: string[];
+    subjectId: string;
+    type: string;
+  }) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+      //delete based on types either Question or solution
+      const selectData =
+        dto.type === 'PYQS'
+          ? {
+              pyqs: {
+                deleteMany: {
+                  where: {
+                    id: {
+                      in: dto.ids,
+                    },
+                  },
+                },
+              },
+            }
+          : {
+              notes: {
+                deleteMany: {
+                  where: {
+                    id: {
+                      in: dto.ids,
+                    },
+                  },
+                },
+              },
+            };
+
+      const pyqs = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: selectData,
+      });
+      if (!pyqs) throw new InternalServerErrorException('Failed to delete');
+      return {
+        message: 'Successfully Deleted',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async adminAddQuestion(dto: {
+    subjectId: string;
+    note: string;
+    name: string;
+  }) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const updateSubject = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          notes: {
+            push: {
+              Notes: dto.note,
+              name: dto.name,
+              status: 'APPROVED',
+            },
+          },
+        },
+      });
+
+      return updateSubject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+  async addSubject(dto: { name: string; code?: string; credit?: string }) {
+    try {
+      const subject = await this.prismaService.subject.create({
+        data: {
+          name: dto.name,
+          SUBCODE: dto.code,
+          Credit: dto.credit,
+        },
+      });
+
+      if (!subject)
+        throw new InternalServerErrorException('Failed to add subject');
+
+      return subject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async deleteSubject(subjectId: string) {
+    try {
+      const subject = await this.prismaService.subject.delete({
+        where: {
+          id: subjectId,
+        },
+      });
+
+      if (!subject)
+        throw new InternalServerErrorException('Failed to delete subject');
+      return {
+        message: 'Successfully Deleted',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
     }
   }
 }

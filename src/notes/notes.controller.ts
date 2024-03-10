@@ -44,6 +44,20 @@ export class NotesController {
     return this.notesService.getSemestersByBranchId(branchId);
   }
 
+
+  @Get('getSubjectsByBranchNameAndSemesterNumber')
+  async getSubjectsByBranchNameAndSemesterNumber(
+    @Query() dto: { branchName: string; semesterNumber: string },
+  ) {
+    return this.notesService.getSubjectsByBranchNameAndSemesterNumber(dto);
+  }
+
+
+  @Get("getAllBranchesWithSemesters")
+  async getAllBranchesWithSemesters() {
+    return this.notesService.getAllSemesterAndBranch();
+  }
+
   @Get('getSemesterByName/:semesterName')
   async getSemesterByName(@Param('semesterName') semesterName: string) {
     return this.notesService.getSemesterByName(semesterName);
@@ -54,11 +68,25 @@ export class NotesController {
     return this.notesService.createSubject(dto.data);
   }
 
-  @Patch('addSubjectToSemester')
+  @Post('addSubjectToSemester')
   async addSubjectToSemester(
-    @Query() dto: { semesterId: string; subjectId: string },
+    @Body() dto: { semesterId: string; subjectId: string },
   ) {
+
+
+    console.log(dto)
+    
     return this.notesService.addExistingSubjectToSemester(
+      dto.subjectId,
+      dto.semesterId,
+    );
+  }
+
+  @Post("removeSubjectFromSemester")
+  async removeSubjectFromSemester(
+    @Body() dto: { semesterId: string; subjectId: string },
+  ) {
+    return this.notesService.removeSubjectFromSemester(
       dto.subjectId,
       dto.semesterId,
     );
@@ -226,4 +254,61 @@ export class NotesController {
   async testsub() {
     return this.notesService.testC();
   }
+
+  @Get("getNotesAndPYQS/:id")
+  async getNotesAndPYQS(@Param("id") id:string) {
+    console.log(id);
+    return this.notesService.getNotesAndPyqsBySubjectId(id);
+  }
+
+  @Post("deleteMultiplePYQS")
+  async deleteMultiplePYQS(@Body() dto: {
+    ids: string[];
+    subjectId: string;
+    type: string;
+  }) {
+
+    console.log(dto);
+    return this.notesService.deleteMutiplePYQSAndSolution(dto);
+  }
+
+  @Post("adminAddSolution")
+  async adminAddSolution(@Body() dto: {
+    solution: string;
+    questionId: string;
+    subjectId: string;
+  }) {
+    console.log(dto);
+    return this.notesService.adminAddSolution(dto);
+  }
+
+  @Post("adminAddQuestion")
+  async adminAddQuestion(@Body() dto: {
+    note: string;
+    subjectId: string;
+    name: string;
+  }) {
+    console.log(dto);
+    return this.notesService.adminAddQuestion(dto);
+  }
+
+  @Post("addSubject")
+  async addSubject(@Body() dto: {
+    name: string;
+    code?: string;
+    credit?:string
+  }) {
+    console.log(dto);
+    return this.notesService.addSubject(dto);
+  }
+
+  @Post("deleteSubject") 
+  async deleteSubject(@Body() dto: {
+    subjectId: string;
+  }) {
+    console.log(dto);
+    return this.notesService.deleteSubject(dto.subjectId);
+  }
+  
+
 }

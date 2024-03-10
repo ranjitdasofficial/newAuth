@@ -6,146 +6,146 @@ import { AddLinks, FacultiesContactDto, ReviewDto, TeacherDto, UpdateDataDTO } f
 
 @Controller('teacher')
 export class TeacherController {
-    constructor(private readonly teacherService:TeacherService){}
-    @Post("add/addTeacher")
-    async addTeacher(){
-        console.log("here")
-        return this.teacherService.addTeacher();
-    }
+    // constructor(private readonly teacherService:TeacherService){}
+    // @Post("add/addTeacher")
+    // async addTeacher(){
+    //     console.log("here")
+    //     return this.teacherService.addTeacher();
+    // }
 
-    // @UseGuards(NextAuth)
-    @Get("getAllElective/")
-    async getAllTeacher(){
-        return this.teacherService.getAllElective();
-    }
+    // // @UseGuards(NextAuth)
+    // @Get("getAllElective/")
+    // async getAllTeacher(){
+    //     return this.teacherService.getAllElective();
+    // }
 
-    @Get("/")
-    async getAllTea(){
-        return this.teacherService.getAllTeacher();
-    }
+    // @Get("/")
+    // async getAllTea(){
+    //     return this.teacherService.getAllTeacher();
+    // }
 
-    @Get("getData")
-    async getData(){
-        return this.teacherService.getData();
-    } 
+    // @Get("getData")
+    // async getData(){
+    //     return this.teacherService.getData();
+    // } 
     
-    @Get("getElectiveData")
-    async getElectiveData(){
-        return this.teacherService.getDataForElective();
-    }
-
-    @UseGuards(NextAuth)
-    @Post("addReview/:id")
-    async addReview(@Param("id") id:string,@Body() review:ReviewDto){
-        console.log("hello")
-        return this.teacherService.addReview(id,review);
-    }
-
-    @UseGuards(NextAuth)
-    @Post("addElectiveReview/:id")
-    async addElectiveReview(@Param("id") id:string,@Body() review:ReviewDto){
-        console.log("hello")
-        return this.teacherService.addReviewElective(id,review);
-    }
-
-    // @UseGuards(NextAuth)
-    @Get(":id")
-    async getTeacher(@Param("id") id:string){
-        return this.teacherService.getTeacherById(id);
-    }
-
-    @Get("elective/:id")
-    async getElective(@Param("id") id:string){
-        return this.teacherService.getElectiveById(id);
-    }
-
-
-    @UseGuards(NextAuth)
-    @Post("likeDislike/:id")
-    async likeDislike(@Param("id") id:string,@Body() likeDislike:{like:boolean,email:string}){
-        return this.teacherService.likeAndDislike(id,likeDislike.like,likeDislike.email);
-    }
-
-
-    @UseGuards(NextAuth)
-    @Post("likeDislikeElective/:id")
-    async likeDislikeElective(@Param("id") id:string,@Body() likeDislike:{like:boolean,email:string}){
-        return this.teacherService.likeAndDislikeReview(id,likeDislike.like,likeDislike.email);
-    }
-
-
-    // @Post('convert')
-    // async convertToGoogleSheet() {
-    //   const filePath = 'sec-2.xlsx';
-    //   const sheetTitle = 'ConvertedSheet';
-  
-    //   const spreadsheetId = await this.spreadSheetServie.convertFileToGoogleSheet(filePath, sheetTitle);
-  
-    //   return { spreadsheetId };
+    // @Get("getElectiveData")
+    // async getElectiveData(){
+    //     return this.teacherService.getDataForElective();
     // }
 
-    // @Get('spread/:spreadsheetId')
-    // async readData(@Param('spreadsheetId') spreadsheetId: string) {
-    //   const range = 'Sheet1!A1:B10'; // Update with your actual sheet and range
-    //   const data = await this.spreadSheetServie.readDataFromGoogleSheet(spreadsheetId, range);
+    // @UseGuards(NextAuth)
+    // @Post("addReview/:id")
+    // async addReview(@Param("id") id:string,@Body() review:ReviewDto){
+    //     console.log("hello")
+    //     return this.teacherService.addReview(id,review);
+    // }
+
+    // @UseGuards(NextAuth)
+    // @Post("addElectiveReview/:id")
+    // async addElectiveReview(@Param("id") id:string,@Body() review:ReviewDto){
+    //     console.log("hello")
+    //     return this.teacherService.addReviewElective(id,review);
+    // }
+
+    // // @UseGuards(NextAuth)
+    // @Get(":id")
+    // async getTeacher(@Param("id") id:string){
+    //     return this.teacherService.getTeacherById(id);
+    // }
+
+    // @Get("elective/:id")
+    // async getElective(@Param("id") id:string){
+    //     return this.teacherService.getElectiveById(id);
+    // }
+
+
+    // @UseGuards(NextAuth)
+    // @Post("likeDislike/:id")
+    // async likeDislike(@Param("id") id:string,@Body() likeDislike:{like:boolean,email:string}){
+    //     return this.teacherService.likeAndDislike(id,likeDislike.like,likeDislike.email);
+    // }
+
+
+    // @UseGuards(NextAuth)
+    // @Post("likeDislikeElective/:id")
+    // async likeDislikeElective(@Param("id") id:string,@Body() likeDislike:{like:boolean,email:string}){
+    //     return this.teacherService.likeAndDislikeReview(id,likeDislike.like,likeDislike.email);
+    // }
+
+
+    // // @Post('convert')
+    // // async convertToGoogleSheet() {
+    // //   const filePath = 'sec-2.xlsx';
+    // //   const sheetTitle = 'ConvertedSheet';
+  
+    // //   const spreadsheetId = await this.spreadSheetServie.convertFileToGoogleSheet(filePath, sheetTitle);
+  
+    // //   return { spreadsheetId };
+    // // }
+
+    // // @Get('spread/:spreadsheetId')
+    // // async readData(@Param('spreadsheetId') spreadsheetId: string) {
+    // //   const range = 'Sheet1!A1:B10'; // Update with your actual sheet and range
+    // //   const data = await this.spreadSheetServie.readDataFromGoogleSheet(spreadsheetId, range);
       
-    //   return { data };
+    // //   return { data };
+    // // }
+
+    // @Get("getNames")
+    // async getNames(){
+    //     return this.getNames();
     // }
 
-    @Get("getNames")
-    async getNames(){
-        return this.getNames();
-    }
 
-
-    //get All Links
-    @Get("links/getAllGroupLinks")
-    async getAllGroupLinks(){
-        return this.teacherService.GetAllGroupLinks();
-    }
-
-    @UseGuards(NextAuth)
-    @Post("links/addGroupLinks")
-    async addGroupLiks(@Body() dto:AddLinks ){
-        return this.teacherService.addGroupLinks(dto)
-    }
-
-
-    @Get("get/fetchAll")
-    async fetchAll(){
-        return this.teacherService.fetchAllDataFromXls();
-    }
+    // //get All Links
+    // @Get("links/getAllGroupLinks")
+    // async getAllGroupLinks(){
+    //     return this.teacherService.GetAllGroupLinks();
+    // }
 
     // @UseGuards(NextAuth)
-    @Post("add/facultiesContact")
-    async addFacultiesContact(@Body() dto:FacultiesContactDto){
-        return this.teacherService.createFacultiesContacts(dto);
-    }
+    // @Post("links/addGroupLinks")
+    // async addGroupLiks(@Body() dto:AddLinks ){
+    //     return this.teacherService.addGroupLinks(dto)
+    // }
 
-    @Get("get/facultiesContact")
-    async getFacultiesContact(){
-        return this.teacherService.getAllFacultiesContacts();
-    }
 
-    @Get("add/facultiesDetails")
-    async addFacultiesDetails(){
-        return this.teacherService.addFacultiesDetails();
-    }
+    // @Get("get/fetchAll")
+    // async fetchAll(){
+    //     return this.teacherService.fetchAllDataFromXls();
+    // }
 
-    // @UseGuards(NextAuth)
-    @Get("get/facultiesDetails")
-    async getFacultiesDetails(){
-        return this.teacherService.getFacultiesDetails();
-    }
+    // // @UseGuards(NextAuth)
+    // @Post("add/facultiesContact")
+    // async addFacultiesContact(@Body() dto:FacultiesContactDto){
+    //     return this.teacherService.createFacultiesContacts(dto);
+    // }
+
+    // @Get("get/facultiesContact")
+    // async getFacultiesContact(){
+    //     return this.teacherService.getAllFacultiesContacts();
+    // }
+
+    // @Get("add/facultiesDetails")
+    // async addFacultiesDetails(){
+    //     return this.teacherService.addFacultiesDetails();
+    // }
+
+    // // @UseGuards(NextAuth)
+    // @Get("get/facultiesDetails")
+    // async getFacultiesDetails(){
+    //     return this.teacherService.getFacultiesDetails();
+    // }
    
-    @Post("update/email")
-    async updateEmail(@Body() dto:UpdateDataDTO){
-        return this.teacherService.updateEmail(dto);
-    }
+    // @Post("update/email")
+    // async updateEmail(@Body() dto:UpdateDataDTO){
+    //     return this.teacherService.updateEmail(dto);
+    // }
 
-    @Post("update/phone")
-    async updatePhone(@Body() dto:UpdateDataDTO){
+    // @Post("update/phone")
+    // async updatePhone(@Body() dto:UpdateDataDTO){
         
-        return this.teacherService.updatePhone(dto);
-    }
+    //     return this.teacherService.updatePhone(dto);
+    // }
 }

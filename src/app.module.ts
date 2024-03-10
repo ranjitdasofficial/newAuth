@@ -28,6 +28,12 @@ import { KiitUsersModule } from './kiit-users/kiit-users.module';
 import { NotesService } from './notes/notes.service';
 import { NotesModule } from './notes/notes.module';
 import { NotesController } from './notes/notes.controller';
+import { AdminController } from './admin/admin.controller';
+import { AdminModule } from './admin/admin.module';
+import { AdminService } from './admin/admin.service';
+import { FacultiesReviewController } from './faculties-review/faculties-review.controller';
+import { FacultiesReviewModule } from './faculties-review/faculties-review.module';
+import { FacultiesReviewService } from './faculties-review/faculties-review.service';
 
 
 @Module({
@@ -75,8 +81,8 @@ import { NotesController } from './notes/notes.controller';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService ],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService],
 }) 
 export class AppModule {}

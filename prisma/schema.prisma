@@ -25,6 +25,8 @@ model User {
   kiitsocial     kiitsocial[]
   totalEarned    Int?             @default(0)
   VerifySolution VerifySolution[]
+  Review         Review[] 
+
 }
 
 model PremiumMember {
@@ -46,22 +48,23 @@ model PremiumMember {
 model Review {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
   rating        Float
-  commentedBy   String
+  userId   String @db.ObjectId @unique
+  user          User   @relation(fields: [userId], references: [id])
   internalScore Int
   comments      String
-  teacherId     String  @db.ObjectId
-  teacher       Teacher @relation(fields: [teacherId], references: [id])
+  facultyId     String  @db.ObjectId
+  faculty       FacultiesDetails @relation(fields: [facultyId], references: [id])
 }
 
-model Teacher {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  section  Int[]
-  subject  String
-  likes    String[]
-  dislikes String[]
-  reviews  Review[]
-}
+// model Teacher {
+//   id       String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name     String
+//   section  Int[]
+//   subject  String
+//   likes    String[]
+//   dislikes String[]
+//   reviews  Review[]
+// }
 
 model ElectiveReview {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -115,16 +118,27 @@ model ProfessorContacts {
 }
 
 model FacultiesDetails {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  phone       String?
-  email       String?
-  description String?
-  jobTitle    String?
-  moreInfo    String?
-  profileUrl  String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  phone             String?
+  email             String?
+  description       String?
+  jobTitle          String?
+  moreInfo          String?
+  profileUrl        String?
+
+  likesId           String[] @db.ObjectId
+  dislikesId        String[] @db.ObjectId
+// likesId String[] 
+
+  semesterSectionId String[]           @db.ObjectId
+  semesterSection   SemesterSections[] @relation(fields: [semesterSectionId], references: [id])
+  subjectId String[]  @db.ObjectId
+  subject   Subject[] @relation(fields: [subjectId], references: [id])
+  reviews   Review[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Comments {
@@ -197,7 +211,7 @@ type PYQS {
 }
 
 model Subject {
-  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  id            String             @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   SUBCODE       String?
   Credit        String?
@@ -205,26 +219,19 @@ model Subject {
   folderId      String?
   notes         Note[]
   pyqs          PYQS[]
-  semesterId    String[]         @db.ObjectId
-  semester      Semester[]       @relation(fields: [semesterId], references: [id])
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  semesterId    String[]           @db.ObjectId
+  semester      Semester[]         @relation(fields: [semesterId], references: [id])
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
   verfySolution VerifySolution[]
+  faculty       FacultiesDetails[] @relation(fields: [facultyId], references: [id])
+  facultyId     String[]           @db.ObjectId
 }
 
 model Branch {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  name      String     @unique
   semesters Semester[]
-}
-
-model Semester {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  number    Int
-  subjectId String[]  @db.ObjectId
-  subjects  Subject[] @relation(fields: [subjectId], references: [id])
-  branch    Branch    @relation(fields: [branchId], references: [id])
-  branchId  String    @unique @db.ObjectId
 }
 
 type PYQSVerify {
@@ -252,9 +259,37 @@ model VerifySolution {
   updatedAt      DateTime   @updatedAt
 }
 
-// model Subject {
-//   id         String    @id @default(cuid())
-//   name       String
-//   semester   Semester  @relation(fields: [semesterId], references: [id])
-//   semesterId String
+// model Faculties{
+//   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   phone     String?
+//   email     String?
+//   description String?
+//   jobTitle  String?
+//   moreInfo  String?
+//   profileUrl String?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
 // }
+model Semester {
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  number            Int
+  subjectId         String[]           @db.ObjectId
+  subjects          Subject[]          @relation(fields: [subjectId], references: [id])
+  branch            Branch             @relation(fields: [branchId], references: [id])
+  branchId          String             @unique @db.ObjectId
+  semesterSectionId String[]           @db.ObjectId
+  semesterSections  SemesterSections[]
+}
+
+model SemesterSections {
+  id         String             @id @default(auto()) @map("_id") @db.ObjectId
+  section    Int
+  semesterId String             @db.ObjectId
+  semester   Semester           @relation(fields: [semesterId], references: [id])
+  facultyId  String[]           @db.ObjectId
+  faculty    FacultiesDetails[] @relation(fields: [facultyId], references: [id])
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+}

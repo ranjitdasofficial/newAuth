@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -22,10 +23,15 @@ import jsPDF from 'jspdf';
 import cheerio from 'cheerio';
 import { createCanvas, loadImage } from 'canvas';
 import { exit } from 'process';
+import { JwtService } from '@nestjs/jwt';
+
+const secure = "Ranjit";
 
 @Controller('kiitusers')
 export class KiitUsersController {
-  constructor(private readonly kiitUserService: KiitUsersService) {}
+  constructor(private readonly kiitUserService: KiitUsersService,private readonly jwtService:JwtService) {}
+
+  private tokens={}
 
   @Post('registerUser')
   async registerUser(@Body() dto: KiitUserRegister) {
@@ -34,8 +40,30 @@ export class KiitUsersController {
 
   @Get('getUserByEmail/:email')
   async getUserById(@Param('email') email: string) {
-    return this.kiitUserService.getUserByEmail(email);
+    const tokens =  await this.jwtService.signAsync({email:email},{
+      expiresIn:60,
+      secret:"Ranjit",
+    });
+    this.tokens[email] = tokens;
+    console.log(this.tokens);
+    return this.kiitUserService.getUserByEmail(email,tokens);
   }
+
+  @Post('verifyTokenUser')
+  async verifyTokenUser(@Body() dto:{token:string,email:string}) {
+    try {
+      console.log("Verification",dto);
+      const verifyToken =await this.jwtService.verifyAsync(dto.token,{
+        secret:"Ranjit"
+      });
+      console.log(verifyToken);
+      return verifyToken;
+    } catch (error) {
+      console.log(dto.email,error);
+      throw new BadRequestException("Invalid Token");
+    }
+  }
+
 
   @Post('registerPremiumUser')
   async registerPremiumUser(@Body() dto: PremiumUserRegisterDto) {
@@ -75,6 +103,7 @@ export class KiitUsersController {
 
   @Post('activateUser')
   async updatePremiumUser(@Body() dto: { userId: string }) {
+    // console.log(dto)
     return this.kiitUserService.activatePremiumUser(dto.userId);
   }
 

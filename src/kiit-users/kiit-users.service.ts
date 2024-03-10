@@ -14,6 +14,8 @@ import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { StorageService } from 'src/storage/storage.service';
 import { MyMailService } from 'src/mail.service';
+// 
+// const secure = "Ranjit";
 
 @Injectable()
 export class KiitUsersService {
@@ -44,15 +46,19 @@ export class KiitUsersService {
     }
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string,token:string) {
     try {
       const user = await this.prisma.user.findUnique({
         where: {
           email: email,
         },
       });
+      console.log(user);
       if (!user) throw new NotFoundException('User not found');
-      return user;
+      return{
+        user:user,
+        tokens:token
+      };
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
@@ -277,7 +283,9 @@ export class KiitUsersService {
         },
       });
 
-      return users;
+      const filterUser =  users.filter((u)=>u.user.email.startsWith("22"))
+
+      return filterUser;
     } catch (error) {
       console.log(error);
       if (error instanceof NotFoundException) {
@@ -10611,11 +10619,638 @@ export class KiitUsersService {
   }
 
   async sendMailToNonKiitConnectUser() {
-    const users = [];
+    const users = [
+      {
+        "user": { "name": "Ranjit Das", "email": "21053420@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year" 
+      },
+      {
+        "user": { "name": "4231_SHIVAM SHAH", "email": "22054231@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "KUNAL SAW", "email": "22051344@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "730-ISHU KANT", "email": "22052730@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "1990_SURYASNATA PAITAL",
+          "email": "22051990@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2042_RIDDHIMA BISWAS", "email": "22052042@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AYUSH KUMAR", "email": "22051065@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "1898_SRINJOY KUNDU", "email": "22051898@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "386_Kashish", "email": "2205386@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AISWARYA AYASKANT", "email": "22053658@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "DEBJYOTI SHIT", "email": "22052978@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SANJIV KUMAR", "email": "22054265@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "ANIRAN SAHA", "email": "22053137@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "DEEPAYAN DAS", "email": "2205635@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "_5935_SHUBAM CHAKRABORTY",
+          "email": "2205935@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2043_ Ritajit Pal", "email": "22052043@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "589-MEGHANSH GOVIL", "email": "22051589@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4077_Ritesh Sah", "email": "22054077@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "3403-AROSREE SATAPATHY",
+          "email": "22053403@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4107 Abhisek Singh", "email": "22054107@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "514_TANYA CHAUDHARY", "email": "2205514@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "KUMAR ANURAG", "email": "22052907@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4115 - Aadya Sharma", "email": "22054115@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2164_SUBHAM BERA", "email": "22052164@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2060_SINCHAL KAR", "email": "22052060@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "4th Year"
+      },
+      {
+        "user": { "name": "6201_RANGIN BERA", "email": "2206201@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "IT",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "NILOTPAL BASU", "email": "22051085@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "3586-AVINASH PATRA", "email": "22053586@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2894_AYUSH RANJAN", "email": "22052894@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "145_Arani Maity", "email": "22053145@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "TAMONASH MAJUMDER (22053474)",
+          "email": "22053474@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SOUMYA KUMAR", "email": "22053285@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "PROGYA BHATTACHARJEE", "email": "22053007@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "1699 NISCHAY JAIN", "email": "22051699@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4403ROHIT SHARMA", "email": "22054403@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "4th Year"
+      },
+      {
+        "user": { "name": "3641 _SOURAV MALLICK", "email": "22053641@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "1008_SAHASRANSHU SHASTRI",
+          "email": "22051008@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "ARKOPRAVO DE", "email": "22051755@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "356_Niladri Nag", "email": "2206356@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "IT",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4149 POORVI SINGH", "email": "22054149@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4347_Dipesh NAYAK", "email": "22054347@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "70 Tanishq", "email": "22051470@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SOUMILI DAS", "email": "22052065@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "2715_ARYAN RAJ CHOUDHURY",
+          "email": "22052715@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "8168-SubhamMohanty", "email": "2228168@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSSE",
+        "year": "3rd Year"
+      },
+      {
+        "user": { "name": "3151_Ayush Kumar", "email": "22053151@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AMITAV MOHANTY", "email": "22053923@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "4th Year"
+      },
+      {
+        "user": { "name": "HARSHIT", "email": "2205039@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4124 BABLI SAHU", "email": "22054124@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "334_SRISHTI JAISWAL", "email": "2205334@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "HARSH SANKRIT", "email": "22051075@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "8147_Shrinkhala Kumari", "email": "2228147@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "9062_SAYAN BANERJEE", "email": "2229062@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSCE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "506_SHOVIN BARIK", "email": "2205506@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "1525_MAYUKH PATTANAYAK",
+          "email": "22051525@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SOUNAK DUTTA", "email": "22052684@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AARUSH AMBAR", "email": "22051479@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "130_Kanishk", "email": "2205130@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2429_UTKARSH NIGAM", "email": "22052429@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "VIKRAM KUMAR", "email": "22054001@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4051_Madan Pandey", "email": "22054051@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "5757_PARIDA PRATYUS SRIMAYSIS",
+          "email": "2205757@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SAUMYAJIT CHATTERJEE", "email": "2229060@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSCE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "6397_Samyog Sharma", "email": "2206397@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "IT",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "6200_Rajtanu", "email": "2206200@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "IT",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SIDDHARTHA", "email": "2228065@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "PRADEEP (22054325)", "email": "22054325@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "LOKESH SINGH", "email": "22052995@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AYUSH DAS", "email": "22053412@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SAMYA DAS", "email": "22052501@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "AKANKHYA BEURIA", "email": "22051227@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4029_Bibek Chand", "email": "22054029@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "6125_ shikhar bhadouria",
+          "email": "2206125@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "IT",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "Manish Kumar", "email": "22054241@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "2193_ Aparna Sinha", "email": "22052193@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": {
+          "name": "1697 Nikhil Aditya Nagvanshi",
+          "email": "22051697@kiit.ac.in"
+        },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SHAKYA SINHA", "email": "2205066@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "KRISHNENDU PAN", "email": "22053782@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4326_Abhishek", "email": "22054326@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SUMIT VERMA", "email": "22052426@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SATYAM RAJ", "email": "2228054@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "STUTI SRIVASTAVA", "email": "2228068@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "RAHUL PANDEY", "email": "22052841@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "4362_NISTHA Panjiyar", "email": "22054362@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      },
+      {
+        "user": { "name": "SALONI GOEL", "email": "2205497@kiit.ac.in" },
+        "paymentScreenshot": null,
+        "isActive": false,
+        "branch": "CSE",
+        "year": "2nd Year"
+      }
+    ]
+    
 
     try {
       for (let i = 0; i < users.length; i++) {
-        await this.mailService.sendNotPremium(users[i].name, users[i].email, i);
+        await this.mailService.sendNotPremium(users[i].user.name, users[i].user.email, i);
         await new Promise((resolve) => setTimeout(resolve, 2000));
       }
     } catch (error) {

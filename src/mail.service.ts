@@ -145,7 +145,7 @@ async sendNotPremium(name:string,email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Tired of Searching for Notes and PYQS? Get it all at one place!',
+    subject: 'Access COA PYQS and Solutions-KIIT-CONNECT',
     template: 'non-registered', // Name of your template file without extension
     context:{
       name:name
