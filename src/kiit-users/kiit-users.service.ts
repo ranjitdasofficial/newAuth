@@ -66,29 +66,29 @@ export class KiitUsersService {
       console.log(user);
       if (!user) throw new NotFoundException('User not found');
 
-      if (!user.isPremium) {
-        return {
-          user: user,
-        };
-      }
+      // if (!user.isPremium) {
+      //   return {
+      //     user: user,
+      //   };
+      // }
 
-      const getEmailSession: string = await this.cacheService.get(email);
-      console.log(getEmailSession);
-      let getSessionData = [];
-      if (getEmailSession) {
-        getSessionData = JSON.parse(getEmailSession);
-        console.log(getSessionData, getSessionData.length);
-        if (getSessionData.length >= 2) {
-          throw new ConflictException(
-            'Already two users are using with this id',
-          );
-        }
-      }
-      const uniqueCode = await this.generateMediaId();
+      // const getEmailSession: string = await this.cacheService.get(email);
+      // console.log(getEmailSession);
+      // let getSessionData = [];
+      // if (getEmailSession) {
+      //   getSessionData = JSON.parse(getEmailSession);
+      //   console.log(getSessionData, getSessionData.length);
+      //   if (getSessionData.length >= 2) {
+      //     throw new ConflictException(
+      //       'Already two users are using with this id',
+      //     );
+      //   }
+      // }
+      // const uniqueCode = await this.generateMediaId();
 
-      getSessionData.push(uniqueCode);
-      await this.cacheService.set(email, JSON.stringify(getSessionData));
-      console.log(getSessionData);
+      // getSessionData.push(uniqueCode);
+      // await this.cacheService.set(email, JSON.stringify(getSessionData));
+      // console.log(getSessionData);
 
       const tokens = await this.jwtService.signAsync(
         { email: email },
@@ -101,7 +101,7 @@ export class KiitUsersService {
       return {
         user: user,
         tokens: tokens,
-        uniqueCode: uniqueCode,
+        // uniqueCode: uniqueCode,
       };
     } catch (error) {
       if (
