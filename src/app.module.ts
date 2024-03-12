@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
@@ -35,9 +35,18 @@ import { FacultiesReviewController } from './faculties-review/faculties-review.c
 import { FacultiesReviewModule } from './faculties-review/faculties-review.module';
 import { FacultiesReviewService } from './faculties-review/faculties-review.service';
 
+import { CacheModule } from '@nestjs/cache-manager';  
+import { redisStore } from 'cache-manager-redis-yet';
+
 
 @Module({
-  imports: [UserModule, AuthModule,ConfigModule.forRoot(), TeacherModule, PremiumModule,MulterModule.register({
+  imports: [CacheModule.register({ 
+    store: redisStore, 
+    isGlobal:true,
+    host: 'localhost', //default host
+    port: 6379, //default port,
+    ttl: 100000000000, // seconds
+  }),UserModule, AuthModule,ConfigModule.forRoot(), TeacherModule, PremiumModule,MulterModule.register({
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
@@ -84,5 +93,7 @@ import { FacultiesReviewService } from './faculties-review/faculties-review.serv
   }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule],
   controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController],
   providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService],
+  exports:[CacheModule]
+  
 }) 
 export class AppModule {}

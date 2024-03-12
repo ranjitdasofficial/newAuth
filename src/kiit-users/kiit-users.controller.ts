@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Param,
   Post,
   Query,
@@ -31,22 +32,19 @@ const secure = "Ranjit";
 export class KiitUsersController {
   constructor(private readonly kiitUserService: KiitUsersService,private readonly jwtService:JwtService) {}
 
-  private tokens={}
+
 
   @Post('registerUser')
   async registerUser(@Body() dto: KiitUserRegister) {
+    console.log(dto)
     return this.kiitUserService.registerUser(dto);
   }
 
   @Get('getUserByEmail/:email')
   async getUserById(@Param('email') email: string) {
-    const tokens =  await this.jwtService.signAsync({email:email},{
-      expiresIn:60,
-      secret:"Ranjit",
-    });
-    this.tokens[email] = tokens;
-    console.log(this.tokens);
-    return this.kiitUserService.getUserByEmail(email,tokens);
+  
+    
+    return this.kiitUserService.getUserByEmail(email);
   }
 
   @Post('verifyTokenUser')
@@ -62,6 +60,19 @@ export class KiitUsersController {
       console.log(dto.email,error);
       throw new BadRequestException("Invalid Token");
     }
+  }
+
+
+  @Post("verifySession")
+  async verifySession(@Body() dto:{email:string,token:string}){
+    return this.kiitUserService.verifyToken(dto.token,dto.email);
+
+  }
+
+  @Post("removeSiginToken")
+  async removeSiginToken(@Body() dto:{email:string,token:string}){
+    console.log(dto)
+    return this.kiitUserService.removeSiginToken(dto);
   }
 
 
@@ -13914,5 +13925,13 @@ export class KiitUsersController {
     }
   }
 
+
+
+  @Get("getKeys")
+  async getKeys(){
+    return this.kiitUserService.testCacheService();
+
+
+  }
 
 }

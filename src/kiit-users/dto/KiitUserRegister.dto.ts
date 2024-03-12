@@ -7,6 +7,7 @@ export class KiitUserRegister {
   @IsString()
   email: string;
 
+  @IsOptional()
   @IsString()
   profileImage: string;
 }
