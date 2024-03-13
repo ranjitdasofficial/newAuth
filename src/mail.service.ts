@@ -197,4 +197,28 @@ async sendMailToNonKiitconnectUserSem4(email:string,index:number){
 
 }
 
+
+
+async sendResetDeviceLoginMail(email:string,name:string,link:string){
+  if(!email || !name || !link){
+    return;
+  }
+  
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Reset Device Login Requested!',
+    template: 'reset-device', // Name of your template file without extension
+    context:{
+      name:name,
+      resetLink:link
+    }
+  }).then(()=>{
+    console.log("Email Has been Sent",email);
+  } 
+  ).catch((err)=>{
+    console.log(err);
+  });
+
+}
+
 }

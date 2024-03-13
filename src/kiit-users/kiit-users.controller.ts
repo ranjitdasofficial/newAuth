@@ -13934,4 +13934,17 @@ export class KiitUsersController {
 
   }
 
+  @Post("generateDeviceResetToken")
+  async generateDeviceResetToken(@Body("email") email:string ){
+    console.log(email)
+    return this.kiitUserService.generateResetDeviceToken(email);
+  }
+
+  @Get("checkTokenAndReset")
+  async checkTokenAndReset(@Query("token") token:string){
+    console.log(token)
+    return this.kiitUserService.checkTokenAndResetDevice(token);
+  }
+
+
 }

@@ -66,29 +66,29 @@ export class KiitUsersService {
       console.log(user);
       if (!user) throw new NotFoundException('User not found');
 
-      // if (!user.isPremium) {
-      //   return {
-      //     user: user,
-      //   };
-      // }
+      if (!user.isPremium) {
+        return {
+          user: user,
+        };
+      }
 
-      // const getEmailSession: string = await this.cacheService.get(email);
-      // console.log(getEmailSession);
-      // let getSessionData = [];
-      // if (getEmailSession) {
-      //   getSessionData = JSON.parse(getEmailSession);
-      //   console.log(getSessionData, getSessionData.length);
-      //   if (getSessionData.length >= 2) {
-      //     throw new ConflictException(
-      //       'Already two users are using with this id',
-      //     );
-      //   }
-      // }
-      // const uniqueCode = await this.generateMediaId();
+      const getEmailSession: string = await this.cacheService.get(email);
+      console.log(getEmailSession);
+      let getSessionData = [];
+      if (getEmailSession) {
+        getSessionData = JSON.parse(getEmailSession);
+        console.log(getSessionData, getSessionData.length);
+        if (getSessionData.length >= 2) {
+          throw new ConflictException(
+            'Already two users are using with this id',
+          );
+        }
+      }
+      const uniqueCode = await this.generateMediaId();
 
-      // getSessionData.push(uniqueCode);
-      // await this.cacheService.set(email, JSON.stringify(getSessionData));
-      // console.log(getSessionData);
+      getSessionData.push(uniqueCode);
+      await this.cacheService.set(email, JSON.stringify(getSessionData));
+      console.log(getSessionData);
 
       const tokens = await this.jwtService.signAsync(
         { email: email },
@@ -101,7 +101,7 @@ export class KiitUsersService {
       return {
         user: user,
         tokens: tokens,
-        // uniqueCode: uniqueCode,
+        uniqueCode: uniqueCode,
       };
     } catch (error) {
       if (
@@ -15833,4 +15833,52 @@ export class KiitUsersService {
       throw new InternalServerErrorException("Internal server Error");
     }
   }
+
+
+  async generateResetDeviceToken(email:string){
+    try {
+      const user = await this.prisma.user.findUnique({
+        where:{
+          email:email
+        }
+      });
+
+      console.log(user)
+      if(!user){
+        throw new BadRequestException("User Not Found");
+      }
+      if(!user.isPremium) throw new BadRequestException("This feature is only for Premium User");
+      const token = await this.jwtService.signAsync({email:email},{
+        secret:process.env.ACCESS_TOKEN_SECRET,
+        expiresIn:60*5
+      });
+      if(!token) throw new InternalServerErrorException("Failed to Generate Tokens");   
+      
+      const resetLink = `https://kiitconnect.com/resetdevice?checkToken=${token}`
+      await this.mailService.sendResetDeviceLoginMail(user.email,user.name,resetLink);
+      return true;
+    } catch (error) {
+      console.log(error);
+      if(error instanceof BadRequestException){
+        throw error;
+      }
+      throw new InternalServerErrorException("Failed to Generate token");
+    }
+  }
+
+  async checkTokenAndResetDevice(token:string){
+    try {
+      const tk = await this.jwtService.verifyAsync(token,{
+        secret:process.env.ACCESS_TOKEN_SECRET
+      });
+      if(tk.email){
+       await this.cacheService.set(tk.email,JSON.stringify([]));
+       return true;
+      }
+    } catch (error) {
+      console.log(error)
+      throw new BadRequestException("Invalid Token");
+    }
+  }
+
 }
