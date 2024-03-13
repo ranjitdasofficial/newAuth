@@ -15855,6 +15855,7 @@ export class KiitUsersService {
       if(!token) throw new InternalServerErrorException("Failed to Generate Tokens");   
       
       const resetLink = `https://kiitconnect.com/resetdevice?checkToken=${token}`
+      console.log(email,resetLink)
       await this.mailService.sendResetDeviceLoginMail(user.email,user.name,resetLink);
       return true;
     } catch (error) {
