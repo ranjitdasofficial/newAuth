@@ -69,5 +69,11 @@ export class FacultiesReviewController {
   async getAllBranchInfo(){
     return this.facultiesReviewService.getAllBranchInfo();
   }
+
+  
+  @Get("facultiesdetails")
+  async facultiesDetails(){
+    return this.facultiesReviewService.getFacultiesDetails();
+  }
 }
 

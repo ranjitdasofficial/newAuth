@@ -10594,5 +10594,37 @@ export class FacultiesReviewService {
   }
 
 
+  // name: string;
+  // email: string;
+  // moreInfo: string;
+  // phone: string;
+  // profileUrl: string;
+  // updateDetailsLink: string;
+  // jobTitle:string;
+  // id:string;
+
+  async getFacultiesDetails(){
+
+    try {
+      const faculties = await this.prisma.facultiesDetails.findMany({
+        select:{
+          id:true,
+          name:true,
+          email:true,
+          phone:true,
+          profileUrl:true,
+          jobTitle:true,
+          moreInfo:true,
+
+        }
+      });
+      return faculties;
+    } catch (error) {
+      
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+
+  }
+
    
 }
