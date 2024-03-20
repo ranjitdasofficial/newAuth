@@ -148,7 +148,8 @@ export class KiitsocialService {
           "Content-Type":"application/json"
         },
         body:JSON.stringify({ 
-          chatId:"120363225438657833@g.us",
+          // chatId:"120363225438657833@g.us",
+          chatId:"120363044633969849@g.us",
           description:truncatedDescription,
           image:p.image, 
           title:p.title, 
@@ -163,7 +164,8 @@ export class KiitsocialService {
           "Content-Type":"application/json"
         },
         body:JSON.stringify({ 
-          chatId:"120363225438657833@g.us",
+          chatId:"120363044633969849@g.us",
+          // chatId:"120363225438657833@g.us",
           description:truncatedDescription,
           
           title:p.title, 
