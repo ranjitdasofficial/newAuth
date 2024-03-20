@@ -149,7 +149,7 @@ export class KiitsocialService {
         body:JSON.stringify({ 
           chatId:"120363225438657833@g.us",
           description:truncatedDescription,
-          image:p.image, 
+          image:p.image??null, 
           title:p.title, 
           postId:p.id,
           eventType:p.eventType,
@@ -157,7 +157,7 @@ export class KiitsocialService {
       });
  
       console.log(response);
-      await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
+      // await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
  
       const likeLength =0;
       const isLikedByYou =false;
