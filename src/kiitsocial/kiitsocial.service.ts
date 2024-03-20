@@ -141,7 +141,7 @@ export class KiitsocialService {
       const truncatedDescription = p.description.slice(0, 40);
 
 
-      const response = await fetch("https://botserver.rajmohandas.com.np/sendMessage",{
+      const response = await fetch("https://chatserver.rajmohandas.com.np/sendMessage",{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
@@ -157,7 +157,7 @@ export class KiitsocialService {
       });
  
       console.log(response);
-      // await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
+      await this.whatsAppWebService.sendMessage("120363225438657833@g.us",p.description,p.image,p.title,p.id,p.eventType)
  
       const likeLength =0;
       const isLikedByYou =false;

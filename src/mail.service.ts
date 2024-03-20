@@ -145,7 +145,7 @@ async sendNotPremium(name:string,email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Lots of PYQS are Added to KIIT-CONNECT!',
+    subject: 'Thank you for making 700+ Users in KIIT-CONNECT PREMIUM',
     template: 'not-premium', // Name of your template file without extension
     // template: 'non-registered', // Name of your template file without extension
     context:{
