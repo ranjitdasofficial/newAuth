@@ -50,7 +50,7 @@ import { redisStore } from 'cache-manager-redis-yet';
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-    // pool: true,
+    pool: true,
     // host: 'smtp.gmail.com',
     host: 'smtp.mailgun.com',
     // host:"rdmails.me",

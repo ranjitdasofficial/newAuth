@@ -145,9 +145,9 @@ async sendNotPremium(name:string,email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Thank you for making 700+ Users in KIIT-CONNECT PREMIUM',
-    template: 'not-premium', // Name of your template file without extension
-    // template: 'non-registered', // Name of your template file without extension
+    subject: 'Prepare Your End Sem.Updated Lots of PYQS/Solutions and Notes!',
+    // template: 'not-premium', // Name of your template file without extension
+    template: 'non-registered', // Name of your template file without extension
     context:{
       name:name
     },
@@ -159,6 +159,29 @@ async sendNotPremium(name:string,email:string,index:number){
   });
 
 }
+
+
+
+async sendNonRegistered(email:string,index:number){
+  if(!email){
+    return;
+  }
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Join KIIT-CONNECT Premium!',
+    // template: 'not-premium', // Name of your template file without extension
+    template: 'non-registered', // Name of your template file without extension
+    
+  }).then(()=>{
+    console.log("Email Has been Sent",index,email);
+  } 
+  ).catch((err)=>{
+    console.log(err);
+  });
+
+}
+
+
 
 
 async sendMailToNonKiitconnectUser(name:string,email:string,index:number){

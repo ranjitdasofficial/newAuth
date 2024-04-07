@@ -81,6 +81,8 @@ export class KiitUsersController {
     console.log(dto);
     return this.kiitUserService.registerPremiumUser(dto);
   }
+
+
   
 
   @Get('getUsers')
@@ -178,6 +180,10 @@ export class KiitUsersController {
     return this.kiitUserService.sendTo4thSem();
   }
 
+  @Get("sendMailToNonRegisteredUser")
+  async sendMailToNonRegisteredUser(){
+    return this.kiitUserService.sendMailToNonregisteredUser();
+  }
 
   @Get("testMails")
   async testMails(){
@@ -221,6 +227,15 @@ export class KiitUsersController {
   }
 
   
+  @Get("updateUsers")
+  async updateUsers(){
+    return this.kiitUserService.updateUsers();
+  }
+
+  @Get("referral")
+  async referral(@Query("userId") userId:string){
+    return this.kiitUserService.refralInfo(userId);
+  }
 
 
 }

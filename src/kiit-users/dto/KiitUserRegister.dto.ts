@@ -20,6 +20,10 @@ export class PremiumUserRegisterDto {
   branch: string;
 
   @IsString()
+  @IsOptional()
+  refralCode: string;
+
+  @IsString()
   year: string;
  
   @IsString()
