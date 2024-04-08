@@ -1002,4 +1002,96 @@ export class KiitUsersService {
       
     }
   }
+
+  async redeemRequest(dto:{
+    userId:string;
+    amount:number;
+    upiId:string
+  }){
+  try {
+    const user = await this.prisma.user.findUnique({
+      where:{
+        id:dto.userId
+      }
+    });
+    if(!user) throw new BadRequestException('User Not Found');
+
+    if(user.refralAmount < dto.amount) throw new BadRequestException('Insufficient Balance');
+
+    const redeemReq = await this.prisma.redeemRequest.create({
+      data:{
+        amount:dto.amount,
+        userId:user.id,
+        upiId:dto.upiId
+      }
+    });
+
+    if(!redeemReq) throw new InternalServerErrorException('Failed to Create Redeem Request');
+
+    await this.prisma.user.update({
+      where:{
+        id:user.id
+      },
+      data:{
+        refralAmount:user.refralAmount - dto.amount
+      }
+    });
+
+    return redeemReq;
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+
+}
+
+async getRedeemRequest(userId:string){
+  try {
+    const user = await this.prisma.user.findUnique({
+      where:{
+        id:userId
+      },
+      select:{
+        id:true,
+        refrealCode:true,
+        refralAmount:true
+      }
+    });
+    if(!user) throw new BadRequestException('User Not Found');
+
+    const redeemReq = await this.prisma.redeemRequest.findMany({
+      where:{
+        userId:user.id
+      }
+    });
+
+
+
+    return {
+    user,
+    redeemReq
+    };
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+
+}
+
+async getUnknow(){
+  try {
+    
+    const user = await this.prisma.user.findMany({
+      select:{
+        refrealCode:true,
+        id:true
+      }
+    });
+
+    return user;
+
+  } catch (error) {
+    
+  }
+}
 }

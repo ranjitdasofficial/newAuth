@@ -238,4 +238,19 @@ export class KiitUsersController {
   }
 
 
+  @Post("redeemRequest")
+  async redeemRequest(@Body() dto:{userId:string,amount:number,upiId:string}){
+    return this.kiitUserService.redeemRequest(dto);
+  }
+
+  @Get("getRedeemRequest")
+  async getRedeemRequest(@Query("userId") userId:string ){
+    return this.kiitUserService.getRedeemRequest(userId);
+  }
+
+  @Get("getUnknow")
+  async getUnknow(){
+    return this.kiitUserService.getUnknow();
+  }
+
 }
