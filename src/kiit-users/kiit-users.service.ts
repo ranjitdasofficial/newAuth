@@ -41,8 +41,12 @@ export class KiitUsersService {
         },
       });
       if (user) throw new ConflictException('User already exists');
+      const refCode = this.generateReferralCode(6)
       const newUser = await this.prisma.user.create({
-        data: dto,
+        data: {
+          ...dto,
+          refrealCode: refCode
+        }
       });
       if (!newUser) throw new Error('Something went wrong!');
       console.log(newUser);
