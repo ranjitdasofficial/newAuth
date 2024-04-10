@@ -87,14 +87,11 @@ export class KiitsocialService {
 
           console.log(buffer,"buffer");
   
-        const p = await this.storageService.save(
-          'media/' + mediaId,
-          'image/webp', // Set the mimetype for WebP
-          filebuffer,
-          [{ mediaId: mediaId }],
+        const p = await this.storageService.uploadFile(
+        filebuffer,mediaId
         );
         // const fileId = await this.uploadImage(file, createdByEmail);
-        data.image = p.mediaId;
+        data.image = p;
         fs.unlink(file.path, (err) => {
           if (err) {
             console.error(err);
@@ -193,8 +190,8 @@ export class KiitsocialService {
         
       };
 
-      // await this.whatsAppWebService.sendMessage("ddssd","Someone has just uploaded a post on KIIT Social");
-      // return p;
+      await this.whatsAppWebService.sendMessage("ddssd","Someone has just uploaded a post on KIIT Social");
+      return p;
 
 
     } catch (error) {
@@ -516,7 +513,7 @@ async getAllPost(page: number = 1, pageSize: number = 5,id?:string|null) {
 
       const mediaId = post.image;
       if (mediaId) {
-        await this.storageService.delete('media/' + mediaId);
+        await this.storageService.deleteFile(mediaId);
       }
 
       

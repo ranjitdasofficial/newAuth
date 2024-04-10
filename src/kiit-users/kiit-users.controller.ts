@@ -253,4 +253,23 @@ export class KiitUsersController {
     return this.kiitUserService.getUnknow();
   }
 
+  @Get("getTotalRedeemRequest")
+  async getTotalRedeemRequest(){
+    return this.kiitUserService.getTotalRedeemRequest();
+  }
+
+
+  @Post('testUploadFiles')
+  @UseInterceptors(FileInterceptor('image'))
+  async TestUploadFiles(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    console.log(file);
+
+    if (file) {
+      await this.checkIfImage(file);
+    }
+    return this.kiitUserService.testUpload(file);
+  }
+
 }
