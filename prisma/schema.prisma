@@ -224,6 +224,7 @@ model Subject {
   folderId      String?
   notes         Note[]
   pyqs          PYQS[]
+  syllabus      String?
   semesterId    String[]           @db.ObjectId
   semester      Semester[]         @relation(fields: [semesterId], references: [id])
   createdAt     DateTime           @default(now())

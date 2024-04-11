@@ -311,4 +311,21 @@ export class NotesController {
   }
   
 
+  @Post("addSyllabus")
+  async addSyllabus(@Body() dto: {
+    subjectId: string;
+    syllabus: string;
+  }) {
+    console.log(dto);
+    return this.notesService.addSyllabus(dto);
+  }
+
+  @Post("removeSyllabus")
+  async removeSyllabus(@Body() dto: {
+    subjectId: string;
+  }) {
+    console.log(dto);
+    return this.notesService.removeSyllabus(dto.subjectId);
+  }
+
 }

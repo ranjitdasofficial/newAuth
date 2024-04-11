@@ -649,6 +649,7 @@ export class NotesService {
         SUBCODE: true,
         id: true,
         folderId: true,
+        syllabus:true,
       };
 
       // console.log(dto.type === 'pyqs', dto.type);
@@ -1326,6 +1327,52 @@ export class NotesService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async addSyllabus(dto: { subjectId: string; syllabus: string }) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: dto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const updateSubject = await this.prismaService.subject.update({
+        where: { id: dto.subjectId },
+        data: {
+          syllabus: dto.syllabus,
+        },
+      });
+
+      return updateSubject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+  async removeSyllabus(subjectId: string) {
+    try {
+      const subject = await this.prismaService.subject.findUnique({
+        where: { id: subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const updateSubject = await this.prismaService.subject.update({
+        where: { id: subjectId },
+        data: {
+          syllabus: null,
+        },
+      });
+
+      return updateSubject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
     }
   }
 }
