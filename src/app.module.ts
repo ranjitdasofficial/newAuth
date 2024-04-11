@@ -50,9 +50,9 @@ import { redisStore } from 'cache-manager-redis-yet';
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-    pool: true,
-    // host: 'smtp.gmail.com',
-    host: 'smtp.mailgun.com',
+    // pool: true,
+    host: 'smtp.gmail.com',
+    // host: 'smtp.mailgun.com',
     // host:"rdmails.me",
     // port: 25,
     port:587,
@@ -69,17 +69,17 @@ import { redisStore } from 'cache-manager-redis-yet';
         // pass: `Hijecked@#98`,
       
       }, 
-      tls:{ 
-        rejectUnauthorized:false
-      }
+      // tls:{ 
+      //   rejectUnauthorized:false
+      // }
     },
     defaults: {
       // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
       // from: 'KIIT-CONNECT<notifications@kiitconnect.live>',
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
-      // from: 'KIIT-CONNECT<support@kiitconnect.com>',
-      from: 'KIIT-CONNECT<support@rdmails.me>',
+      from: 'KIIT-CONNECT<support@kiitconnect.com>',
+      // from: 'KIIT-CONNECT<support@rdmails.me>',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
       // from: 'KIIT-CONNECT<account@kiitconnect.live>',
       // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
