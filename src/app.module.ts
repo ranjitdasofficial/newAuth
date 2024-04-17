@@ -37,6 +37,9 @@ import { FacultiesReviewService } from './faculties-review/faculties-review.serv
 
 import { CacheModule } from '@nestjs/cache-manager';  
 import { redisStore } from 'cache-manager-redis-yet';
+import { GivewayController } from './giveway/giveway.controller';
+import { GivewayModule } from './giveway/giveway.module';
+import { GivewayService } from './giveway/giveway.service';
 
 
 @Module({
@@ -91,9 +94,9 @@ import { redisStore } from 'cache-manager-redis-yet';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService],
   exports:[CacheModule]
   
 }) 

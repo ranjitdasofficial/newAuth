@@ -30,6 +30,7 @@ model User {
   refralAmount  Int?             @default(0)
   referredBy     String?          @db.ObjectId
   redeemRequest  RedeemRequest[]
+  PremiumGiveway PremiumGiveway?
 }
 
 
@@ -314,3 +315,15 @@ model RedeemRequest{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model PremiumGiveway{
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  used     Boolean  @default(false)
+  allotedCode String
+  isPremiumAlloted Boolean  @default(false)
+  userId    String   @db.ObjectId @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

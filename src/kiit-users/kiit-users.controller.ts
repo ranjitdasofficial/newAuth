@@ -272,4 +272,16 @@ export class KiitUsersController {
     return this.kiitUserService.testUpload(file);
   }
 
+  @Get("getPremiumWithoutPaid")
+  async getPremiumWithoutPaid(){
+    return this.kiitUserService.getPremiumWithoutPaid();
+  }
+
+  @Get("sendMailToPremiumButNotPayemnt")
+  async sendMailToPremiumButNotPayemnt(){
+    return this.kiitUserService.sendMailToPremiumButNotPaymentDone();
+  }
+
+
+
 }

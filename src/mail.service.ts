@@ -128,7 +128,7 @@ async passwordChanged(to: string,username:string) {
 async sendPaymentReminder(data:{email:string,name:string,branch:string,year:string}) {
   await this.mailService.sendMail({
     to: data.email,
-    subject: 'Access well structured Pyqs/Solution and Notes.Are you still thinking?',
+    subject: 'Important: Activate Your Premium Membership',
     template: 'payment-remainder', // Name of your template file without extension
     context:data,
   }).then(()=>{ 
@@ -145,7 +145,7 @@ async sendNotPremium(name:string,email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Prepare Your End Sem.Updated Lots of PYQS/Solutions and Notes!',
+    subject: 'We have not Received your payment yet!',
     // template: 'not-premium', // Name of your template file without extension
     template: 'non-registered', // Name of your template file without extension
     context:{
@@ -168,7 +168,7 @@ async sendNonRegistered(email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Join KIIT-CONNECT Premium!',
+    subject: 'Access Your Premium Membership Now!',
     // template: 'not-premium', // Name of your template file without extension
     template: 'non-registered', // Name of your template file without extension
     
