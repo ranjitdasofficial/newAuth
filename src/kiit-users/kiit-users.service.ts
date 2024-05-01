@@ -5355,4 +5355,35 @@ async sendMailToPremiumButNotPaymentDone(){
     }
 
 }
+
+
+async getPremiumUserAfter(){
+  try {
+    const user = await this.prisma.user.updateMany({
+      where:{
+        updatedAt:{
+          lte:new Date('2024-04-26T00:00:00.000Z')
+        }
+      },
+      data:{
+        isPremium:false
+      }
+    });
+
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error in fetching premium user');
+  }
+}
+
+async clearAllTokens(){
+  try {
+    const user = await this.cacheService.reset();
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Error in clearing tokens');
+  }
+}
 }

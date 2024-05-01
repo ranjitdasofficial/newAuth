@@ -7,7 +7,12 @@ export class GivewayService {
 
   async getAllGiveways() {
     try {
-      return await this.prisma.premiumGiveway.findMany({});
+     const p = await this.prisma.premiumGiveway.findMany({});
+
+      return {
+        totalParticipants: p.length,
+        giveways: p,
+      }
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error!');

@@ -295,8 +295,9 @@ export class NotesController {
   @Post("addSubject")
   async addSubject(@Body() dto: {
     name: string;
+    folderId:string
     code?: string;
-    credit?:string
+    credit?:string,
   }) {
     console.log(dto);
     return this.notesService.addSubject(dto);

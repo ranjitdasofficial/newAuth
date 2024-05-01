@@ -1291,13 +1291,15 @@ export class NotesService {
       throw new InternalServerErrorException('Error while adding pyqs');
     }
   }
-  async addSubject(dto: { name: string; code?: string; credit?: string }) {
+  async addSubject(dto: { name: string; folderId:string, code?: string; credit?: string, }) {
     try {
+
       const subject = await this.prismaService.subject.create({
         data: {
           name: dto.name,
           SUBCODE: dto.code,
           Credit: dto.credit,
+          folderId:dto.folderId
         },
       });
 

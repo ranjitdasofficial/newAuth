@@ -75,5 +75,11 @@ export class FacultiesReviewController {
   async facultiesDetails(){
     return this.facultiesReviewService.getFacultiesDetails();
   }
+
+
+  @Get("getFacultiesDetailsByBranchAndSemester")
+  async getFacultiesDetailsByBranchAndSemester(@Query("branch") branch: string, @Query("semester") semester: string){
+    return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemester(branch, semester);
+  }
 }
 

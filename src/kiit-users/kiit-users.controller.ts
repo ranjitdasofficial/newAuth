@@ -284,4 +284,14 @@ export class KiitUsersController {
 
 
 
+  @Get("getPremiumUserAfter")
+  async getPremiumUserAfter(){
+    return this.kiitUserService.getPremiumUserAfter();
+  }
+
+
+  @Get('clearAllTokens')
+  async clearAllTokens(){
+    return this.kiitUserService.clearAllTokens();
+  }
 }

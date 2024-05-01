@@ -10418,6 +10418,7 @@ export class FacultiesReviewService {
             },
           },
         },
+         reviews:true
       },
     });
     return allReview;
@@ -10626,5 +10627,50 @@ export class FacultiesReviewService {
 
   }
 
+  async getFacultiesDetailsByBranchAndSemester(branch:string,semester:string){
+    try {
+     const branchId = await this.prisma.branch.findUnique({
+      where:{
+        name:branch
+      }
+     });
+
+     if(!branchId) throw new BadRequestException('Branch not found');
+     console.log(branch,semester)
+     const semesterId = await this.prisma.semester.findUnique({
+        where:{
+          number:{
+            equals:Number(semester)
+          },
+          branchId:branchId.id,
+        }
+     });
+
+
+     return await this.prisma.facultiesDetails.findMany({
+        where:{
+          semesterSection:{
+            some:{
+              semesterId:semesterId.id
+            }
+          },
+
+          
+        },
+        include:{
+          semesterSection:{
+            select:{
+              section:true
+            }
+          }
+        }
+      });
+    
+
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
    
 }
