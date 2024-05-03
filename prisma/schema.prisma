@@ -25,15 +25,18 @@ model User {
   kiitsocial     kiitsocial[]
   totalEarned    Int?             @default(0)
   VerifySolution VerifySolution[]
-  Review         Review[] 
-  refrealCode    String?           @unique
-  refralAmount  Int?             @default(0)
+  Review         Review[]
+  refrealCode    String?          @unique
+  refralAmount   Int?             @default(0)
   referredBy     String?          @db.ObjectId
   redeemRequest  RedeemRequest[]
   PremiumGiveway PremiumGiveway?
+
+  courseId String[] @db.ObjectId
+  courses        Courses[] @relation(fields: [courseId], references: [id])
+  
+
 }
-
-
 
 model PremiumMember {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -52,13 +55,13 @@ model PremiumMember {
 // schema.prisma 
 
 model Review {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
   rating        Float
-  userId   String @db.ObjectId @unique
-  user          User   @relation(fields: [userId], references: [id])
+  userId        String           @unique @db.ObjectId
+  user          User             @relation(fields: [userId], references: [id])
   internalScore Int
   comments      String
-  facultyId     String  @db.ObjectId
+  facultyId     String           @db.ObjectId
   faculty       FacultiesDetails @relation(fields: [facultyId], references: [id])
 }
 
@@ -124,27 +127,27 @@ model ProfessorContacts {
 }
 
 model FacultiesDetails {
-  id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  name              String
-  phone             String?
-  email             String?
-  description       String?
-  jobTitle          String?
-  moreInfo          String?
-  profileUrl        String?
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       String?
+  email       String?
+  description String?
+  jobTitle    String?
+  moreInfo    String?
+  profileUrl  String?
 
-  likesId           String[] @db.ObjectId
-  dislikesId        String[] @db.ObjectId
-// likesId String[] 
+  likesId    String[] @db.ObjectId
+  dislikesId String[] @db.ObjectId
+  // likesId String[] 
 
   semesterSectionId String[]           @db.ObjectId
   semesterSection   SemesterSections[] @relation(fields: [semesterSectionId], references: [id])
-  subjectId String[]  @db.ObjectId
-  subject   Subject[] @relation(fields: [subjectId], references: [id])
-  reviews   Review[]
+  subjectId         String[]           @db.ObjectId
+  subject           Subject[]          @relation(fields: [subjectId], references: [id])
+  reviews           Review[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comments {
@@ -290,9 +293,6 @@ model Semester {
   semesterSections  SemesterSections[]
 }
 
-
-
-
 model SemesterSections {
   id         String             @id @default(auto()) @map("_id") @db.ObjectId
   section    Int
@@ -304,8 +304,7 @@ model SemesterSections {
   updatedAt  DateTime           @updatedAt
 }
 
-
-model RedeemRequest{
+model RedeemRequest {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   upiId     String
   amount    Int
@@ -316,14 +315,41 @@ model RedeemRequest{
   updatedAt DateTime @updatedAt
 }
 
-model PremiumGiveway{
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  used     Boolean  @default(false)
-  allotedCode String
+model PremiumGiveway {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  used             Boolean  @default(false)
+  allotedCode      String
   isPremiumAlloted Boolean  @default(false)
-  userId    String   @db.ObjectId @unique
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId           String   @unique @db.ObjectId
+  user             User     @relation(fields: [userId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
+
+model Courses{
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  userId    String[]  @db.ObjectId
+  subscribers User[] @relation(fields: [userId], references: [id])
+  Topics    Topic[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+type Questions {
+  id       String  @default(uuid()) // Unique identifier for PYQS
+  question String
+  answer   String
+}
+
+model Topic {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  Questions Questions[]
+  courseId  String      @db.ObjectId
+  course    Courses     @relation(fields: [courseId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}

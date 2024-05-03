@@ -40,6 +40,9 @@ import { redisStore } from 'cache-manager-redis-yet';
 import { GivewayController } from './giveway/giveway.controller';
 import { GivewayModule } from './giveway/giveway.module';
 import { GivewayService } from './giveway/giveway.service';
+import { MyperfecticeService } from './myperfectice/myperfectice.service';
+import { MyperfecticeController } from './myperfectice/myperfectice.controller';
+import { MyperfecticeModule } from './myperfectice/myperfectice.module';
 
 
 @Module({
@@ -94,9 +97,9 @@ import { GivewayService } from './giveway/giveway.service';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService],
   exports:[CacheModule]
   
 }) 
