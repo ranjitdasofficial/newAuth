@@ -22,64 +22,48 @@ export class MyperfecticeService {
   }
 
   async createTopic() {
-    const data = [
-      "[Beginner] Verbal - Articles - Let's Learn",
-      '[Beginner] Verbal - Articles - Practice Test',
-      "[Beginner] Reasoning - Syllogism - Let's Learn",
-      '[Beginner] Reasoning - Syllogism - Practice Test',
-      "[Beginner] Quant - Percentage - Let's Learn",
-      '[Beginner] Quant - Percentage - Practice Test',
-      'CheckPoint-1 [Beginner] Quant, Verbal, Reasoning - Percentage, Syllogism, Articles - Mock Test',
-      "[Beginner] Reasoning - Logical Venn Diagram - Let's Learn",
-      '[Beginner] Reasoning - Logical Venn Diagram - Practice Test',
-      "[Beginner] Quant - Simple & Compound Interest - Let's Learn",
-      '[Beginner] Quant - Simple & Compound Interest - Practice Test',
-      'Checkpoint-2 [Beginner] Quant, Reasoning - SI & CI, Venn Diagram - Mock Test',
-      "[Beginner] Verbal - Noun - Let's Learn",
-      '[Beginner] Verbal - Noun - Practice Test',
-      "[Beginner] Reasoning - Direction Sense Test - Let's Learn",
-      '[Beginner] Reasoning - Direction Sense Test - Practice Test',
-      'Checkpoint -3 [Beginner] Verbal, Reasoning - Noun, Direction Sense Test - Mock',
-      "[Beginner] Reasoning - Alpha-Numeric-Symbol - Let's Learn",
-      '[Beginner] Reasoning - Alpha-Numeric-Symbol - Practice Test',
-      "[Beginner] Quant - Profit & Loss - Let's Learn",
-      '[Beginner] Quant - Profit & Loss - Practice Test',
-      'Checkpoint - 4 [Beginner] Quant, Reasoning - Profit & Loss, Alpha-Numeric-Symbol - Mock Test',
-      "[Beginner] Verbal - Pronouns - Let's Learn",
-      '[Beginner] Verbal - Pronouns - Practice Test',
-      "[Beginner] Reasoning - Sequence - Let's Learn",
-      '[Beginner] Reasoning - Sequence - Practice Test',
-      "[Beginner] Quant - Ratio & Proportion - Let's Learn",
-      '[Beginner] Quant - Ratio & Proportion - Practice Test',
-      'Checkpoint - 5 [Beginner] Quant, Verbal, Reasoning - Ratio & Proportion, Pronouns',
-      "[Beginner] Verbal - Prepositions - Let's Learn",
-      '[Beginner] Verbal - Prepositions - Practice Test',
-      "[Beginner] Reasoning - Word Formation - Let's Learn",
-      '[Beginner] Reasoning - Word Formation - Practice Test',
-      'Checkpoint - 6 [Beginner] Verbal, Reasoning - Prepositions, Word Formation - Mock Test',
-      "[Beginner] Reasoning - Coding-Decoding - Let's Learn",
-      '[Beginner] Reasoning - Coding-Decoding - Practice Test',
-      "[Beginner] Quant - Average & Ages - Let's Learn",
-      '[Beginner] Quant - Average & Ages - Practice Test',
-      'Checkpoint - 7 [Beginner] Quant, Reasoning - Average, Coding-Decoding - Mock',
-      "[Beginner] Verbal - Synonyms - Let's Learn",
-      '[Beginner] Verbal - Synonyms - Practice Test',
-      "[Beginner] Reasoning - Odd One Out - Let's Learn",
-      '[Beginner] Reasoning - Odd One Out - Practice Test',
-      "[Beginner] Quant - Time, Speed & Distance - Let's Learn",
-      '[Beginner] Quant - Time, Speed & Distance - Practice Test',
-      'Checkpoint - 8 [Beginner] Quant, Verbal, Reasoning - Speed & Distance, Synonyms, Odd One Out - Mock Test',
-      "[Beginner] Verbal - Antonyms - Let's Learn",
-      '[Beginner] Verbal - Antonyms - Practice Test',
-      "[Beginner] Reasoning - Analogy - Let's Learn",
-      '[Beginner] Reasoning - Analogy - Practice Test',
-      'Checkpoint - 9 [Beginner] Verbal, Reasoning - Antonyms, Analogy - Mock Test',
-      "[Beginner] Reasoning - Blood Relations - Let's Learn",
-      '[Beginner] Reasoning - Blood Relations - Practice Test',
-      "[Beginner] Quant - Algebra - Let's Learn",
-      '[Beginner] Quant - Algebra - Practice Test',
-      'Checkpoint - 10 [Beginner] Quant, Reasoning - Algebra, Blood Relations - Mock Test',
-    ];
+    const data   = [
+        "[Elementary] Verbal - One Word Substitution - Let's Learn",
+        "[Elementary] Verbal - One Word Substitution - Practice Test",
+        "[Elementary] Quant - Number System 2 - Let's Learn",
+        "[Elementary] Quant - Number System 2 - Practice Test",
+        "Checkpoint - 8 [Elementary] Quant, Verbal - Number System, One Word Substitution - Mock Test",
+        "[Elementary] Reasoning - Seating Arrangement - Let's Learn",
+        "[Elementary] Reasoning - Seating Arrangement - Practice Test",
+        "[Elementary] Quant - Number System 3 - Let's Learn",
+        "[Elementary] Quant - Number System 3 - Practice Test",
+        "Checkpoint - 9 [Elementary] Quant, Reasoning - Number System, Seating Arrangement",
+        "[Elementary] Verbal - Subject-Verb Agreement - Let's Learn",
+        "[Elementary] Verbal - Subject-Verb Agreement - Practice Test",
+        "[Elementary] Reasoning - Blood Relations - Let's Learn",
+        "[Elementary] Reasoning - Blood Relations - Practice Test",
+        "[Elementary] Quant - Time, Speed & Distance - Let's Learn",
+        "[Elementary] Quant - Time, Speed & Distance - Practice Test",
+        "Checkpoint - 10 [Elementary] Quant, Verbal, Reasoning - Speed, Subject-Verb Agreement, Blood",
+        "[Elementary] Verbal - Adjectives & Adverbs - Let's Learn",
+        "[Elementary] Verbal - Adjectives & Adverbs - Practice Test",
+        "[Elementary] Reasoning - Venn Diagram - Let's Learn",
+        "[Elementary] Reasoning - Venn Diagram - Practice Test",
+        "[Elementary] Quant - Time, Work & Wages - Let's Learn",
+        "[Elementary] Quant - Time, Work & Wages - Practice Test",
+        "Checkpoint - 11 [Elementary] Quant, Verbal, Reasoning - Work & Wages, Adjectives & Adverbs,",
+        "[Elementary] Verbal - Prepositions - Let's Learn",
+        "[Elementary] Verbal - Prepositions - Practice Test",
+        "[Elementary] Reasoning - Syllogism - Let's Learn",
+        "[Elementary] Reasoning - Syllogism - Practice Test",
+        "[Elementary] Quant - Permutation & Combination - Let's Learn",
+        "[Elementary] Quant - Permutation & Combination - Practice Test",
+        "Checkpoint - 12 [Elementary] Quant, Verbal, Reasoning - Permutation, Prepositions, Syllogism -",
+        "[Elementary] Verbal - Reading Comprehensions - Let's Learn",
+        "[Elementary] Verbal - Reading Comprehensions - Practice Test",
+        "[Elementary] Reasoning - Direction Sense - Let's Learn",
+        "[Elementary] Reasoning - Direction Sense - Practice Test",
+        "[Elementary] Quant - Probability - Let's Learn",
+        "[Elementary] Quant - Probability - Practice Test",
+        "Checkpoint - 13 [Elementary] Quant, Verbal, Reasoning - Probability, Reading Comprehensions,"
+    ]
+    
+    
 
     try {
       const topic = await this.prisma.topic.createMany({
@@ -107,7 +91,12 @@ export class MyperfecticeService {
 
   async getTopics() {
     try {
-      return await this.prisma.topic.findMany();
+      return await this.prisma.topic.findMany({
+        select:{
+            id:true,
+            name:true
+        }
+      });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error in fetching topics');
