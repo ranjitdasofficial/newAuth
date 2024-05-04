@@ -94,10 +94,14 @@ export class KiitUsersService {
       await this.cacheService.set(email, JSON.stringify(getSessionData));
       console.log(getSessionData);
 
+      const iat = Math.floor(Date.now() / 1000)
+const exp = iat + 60 // seconds
       const tokens = await this.jwtService.signAsync(
         { email: email },
+        
         {
-          // expiresIn: 300,
+          expiresIn: '1m',
+          
           secret: 'Ranjit',
         },
       );
