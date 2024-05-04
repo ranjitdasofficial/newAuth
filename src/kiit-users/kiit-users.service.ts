@@ -97,7 +97,7 @@ export class KiitUsersService {
       const tokens = await this.jwtService.signAsync(
         { email: email },
         {
-          expiresIn: 300,
+          // expiresIn: 300,
           secret: 'Ranjit',
         },
       );
