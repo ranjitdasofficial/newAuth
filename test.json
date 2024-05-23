@@ -1,1726 +1,381 @@
-[
-  {
-      "name": "Abhishek Raj",
-      "likes": 39,
-      "dislikes": 10,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067499"
-  },
-  {
-      "name": "Pradeep Kandula",
-      "likes": 24,
-      "dislikes": 36,
-      "reviews": [
-          {
-              "id": "65901ac045c2b626d34b3abd",
-              "rating": 3,
-              "commentedBy": "22054390@kiit.ac.in",
-              "internalScore": 21,
-              "comments": "he doesn't give marks!",
-              "teacherId": "65900f80e771e0a80148ed30"
-          },
-          {
-              "id": "6590235945c2b626d34b3ae0",
-              "rating": 1,
-              "commentedBy": "22051615@kiit.ac.in",
-              "internalScore": 24,
-              "comments": "worst faculty",
-              "teacherId": "65900f80e771e0a80148ed30"
-          },
-          {
-              "id": "659029ea45c2b626d34b3af4",
-              "rating": 5,
-              "commentedBy": "21053436@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Teaches good, Gives deserving marks",
-              "teacherId": "65900f80e771e0a80148ed30"
-          },
-          {
-              "id": "659047a245c2b626d34b3b1e",
-              "rating": 4,
-              "commentedBy": "22051350@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Good teacher ",
-              "teacherId": "65900f80e771e0a80148ed30"
-          },
-          {
-              "id": "65912fe745c2b626d34b3b43",
-              "rating": 4,
-              "commentedBy": "22051743@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "no extra marks ...just deserving marks\n",
-              "teacherId": "65900f80e771e0a80148ed30"
-          }
-      ],
-      "id": "65a6e829307b55dd84067466"
-  },
-  {
-      "name": "Jagannath Singh",
-      "likes": 40,
-      "dislikes": 6,
-      "reviews": [
-          {
-              "id": "65901c1945c2b626d34b3ac6",
-              "rating": 5,
-              "commentedBy": "2229108@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "best",
-              "teacherId": "65900f82e771e0a80148ed33"
-          },
-          {
-              "id": "65903e2b45c2b626d34b3b16",
-              "rating": 4,
-              "commentedBy": "22052939@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Explains every concepts very well . ",
-              "teacherId": "65900f82e771e0a80148ed33"
-          }
-      ],
-      "id": "65a6e829307b55dd840674b7"
-  },
-  {
-      "name": "Vijay Kumar Meena",
-      "likes": 12,
-      "dislikes": 36,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674fe"
-  },
-  {
-      "name": "Ashish Singh",
-      "likes": 2,
-      "dislikes": 57,
-      "reviews": [
-          {
-              "id": "659026cc45c2b626d34b3ae4",
-              "rating": 1,
-              "commentedBy": "2105672@kiit.ac.in",
-              "internalScore": 19,
-              "comments": "isko liya to pura semester bhugto ge",
-              "teacherId": "65900f82e771e0a80148ed36"
-          },
-          {
-              "id": "6591295745c2b626d34b3b41",
-              "rating": 1,
-              "commentedBy": "2105260@kiit.ac.in",
-              "internalScore": 16,
-              "comments": "Worst faculty. Students are affected very badly",
-              "teacherId": "65900f82e771e0a80148ed36"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a9"
-  },
-  {
-      "name": "Mahendra Kumar Gourisaria",
-      "likes": 10,
-      "dislikes": 123,
-      "reviews": [
-          {
-              "id": "65913a0545c2b626d34b3b47",
-              "rating": 1,
-              "commentedBy": "2206065@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "80% of the class got a 25/50 in his internals",
-              "teacherId": "65900f82e771e0a80148ed3d"
-          },
-          {
-              "id": "6593aec245c2b626d34b3b6c",
-              "rating": 1,
-              "commentedBy": "2228124@kiit.ac.in",
-              "internalScore": 19,
-              "comments": "Torture",
-              "teacherId": "65900f82e771e0a80148ed3d"
-          },
-          {
-              "id": "6593fb7f45c2b626d34b3b70",
-              "rating": 1,
-              "commentedBy": "2206290@kiit.ac.in",
-              "internalScore": 16,
-              "comments": "Don't..just don't ",
-              "teacherId": "65900f82e771e0a80148ed3d"
-          },
-          {
-              "id": "6594001945c2b626d34b3b72",
-              "rating": 5,
-              "commentedBy": "2205894@kiit.ac.in",
-              "internalScore": 13,
-              "comments": "Maa chud jayegi ",
-              "teacherId": "65900f82e771e0a80148ed3d"
-          }
-      ],
-      "id": "65a6e829307b55dd84067463"
-  },
-  {
-      "name": "Rabi Shaw",
-      "likes": 13,
-      "dislikes": 65,
-      "reviews": [
-          {
-              "id": "6590270145c2b626d34b3ae6",
-              "rating": 1,
-              "commentedBy": "2105366@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Probably one of the most evil teachers out there, he actively wants his students to fail miserably and then laugh at their helpless faces. He'll pull some of the the most outlandish bullshit just to make you feel worthless about everything. You CAN, however, get good marks under him if you make a very good impression on him somehow. ",
-              "teacherId": "65900f82e771e0a80148ed43"
-          },
-          {
-              "id": "659037e145c2b626d34b3b0f",
-              "rating": 5,
-              "commentedBy": "21051720@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "He is actually good, if you maintain discipline in class, have 90% above attendance and sit in first bench. He will give 28+ in internals out of 30. Just don’t disturb in his class, else he will make your semester hell.",
-              "teacherId": "65900f82e771e0a80148ed43"
-          },
-          {
-              "id": "659056ea45c2b626d34b3b26",
-              "rating": 5,
-              "commentedBy": "2105986@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Marks depends on his mood 😂 ",
-              "teacherId": "65900f82e771e0a80148ed43"
-          },
-          {
-              "id": "65df613c0fb947f5b25481d7",
-              "rating": 1,
-              "commentedBy": "2205333@kiit.ac.in",
-              "internalScore": 14,
-              "comments": "Just the worst",
-              "teacherId": "65900f82e771e0a80148ed43"
-          }
-      ],
-      "id": "65a6e829307b55dd8406747e"
-  },
-  {
-      "name": "Saurabh Jha",
-      "likes": 11,
-      "dislikes": 20,
-      "reviews": [
-          {
-              "id": "6590d08e45c2b626d34b3b30",
-              "rating": 1,
-              "commentedBy": "21052415@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Quiz ka answer net pe mil jayega lekin mid aur end sem.. 🤞🤞",
-              "teacherId": "65900f82e771e0a80148ed3f"
-          },
-          {
-              "id": "65944e5a45c2b626d34b3b79",
-              "rating": 5,
-              "commentedBy": "2205606@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "best teacher\n",
-              "teacherId": "65900f82e771e0a80148ed3f"
-          }
-      ],
-      "id": "65a6e829307b55dd840674eb"
-  },
-  {
-      "name": "Saurabh Bilgaiyan",
-      "likes": 7,
-      "dislikes": 110,
-      "reviews": [
-          {
-              "id": "65901db445c2b626d34b3ace",
-              "rating": 3,
-              "commentedBy": "2105895@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "I never studied from him. But my roommate was in his class and he came for substitution in my OS class. I have entered my roommate's internals. He's a good guy assuming you study and attend classes. His teaching style was good. You'll understand stuff. But don't take if you're not gonna grind cause he's also infamous for failing people ",
-              "teacherId": "65900f82e771e0a80148ed3c"
-          },
-          {
-              "id": "659028d745c2b626d34b3af1",
-              "rating": 1,
-              "commentedBy": "2205629@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "do NOT opt",
-              "teacherId": "65900f82e771e0a80148ed3c"
-          },
-          {
-              "id": "65902a3145c2b626d34b3af7",
-              "rating": 4,
-              "commentedBy": "21053436@kiit.ac.in",
-              "internalScore": 18,
-              "comments": "Worst ever",
-              "teacherId": "65900f82e771e0a80148ed3c"
-          },
-          {
-              "id": "65903d7345c2b626d34b3b13",
-              "rating": 1,
-              "commentedBy": "2105578@kiit.ac.in",
-              "internalScore": -1,
-              "comments": "remember the teacher who made out with students? Yes that is him. \n",
-              "teacherId": "65900f82e771e0a80148ed3c"
-          }
-      ],
-      "id": "65a6e829307b55dd840674ea"
-  },
-  {
-      "name": "Himansu Das",
-      "likes": 25,
-      "dislikes": 3,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674b5"
-  },
-  {
-      "name": "Deependra Singh",
-      "likes": 23,
-      "dislikes": 6,
-      "reviews": [
-          {
-              "id": "6590344145c2b626d34b3b0a",
-              "rating": 1,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "No 1 chutiya hai bhai mat lena nahi to regret hoga ",
-              "teacherId": "65900f82e771e0a80148ed42"
-          }
-      ],
-      "id": "65a6e829307b55dd840674b1"
-  },
-  {
-      "name": "Debanjan Pathak",
-      "likes": 24,
-      "dislikes": 12,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067475"
-  },
-  {
-      "name": "Mainak Biswas",
-      "likes": 26,
-      "dislikes": 13,
-      "reviews": [
-          {
-              "id": "65902f3845c2b626d34b3b05",
-              "rating": 5,
-              "commentedBy": "2205639@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Easy to get marks. A little hard to aprroach but studying will get you marks \n",
-              "teacherId": "65900f82e771e0a80148ed45"
-          },
-          {
-              "id": "65914efb45c2b626d34b3b48",
-              "rating": 5,
-              "commentedBy": "22052256@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Lenient ",
-              "teacherId": "65900f82e771e0a80148ed45"
-          }
-      ],
-      "id": "65a6e829307b55dd84067494"
-  },
-  {
-      "name": "Aleena Swetapadma",
-      "likes": 29,
-      "dislikes": 10,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674a0"
-  },
-  {
-      "name": "Mainak Chakraborty",
-      "likes": 32,
-      "dislikes": 0,
-      "reviews": [
-          {
-              "id": "6590292245c2b626d34b3af2",
-              "rating": 5,
-              "commentedBy": "2205629@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "excellent teaching style; gives ample questions for practice; gives excellent marks",
-              "teacherId": "65900f83e771e0a80148ed4d"
-          },
-          {
-              "id": "6591370545c2b626d34b3b46",
-              "rating": 1,
-              "commentedBy": "22051924@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Best teacher. Very lenient and gives good marks. Excellent teaching style. Internals mai almost sabko 30/30 diye the AFL mai❤️❤️",
-              "teacherId": "65900f83e771e0a80148ed4d"
-          },
-          {
-              "id": "65914f1645c2b626d34b3b49",
-              "rating": 5,
-              "commentedBy": "22052256@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Chill",
-              "teacherId": "65900f83e771e0a80148ed4d"
-          },
-          {
-              "id": "65914fe645c2b626d34b3b4a",
-              "rating": 4,
-              "commentedBy": "22052245@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "good teacher and student friendly",
-              "teacherId": "65900f83e771e0a80148ed4d"
-          },
-          {
-              "id": "6591961945c2b626d34b3b4e",
-              "rating": 5,
-              "commentedBy": "2205972@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "badhiya samjhate h, chill af and genuine",
-              "teacherId": "65900f83e771e0a80148ed4d"
-          }
-      ],
-      "id": "65a6e829307b55dd84067490"
-  },
-  {
-      "name": "Mainak Bandyopadhyay",
-      "likes": 22,
-      "dislikes": 18,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674c7"
-  },
-  {
-      "name": "Soumya Ranjan Mishra",
-      "likes": 21,
-      "dislikes": 5,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067477"
-  },
-  {
-      "name": "Kunal Anand",
-      "likes": 46,
-      "dislikes": 3,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674c1"
-  },
-  {
-      "name": "Hrudaya Kumar Tripathy",
-      "likes": 11,
-      "dislikes": 10,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674b6"
-  },
-  {
-      "name": "Chandani Kumari",
-      "likes": 20,
-      "dislikes": 24,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067480"
-  },
-  {
-      "name": "Sushruta Mishra",
-      "likes": 30,
-      "dislikes": 3,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f8"
-  },
-  {
-      "name": "Jayeeta Chakraborty",
-      "likes": 13,
-      "dislikes": 24,
-      "reviews": [
-          {
-              "id": "659132b845c2b626d34b3b45",
-              "rating": 1,
-              "commentedBy": "22054341@kiit.ac.in",
-              "internalScore": 22,
-              "comments": "too less as i did all she said \n",
-              "teacherId": "65900f83e771e0a80148ed61"
-          },
-          {
-              "id": "6593e39345c2b626d34b3b6d",
-              "rating": 1,
-              "commentedBy": "2205910@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "marks nhi deti ekdam",
-              "teacherId": "65900f83e771e0a80148ed61"
-          }
-      ],
-      "id": "65a6e829307b55dd84067470"
-  },
-  {
-      "name": "Susmita Das",
-      "likes": 16,
-      "dislikes": 2,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f9"
-  },
-  {
-      "name": "Murari Mandal",
-      "likes": 10,
-      "dislikes": 30,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067467"
-  },
-  {
-      "name": "Namita Panda",
-      "likes": 36,
-      "dislikes": 10,
-      "reviews": [
-          {
-              "id": "65901f1545c2b626d34b3ad4",
-              "rating": 5,
-              "commentedBy": "2106290@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "She is great",
-              "teacherId": "65900f83e771e0a80148ed66"
-          },
-          {
-              "id": "65930e0945c2b626d34b3b63",
-              "rating": 4,
-              "commentedBy": "2206340@kiit.ac.in",
-              "internalScore": 23,
-              "comments": "She is great when it comes to teaching but for internals she conducts class test. You have to score well to get good internals. But can increase internals if you have scored well in mid sem.",
-              "teacherId": "65900f83e771e0a80148ed66"
-          }
-      ],
-      "id": "65a6e829307b55dd840674d3"
-  },
-  {
-      "name": "Asif Uddin Khan",
-      "likes": 17,
-      "dislikes": 23,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067486"
-  },
-  {
-      "name": "Rinku Datta Rakshit",
-      "likes": 22,
-      "dislikes": 5,
-      "reviews": [
-          {
-              "id": "65904d3645c2b626d34b3b1f",
-              "rating": 5,
-              "commentedBy": "2105974@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Padhati bohot acha h...highly recommended ",
-              "teacherId": "65900f83e771e0a80148ed67"
-          }
-      ],
-      "id": "65a6e829307b55dd840674de"
-  },
-  {
-      "name": "Manas Ranjan Nayak",
-      "likes": 23,
-      "dislikes": 9,
-      "reviews": [
-          {
-              "id": "65903cc445c2b626d34b3b11",
-              "rating": 3,
-              "commentedBy": "2128034@kiit.ac.in",
-              "internalScore": 23,
-              "comments": "Good overall. Not the best but will do.\n",
-              "teacherId": "65900f84e771e0a80148ed69"
-          },
-          {
-              "id": "6591ac0e45c2b626d34b3b52",
-              "rating": 3,
-              "commentedBy": "2206340@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "Bhai is aadmi ko khud kuch nhi aata. Lenient h no doubt. But ha agr tmne shi likha h to b guarantee nhi h k marks milenge kyuki usko smjh nhi aata",
-              "teacherId": "65900f84e771e0a80148ed69"
-          },
-          {
-              "id": "6594603e45c2b626d34b3b7a",
-              "rating": 5,
-              "commentedBy": "2206385@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "na",
-              "teacherId": "65900f84e771e0a80148ed69"
-          }
-      ],
-      "id": "65a6e829307b55dd840674c9"
-  },
-  {
-      "name": "Soumya Ranjan Nayak",
-      "likes": 8,
-      "dislikes": 11,
-      "reviews": [
-          {
-              "id": "65902fd245c2b626d34b3b06",
-              "rating": 3,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "South indian Villian ",
-              "teacherId": "65900f84e771e0a80148ed6c"
-          },
-          {
-              "id": "65930bec45c2b626d34b3b5e",
-              "rating": 5,
-              "commentedBy": "22052043@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Very Good teacher... especially good if u can get in his good graces... \"You can't stop me from being myself\"",
-              "teacherId": "65900f84e771e0a80148ed6c"
-          },
-          {
-              "id": "65930c5545c2b626d34b3b5f",
-              "rating": 5,
-              "commentedBy": "22052042@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "du6urr6vubt o9uo8 ",
-              "teacherId": "65900f84e771e0a80148ed6c"
-          },
-          {
-              "id": "65930c6245c2b626d34b3b60",
-              "rating": 4,
-              "commentedBy": "22052044@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Good \"'if and only if\"' you are attentive and interact with the teacher",
-              "teacherId": "65900f84e771e0a80148ed6c"
-          },
-          {
-              "id": "65930c7545c2b626d34b3b61",
-              "rating": 4,
-              "commentedBy": "22052054@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Thik thak hi padhata hai ,exam me bas marks Thora ulta sidha deta hai,kabhi kabhi sahi answers p marks nhi dega but recheck p dene se marks badha dega",
-              "teacherId": "65900f84e771e0a80148ed6c"
-          }
-      ],
-      "id": "65a6e829307b55dd8406748b"
-  },
-  {
-      "name": "Debashis Hati",
-      "likes": 27,
-      "dislikes": 11,
-      "reviews": [],
-      "id": "65a6e829307b55dd8406746c"
-  },
-  {
-      "name": "Alok Kumar Jagadev",
-      "likes": 7,
-      "dislikes": 18,
-      "reviews": [
-          {
-              "id": "6591a71345c2b626d34b3b4f",
-              "rating": 3,
-              "commentedBy": "22054176@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "Strict teacher and you need to be attentive in class.Will give marks as per you deserve and checks the assignments very strictly ",
-              "teacherId": "65900f84e771e0a80148ed71"
-          },
-          {
-              "id": "6594423c45c2b626d34b3b77",
-              "rating": 3,
-              "commentedBy": "22054173@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Strict, doesn't let u use phone in class. Good teacher. Sometimes his lectures might be boring, will never let u sleep.",
-              "teacherId": "65900f84e771e0a80148ed71"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a1"
-  },
-  {
-      "name": "Minakhi Rout",
-      "likes": 13,
-      "dislikes": 26,
-      "reviews": [
-          {
-              "id": "659383ba45c2b626d34b3b65",
-              "rating": 1,
-              "commentedBy": "2206188@kiit.ac.in",
-              "internalScore": 19,
-              "comments": "very arrogant and she taught in a bookish manner, doesn't give internal marks or take any defaulter test/quiz ",
-              "teacherId": "65900f84e771e0a80148ed74"
-          },
-          {
-              "id": "65df61760fb947f5b25481d8",
-              "rating": 1,
-              "commentedBy": "2205333@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "She's so sadistic, gives marks on her mood. Way too biased ",
-              "teacherId": "65900f84e771e0a80148ed74"
-          }
-      ],
-      "id": "65a6e829307b55dd840674cd"
-  },
-  {
-      "name": "Sampriti Soor",
-      "likes": 10,
-      "dislikes": 8,
-      "reviews": [
-          {
-              "id": "6590fa6545c2b626d34b3b3d",
-              "rating": 1,
-              "commentedBy": "22052843@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "Sirf re be tum tam karna aata hai, mithi baatein aur low internals inki khoobi hai",
-              "teacherId": "65900f84e771e0a80148ed77"
-          }
-      ],
-      "id": "65a6e829307b55dd8406748d"
-  },
-  {
-      "name": "Vishal Meena",
-      "likes": 12,
-      "dislikes": 6,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067500"
-  },
-  {
-      "name": "Sankalp Nayak",
-      "likes": 3,
-      "dislikes": 31,
-      "reviews": [
-          {
-              "id": "659057ce45c2b626d34b3b27",
-              "rating": 1,
-              "commentedBy": "2105986@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "Not recommended at all. 17-18 was the average internal marks",
-              "teacherId": "65900f84e771e0a80148ed7c"
-          }
-      ],
-      "id": "65a6e829307b55dd840674e2"
-  },
-  {
-      "name": "Pradeep Kumar Mallick",
-      "likes": 28,
-      "dislikes": 12,
-      "reviews": [
-          {
-              "id": "65901bad45c2b626d34b3ac2",
-              "rating": 5,
-              "commentedBy": "22053306@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Nicee",
-              "teacherId": "65900f84e771e0a80148ed81"
-          },
-          {
-              "id": "65912ade45c2b626d34b3b42",
-              "rating": 5,
-              "commentedBy": "21052449@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Great teacher",
-              "teacherId": "65900f84e771e0a80148ed81"
-          }
-      ],
-      "id": "65a6e829307b55dd840674d9"
-  },
-  {
-      "name": "Krishnandu Hazra",
-      "likes": 4,
-      "dislikes": 22,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067478"
-  },
-  {
-      "name": "Prasenjit Maiti",
-      "likes": 30,
-      "dislikes": 0,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067479"
-  },
-  {
-      "name": "Sarita Mishra",
-      "likes": 16,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "65903d8645c2b626d34b3b14",
-              "rating": 5,
-              "commentedBy": "2128034@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "BEST.",
-              "teacherId": "65900f84e771e0a80148ed88"
-          }
-      ],
-      "id": "65a6e829307b55dd8406748a"
-  },
-  {
-      "name": "Saikat Chakraborty",
-      "likes": 11,
-      "dislikes": 21,
-      "reviews": [
-          {
-              "id": "65902a6245c2b626d34b3af8",
-              "rating": 1,
-              "commentedBy": "2205629@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "does NOT teach at all!",
-              "teacherId": "65900f84e771e0a80148ed85"
-          },
-          {
-              "id": "65904da445c2b626d34b3b21",
-              "rating": 1,
-              "commentedBy": "2105974@kiit.ac.in",
-              "internalScore": 18,
-              "comments": "Bohot test leta h ",
-              "teacherId": "65900f84e771e0a80148ed85"
-          }
-      ],
-      "id": "65a6e829307b55dd8406747d"
-  },
-  {
-      "name": "Ajit Kumar Pasayat",
-      "likes": 23,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "65903db845c2b626d34b3b15",
-              "rating": 5,
-              "commentedBy": "2128034@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "BEST PERSON, FULL SUPPORT TO STUDENTS AND EXTREMELY STUDENT FRIENDLY\n",
-              "teacherId": "65900f84e771e0a80148ed8a"
-          }
-      ],
-      "id": "65a6e829307b55dd84067492"
-  },
-  {
-      "name": "Monideepa Roy",
-      "likes": 10,
-      "dislikes": 16,
-      "reviews": [
-          {
-              "id": "65901aed45c2b626d34b3abe",
-              "rating": 5,
-              "commentedBy": "tpiyush2626@gmail.com",
-              "internalScore": 27,
-              "comments": "very good",
-              "teacherId": "65900f84e771e0a80148ed8c"
-          }
-      ],
-      "id": "65a6e829307b55dd84067465"
-  },
-  {
-      "name": "Swagatika Sahoo",
-      "likes": 11,
-      "dislikes": 15,
-      "reviews": [
-          {
-              "id": "6593ee8e45c2b626d34b3b6f",
-              "rating": 5,
-              "commentedBy": "2205045@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "Afl",
-              "teacherId": "65900f84e771e0a80148ed86"
-          }
-      ],
-      "id": "65a6e829307b55dd840674fa"
-  },
-  {
-      "name": "Pratyusa Mukherjee",
-      "likes": 27,
-      "dislikes": 16,
-      "reviews": [
-          {
-              "id": "6590309b45c2b626d34b3b07",
-              "rating": 5,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "Maintain attendence and she will conduct only 2 tests premid and post mid and whatever you get in test that will be your internal and tests questions are from whatever she taught in the class",
-              "teacherId": "65900f84e771e0a80148ed8d"
-          }
-      ],
-      "id": "65a6e829307b55dd8406746f"
-  },
-  {
-      "name": "Arup Abhinna Acharya",
-      "likes": 36,
-      "dislikes": 18,
-      "reviews": [
-          {
-              "id": "65902b5445c2b626d34b3afd",
-              "rating": 5,
-              "commentedBy": "2105366@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "One of the best teachers in the university, but his quizzes can be brutal at times. ",
-              "teacherId": "65900f84e771e0a80148ed90"
-          },
-          {
-              "id": "65903cd045c2b626d34b3b12",
-              "rating": 5,
-              "commentedBy": "22054231@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "teaches well ",
-              "teacherId": "65900f84e771e0a80148ed90"
-          },
-          {
-              "id": "6590582345c2b626d34b3b29",
-              "rating": 5,
-              "commentedBy": "2105986@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "Highly recommended for DSA",
-              "teacherId": "65900f84e771e0a80148ed90"
-          },
-          {
-              "id": "6594254445c2b626d34b3b75",
-              "rating": 1,
-              "commentedBy": "22051815@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "Teaches very well but doesn't gives marks. Very stringent marking. No step marking and no marks for writing algorithms.",
-              "teacherId": "65900f84e771e0a80148ed90"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a7"
-  },
-  {
-      "name": "Sujata Swain",
-      "likes": 42,
-      "dislikes": 11,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f5"
-  },
-  {
-      "name": "Subhasis Dash",
-      "likes": 3,
-      "dislikes": 10,
-      "reviews": [
-          {
-              "id": "6590466445c2b626d34b3b1b",
-              "rating": 4,
-              "commentedBy": "21051974@kiit.ac.in",
-              "internalScore": 22,
-              "comments": "more than enough knowledgeable. Sometimes his knowledge goes through the other side of the head, but Qn practiced in the class come in exam. If you have patients  select him it will be very beneficial.",
-              "teacherId": "65900f84e771e0a80148ed94"
-          },
-          {
-              "id": "659072be45c2b626d34b3b2a",
-              "rating": 1,
-              "commentedBy": "21053380@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "He gives quiz on moodles",
-              "teacherId": "65900f84e771e0a80148ed94"
-          }
-      ],
-      "id": "65a6e829307b55dd840674f3"
-  },
-  {
-      "name": "Rajat Kumar Behera",
-      "likes": 6,
-      "dislikes": 27,
-      "reviews": [
-          {
-              "id": "6590733545c2b626d34b3b2b",
-              "rating": 1,
-              "commentedBy": "21053380@kiit.ac.in",
-              "internalScore": 15,
-              "comments": "He is the worst teacher you can get.",
-              "teacherId": "65900f84e771e0a80148ed96"
-          }
-      ],
-      "id": "65a6e829307b55dd8406746b"
-  },
-  {
-      "name": "Rajdeep Chatterjee",
-      "likes": 22,
-      "dislikes": 2,
-      "reviews": [
-          {
-              "id": "65902c7545c2b626d34b3b02",
-              "rating": 5,
-              "commentedBy": "21052882@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Bhai GOD inshaan hai. Muh pe phek ke marks dete hain. Koi bhi subject me le lo full marks milega.",
-              "teacherId": "65900f84e771e0a80148ed95"
-          }
-      ],
-      "id": "65a6e829307b55dd84067462"
-  },
-  {
-      "name": "Harish Kumar Patnaik",
-      "likes": 8,
-      "dislikes": 24,
-      "reviews": [
-          {
-              "id": "65901b1345c2b626d34b3ac0",
-              "rating": 1,
-              "commentedBy": "tpiyush2626@gmail.com",
-              "internalScore": 17,
-              "comments": "dont take him",
-              "teacherId": "65900f84e771e0a80148ed97"
-          },
-          {
-              "id": "6595002745c2b626d34b3ba4",
-              "rating": 1,
-              "commentedBy": "2228089@kiit.ac.in",
-              "internalScore": 19,
-              "comments": "comes late to class and discuss 1 code and leave",
-              "teacherId": "65900f84e771e0a80148ed97"
-          }
-      ],
-      "id": "65a6e829307b55dd8406746d"
-  },
-  {
-      "name": "Junali Jasmine Jena",
-      "likes": 4,
-      "dislikes": 39,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674bc"
-  },
-  {
-      "name": "Tanmoy Maitra",
-      "likes": 3,
-      "dislikes": 20,
-      "reviews": [
-          {
-              "id": "65901c3645c2b626d34b3ac7",
-              "rating": 5,
-              "commentedBy": "2106302@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Good knowledge, teaches very well..if you make notes of his class that will be more than enough. Just study that before exams nothing else. Friendly",
-              "teacherId": "65900f84e771e0a80148ed98"
-          },
-          {
-              "id": "6590737245c2b626d34b3b2c",
-              "rating": 1,
-              "commentedBy": "21053380@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "He is strict.",
-              "teacherId": "65900f84e771e0a80148ed98"
-          }
-      ],
-      "id": "65a6e829307b55dd840674fd"
-  },
-  {
-      "name": "Jayanta Mondal",
-      "likes": 19,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "65904eb645c2b626d34b3b24",
-              "rating": 5,
-              "commentedBy": "2105860@kiit.ac.in",
-              "internalScore": 30,
-              "comments": " ",
-              "teacherId": "65900f84e771e0a80148ed9e"
-          }
-      ],
-      "id": "65a6e829307b55dd84067481"
-  },
-  {
-      "name": "Chandra Shekhar",
-      "likes": 26,
-      "dislikes": 3,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674af"
-  },
-  {
-      "name": "Chittaranjan Pradhan",
-      "likes": 44,
-      "dislikes": 8,
-      "reviews": [
-          {
-              "id": "659046e345c2b626d34b3b1c",
-              "rating": 4,
-              "commentedBy": "21051974@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "accha padhate hai , sare unhi k ppt distribute hote hai to khudhi samajh lo.",
-              "teacherId": "65900f85e771e0a80148eda0"
-          },
-          {
-              "id": "6590dba045c2b626d34b3b32",
-              "rating": 5,
-              "commentedBy": "22052950@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Very good teacher ",
-              "teacherId": "65900f85e771e0a80148eda0"
-          }
-      ],
-      "id": "65a6e829307b55dd840674b0"
-  },
-  {
-      "name": "Bhabani Shankar Prasad Mishra",
-      "likes": 14,
-      "dislikes": 15,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674ac"
-  },
-  {
-      "name": "Santwana Sagnika",
-      "likes": 29,
-      "dislikes": 0,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674e6"
-  },
-  {
-      "name": "Ramesh Kumar Thakur",
-      "likes": 34,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "65902a2645c2b626d34b3af6",
-              "rating": 5,
-              "commentedBy": "22051615@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "best faculty in whole kiit university",
-              "teacherId": "65900f85e771e0a80148eda8"
-          },
-          {
-              "id": "65902a7445c2b626d34b3af9",
-              "rating": 5,
-              "commentedBy": "2105366@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Teaching is below average but otherwise an absolute amazing person. ❣️",
-              "teacherId": "65900f85e771e0a80148eda8"
-          },
-          {
-              "id": "65aca35b870bee50deeccbea",
-              "rating": 5,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Best Teacher of It",
-              "teacherId": "65900f85e771e0a80148eda8"
-          },
-          {
-              "id": "65aca3ab870bee50deeccbeb",
-              "rating": 5,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Nice Professor",
-              "teacherId": "65900f85e771e0a80148eda8"
-          }
-      ],
-      "id": "65a6e829307b55dd840674dc"
-  },
-  {
-      "name": "Manoj Kumar Mishra",
-      "likes": 8,
-      "dislikes": 2,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674cb"
-  },
-  {
-      "name": "Mohit Ranjan Panda",
-      "likes": 19,
-      "dislikes": 11,
-      "reviews": [
-          {
-              "id": "65904dea45c2b626d34b3b22",
-              "rating": 4,
-              "commentedBy": "2105974@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "Number acha de dega",
-              "teacherId": "65900f85e771e0a80148edab"
-          }
-      ],
-      "id": "65a6e829307b55dd840674ce"
-  },
-  {
-      "name": "Manas Ranjan Lenka",
-      "likes": 10,
-      "dislikes": 43,
-      "reviews": [
-          {
-              "id": "65901e3145c2b626d34b3ad3",
-              "rating": 4,
-              "commentedBy": "21052168@kiit.ac.in",
-              "internalScore": 21,
-              "comments": "Knowledgeable and nice teaching but very strict ",
-              "teacherId": "65900f85e771e0a80148edad"
-          },
-          {
-              "id": "6592cf4c45c2b626d34b3b57",
-              "rating": 1,
-              "commentedBy": "22052080@kiit.ac.in",
-              "internalScore": 17,
-              "comments": "ek toh marks nahi diya upar se ghar pe call kar diya",
-              "teacherId": "65900f85e771e0a80148edad"
-          }
-      ],
-      "id": "65a6e829307b55dd84067460"
-  },
-  {
-      "name": "Banchhanidhi Dash",
-      "likes": 33,
-      "dislikes": 15,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674aa"
-  },
-  {
-      "name": "Sohail Khan",
-      "likes": 12,
-      "dislikes": 4,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674ee"
-  },
-  {
-      "name": "Suresh Chandra Satapathy",
-      "likes": 13,
-      "dislikes": 10,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f7"
-  },
-  {
-      "name": "Mandakini Priyadarshani Behera",
-      "likes": 5,
-      "dislikes": 25,
-      "reviews": [
-          {
-              "id": "65903c8545c2b626d34b3b10",
-              "rating": 1,
-              "commentedBy": "2205421@kiit.ac.in",
-              "internalScore": 24,
-              "comments": "Has no knowledge of the subject herself. Complete bookish knowledge and can't understand shit if you use your own brain and write a code which does not match the one taught in class. Has very poor idea of the subject.",
-              "teacherId": "65900f85e771e0a80148edb7"
-          },
-          {
-              "id": "659155b345c2b626d34b3b4b",
-              "rating": 1,
-              "commentedBy": "22052895@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "kuch nahi aata usko, sahi likha answer bhi kata ke 0 kar degi , na internal deti hai nahi paper checking me",
-              "teacherId": "65900f85e771e0a80148edb7"
-          }
-      ],
-      "id": "65a6e829307b55dd840674ca"
-  },
-  {
-      "name": "Suchismita Das",
-      "likes": 12,
-      "dislikes": 5,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f4"
-  },
-  {
-      "name": "Amiya Ranjan Panda",
-      "likes": 26,
-      "dislikes": 8,
-      "reviews": [
-          {
-              "id": "6590351045c2b626d34b3b0c",
-              "rating": 1,
-              "commentedBy": "22052643@kiit.ac.in",
-              "internalScore": 23,
-              "comments": "padhata bahut achha hai , lekin marks lana tough hai aur intenal mein bahut kharap marks deta even if you top in mid semester exam",
-              "teacherId": "65900f85e771e0a80148edb6"
-          },
-          {
-              "id": "65904e1445c2b626d34b3b23",
-              "rating": 4,
-              "commentedBy": "2105974@kiit.ac.in",
-              "internalScore": 24,
-              "comments": "Tension ni dega semester me...number bhi thik thaak de dega",
-              "teacherId": "65900f85e771e0a80148edb6"
-          },
-          {
-              "id": "6590efb645c2b626d34b3b3a",
-              "rating": 5,
-              "commentedBy": "22052634@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "As a teacher, he's a very good one. Doesn't care much about the attendance and is'nt strict at all",
-              "teacherId": "65900f85e771e0a80148edb6"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a4"
-  },
-  {
-      "name": "Partha Sarathi Paul",
-      "likes": 10,
-      "dislikes": 9,
-      "reviews": [
-          {
-              "id": "65902d7845c2b626d34b3b03",
-              "rating": 1,
-              "commentedBy": "21052882@kiit.ac.in",
-              "internalScore": 19,
-              "comments": "Bhai inko dekh k hi neend aa jaati hai. Tumhara answer jaisha bhi ho, agar answer script se match nhi kiya to marks nhi milega, step marks to bhul jao. ",
-              "teacherId": "65900f85e771e0a80148edb8"
-          }
-      ],
-      "id": "65a6e829307b55dd84067469"
-  },
-  {
-      "name": "Tanik Saikh",
-      "likes": 6,
-      "dislikes": 21,
-      "reviews": [
-          {
-              "id": "659025fb45c2b626d34b3ae2",
-              "rating": 1,
-              "commentedBy": "22052705@kiit.ac.in",
-              "internalScore": 23,
-              "comments": "Not recommended... \nteaching skill is very poor..\nBohot bolne ke bad itna internal marks mila..\nQuiz viva sab cls me paper me le raha tha..\nLekin kuch padhana nahi ata he ..\nKuch bhi samjh nahi aya",
-              "teacherId": "65900f85e771e0a80148edbd"
-          },
-          {
-              "id": "6590270e45c2b626d34b3ae8",
-              "rating": 1,
-              "commentedBy": "22051615@kiit.ac.in",
-              "internalScore": 21,
-              "comments": "worst",
-              "teacherId": "65900f85e771e0a80148edbd"
-          },
-          {
-              "id": "6590d83d45c2b626d34b3b31",
-              "rating": 1,
-              "commentedBy": "22053724@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "If you wanna fail go ahead",
-              "teacherId": "65900f85e771e0a80148edbd"
-          },
-          {
-              "id": "6590f44d45c2b626d34b3b3b",
-              "rating": 5,
-              "commentedBy": "22051204@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "Sir padhata nhi hai utna achha, par unka notes bohot useful hai.",
-              "teacherId": "65900f85e771e0a80148edbd"
-          },
-          {
-              "id": "659160de45c2b626d34b3b4c",
-              "rating": 3,
-              "commentedBy": "22052367@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Sare quiz, written tests offline with surprise tests. Kaafi important cheezien miss kar denge aur number bhi nahi denge.(Mera paper copy karne wale ko (dusra section) 32/40 aur mujhe 13/40(no grace marks for topics not covered in class). Attendance theek rakhoge toh thoda easy rahega",
-              "teacherId": "65900f85e771e0a80148edbd"
-          },
-          {
-              "id": "65926e2945c2b626d34b3b55",
-              "rating": 2,
-              "commentedBy": "22053675@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "The worst teacher in kiit inko liya toh marks bhul jayo, padhate bhi bahat kharab hain, internals v nahi dete bahat mushkil se internals mein thoda badhaya ",
-              "teacherId": "65900f85e771e0a80148edbd"
-          }
-      ],
-      "id": "65a6e829307b55dd840674fb"
-  },
-  {
-      "name": "Kumar Devadutta",
-      "likes": 22,
-      "dislikes": 10,
-      "reviews": [
-          {
-              "id": "65901c1645c2b626d34b3ac5",
-              "rating": 5,
-              "commentedBy": "21052500@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "Teaches well, also if you have attendance, you can score full in internals. ",
-              "teacherId": "65900f85e771e0a80148edbe"
-          }
-      ],
-      "id": "65a6e829307b55dd840674c0"
-  },
-  {
-      "name": "Arup Sarkar",
-      "likes": 16,
-      "dislikes": 15,
-      "reviews": [
-          {
-              "id": "65901cc745c2b626d34b3ac8",
-              "rating": 4,
-              "commentedBy": "2106302@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Extremely linent. Bharke marks dega…",
-              "teacherId": "65900f85e771e0a80148edc3"
-          },
-          {
-              "id": "65901d0045c2b626d34b3aca",
-              "rating": 5,
-              "commentedBy": "2106302@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Marks dega. Lekin classes bohot boring honge..Friendly bhi ha",
-              "teacherId": "65900f85e771e0a80148edc3"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a8"
-  },
-  {
-      "name": "Priyanka Roy",
-      "likes": 6,
-      "dislikes": 48,
-      "reviews": [
-          {
-              "id": "6591638b45c2b626d34b3b4d",
-              "rating": 1,
-              "commentedBy": "22054085@kiit.ac.in",
-              "internalScore": -2,
-              "comments": "worst",
-              "teacherId": "65900f85e771e0a80148edc2"
-          }
-      ],
-      "id": "65a6e829307b55dd84067472"
-  },
-  {
-      "name": "Abinas Panda",
-      "likes": 14,
-      "dislikes": 8,
-      "reviews": [
-          {
-              "id": "6590423045c2b626d34b3b18",
-              "rating": 3,
-              "commentedBy": "22051807@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "Internal ma marks nahi deta baki sa thik ha aur har hafta quize ya classe test leta ha .",
-              "teacherId": "65900f85e771e0a80148edc5"
-          }
-      ],
-      "id": "65a6e829307b55dd8406749b"
-  },
-  {
-      "name": "Prasant Kumar Pattnaik",
-      "likes": 11,
-      "dislikes": 0,
-      "reviews": [
-          {
-              "id": "65902bc145c2b626d34b3afe",
-              "rating": 5,
-              "commentedBy": "21052859@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "Excellent teacher, teaching in normal but if you want marks, he is the one. Very cool teacher and you can also do projects under hime in future.",
-              "teacherId": "65900f85e771e0a80148edcb"
-          }
-      ],
-      "id": "65a6e829307b55dd840674da"
-  },
-  {
-      "name": "Krutika Verma",
-      "likes": 6,
-      "dislikes": 27,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674bf"
-  },
-  {
-      "name": "Partha Pratim Sarangi",
-      "likes": 30,
-      "dislikes": 16,
-      "reviews": [],
-      "id": "65a6e829307b55dd84067464"
-  },
-  {
-      "name": "Mukesh Kumar",
-      "likes": 15,
-      "dislikes": 15,
-      "reviews": [
-          {
-              "id": "65901d9245c2b626d34b3acd",
-              "rating": 5,
-              "commentedBy": "2106302@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "Friendly and class me mazak masti krta rehta ha. Lekin Zyada mt kr dena toh gussa ho jayega lekin baad me phirse has deta ha..Min 27 toh dega hi internals agr sab timely submitted ha toh",
-              "teacherId": "65900f85e771e0a80148edcf"
-          }
-      ],
-      "id": "65a6e829307b55dd840674cf"
-  },
-  {
-      "name": "Amulya Ratna Swain",
-      "likes": 49,
-      "dislikes": 10,
-      "reviews": [
-          {
-              "id": "65901dc145c2b626d34b3acf",
-              "rating": 1,
-              "commentedBy": "2106302@kiit.ac.in",
-              "internalScore": 15,
-              "comments": "Bhul se bhi mt lena",
-              "teacherId": "65900f85e771e0a80148edd1"
-          }
-      ],
-      "id": "65a6e829307b55dd84067485"
-  },
-  {
-      "name": "Leena Das",
-      "likes": 3,
-      "dislikes": 29,
-      "reviews": [
-          {
-              "id": "6590e09945c2b626d34b3b37",
-              "rating": 1,
-              "commentedBy": "21051592@kiit.ac.in",
-              "internalScore": 15,
-              "comments": "!!!DANGER!!!",
-              "teacherId": "65900f86e771e0a80148edd4"
-          }
-      ],
-      "id": "65a6e829307b55dd840674c3"
-  },
-  {
-      "name": "Ajay Kumar Jena",
-      "likes": 7,
-      "dislikes": 17,
-      "reviews": [
-          {
-              "id": "6590e07645c2b626d34b3b36",
-              "rating": 4,
-              "commentedBy": "21051592@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "dont know anything but internal meh number deta hai",
-              "teacherId": "65900f86e771e0a80148edd3"
-          }
-      ],
-      "id": "65a6e829307b55dd8406749e"
-  },
-  {
-      "name": "Samaresh Mishra",
-      "likes": 26,
-      "dislikes": 9,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674e1"
-  },
-  {
-      "name": "Santosh Kumar Pani",
-      "likes": 17,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "6592afe245c2b626d34b3b56",
-              "rating": 5,
-              "commentedBy": "22051722@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "very chill",
-              "teacherId": "65900f86e771e0a80148edd9"
-          },
-          {
-              "id": "6593edad45c2b626d34b3b6e",
-              "rating": 5,
-              "commentedBy": "21052316@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "best teacher in terms of everything",
-              "teacherId": "65900f86e771e0a80148edd9"
-          }
-      ],
-      "id": "65a6e829307b55dd840674e4"
-  },
-  {
-      "name": "Benazir Neha",
-      "likes": 39,
-      "dislikes": 8,
-      "reviews": [
-          {
-              "id": "65910eb145c2b626d34b3b40",
-              "rating": 5,
-              "commentedBy": "2205919@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Teaches ok and gives lots of marks.",
-              "teacherId": "65900f86e771e0a80148edd8"
-          },
-          {
-              "id": "65943cf545c2b626d34b3b76",
-              "rating": 5,
-              "commentedBy": "22051073@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "Internal mein bhi theek hi de deti hai but mid sem and end sem mein bhar bhar ke marks milenge and padhati bhi sahi hai kaafi",
-              "teacherId": "65900f86e771e0a80148edd8"
-          }
-      ],
-      "id": "65a6e829307b55dd840674ab"
-  },
-  {
-      "name": "Sourajit Behera",
-      "likes": 20,
-      "dislikes": 4,
-      "reviews": [
-          {
-              "id": "6590276945c2b626d34b3aeb",
-              "rating": 5,
-              "commentedBy": "21051041@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "best teacher ever",
-              "teacherId": "65900f86e771e0a80148ede0"
-          },
-          {
-              "id": "6590279445c2b626d34b3aec",
-              "rating": 5,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "Chill teacher ever You can go for it",
-              "teacherId": "65900f86e771e0a80148ede0"
-          },
-          {
-              "id": "6594220345c2b626d34b3b74",
-              "rating": 5,
-              "commentedBy": "22052610@kiit.ac.in",
-              "internalScore": 2,
-              "comments": "1",
-              "teacherId": "65900f86e771e0a80148ede0"
-          }
-      ],
-      "id": "65a6e829307b55dd840674ef"
-  },
-  {
-      "name": "Gananath Bhuyan",
-      "likes": 21,
-      "dislikes": 9,
-      "reviews": [
-          {
-              "id": "6590f55f45c2b626d34b3b3c",
-              "rating": 5,
-              "commentedBy": "22052843@kiit.ac.in",
-              "internalScore": 28,
-              "comments": "I know strict teacher hai, but internals dete hai lekin attendance cut kar lete hai, padhate good hai",
-              "teacherId": "65900f86e771e0a80148eddf"
-          }
-      ],
-      "id": "65a6e829307b55dd840674b4"
-  },
-  {
-      "name": "Dayal Kumar Behera",
-      "likes": 20,
-      "dislikes": 0,
-      "reviews": [
-          {
-              "id": "6590283345c2b626d34b3aef",
-              "rating": 4,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 27,
-              "comments": "He will take surprise test in class and if you attend more than 80% and if you just write anything in exam still he gives marks",
-              "teacherId": "65900f86e771e0a80148eddd"
-          }
-      ],
-      "id": "65a6e829307b55dd84067487"
-  },
-  {
-      "name": "Abhaya Kumar Sahoo",
-      "likes": 15,
-      "dislikes": 1,
-      "reviews": [
-          {
-              "id": "6590276045c2b626d34b3aea",
-              "rating": 5,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "He is just nice",
-              "teacherId": "65900f86e771e0a80148ede1"
-          }
-      ],
-      "id": "65a6e829307b55dd84067498"
-  },
-  {
-      "name": "Nibedan Panda",
-      "likes": 21,
-      "dislikes": 9,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674d4"
-  },
-  {
-      "name": "Subhadip Pramanik",
-      "likes": 9,
-      "dislikes": 1,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f1"
-  },
-  {
-      "name": "Ipsita Paul",
-      "likes": 9,
-      "dislikes": 18,
-      "reviews": [
-          {
-              "id": "6590221745c2b626d34b3add",
-              "rating": 1,
-              "commentedBy": "21051716@kiit.ac.in",
-              "internalScore": 23,
-              "comments": "She don't clear any doubt. Other than study she can talk about anything. Boys who talk random things and entertain her will got marks not on the basis of talent",
-              "teacherId": "65900f86e771e0a80148ede5"
-          },
-          {
-              "id": "6590270545c2b626d34b3ae7",
-              "rating": 1,
-              "commentedBy": "21053420@kiit.ac.in",
-              "internalScore": 25,
-              "comments": "Worst teacher don't expect from her",
-              "teacherId": "65900f86e771e0a80148ede5"
-          },
-          {
-              "id": "6590e02645c2b626d34b3b34",
-              "rating": 1,
-              "commentedBy": "21051592@kiit.ac.in",
-              "internalScore": 18,
-              "comments": "bad ",
-              "teacherId": "65900f86e771e0a80148ede5"
-          }
-      ],
-      "id": "65a6e829307b55dd8406747f"
-  },
-  {
-      "name": "Dipti Dash",
-      "likes": 19,
-      "dislikes": 0,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674b2"
-  },
-  {
-      "name": "Pinaki Sankar Chatterjee",
-      "likes": 11,
-      "dislikes": 16,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674d6"
-  },
-  {
-      "name": "Raghunath Dey",
-      "likes": 14,
-      "dislikes": 2,
-      "reviews": [
-          {
-              "id": "6590dfff45c2b626d34b3b33",
-              "rating": 3,
-              "commentedBy": "21051592@kiit.ac.in",
-              "internalScore": 26,
-              "comments": "good teaher linient in marks ",
-              "teacherId": "65900f88e771e0a80148ede7"
-          }
-      ],
-      "id": "65a6e829307b55dd84067493"
-  },
-  {
-      "name": "Sourav Kumar Giri",
-      "likes": 9,
-      "dislikes": 1,
-      "reviews": [],
-      "id": "65a6e829307b55dd840674f0"
-  },
-  {
-      "name": "Anuja Kumar Acharya",
-      "likes": 18,
-      "dislikes": 18,
-      "reviews": [
-          {
-              "id": "65901cdf45c2b626d34b3ac9",
-              "rating": 3,
-              "commentedBy": "22051843@kiit.ac.in",
-              "internalScore": 24,
-              "comments": "I would recommend mat lena. Risky sir hai. ",
-              "teacherId": "65900f83e771e0a80148ed4b"
-          },
-          {
-              "id": "65902a7845c2b626d34b3afa",
-              "rating": 5,
-              "commentedBy": "21053436@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "He taught good, gave marks, but when i applied for recheck he never recheked it.",
-              "teacherId": "65900f83e771e0a80148ed4b"
-          },
-          {
-              "id": "6593903f45c2b626d34b3b66",
-              "rating": 1,
-              "commentedBy": "2205316@kiit.ac.in",
-              "internalScore": 20,
-              "comments": "unnecessarily strict",
-              "teacherId": "65900f83e771e0a80148ed4b"
-          }
-      ],
-      "id": "65a6e829307b55dd840674a6"
-  },
-  {
-      "name": "Sujoy Datta",
-      "likes": 67,
-      "dislikes": 17,
-      "reviews": [
-          {
-              "id": "65901d2145c2b626d34b3acb",
-              "rating": 5,
-              "commentedBy": "22054339@kiit.ac.in",
-              "internalScore": 30,
-              "comments": "You will get good internal marks if ur attendance is decent...",
-              "teacherId": "65900f83e771e0a80148ed4c"
-          },
-          {
-              "id": "659022e045c2b626d34b3adf",
-              "rating": 5,
-              "commentedBy": "donkeyking1856@gmail.com",
-              "internalScore": 26,
-              "comments": "just maintain assignments and attendence\n",
-              "teacherId": "65900f83e771e0a80148ed4c"
-          },
-          {
-              "id": "6591327445c2b626d34b3b44",
-              "rating": 5,
-              "commentedBy": "22054341@kiit.ac.in",
-              "internalScore": 29,
-              "comments": "\n",
-              "teacherId": "65900f83e771e0a80148ed4c"
-          },
-          {
-              "id": "65931e2945c2b626d34b3b64",
-              "rating": 5,
-              "commentedBy": "22052219@kiit.ac.in",
-              "internalScore": -1,
-              "comments": "good teacher, gives decent marks",
-              "teacherId": "65900f83e771e0a80148ed4c"
-          }
-      ],
-      "id": "65a6e829307b55dd84067482"
-  }
+[{
+    "id": "65900f85e771e0a80148edbb",
+    "name": "Nayan Kumar S. Behera",
+    "section": [
+        7,
+        45
+    ],
+    "subject": "OS(L)",
+    "likes": 26,
+    "dislikes": 9,
+    "reviews": [
+        {
+            "id": "6590362745c2b626d34b3b0d",
+            "rating": 5,
+            "commentedBy": "gupta.ayush.kiit@gmail.com",
+            "internalScore": 25,
+            "comments": "28"
+        },
+        {
+            "id": "6593a79045c2b626d34b3b68",
+            "rating": 2,
+            "commentedBy": "22052768@kiit.ac.in",
+            "internalScore": 23,
+            "comments": "Doesn't teach good, also gave very bad marks in internal to everyone in the class\n"
+        }
+    ]
+},
+{
+    "id": "65900f82e771e0a80148ed47",
+    "name": "Arun Kumar Gupta",
+    "section": [
+        8,
+        47
+    ],
+    "subject": "DSS",
+    "likes": 27,
+    "dislikes": 14,
+    "reviews": [
+        {
+            "id": "6590241645c2b626d34b3ae1",
+            "rating": 5,
+            "commentedBy": "22051615@kiit.ac.in",
+            "internalScore": 28,
+            "comments": "best faculty"
+        },
+        {
+            "id": "6590269845c2b626d34b3ae3",
+            "rating": 4,
+            "commentedBy": "22052705@kiit.ac.in",
+            "internalScore": 25,
+            "comments": "Thik thak hi he ...\nAttendance me thoda strict hein sir"
+        },
+        {
+            "id": "65926c9345c2b626d34b3b54",
+            "rating": 4,
+            "commentedBy": "22053675@kiit.ac.in",
+            "internalScore": 24,
+            "comments": "Internal bahat kam dete hain but mid sem mein thik thak dete hain"
+        },
+        {
+            "id": "6593069445c2b626d34b3b5d",
+            "rating": 4,
+            "commentedBy": "22051204@kiit.ac.in",
+            "internalScore": 28,
+            "comments": "Bohot achha padhata hai. Internals mein full nehi deta, par bohot lenient checking karta hai."
+        }
+    ]
+},
+{
+    "id": "65900f83e771e0a80148ed55",
+    "name": "S. K. Badi",
+    "section": [
+        8,
+        26
+    ],
+    "subject": "COA",
+    "likes": 8,
+    "dislikes": 17,
+    "reviews": []
+},
+{
+    "id": "65900f83e771e0a80148ed5b",
+    "name": "Spandan Guha",
+    "section": [
+        8
+    ],
+    "subject": "STW",
+    "likes": 5,
+    "dislikes": 11,
+    "reviews": []
+},
+{
+    "id": "65900f82e771e0a80148ed32",
+    "name": "S. Padhy",
+    "section": [
+        9
+    ],
+    "subject": "COA",
+    "likes": 7,
+    "dislikes": 3,
+    "reviews": []
+},
+{
+    "id": "65900f82e771e0a80148ed3e",
+    "name": "Rakesh Kumar Rai",
+    "section": [
+        9,
+        13
+    ],
+    "subject": "DBMS,OOPJ,OPPJ(L)",
+    "likes": 2,
+    "dislikes": 2,
+    "reviews": []
+},
+{
+    "id": "65900f82e771e0a80148ed44",
+    "name": "Swarup K. Nayak",
+    "section": [
+        9
+    ],
+    "subject": "STW",
+    "likes": 3,
+    "dislikes": 4,
+    "reviews": []
+},
+{
+    "id": "65900f84e771e0a80148ed70",
+    "name": "Akshaya Kumar Panda",
+    "section": [
+        9
+    ],
+    "subject": "DSS",
+    "likes": 11,
+    "dislikes": 12,
+    "reviews": [
+        {
+            "id": "65901ff545c2b626d34b3ad6",
+            "rating": 1,
+            "commentedBy": "imamansinha69@gmail.com",
+            "internalScore": 15,
+            "comments": "Number nhi dega"
+        },
+        {
+            "id": "6591aafe45c2b626d34b3b50",
+            "rating": 5,
+            "commentedBy": "2206340@kiit.ac.in",
+            "internalScore": 25,
+            "comments": "Bhai aankh band kr k paper check kr deta h not in a good sense like tmhare answers shi h to b 0 de dega kyuki vo check hi nhi krta"
+        },
+        {
+            "id": "6591ab5145c2b626d34b3b51",
+            "rating": 1,
+            "commentedBy": "2206340@kiit.ac.in",
+            "internalScore": 25,
+            "comments": "Bhai aankh band kr k paper check krega not in a good sense. Shi answer pe bhi 0 de dega kyuki vo paper check hi nhi krta"
+        }
+    ]
+},
+{
+    "id": "65900f83e771e0a80148ed50",
+    "name": "Mitali Routaray",
+    "section": [
+        10,
+        45
+    ],
+    "subject": "DSS",
+    "likes": 19,
+    "dislikes": 22,
+    "reviews": []
+},
+{
+    "id": "65900f84e771e0a80148ed9a",
+    "name": "Banishree Misra",
+    "section": [
+        10
+    ],
+    "subject": "STW",
+    "likes": 4,
+    "dislikes": 6,
+    "reviews": [
+        {
+            "id": "6590e3a345c2b626d34b3b39",
+            "rating": 5,
+            "commentedBy": "22051322@kiit.ac.in",
+            "internalScore": 29,
+            "comments": "Good"
+        }
+    ]
+},
+{
+    "id": "65900f83e771e0a80148ed68",
+    "name": "Suvasis Nayak",
+    "section": [
+        11,
+        31
+    ],
+    "subject": "DSS",
+    "likes": 24,
+    "dislikes": 1,
+    "reviews": []
+},
+{
+    "id": "65900f84e771e0a80148ed8b",
+    "name": "Sriparna Roy Ghatak",
+    "section": [
+        11,
+        32
+    ],
+    "subject": "STW",
+    "likes": 3,
+    "dislikes": 6,
+    "reviews": []
+},
+
+  {
+    "id": "65900f82e771e0a80148ed35",
+    "name": "Joydeb Pal",
+    
+    "likes": 39,
+    "dislikes": 24,
+    "reviews": [
+      {
+        "id": "65901e1745c2b626d34b3ad2",
+        "rating": 5,
+        "commentedBy": "2206107@kiit.ac.in",
+        "internalScore": 28,
+        "comments": "He is very good and very chill teacher and also teaches very well. He'll try to give as much as possible internals. You can choose him blindly."
+      },
+      {
+        "id": "659033fa45c2b626d34b3b08",
+        "rating": 4,
+        "commentedBy": "22052643@kiit.ac.in",
+        "internalScore": 29,
+        "comments": "Great teaching style."
+      },
+      {
+        "id": "6590342145c2b626d34b3b09",
+        "rating": 5,
+        "commentedBy": "22052643@kiit.ac.in",
+        "internalScore": 29,
+        "comments": "."
+      },
+      {
+        "id": "6590568845c2b626d34b3b25",
+        "rating": 3,
+        "commentedBy": "2105986@kiit.ac.in",
+        "internalScore": 25,
+        "comments": "Average"
+      }
+    ]
+  },
+  {
+    "id": "65900f83e771e0a80148ed5d",
+    "name": "Alivarani Mohapatra",
+   
+    "likes": 9,
+    "dislikes": 10,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148eda2",
+    "name": "Ranjeeta Patel",
+  
+    "likes": 5,
+    "dislikes": 1,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148edc4",
+    "name": "Manas Ranjan Mohapatra",
+    "section": [14, 30, 51],
+    "subject": "DSS",
+    "likes": 5,
+    "dislikes": 3,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148edc6",
+    "name": "Anil Kumar Behera",
+   
+    "likes": 6,
+    "dislikes": 2,
+    "reviews": [
+      {
+        "id": "6590223745c2b626d34b3ade",
+        "rating": 5,
+        "commentedBy": "khaitanharsh08@gmail.com",
+        "internalScore": 30,
+        "comments": "Will give you andha dun marks on paper and teacher. Very young teacher, toh memes se joke bhi karta hai, aur acha khasa roast karega toh be alert"
+      }
+    ]
+  },
+  {
+    "id": "65900f84e771e0a80148ed78",
+    "name": "P. Biswal",
+    "section": [15, 21],
+    "subject": "COA",
+    "likes": 14,
+    "dislikes": 1,
+    "reviews": [
+      {
+        "id": "6590404945c2b626d34b3b17",
+        "rating": 5,
+        "commentedBy": "22053994@kiit.ac.in",
+        "internalScore": 29,
+        "comments": "very good"
+      }
+    ]
+  },
+  {
+    "id": "65900f84e771e0a80148ed79",
+    "name": "Subarna Bhattacharya",
+    "section": [15, 18],
+    "subject": "STW",
+    "likes": 4,
+    "dislikes": 6,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148edb4",
+    "name": "Sudeshna Datta Chaudhuri",
+    "section": [16],
+    "subject": "STW",
+    "likes": 9,
+    "dislikes": 5,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148edba",
+    "name": "Ruby Mishra",
+    "section": [16],
+    "subject": "COA",
+    "likes": 6,
+    "dislikes": 2,
+    "reviews": []
+  },
+  {
+    "id": "65900f85e771e0a80148edca",
+    "name": "Sudipta Kumar Ghosh",
+    "section": [16, 28],
+    "subject": "DSS",
+    "likes": 9,
+    "dislikes": 8,
+    "reviews": [
+      {
+        "id": "6594477045c2b626d34b3b78",
+        "rating": 4,
+        "commentedBy": "22052832@kiit.ac.in",
+        "internalScore": 25,
+        "comments": "badhiya understanding teacher hai"
+      }
+    ]
+  },
+  {
+    "id": "65900f84e771e0a80148ed75",
+    "name": "Suman Sarkar",
+    "section": [17, 33, 43],
+    "subject": "DSS",
+    "likes": 24,
+    "dislikes": 5,
+    "reviews": [
+      {
+        "id": "659029e945c2b626d34b3af3",
+        "rating": 5,
+        "commentedBy": "2205629@kiit.ac.in",
+        "internalScore": 30,
+        "comments": "gives excellent marks; teaches pretty well"
+      }
+    ]
+  },
+  {
+    "id": "65900f84e771e0a80148ed9c",
+    "name": "Arpita Goswami",
+    "section": [17],
+    "subject": "STW",
+    "likes": 26,
+    "dislikes": 5,
+    "reviews": []
+  },
+  
 ]

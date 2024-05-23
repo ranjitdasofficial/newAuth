@@ -129,6 +129,7 @@ model ProfessorContacts {
 model FacultiesDetails {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
+
   phone       String?
   email       String?
   description String?
@@ -138,7 +139,6 @@ model FacultiesDetails {
 
   likesId    String[] @db.ObjectId
   dislikesId String[] @db.ObjectId
-  // likesId String[] 
 
   semesterSectionId String[]           @db.ObjectId
   semesterSection   SemesterSections[] @relation(fields: [semesterSectionId], references: [id])
@@ -189,14 +189,6 @@ model kiitsocial {
   user      User       @relation(fields: [userId], references: [id])
 }
 
-//  {
-//             "mimeType": "application/pdf",
-//             "year": "2015",
-//             "type": "Mid Semester",
-//             "name": "Mid Sem Exam",
-//             "id": "1xROCx4n462LWPiZY8NredaYB7sSmtanD",
-//             "solution": null
-//
 
 type Note {
   id             String  @default(uuid()) // Unique identifier for notes
