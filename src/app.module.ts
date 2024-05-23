@@ -43,6 +43,9 @@ import { GivewayService } from './giveway/giveway.service';
 import { MyperfecticeService } from './myperfectice/myperfectice.service';
 import { MyperfecticeController } from './myperfectice/myperfectice.controller';
 import { MyperfecticeModule } from './myperfectice/myperfectice.module';
+import { SwappingController } from './swapping/swapping.controller';
+import { SwappingModule } from './swapping/swapping.module';
+import { SwappingService } from './swapping/swapping.service';
 
 
 @Module({
@@ -56,9 +59,9 @@ import { MyperfecticeModule } from './myperfectice/myperfectice.module';
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-    // pool: true,
-    host: 'smtp.gmail.com',
-    // host: 'smtp.mailgun.com',
+    pool: true,
+    // host: 'smtp.gmail.com',
+    host: 'smtp.mailgun.com',
     // host:"rdmails.me",
     // port: 25,
     port:587,
@@ -75,17 +78,17 @@ import { MyperfecticeModule } from './myperfectice/myperfectice.module';
         // pass: `Hijecked@#98`,
       
       }, 
-      // tls:{ 
-      //   rejectUnauthorized:false
-      // }
+      tls:{ 
+        rejectUnauthorized:false
+      }
     },
     defaults: {
       // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
       // from: 'KIIT-CONNECT<notifications@kiitconnect.live>',
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
-      from: 'KIIT-CONNECT<support@kiitconnect.com>',
-      // from: 'KIIT-CONNECT<support@rdmails.me>',
+      // from: 'KIIT-CONNECT<support@kiitconnect.com>',
+      from: 'KIIT-CONNECT<support@rdmails.me>',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
       // from: 'KIIT-CONNECT<account@kiitconnect.live>',
       // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
@@ -97,9 +100,9 @@ import { MyperfecticeModule } from './myperfectice/myperfectice.module';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService],
   exports:[CacheModule]
   
 }) 

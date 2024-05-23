@@ -155,9 +155,11 @@ export class NotesService {
           include: { semester: true },
         });
 
+        console.log(updatedSubject)
         return updatedSubject;
       }
 
+      console.log(existingSubject)
       // Return the existing subject if already associated with the semester
       return existingSubject;
     } catch (error) {

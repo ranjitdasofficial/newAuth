@@ -144,7 +144,8 @@ model FacultiesDetails {
   semesterSection   SemesterSections[] @relation(fields: [semesterSectionId], references: [id])
   subjectId         String[]           @db.ObjectId
   subject           Subject[]          @relation(fields: [subjectId], references: [id])
-  reviews           Review[]
+
+  reviews           Review[]      
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -291,7 +292,29 @@ model Semester {
   branchId          String             @unique @db.ObjectId
   semesterSectionId String[]           @db.ObjectId
   semesterSections  SemesterSections[]
+  isFacultyReviewEnabled Boolean @default(false)
+  isSwappingEnabled Boolean @default(false) 
+  numberOfSectionForSwapping Int @default(0)
 }
+
+model Swapping {
+  id                 String     @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  branch             String
+  Semester           Int
+  alloted            Int
+  email              String     @unique
+  lookingFor         Int[]
+  matched            Boolean    @default(false)
+  contact            String
+  remoteUserId       String?     @db.ObjectId
+  remoteUser         Swapping?  @relation("SwappingToSwapping", fields: [remoteUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  editLeft           Int        @default(3)
+  createdAt          DateTime   @default(now())
+  SwappingToSwapping Swapping[] @relation("SwappingToSwapping")
+}
+
+
 
 model SemesterSections {
   id         String             @id @default(auto()) @map("_id") @db.ObjectId
