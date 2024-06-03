@@ -184,6 +184,10 @@ export class KiitUsersController {
   async sendMailToNonRegisteredUser(){
     return this.kiitUserService.sendMailToNonregisteredUser();
   }
+  @Get("sendMailToAvoidBlockage")
+  async sendMailToAvoidBlockage(){
+    return this.kiitUserService.sendMailAvoidBlockge();
+  }
 
   @Get("testMails")
   async testMails(){
@@ -295,4 +299,18 @@ export class KiitUsersController {
   async clearAllTokens(){
     return this.kiitUserService.clearAllTokens();
   }
+
+
+  @Get("getUserStatus")
+  async getUserStatus(@Query("userId") userId:string){
+    return this.kiitUserService.getUserStatus(userId);
+  }
+
+
+  @Post("updateUserYear")
+  async updateUserStatus(@Body() dto:{userId:string,year:string}){
+    return this.kiitUserService.updateUserStatus(dto);
+  }
+
+
 }

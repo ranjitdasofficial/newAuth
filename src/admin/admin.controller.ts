@@ -6,12 +6,20 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Get('users')
-  getUsers(@Query() dto: { pageNo: number; pageSize: number }) {
+  async getUsers(@Query() dto: { pageNo: number; pageSize: number }) {
     return this.adminService.getUsers(dto);
   }
 
   @Get('getPremiumUsers')
-  getPremiumUsers(@Query() dto: { pageNo: number; pageSize: number }) {
+  async getPremiumUsers(@Query() dto: { pageNo: number; pageSize: number }) {
     return this.adminService.getPremiumUsers(dto);
+  }
+
+
+  //
+
+  @Get('getCompanies')
+  async getCompanies() {
+    return this.adminService.getCompanies();
   }
 }

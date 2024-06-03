@@ -32,6 +32,8 @@ model User {
   redeemRequest  RedeemRequest[]
   PremiumGiveway PremiumGiveway?
 
+  allowedProfileUpdate Boolean @default(true)
+
   courseId String[] @db.ObjectId
   courses        Courses[] @relation(fields: [courseId], references: [id])
   
@@ -295,7 +297,8 @@ model Swapping {
   branch             String
   Semester           Int
   alloted            Int
-  email              String     @unique
+  userId             String     @unique @db.ObjectId
+  
   lookingFor         Int[]
   matched            Boolean    @default(false)
   contact            String
@@ -367,4 +370,29 @@ model Topic {
   course    Courses     @relation(fields: [courseId], references: [id])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+}
+
+
+
+model placmentMaterials {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  type      String
+  fileId      String
+  companyId String @db.ObjectId
+  placement   Placements @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+}
+
+model Placements {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  companyName   String @unique
+  companyLogo   String?
+  companyUrl    String?
+  companyDesc   String?
+  placementMaterials placmentMaterials[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -48,12 +48,11 @@ export class AdminService {
       take: Number(pageSize),
       orderBy: {
         updatedAt: 'desc',
-
       },
-      where:{
-        PremiumMember:{
-          isNot:null
-        }
+      where: {
+        PremiumMember: {
+          isNot: null,
+        },
       },
       select: {
         id: true,
@@ -76,5 +75,19 @@ export class AdminService {
   catch(error) {
     console.log(error);
     throw new InternalServerErrorException('Error while fetching users');
+  }
+
+  async getCompanies() {
+    try {
+      return await this.prisma.placements.findMany({
+        select: {
+          companyName: true,
+          id: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
   }
 }

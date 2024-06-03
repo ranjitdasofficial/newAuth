@@ -46,6 +46,8 @@ import { MyperfecticeModule } from './myperfectice/myperfectice.module';
 import { SwappingController } from './swapping/swapping.controller';
 import { SwappingModule } from './swapping/swapping.module';
 import { SwappingService } from './swapping/swapping.service';
+import { PlacementsModule } from './placements/placements.module';
+import { PlacementsService } from './placements/placements.service';
 
 
 @Module({
@@ -59,7 +61,7 @@ import { SwappingService } from './swapping/swapping.service';
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-    // pool: true,
+    pool: true,
     host: 'smtp.gmail.com',
     // host: 'smtp.mailgun.com',
     // host:"rdmails.me",
@@ -88,7 +90,7 @@ import { SwappingService } from './swapping/swapping.service';
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
       from: 'KIIT-CONNECT<support@kiitconnect.com>',
-      // from: 'KIIT-CONNECT<support@rdmails.me>',
+      // from: 'KIIT-CONNECT<support@notification.kiitconnect.com>',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
       // from: 'KIIT-CONNECT<account@kiitconnect.live>',
       // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
@@ -100,9 +102,9 @@ import { SwappingService } from './swapping/swapping.service';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule],
   controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService],
   exports:[CacheModule]
   
 }) 

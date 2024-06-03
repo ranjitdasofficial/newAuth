@@ -325,4 +325,19 @@ async sendMailToUnmatchedUser(senderEmail: string, senderName: string) {
     });
 }
 
+async sendMailToAvoidBlockage(data:{email:string,name:string,branch:string,year:string}) {
+  await this.mailService.sendMail({
+    to: data.email,
+    subject: 'Important: Activate Your Premium Membership-Avoid Blockage',
+    template: 'block', // Name of your template file without extension
+    context:data,
+  }).then(()=>{ 
+    console.log("Email Has been Sent");
+  }).catch((err)=>{
+    console.log(err);
+  }); 
+}
+
+
+
 }

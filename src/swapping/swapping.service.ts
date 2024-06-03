@@ -20,20 +20,20 @@ import { CustomException } from "src/customException";
     async getAllSwapping(dto: {
       branch: string;
       semester: number;
-      email: string;
+      userId: string;
     }) {
       console.log(dto);
       try {
         const getMyInfo = await this.prisma.swapping.findUnique({
           where: {
-            email: dto.email,
+            userId: dto.userId,
           },
           include: {
             remoteUser: {
               select: {
                 id: true,
                 name: true,
-                email: true,
+                userId: true,
                 editLeft: true,
               },
             },
@@ -50,7 +50,7 @@ import { CustomException } from "src/customException";
               select: {
                 id: true,
                 name: true,
-                email: true,
+                userId: true,
               },
             },
           },
@@ -94,12 +94,12 @@ import { CustomException } from "src/customException";
       alloted: number;
       lookingFor: number[];
       contact: string;
-      email: string;
+      userId: string;
     }) {
       try {
         const user = await this.prisma.swapping.findUnique({
           where: {
-            email: dto.email,
+            userId: dto.userId,
           },
         });
   
@@ -111,7 +111,7 @@ import { CustomException } from "src/customException";
             alloted: dto.alloted,
             branch: dto.branch,
             contact: dto.contact,
-            email: dto.email,
+            userId: dto.userId,
             name: dto.name,
             Semester: dto.Semester,
             lookingFor: dto.lookingFor,
@@ -130,17 +130,42 @@ import { CustomException } from "src/customException";
       }
     }
   
-    async acceptSwap(dto: { currentUserEmail: string; remoteUserEmail: string }) {
+    async acceptSwap(dto: { currentUserId: string; remoteUserId: string }) {
       try {
+
+        const isCurrentUserExist = await this.prisma.user.findUnique({
+          where:{
+            id:dto.currentUserId
+          },
+          select:{
+            id:true,
+            email:true,
+          }
+        })
+
+        if(!isCurrentUserExist) throw new NotFoundException("User not found")
+
+        const isRemoteUserExist = await this.prisma.user.findUnique({
+          where:{
+            id:dto.remoteUserId
+          },
+          select:{
+            id:true,
+            email:true,
+          }
+        })
+
+        if(!isRemoteUserExist) throw new NotFoundException("User not found")
+
         const currentUser = await this.prisma.swapping.findUnique({
           where: {
-            email: dto.currentUserEmail,
+            userId: dto.currentUserId,
           },
         });
   
         const remoteUser = await this.prisma.swapping.findUnique({
           where: {
-            email: dto.remoteUserEmail,
+            userId: dto.remoteUserId,
           },
         });
   
@@ -174,11 +199,11 @@ import { CustomException } from "src/customException";
         if (!update)
           throw new InternalServerErrorException("Error occured while updating");
   
-          console.log(remoteUser.name,remoteUser.email,remoteUser.contact,currentUser.name,currentUser.alloted,currentUser.lookingFor,remoteUser.alloted,remoteUser.lookingFor)
+          // console.log(remoteUser.name,remoteUser.email,remoteUser.contact,currentUser.name,currentUser.alloted,currentUser.lookingFor,remoteUser.alloted,remoteUser.lookingFor)
   
         await this.mailService.sendMailToSwapFound(
           remoteUser.name,
-          remoteUser.email,
+          isRemoteUserExist.email,
           remoteUser.contact,
           currentUser.name,
           currentUser.alloted,
@@ -189,7 +214,7 @@ import { CustomException } from "src/customException";
   
         await this.mailService.sendMailToSwapFound(
           currentUser.name,
-          currentUser.email,
+          isCurrentUserExist.email,
           currentUser.contact,
           remoteUser.name,
           remoteUser.alloted,
@@ -209,14 +234,14 @@ import { CustomException } from "src/customException";
     }
   
     async updateSwapDetails(dto: {
-      email: string;
+      userId: string;
       alloted: number;
       lookingFor: number[];
     }) {
       try {
         const user = await this.prisma.swapping.findUnique({
           where: {
-            email: dto.email,
+            userId: dto.userId,
           },
         });
   
@@ -369,11 +394,29 @@ import { CustomException } from "src/customException";
       }
     }
   
-    async deleteSwappingByAdmin(email: string) {
+    async deleteSwappingByAdmin(userId: string) {
       try {
+
+        console.log(userId)
+
+        const isCurrentUserExist = await this.prisma.user.findUnique({
+          where:{
+            id:userId
+          },
+          select:{
+            id:true,
+            email:true,
+          }
+        })
+
+        if(!isCurrentUserExist) throw new NotFoundException("User not found")
+
+       
+
+
         const user = await this.prisma.swapping.findUnique({
           where: {
-            email: email,
+            userId: userId,
           },
         });
         if (!user) throw new NotFoundException("User not found");
@@ -384,6 +427,22 @@ import { CustomException } from "src/customException";
               id:user.remoteUserId
             }
           })
+
+          console.log(user.remoteUserId);
+          const isRemoteUserExist = await this.prisma.user.findUnique({
+            where:{
+              id:remoteUser.userId
+            },
+            select:{
+              id:true,
+              email:true,
+            }
+          })
+  
+          if(!isRemoteUserExist) throw new NotFoundException("Remote User not found")
+  
+
+
           const update = await this.prisma.$transaction([
             // this.prisma.swapping.update({
             //   where:{
@@ -440,9 +499,9 @@ import { CustomException } from "src/customException";
   
           if(update){
             await this.mailService.sendMailToUnmatchedUser(
-              user.email,user.name
+              isCurrentUserExist.email,user.name
             );
-            await this.mailService.sendMailToUnmatchedUser(remoteUser.email,remoteUser.name)
+            await this.mailService.sendMailToUnmatchedUser(isRemoteUserExist.email,remoteUser.name)
           }
   
           return {
@@ -462,7 +521,7 @@ import { CustomException } from "src/customException";
           );
   
           await this.mailService.sendMailToRemoveProfileByUser(
-            user.email,
+            isCurrentUserExist.email,
             user.name
           )
         return {
@@ -475,11 +534,29 @@ import { CustomException } from "src/customException";
       }
     }
   
-    async deleteSwapByUser(email: string) {
+    async deleteSwapByUser(userId: string) {
       try {
+
+
+
+        const isCurrentUserExist = await this.prisma.user.findUnique({
+          where:{
+            id:userId
+          },
+          select:{
+            id:true,
+            email:true,
+            
+          }
+        })
+
+        if(!isCurrentUserExist) throw new NotFoundException("User not found")
+
+
+
         const user = await this.prisma.swapping.findUnique({
           where: {
-            email: email,
+            userId: isCurrentUserExist.id,
           },
         });
   
@@ -498,7 +575,7 @@ import { CustomException } from "src/customException";
             "Error occured while deleting user"
           );
   
-          await this.mailService.sendMailToRemoveProfileByUser(user.email,user.name);
+          await this.mailService.sendMailToRemoveProfileByUser(isCurrentUserExist.email,user.name);
         return {
           success: true,
           message: "User has been deleted successfully",

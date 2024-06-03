@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Found For Section Swapping</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
+        <h1 style="color: #333;">Hey <%= senderName %>,</h1>
+        <p>Congratulations! You have found a match for Section Swapping:</p>
+        
+        <div style="background-color: #fff; border: 1px solid #ccc; padding: 15px; margin-top: 15px;">
+            <h2>Details:</h2>
+            <h3>Name: <%= matchedUserName %></h3>
+            <h3>Email: <%= matchedUserEmail %></h3>
+            <h3>Contact: <%= matchedUserContact %></h3>
+    
+            <h2>Swapping Section Details:</h2>
+            <div>
+                <h3>Your Details:</h3>
+                <p>Allotted: <%= currentAlloted %></p>
+                <p>Looking For: <%= currentLookingFor.join(", ") %></p>
+            </div>
+            <div>
+                <h3>Matched User Details:</h3>
+                <p>Allotted: <%= remoteAlloted %></p>
+                <p>Looking For: <%= remoteLookingFor.join(", ") %></p>
+            </div>
+        </div>
+    
+    
+        <!-- Site Information -->
+        <div style="margin-top: 20px;">
+            <p>For more information, visit our website: <a href="https://kiitkaksha.vercel.app/" target="_blank">Kaksha</a></p>
+        </div>
+    
+        <!-- WhatsApp Link -->
+        <div style="margin-top: 10px;">
+            <p>Still having Issue contact: <a href="mailto:notification.kaksha@gmail.com" target="_blank">notification.kaksha@gmail.com</a></p>
+        </div>
+    
+       
+    
+        <!-- Disclaimer -->
+        <p style="font-size: 14px; color: #666; margin-top: 20px;">
+            This information is generated from KAKSHA. For any concerns or queries, please reach out to KAKSHA directly.
+        </p>
+    </div>
+    
+</body>
+</html>

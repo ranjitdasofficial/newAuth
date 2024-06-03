@@ -24,7 +24,7 @@ import {
   
     @Get('swappingData')
     async getSwappingData(
-      @Query() dto: { branch: string; semester: number; email: string },
+      @Query() dto: { branch: string; semester: number; userId: string },
     ) {
       return this.swappingService.getAllSwapping(dto);
     }
@@ -37,7 +37,7 @@ import {
   
     @Post('acceptSwap')
     async acceptSwap(
-      @Body() dto: { currentUserEmail: string; remoteUserEmail: string },
+      @Body() dto: { currentUserId: string; remoteUserId: string },
     ) {
       return this.swappingService.acceptSwap(dto);
     }
@@ -45,7 +45,7 @@ import {
   
     @Post('updateSwapDetails')
     async updateSwapDetails(@Body() dto: {
-      email:string,
+      userId:string,
       alloted:number,
       lookingFor:number[],
     }) {
@@ -84,13 +84,13 @@ import {
     }
   
     @Delete('deleteSwapByAdmin')
-    async deleteSwapByAdmin(@Query() dto:{email:string}){
-      return this.swappingService.deleteSwappingByAdmin(dto.email);
+    async deleteSwapByAdmin(@Query() dto:{userId:string}){
+      return this.swappingService.deleteSwappingByAdmin(dto.userId);
     }
   
     @Delete('deleteSwapByUser')
-    async deleteSwapByUser(@Query() dto:{email:string}){
-      return this.swappingService.deleteSwapByUser(dto.email);
+    async deleteSwapByUser(@Query() dto:{userId:string}){
+      return this.swappingService.deleteSwapByUser(dto.userId);
     }
    
   
