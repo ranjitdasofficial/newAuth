@@ -256,7 +256,8 @@ async sendMailToSwapFound(
   currentAlloted: number,
   currentLookingFor: number[],
   remoteAlloted: number,
-  remoteLookingFor: number[]
+  remoteLookingFor: number[],
+  currentUserEmail:string
 ) {
   const data = {
     matchedUserName: matchedUserName,
@@ -272,7 +273,7 @@ async sendMailToSwapFound(
   console.log(data);
   await this.mailService
     .sendMail({
-      to: matchedUserEmail,
+      to:currentUserEmail,
       subject: "Match Found For Section Swapping",
       template: "matchFound", // Name of your template file without extension
       context: data,

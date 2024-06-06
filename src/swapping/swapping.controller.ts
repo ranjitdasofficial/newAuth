@@ -28,6 +28,11 @@ import {
     ) {
       return this.swappingService.getAllSwapping(dto);
     }
+
+    @Get('getMyInfo')
+    async getMyInfo(@Query() dto:{userId:string}){
+      return this.swappingService.getMyInfo(dto.userId);
+    }
   
     @Post('createUserProfile')
     async createUserProfile(@Body() dto: any) {

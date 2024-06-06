@@ -86,6 +86,31 @@ import { CustomException } from "src/customException";
         );
       }
     }
+
+    async getMyInfo(userId:string){
+      try {
+        const getMyInfo = await this.prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          select:{
+          PremiumMember:{
+            select:{
+              branch:true,
+              year:true,
+            }
+          }
+          }
+        });
+
+        return getMyInfo;
+      } catch (error) {
+        console.log(error);
+        throw new InternalServerErrorException(
+          "Error occured while fetching swapping data"
+        );
+      }
+    }
   
     async createUserProfile(dto: {
       name: string;
@@ -201,7 +226,7 @@ import { CustomException } from "src/customException";
   
           // console.log(remoteUser.name,remoteUser.email,remoteUser.contact,currentUser.name,currentUser.alloted,currentUser.lookingFor,remoteUser.alloted,remoteUser.lookingFor)
   
-        await this.mailService.sendMailToSwapFound(
+         this.mailService.sendMailToSwapFound(
           remoteUser.name,
           isRemoteUserExist.email,
           remoteUser.contact,
@@ -209,10 +234,11 @@ import { CustomException } from "src/customException";
           currentUser.alloted,
           currentUser.lookingFor,
           remoteUser.alloted,
-          remoteUser.lookingFor
+          remoteUser.lookingFor,
+        isCurrentUserExist.email
         );
   
-        await this.mailService.sendMailToSwapFound(
+         this.mailService.sendMailToSwapFound(
           currentUser.name,
           isCurrentUserExist.email,
           currentUser.contact,
@@ -220,7 +246,8 @@ import { CustomException } from "src/customException";
           remoteUser.alloted,
           remoteUser.lookingFor,
           currentUser.alloted,
-          currentUser.lookingFor
+          currentUser.lookingFor,
+          isRemoteUserExist.email
         );
   
         return update;
@@ -592,16 +619,16 @@ import { CustomException } from "src/customException";
     async sendTestMail(){
       try {
         
-        await this.mailService.sendMailToSwapFound(
-          "Test",
-          "dranjitkumar16@gmail.com",
-          "1234567890",
-          "Test",
-          1,
-          [1],
-          1,
-          [1]
-        );
+        // await this.mailService.sendMailToSwapFound(
+        //   "Test",
+        //   "dranjitkumar16@gmail.com",
+        //   "1234567890",
+        //   "Test",
+        //   1,
+        //   [1],
+        //   1,
+        //   [1]
+        // );
       } catch (error) {
         
       }
