@@ -5,71 +5,110 @@ import { PrismaService } from 'src/prisma.service';
 export class MyperfecticeService {
   constructor(private readonly prisma: PrismaService) {}
 
-
-  async createCourse(){
+  async createCourse() {
     try {
-        const course = await this.prisma.courses.create({
-            data:{
-                name:"Cognite Game v4.5",
-            
-            }
-        });
-        return course;
+      const course = await this.prisma.courses.create({
+        data: {
+          name: 'Cognite Game v4.5',
+        },
+      });
+      return course;
     } catch (error) {
-        console.log(error);
-        throw new InternalServerErrorException("Error in creating course");
+      console.log(error);
+      throw new InternalServerErrorException('Error in creating course');
     }
   }
 
   async createTopic() {
-    const data   = [
-        "[Elementary] Verbal - One Word Substitution - Let's Learn",
-        "[Elementary] Verbal - One Word Substitution - Practice Test",
-        "[Elementary] Quant - Number System 2 - Let's Learn",
-        "[Elementary] Quant - Number System 2 - Practice Test",
-        "Checkpoint - 8 [Elementary] Quant, Verbal - Number System, One Word Substitution - Mock Test",
-        "[Elementary] Reasoning - Seating Arrangement - Let's Learn",
-        "[Elementary] Reasoning - Seating Arrangement - Practice Test",
-        "[Elementary] Quant - Number System 3 - Let's Learn",
-        "[Elementary] Quant - Number System 3 - Practice Test",
-        "Checkpoint - 9 [Elementary] Quant, Reasoning - Number System, Seating Arrangement",
-        "[Elementary] Verbal - Subject-Verb Agreement - Let's Learn",
-        "[Elementary] Verbal - Subject-Verb Agreement - Practice Test",
-        "[Elementary] Reasoning - Blood Relations - Let's Learn",
-        "[Elementary] Reasoning - Blood Relations - Practice Test",
-        "[Elementary] Quant - Time, Speed & Distance - Let's Learn",
-        "[Elementary] Quant - Time, Speed & Distance - Practice Test",
-        "Checkpoint - 10 [Elementary] Quant, Verbal, Reasoning - Speed, Subject-Verb Agreement, Blood",
-        "[Elementary] Verbal - Adjectives & Adverbs - Let's Learn",
-        "[Elementary] Verbal - Adjectives & Adverbs - Practice Test",
-        "[Elementary] Reasoning - Venn Diagram - Let's Learn",
-        "[Elementary] Reasoning - Venn Diagram - Practice Test",
-        "[Elementary] Quant - Time, Work & Wages - Let's Learn",
-        "[Elementary] Quant - Time, Work & Wages - Practice Test",
-        "Checkpoint - 11 [Elementary] Quant, Verbal, Reasoning - Work & Wages, Adjectives & Adverbs,",
-        "[Elementary] Verbal - Prepositions - Let's Learn",
-        "[Elementary] Verbal - Prepositions - Practice Test",
-        "[Elementary] Reasoning - Syllogism - Let's Learn",
-        "[Elementary] Reasoning - Syllogism - Practice Test",
-        "[Elementary] Quant - Permutation & Combination - Let's Learn",
-        "[Elementary] Quant - Permutation & Combination - Practice Test",
-        "Checkpoint - 12 [Elementary] Quant, Verbal, Reasoning - Permutation, Prepositions, Syllogism -",
-        "[Elementary] Verbal - Reading Comprehensions - Let's Learn",
-        "[Elementary] Verbal - Reading Comprehensions - Practice Test",
-        "[Elementary] Reasoning - Direction Sense - Let's Learn",
-        "[Elementary] Reasoning - Direction Sense - Practice Test",
-        "[Elementary] Quant - Probability - Let's Learn",
-        "[Elementary] Quant - Probability - Practice Test",
-        "Checkpoint - 13 [Elementary] Quant, Verbal, Reasoning - Probability, Reading Comprehensions,"
-    ]
-    
-    
+    const data = [
+      "[Advance] Verbal - Pronouns - Let's Learn",
+      '[Advance] Verbal - Pronouns - Practice Test',
+      "[Advance] Reasoning - Sequence - Let's Learn",
+      '[Advance] Reasoning - Sequence - Practice Test',
+      "[Advance] Quant - Percentage - Let's Learn",
+      '[Advance] Quant - Percentage - Practice Test',
+      'Checkpoint - 1 [Advance] Quant, Verbal, Reasoning - Percentage, Pronouns',
+      "[Advance] Verbal - Subject-Verb Agreement - Let's Learn",
+      '[Advance] Verbal - Subject-Verb-Agreement - Practice Test',
+      "[Advance] Quant - Simple & Compound Interest - Let's Learn",
+      '[Advance] Quant - Simple & Compound Interest - Practice Test',
+      'Checkpoint - 2 [Advance] Quant, Verbal - SI & CI, Subject-Verb Agreement - Mock',
+      "[Advance] Verbal - Synonyms & Antonyms - Let's Learn",
+      '[Advance] Verbal - Synonyms & Antonyms - Practice Test',
+      "[Advance] Reasoning - Venn Diagram - Let's Learn",
+      '[Advance] Reasoning - Venn Diagram - Practice Test',
+      "[Advance] Quant - Profit & Loss - Let's Learn",
+      '[Advance] Quant - Profit & Loss - Practice Test',
+      'Checkpoint - 3 [Advance] Quant, Verbal, Reasoning - Profit & Loss',
+      '[Advance] Verbal - One word Substitution - Practice Test',
+      "[Advance] Quant - Ratio & Proportion - Let's Learn",
+      '[Advance] Quant - Ratio & Proportion - Practice Test',
+      'Checkpoint - 4 [Advance] Quant, Verbal - Ratio & Proportion, One word Substitution',
+      "[Advance] Verbal - Idiomatic Expressions - Let's Learn",
+      '[Advance] Verbal - Idiomatic Expressions - Practice Test',
+      "[Advance] Reasoning - Non-Verbal Reasoning - Let's Learn",
+      '[Advance] Reasoning - Non-Verbal Reasoning - Practice Test',
+      "[Advance] Reasoning - Non-Verbal Reasoning - Let's Learn",
+      '[Advance] Reasoning - Non-Verbal Reasoning - Practice Test',
+      'Checkpoint - 5 [Advance] Quant, Verbal, Reasoning - Average, Idiomatic',
+      "[Advance] Verbal - Adjectives & Adverbs - Let's Learn",
+      '[Advance] Verbal - Adjectives & Adverbs - Practice Test',
+      "[Advance] Quant - Time , Speed & Distance - Let's Learn",
+      '[Advance] Quant - Time , Speed & Distance - Practice Test',
+      'Checkpoint - 6 [Advance] Quant, Verbal - Speed & Distance, Adjectives & Adverbs',
+      "[Advance] Reasoning - Seating Arrangements - Let's Learn",
+      '[Advance] Reasoning - Seating Arrangements - Practice Test',
+      "[Advance] Quant - Time, Work & Wages - Let's Learn",
+      '[Advance] Quant - Time, Work & Wages - Practice Test',
+      'Checkpoint - 7 [Advance] Quant, Reasoning - Work & Wages, Seating Arrangements - Mock Test',
+      "[Advance] Verbal - Conjunctions - Let's Learn",
+      '[Advance] Verbal - Conjunctions - Practice Test',
+      "[Advance] Quant - Number System 1 - Let's Learn",
+      '[Advance] Quant - Number System 1 - Practice Test',
+      'Checkpoint - 8 [Advance] Quant, Verbal - Number System, Conjunctions - Mock Test',
+      "[Advance] Verbal - Modifiers & Determiners - Let's Learn",
+      '[Advance] Verbal - Modifiers & Determiners - Practice Test',
+      "[Advance] Reasoning - Clock & Calendar - Let's Learn",
+      '[Advance] Reasoning - Clock & Calendar - Practice Test',
+      "[Advance] Quant - Number System 2 - Let's Learn",
+      '[Advance] Quant - Number System 2 - Practice Test',
+      'Checkpoint - 9 [Advance] Quant, Verbal, Reasoning - Number System',
+      "[Advance] Verbal - Parallelism - Let's Learn",
+      '[Advance] Verbal - Parallelism - Practice Test',
+      "[Advance] Quant - Algebra 1 - Let's Learn",
+      '[Advance] Quant - Algebra 1 - Practice Test',
+      'Checkpoint - 10 [Advance] Quant, Verbal - Algebra, Parallelism - Mock Test',
+      "[Advance] Verbal - Para Jumbles - Let's Learn",
+      '[Advance] Verbal - Para Jumbles - Practice Test',
+      "[Advance] Reasoning - Cube & Dice - Let's Learn",
+      '[Advance] Reasoning - Cube & Dice - Practice Test',
+      "[Advance] Quant - Algebra 2 - Let's Learn",
+      '[Advance] Quant - Algebra 2 - Practice Test',
+      'Checkpoint - 11 [Advance] Quant, Verbal, Reasoning - Algebra, Para- Mock Test',
+      "[Advance] Verbal - Reading Comprehensions - Let's Learn",
+      '[Advance] Verbal - Reading Comprehensions - Practice Test',
+      "[Advance] Reasoning - Decision Making - Let's Learn",
+      '[Advance] Reasoning - Decision Making - Practice Test',
+      "[Advance] Quant - Geometry - Let's Learn",
+      '[Advance] Quant - Geometry - Practice Test',
+      'Checkpoint - 12 [Advance] Quant, Verbal, Reasoning - Geometry, Reading',
+      '[Advance] Verbal - Critical Reasoning 1 - Practice Test',
+      "[Advance] Quant - Permutation & Combination, Probability - Let's Learn",
+      '[Advance] Quant - Permutation & Combination, Probability - Practice Test',
+      'Checkpoint - 13 [Advance] Quant, Verbal - Permutation, Critical Reasoning',
+      '[Advance] Verbal - Critical Reasoning 2 - Practice Test',
+      "[Advance] Reasoning - Puzzles - Let's Learn",
+      '[Advance] Reasoning - Puzzles - Practice Test',
+      "[Advance] Quant - Data Interpretation - Let's Learn",
+      '[Advance] Quant - Data Interpretation - Practice Test',
+      'Checkpoint - 14 [Advance] Quant, Verbal, Reasoning - Data Interpretation-Mock Test',
+    ];
 
     try {
       const topic = await this.prisma.topic.createMany({
         data: data.map((name) => ({
           name: name,
-          courseId:"66344dd5b284d1fecec4bdb8"
+          courseId: '66344dd5b284d1fecec4bdb8',
         })),
       });
 
@@ -92,17 +131,16 @@ export class MyperfecticeService {
   async getTopics() {
     try {
       return await this.prisma.topic.findMany({
-        select:{
-            id:true,
-            name:true
-        }
+        select: {
+          id: true,
+          name: true,
+        },
       });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error in fetching topics');
     }
   }
-
 
   async getTopicsByCourseId(id: string) {
     try {
@@ -110,13 +148,11 @@ export class MyperfecticeService {
         where: {
           courseId: id,
         },
-        select:{
-            name:true,
-            id:true,
-            courseId:true
-
-           
-        }
+        select: {
+          name: true,
+          id: true,
+          courseId: true,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -124,22 +160,20 @@ export class MyperfecticeService {
     }
   }
 
-
   async getQuestionsByTopicId(id: string) {
     try {
-        console.log(id)
+      console.log(id);
       return await this.prisma.topic.findUnique({
         where: {
           id: id,
         },
-    
       });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error in fetching questions');
     }
   }
-  
+
   async createQuestion(
     questions: {
       question: string;
@@ -167,16 +201,8 @@ export class MyperfecticeService {
 
       return question;
     } catch (error) {
-        console.log(error);
-        throw new InternalServerErrorException('Error in creating question');
+      console.log(error);
+      throw new InternalServerErrorException('Error in creating question');
     }
   }
-
-
-
-
-  
-
 }
-
-

@@ -407,21 +407,21 @@ export class KiitUsersService {
         select: {
           user: {
             select: {
-              name: true,
+              // name: true,
               email: true,
             },
           },
 
-          paymentScreenshot: true,
-          isActive: true,
-          branch: true,
-          year: true,
+          // paymentScreenshot: true,
+          // isActive: true,
+          // branch: true,
+          // year: true,
         },
       });
 
-      const filterUser = users.filter((u) => u.user.email.startsWith('22'));
+      // const filterUser = users.filter((u) => u.user.email.startsWith('22'));
 
-      return filterUser;
+      return users.map((u)=>u.user.email);
     } catch (error) {
       console.log(error);
       if (error instanceof NotFoundException) {
