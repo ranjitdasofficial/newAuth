@@ -66,13 +66,24 @@ export class KiitUsersService {
         where: {
           email: email,
         },
+        include:{
+          PremiumMember:{
+            select:{
+              isActive:true,
+            }
+          },
+        }
       });
       console.log(user);
+
       if (!user) throw new NotFoundException('User not found');
 
+    
+
       if (!user.isPremium) {
+        const p = user.PremiumMember;    
         return {
-          user: user,
+          user: {...user, isActive:p?p.isActive:true},
         };
       }
 
@@ -107,7 +118,7 @@ export class KiitUsersService {
       );
       this.tokens[email] = tokens;
       return {
-        user: user,
+        user: {...user, isActive:true},
         tokens: tokens,
         uniqueCode: uniqueCode,
       };
@@ -303,6 +314,7 @@ export class KiitUsersService {
 
         data: {
           isPremium: true,
+          
         },
       });
       if (!user) throw new NotFoundException('User not found');
@@ -458,6 +470,8 @@ export class KiitUsersService {
       console.log(error);
     }
   }
+
+
 
   async getUserWithoutPremiumAccount() {
     try {
@@ -5569,6 +5583,49 @@ export class KiitUsersService {
     } catch (error) {
       console.log(error);
       throw new Error('Error in updating user');
+    }
+  }
+
+
+  async deactivateUser(userId:string){
+    try {
+      const user = await this.prisma.premiumMember.update({
+        where: {
+          userId: userId,
+        },
+        data:{
+          isActive:false
+        },
+        include:{
+          user:true
+        }
+      });
+
+      this.mailService.sendMailToDeactivateAccount(user.user.email,user.user.name);
+      return true;
+    } catch (error) {
+
+      console.log(error);
+      throw new Error('Error in deactivating user');
+      
+    }
+  }
+
+  async activateAll(){
+    try {
+      await this.prisma.premiumMember.updateMany({
+        where:{
+          isActive:false,
+        },
+        data:{
+          isActive:true
+        }
+      })
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in activating users');
+      
     }
   }
 }

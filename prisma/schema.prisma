@@ -36,6 +36,8 @@ model User {
 
   courseId String[] @db.ObjectId
   courses        Courses[] @relation(fields: [courseId], references: [id])
+
+  
   
 
 }
@@ -47,7 +49,7 @@ model PremiumMember {
   year              String
   message           String?
   paymentScreenshot String?
-  isActive          Boolean? @default(false)
+  isActive          Boolean? @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   user              User     @relation(fields: [userId], references: [id])

@@ -120,6 +120,15 @@ export class KiitUsersController {
     return this.kiitUserService.activatePremiumUser(dto.userId);
   }
 
+  @Post('deactivateUser')
+  async deactivateUser(@Body() dto: { userId: string }) {
+    return this.kiitUserService.deactivateUser(dto.userId);
+  }
+
+  @Get('activateAll')
+  async activateAll() {
+    return this.kiitUserService.activateAll();
+  }
   async checkIfImage(fileInfo: {
     mimetype: string;
     path: string;

@@ -340,5 +340,20 @@ async sendMailToAvoidBlockage(data:{email:string,name:string,branch:string,year:
 }
 
 
+async sendMailToDeactivateAccount(email:string,name:string) {
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Your account has been deactivated! - KIIT-CONNECT',
+    template: 'deactivate', // Name of your template file without extension
+    context:{
+      name:name
+    },
+  }).then(()=>{ 
+    console.log("Email Has been Sent");
+  }).catch((err)=>{
+    console.log(err);
+  });   
+
+}
 
 }
