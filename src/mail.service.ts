@@ -343,7 +343,7 @@ async sendMailToAvoidBlockage(data:{email:string,name:string,branch:string,year:
 async sendMailToDeactivateAccount(email:string,name:string) {
   await this.mailService.sendMail({
     to: email,
-    subject: 'Your account has been deactivated! - KIIT-CONNECT',
+    subject: 'Your account has been disabled! - KIIT-CONNECT',
     template: 'deactivate', // Name of your template file without extension
     context:{
       name:name
