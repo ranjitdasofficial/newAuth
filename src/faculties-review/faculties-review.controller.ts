@@ -106,5 +106,17 @@ export class FacultiesReviewController {
   }){
     return this.facultiesReviewService.addReviewToFaculty(data);
   }
+
+  @Post('updateContact')
+  async updateContact(@Body() data:{
+    data:{
+      email?:string;
+      phone?:string
+    },
+    id:string
+  }){
+    return this.facultiesReviewService.udateContact(data);
+
+  }
 }
 

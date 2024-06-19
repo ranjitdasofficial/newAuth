@@ -13610,36 +13610,34 @@ export class FacultiesReviewService {
     // }
     // })
 
-//     Ganga Bishnu Mund
+    //     Ganga Bishnu Mund
 
-// Ms. Sricheta Parui
-// Mr. Kamalesh Karmakar
-// Dr. Subhranshu Sekhar Tripathy
-// Dr. Debachudamani Prusti
-// Ms. Uppada Gautami
+    // Ms. Sricheta Parui
+    // Mr. Kamalesh Karmakar
+    // Dr. Subhranshu Sekhar Tripathy
+    // Dr. Debachudamani Prusti
+    // Ms. Uppada Gautami
 
-
-
-    const newFac =[
+    const newFac = [
       {
-        name:"Sricheta Parui",
+        name: 'Sricheta Parui',
       },
       {
-        name:"Kamalesh Karmakar",
+        name: 'Kamalesh Karmakar',
       },
       {
-        name:"Subhranshu Sekhar Tripathy",
+        name: 'Subhranshu Sekhar Tripathy',
       },
       {
-        name:"Debachudamani Prusti",
+        name: 'Debachudamani Prusti',
       },
       {
-        name:"Uppada Gautami",
+        name: 'Uppada Gautami',
       },
       {
-        name:"Ganga Bishnu Mund",
-      }
-    ]
+        name: 'Ganga Bishnu Mund',
+      },
+    ];
 
     try {
       // allReview.forEach(async (fac) => {
@@ -15994,7 +15992,7 @@ export class FacultiesReviewService {
       ];
 
       const createNewProf = await this.prisma.facultiesDetails.createMany({
-        data:newFac
+        data: newFac,
       });
 
       // const facList = await this.prisma.facultiesDetails.findMany({});
@@ -16891,8 +16889,6 @@ export class FacultiesReviewService {
       //   return p.filter((u)=>u!==null);
 
       const finalV = [
-      
-       
         {
           id: '664de829e19980085db960a8',
           name: 'Pramod Kumar Das',
@@ -20661,8 +20657,6 @@ export class FacultiesReviewService {
       ];
 
       // for (var i = 0; i < finalV.length; i++) {
-   
-
 
       // const newRv = finalV[i].reviews.map((p) => {
       //   return {
@@ -20931,12 +20925,12 @@ export class FacultiesReviewService {
           },
         },
       });
-      return  {
+      return {
         facultiesData: faculties,
         semesterDetails: {
           noOfSections: 1,
         },
-      };;
+      };
     } catch (error) {
       throw new InternalServerErrorException('Internal Server Error');
     }
@@ -21151,6 +21145,29 @@ export class FacultiesReviewService {
       if (error instanceof BadRequestException) {
         throw error;
       }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async udateContact(data: {
+    data: {
+      email?: string;
+      phone?: string;
+    };
+    id: string;
+  }) {
+    try {
+      const updateFaculties = await this.prisma.facultiesDetails.update({
+        where:{
+          id:data.id
+        },
+        data:{
+          ...data.data
+        }
+      });
+
+      return true;
+    } catch (error) {
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
