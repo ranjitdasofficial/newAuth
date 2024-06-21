@@ -147,7 +147,9 @@ export class MyperfecticeService {
       return await this.prisma.topic.findMany({
         where: {
           courseId: id,
+          
         },
+        orderBy:{id:'asc'},
         select: {
           name: true,
           id: true,
