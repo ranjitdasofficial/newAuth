@@ -189,7 +189,7 @@ export class KiitUsersService {
         name: newUser.user.name,
         branch: newUser.branch,
         year: newUser.year,
-        activateLink: 'https://kiitconnect.live/payment',
+        activateLink: 'https://kiitconnect.com/payment',
       };
       await this.mailService.sendAccountCreated(data);
 
@@ -3582,7 +3582,7 @@ export class KiitUsersService {
   async testMails() {
     try {
       await this.mailService.sendMailToNonKiitconnectUserSem4(
-        'support@kiitconnect.live',
+        'support@kiitconnect.com',
         1,
       );
     } catch (error) {

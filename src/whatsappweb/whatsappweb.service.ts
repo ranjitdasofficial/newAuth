@@ -73,7 +73,7 @@ export class WhatsappService {
         // const media = await sendMedia("https://storage.googleapis.com/kiitconnect_bucket/media/4xg3kgqx0o2");
 
         const description = `${desc.slice(0,20)}.Readmore`;
-        const link = `http://kiitconnect.live/kiitsocial/${postLink}`;
+        const link = `http://kiitconnect.com/kiitsocial/${postLink}`;
         
         // const m = MessageMedia.fromFilePath(imageFilePath);
         const caption = `*New Post-:* ${postType}\n\n${title?`*${title}*\n\n`:``}${description}\n\n*View Post:* ${link}`;

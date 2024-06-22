@@ -1271,8 +1271,8 @@ export class TeacherService {
 //   Teachers: any[] = [];
 //   siteInformation: string = `
 //   Report generated from KIIT-CONNECT WEBSITE.
-
-//   Website: https://www.kiitconnect.live/section_review/
+c
+//   Website: https://www.kiitconnect.com/section_review/
 //   WhatsApp Group: https://chat.whatsapp.com/BPdjPtAlV1IE2ARH2GrzIq
 //   Created by Ranjit Das
 // `;
