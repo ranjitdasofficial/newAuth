@@ -118,5 +118,22 @@ export class FacultiesReviewController {
     return this.facultiesReviewService.udateContact(data);
 
   }
+
+
+  @Post('createFaculty')
+  async createFaculty(@Body() data:{
+    name:string,
+   
+  }){
+    return this.facultiesReviewService.createFaculty(data);
+  }
+
+  @Post('disconnectFacultyFromSection')
+  async disconnectFacultyFromSection(@Body() data:{
+    facultyId:string,
+    sectionId:string
+  }){
+    return this.facultiesReviewService.disconnectSectionsFromFaculty(data);
+  }
 }
 

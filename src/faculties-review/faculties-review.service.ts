@@ -20767,6 +20767,7 @@ export class FacultiesReviewService {
         select: {
           subjectId: true,
           id: true,
+          name:true
         },
       });
 
@@ -20774,8 +20775,11 @@ export class FacultiesReviewService {
 
       const promises = allFaculties.map(async (d) => {
         const subjectIds = d.subjectId;
+        console.log(subjectIds,d)
         if (!subjectIds.includes(subjectId)) {
           // Connect the subject to the faculty
+
+          console.log("here")
           await this.prisma.facultiesDetails.update({
             where: {
               id: d.id,
@@ -20795,6 +20799,7 @@ export class FacultiesReviewService {
 
       return true;
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException(
         'Error in assigning subject to faculty',
       );
@@ -21171,4 +21176,53 @@ export class FacultiesReviewService {
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
+
+  async createFaculty(data:{name:string}){
+    try {
+      const fac  = await this.prisma.facultiesDetails.create({
+        data:{
+          name:data.name
+        }
+      });
+
+      return fac;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async disconnectSectionsFromFaculty(data:{facultyId:string,sectionId:string}){
+    try {
+      const faculty = await this.prisma.facultiesDetails.findUnique({
+        where:{
+          id:data.facultyId
+
+        }
+      });
+
+      if(!faculty) throw new BadRequestException('Faculty not found');
+
+      const updateFaculty = await this.prisma.facultiesDetails.update({
+
+        where:{
+          id:data.facultyId
+        },
+        data:{
+          semesterSection:{
+            disconnect:{
+              id:data.sectionId
+
+            }
+          }
+        }
+      }
+    )
+
+    return updateFaculty;
+  }catch (error){
+    console.log(error)
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+}
 }
