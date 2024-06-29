@@ -21246,4 +21246,193 @@ export class FacultiesReviewService {
     throw new InternalServerErrorException('Internal Server Error');
   }
 }
+
+async enableElecFac(){
+  const facIds = [
+    '65a6e829307b55dd84067462',
+    '65a6e829307b55dd84067463',
+    '65a6e829307b55dd84067464',
+    '65a6e829307b55dd84067465',
+    '65a6e829307b55dd84067466',
+    '65a6e829307b55dd84067467',
+    '65a6e829307b55dd84067469',
+    '65a6e829307b55dd8406746b',
+    '65a6e829307b55dd8406746c',
+    '65a6e829307b55dd8406746d',
+    '65a6e829307b55dd8406746f',
+    '65a6e829307b55dd84067475',
+    '65a6e829307b55dd84067477',
+    '65a6e829307b55dd84067479',
+    '65a6e829307b55dd8406747b',
+    '65a6e829307b55dd8406747e',
+    '65a6e829307b55dd8406747f',
+    '65a6e829307b55dd84067480',
+    '65a6e829307b55dd84067482',
+    '65a6e829307b55dd84067486',
+    '65a6e829307b55dd84067487',
+    '65a6e829307b55dd8406748f',
+    '65a6e829307b55dd84067492',
+    '65a6e829307b55dd84067493',
+    '65a6e829307b55dd84067498',
+    '65a6e829307b55dd8406749c',
+    '65a6e829307b55dd8406749d',
+    '65a6e829307b55dd8406749e',
+    '65a6e829307b55dd840674a2',
+    '65a6e829307b55dd840674a3',
+    '65a6e829307b55dd840674a4',
+    '65a6e829307b55dd840674a5',
+    '65a6e829307b55dd840674a9',
+    '65a6e829307b55dd840674aa',
+    '65a6e829307b55dd840674ac',
+    '65a6e829307b55dd840674ae',
+    '65a6e829307b55dd840674b0',
+    '65a6e829307b55dd840674b1',
+    '65a6e829307b55dd840674b2',
+    '65a6e829307b55dd840674b4',
+    '65a6e829307b55dd840674b5',
+    '65a6e829307b55dd840674b6',
+    '65a6e829307b55dd840674ba',
+    '65a6e829307b55dd840674bd',
+    '65a6e829307b55dd840674bf',
+    '65a6e829307b55dd840674c4',
+    '65a6e829307b55dd840674c6',
+    '65a6e829307b55dd840674c7',
+    '65a6e829307b55dd840674cb',
+    '65a6e829307b55dd840674cc',
+    '65a6e829307b55dd840674cd',
+    '65a6e829307b55dd840674ce',
+    '65a6e829307b55dd840674cf',
+    '65a6e829307b55dd840674d3',
+    '65a6e829307b55dd840674d4',
+    '65a6e829307b55dd840674d6',
+    '65a6e829307b55dd840674d9',
+    '65a6e829307b55dd840674de',
+    '65a6e829307b55dd840674df',
+    '65a6e829307b55dd840674e0',
+    '65a6e829307b55dd840674e2',
+    '65a6e829307b55dd840674e4',
+    '65a6e829307b55dd840674e6',
+    '65a6e829307b55dd840674e7',
+    '65a6e829307b55dd840674e8',
+    '65a6e829307b55dd840674e9',
+    '65a6e829307b55dd840674ea',
+    '65a6e829307b55dd840674eb',
+    '65a6e829307b55dd840674ec',
+    '65a6e829307b55dd840674f0',
+    '65a6e829307b55dd840674f1',
+    '65a6e829307b55dd840674f3',
+    '65a6e829307b55dd840674f4',
+    '65a6e829307b55dd840674f7',
+    '65a6e829307b55dd840674f8',
+    '65a6e829307b55dd840674fd',
+    '65a6e829307b55dd840674fe',
+    '65a6e829307b55dd84067500',
+    '664de829e19980085db960b1',
+    '664de829e19980085db960bf',
+    '664de829e19980085db960eb',
+    '664de829e19980085db960f0',
+    '664e15b5cf0d61ef01c532a8',
+    '664e15b5cf0d61ef01c532ab',
+    '667ed50b33241d6f49cc5b87',
+    '667ed56133241d6f49cc5b88',
+    '667ed65133241d6f49cc5b8b',
+    '667ed66333241d6f49cc5b8c',
+    '667ed67b33241d6f49cc5b8d',
+    '667ed68c33241d6f49cc5b8e',
+    '667ed85a33241d6f49cc5b8f',
+    '667f5c9ea5c50ae2af6118bb',
+    '667f89dc5802626362b22094',
+    '667f8c4c5802626362b22095',
+    '667f8c5f5802626362b22096',
+    '667f8e335802626362b22098',
+    '667f8e415802626362b22099',
+    '667f90355802626362b2209a'
+  ]
+
+  try {
+    const update = await this.prisma.facultiesDetails.updateMany({
+      where:{
+        id:{
+          in:facIds
+        }
+      },
+      data:{
+        isElective:true
+      }
+      
+    })
+
+    return update;
+  } catch (error) {
+
+    console.log(error)
+    throw new InternalServerErrorException('Internal Server Error');
+    
+  }
+}
+
+
+
+
+
+async getElectiveFaculties(){
+
+const subject  =['Artificial Intelligence','Machine Learning','HIGH PERFORMANCE COMPUT','Internet Of Things','Data Mining And Data Warehousing','Big Data','Data Science And Analytics','Distributed Operating System','Computational Intelligence','COMPILER DESIGN']
+try {
+
+  const faculties = await this.prisma.facultiesDetails.findMany({
+    where:{
+      isElective:true,
+      subject:{
+        some:{
+          name:{
+            in:subject
+          }
+        }
+      }
+    },
+    include: {
+      semesterSection: {
+        select: {
+          section: true,
+          semester:{
+            select:{
+              number:true,
+              branch:{
+                select:{
+                  id:true,
+                  name:true
+                }
+              }
+            }
+          }
+        },
+      },
+      subject: {
+        select: {
+          name: true,
+        },
+      },
+      reviews: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  return {
+    facultiesData: faculties,
+    semesterDetails: {
+      noOfSections:0,
+    },
+  };
+} catch (error) {
+
+  console.log(error);
+  throw new InternalServerErrorException('Internal Server Error');
+  
+}
+}
+
 }

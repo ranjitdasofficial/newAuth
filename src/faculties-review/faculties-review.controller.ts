@@ -135,5 +135,19 @@ export class FacultiesReviewController {
   }){
     return this.facultiesReviewService.disconnectSectionsFromFaculty(data);
   }
+
+
+  @Get('/get/updateElectiveFac')
+  async updateElectiveFac(){
+    return this.facultiesReviewService.enableElecFac();
+  }
+
+
+  @Get('/get/getElectiveFac')
+  async getElectiveFac(){
+    return this.facultiesReviewService.getElectiveFaculties();
+  }
+
+  
 }
 
