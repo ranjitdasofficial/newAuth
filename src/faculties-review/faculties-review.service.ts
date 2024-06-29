@@ -20981,6 +20981,17 @@ export class FacultiesReviewService {
           semesterSection: {
             select: {
               section: true,
+              semester:{
+                select:{
+                  number:true,
+                  branch:{
+                    select:{
+                      id:true,
+                      name:true
+                    }
+                  }
+                }
+              }
             },
           },
           subject: {
@@ -21023,6 +21034,16 @@ export class FacultiesReviewService {
           semesterSection: {
             select: {
               section: true,
+              semester:{
+                select:{
+                  number:true,
+                  branch:{
+                    select:{
+                      id:true,
+                      name:true
+                    }}
+                }
+              }
             },
           },
           subject: {
