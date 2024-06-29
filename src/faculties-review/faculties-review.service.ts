@@ -7,6 +7,8 @@ import {
 import { disconnect } from 'process';
 import { PrismaService } from 'src/prisma.service';
 
+import * as ExcelJS from 'exceljs';
+
 @Injectable()
 export class FacultiesReviewService {
   constructor(private readonly prisma: PrismaService) {}
@@ -21249,104 +21251,8 @@ export class FacultiesReviewService {
 
 async enableElecFac(){
   const facIds = [
-    '65a6e829307b55dd84067462',
-    '65a6e829307b55dd84067463',
-    '65a6e829307b55dd84067464',
-    '65a6e829307b55dd84067465',
-    '65a6e829307b55dd84067466',
-    '65a6e829307b55dd84067467',
-    '65a6e829307b55dd84067469',
-    '65a6e829307b55dd8406746b',
-    '65a6e829307b55dd8406746c',
-    '65a6e829307b55dd8406746d',
-    '65a6e829307b55dd8406746f',
-    '65a6e829307b55dd84067475',
-    '65a6e829307b55dd84067477',
-    '65a6e829307b55dd84067479',
-    '65a6e829307b55dd8406747b',
-    '65a6e829307b55dd8406747e',
-    '65a6e829307b55dd8406747f',
-    '65a6e829307b55dd84067480',
-    '65a6e829307b55dd84067482',
-    '65a6e829307b55dd84067486',
-    '65a6e829307b55dd84067487',
-    '65a6e829307b55dd8406748f',
-    '65a6e829307b55dd84067492',
-    '65a6e829307b55dd84067493',
-    '65a6e829307b55dd84067498',
-    '65a6e829307b55dd8406749c',
-    '65a6e829307b55dd8406749d',
-    '65a6e829307b55dd8406749e',
-    '65a6e829307b55dd840674a2',
-    '65a6e829307b55dd840674a3',
-    '65a6e829307b55dd840674a4',
-    '65a6e829307b55dd840674a5',
-    '65a6e829307b55dd840674a9',
-    '65a6e829307b55dd840674aa',
-    '65a6e829307b55dd840674ac',
-    '65a6e829307b55dd840674ae',
-    '65a6e829307b55dd840674b0',
-    '65a6e829307b55dd840674b1',
-    '65a6e829307b55dd840674b2',
-    '65a6e829307b55dd840674b4',
-    '65a6e829307b55dd840674b5',
-    '65a6e829307b55dd840674b6',
-    '65a6e829307b55dd840674ba',
-    '65a6e829307b55dd840674bd',
-    '65a6e829307b55dd840674bf',
-    '65a6e829307b55dd840674c4',
-    '65a6e829307b55dd840674c6',
-    '65a6e829307b55dd840674c7',
-    '65a6e829307b55dd840674cb',
-    '65a6e829307b55dd840674cc',
-    '65a6e829307b55dd840674cd',
-    '65a6e829307b55dd840674ce',
-    '65a6e829307b55dd840674cf',
-    '65a6e829307b55dd840674d3',
-    '65a6e829307b55dd840674d4',
-    '65a6e829307b55dd840674d6',
-    '65a6e829307b55dd840674d9',
-    '65a6e829307b55dd840674de',
-    '65a6e829307b55dd840674df',
-    '65a6e829307b55dd840674e0',
-    '65a6e829307b55dd840674e2',
-    '65a6e829307b55dd840674e4',
-    '65a6e829307b55dd840674e6',
-    '65a6e829307b55dd840674e7',
-    '65a6e829307b55dd840674e8',
-    '65a6e829307b55dd840674e9',
-    '65a6e829307b55dd840674ea',
-    '65a6e829307b55dd840674eb',
-    '65a6e829307b55dd840674ec',
-    '65a6e829307b55dd840674f0',
-    '65a6e829307b55dd840674f1',
-    '65a6e829307b55dd840674f3',
-    '65a6e829307b55dd840674f4',
-    '65a6e829307b55dd840674f7',
-    '65a6e829307b55dd840674f8',
-    '65a6e829307b55dd840674fd',
-    '65a6e829307b55dd840674fe',
-    '65a6e829307b55dd84067500',
-    '664de829e19980085db960b1',
-    '664de829e19980085db960bf',
-    '664de829e19980085db960eb',
-    '664de829e19980085db960f0',
-    '664e15b5cf0d61ef01c532a8',
-    '664e15b5cf0d61ef01c532ab',
-    '667ed50b33241d6f49cc5b87',
-    '667ed56133241d6f49cc5b88',
-    '667ed65133241d6f49cc5b8b',
-    '667ed66333241d6f49cc5b8c',
-    '667ed67b33241d6f49cc5b8d',
-    '667ed68c33241d6f49cc5b8e',
-    '667ed85a33241d6f49cc5b8f',
-    '667f5c9ea5c50ae2af6118bb',
-    '667f89dc5802626362b22094',
-    '667f8c4c5802626362b22095',
-    '667f8c5f5802626362b22096',
-    '667f8e335802626362b22098',
-    '667f8e415802626362b22099',
-    '667f90355802626362b2209a'
+    '65a6e829307b55dd84067476',
+   
   ]
 
   try {
@@ -21377,7 +21283,7 @@ async enableElecFac(){
 
 async getElectiveFaculties(){
 
-const subject  =['Artificial Intelligence','Machine Learning','HIGH PERFORMANCE COMPUT','Internet Of Things','Data Mining And Data Warehousing','Big Data','Data Science And Analytics','Distributed Operating System','Computational Intelligence','COMPILER DESIGN']
+const subject  =['Artificial Intelligence','Machine Learning','HIGH PERFORMANCE COMPUT','Internet Of Things','Data Mining and Data Warehousing','Big Data','Data Science And Analytics','Distributed Operating System','Computational Intelligence','COMPILER DESIGN']
 try {
 
   const faculties = await this.prisma.facultiesDetails.findMany({
@@ -21391,7 +21297,7 @@ try {
         }
       }
     },
-    include: {
+    select: {
       semesterSection: {
         select: {
           section: true,
@@ -21408,6 +21314,11 @@ try {
           }
         },
       },
+      likesId:true,
+      dislikesId:true,
+      id:true,
+      name:true,
+
       subject: {
         select: {
           name: true,
@@ -21420,6 +21331,8 @@ try {
       },
     },
   });
+
+  console.log(faculties)
 
   return {
     facultiesData: faculties,
@@ -21434,5 +21347,584 @@ try {
   
 }
 }
+
+
+
+//generate reports
+
+//   constructor(private readonly prismService: PrismaService) {}
+  HIGHLY_RECOMMENDED_THRESHOLD = 0.8; // Adjust as needed
+  RECOMMENDED_THRESHOLD = 0.6; // Adjust as needed
+  AVERAGE_THRESHOLD = 0.4; // Adjust as needed
+  MODERATELY_RECOMMENDED_THRESHOLD = 0.2; // Adjust as needed
+  MIN_INTERACTIONS_THRESHOLD = 5; // Minimum interactions to consider
+ 
+
+
+
+
+
+//   //get Teachee By Section
+
+  
+  siteInformation: string = `
+  Report generated from KIIT-CONNECT WEBSITE.
+  Website: https://www.kiitconnect.com/section_review/
+  WhatsApp Group: https://chat.whatsapp.com/BPdjPtAlV1IE2ARH2GrzIq
+  Created by Ranjit Das
+`;
+  async generateReport(data:{
+    branch:string,
+    semester:number,
+
+  }) {
+
+    console.log(data)
+    const Teachers =[]
+    // const teacherData = await this.prisma.facultiesDetails.findMany({
+    //   // where:{
+    //   //   semesterSection:{
+    //   //     every:{
+    //   //       semesterId:"65d20c6248b08e85746da025"
+    //   //     }
+    //   //   }
+    //   // },
+    //   include: { reviews: true,semesterSection:true,subject:true,},
+    // });
+
+
+
+    const branchId = await this.prisma.branch.findUnique({
+      where: {
+        name: data.branch,
+      },
+    });
+
+    if (!branchId) throw new BadRequestException('Branch not found');
+    const semesterId = await this.prisma.semester.findUnique({
+      where: {
+        number: {
+          equals: data.semester,
+        },
+        branchId: branchId.id,
+      },
+    });
+
+    if (!semesterId.isFacultyReviewEnabled) {
+      throw new ServiceUnavailableException(
+        'Faculty Review is not enabled for this semester',
+      );
+    }
+
+    const facultiesData = await this.prisma.facultiesDetails.findMany({
+      where: {
+        semesterSection: {
+          some: {
+            semesterId: semesterId.id,
+          },
+        },
+      },
+      include: {
+        semesterSection: {
+          select: {
+            section: true,
+            semester:{
+              select:{
+                number:true,
+                branch:{
+                  select:{
+                    id:true,
+                    name:true
+                  }
+                }
+              }
+            }
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        reviews: {
+          select: {
+            id: true,
+            comments: true,
+          },
+        },
+      },
+    });
+
+    const pq = facultiesData.filter((f)=>{
+    return f.semesterSection.map((p)=>p.semester.branch.name).includes(data.branch)
+    })
+
+    console.log(pq)
+
+    // return pq;
+
+
+    for (let i = 1; i <= semesterId.numberOfSectionForSwapping; i++) {
+      const sec1 = await Promise.all(
+        pq.map(async (teacher) => {
+
+          const filtr = teacher.semesterSection.filter((g)=>g.semester.number===data.semester && g.section===i && g.semester.branch.name===data.branch);
+          if (filtr.length>0) {
+
+            
+            return {
+              //   id: teacher.id,
+              name: teacher.name,
+              subject: teacher.subject.filter((f)=>{
+                return this.subjectList.includes(f.name)
+              }).map((s)=>{
+                
+                return this.reverseSubjectMap(s.name)
+              })
+              ,
+              likes: teacher.likesId.length,
+              dislikes: teacher.dislikesId.length,
+              reviews: teacher.reviews.map((review) => review.comments),
+            };
+          }
+
+         
+        }),
+      );
+
+      const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+      Teachers.push({
+        section: i,
+        data: filteredSec1,
+      });
+    }
+
+    console.log(Teachers);
+
+    const headers = Object.keys(Teachers[0].data[0]);
+    console.log(headers);
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(`Section_1`);
+
+    this.addSiteInformation(worksheet);
+    this.addReportGeneratedTime(worksheet);
+
+    worksheet.addRow(['Color Legend']);
+    this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+    this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+    this.addLegendRow(worksheet, 'Average', 'FFFF00');
+    this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+    this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
+    worksheet.addRow([]);
+    worksheet.addRow(headers);
+
+
+    worksheet.columns = [
+      { header: headers[0], width: 1 / 0.02645833 }, // 15 cm
+      { header: headers[1], width: 0.6 / 0.02645833 }, // 10 cm
+      { header: headers[2], width: 0.3 / 0.02645833 }, // 10 cm 
+      { header: headers[3], width: 0.3 / 0.02645833 }, // 10 cm 
+      { header: headers[4], width: 10 / 0.02645833 }, // 10 cm
+      // Add more columns if needed
+  ];
+
+    Teachers.forEach((sec) => {
+      worksheet.addRow([`Section ${sec.section}`]);
+      //   worksheet.addRow([`Section ${sec.section}`]);
+      //add some space to row
+
+      sec.data.forEach((row) => {
+        const values = headers.map((header) => row[header]);
+        const rowRef = worksheet.addRow(values);
+
+        const totalInteractions = row.likes + row.dislikes;
+
+        if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+          return 0; // Not enough interactions for a reliable recommendation
+        }
+
+        const ratio = row.likes / totalInteractions;
+        const p = Math.round(ratio * 100) / 100;
+        this.applyColorBasedOnRatio(rowRef, p);
+      });
+      worksheet.addRow([null]);
+    });
+
+    // Save workbook to a file
+    await workbook.xlsx.writeFile(`${data.branch}-${data.semester}.xlsx`);
+
+    return Teachers;
+  }
+
+
+  subjectList =  ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
+  // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
+
+  // async getDataForElective() {
+  //   const Elective = [];
+  //   const teacherData = await this.prismService.elective.findMany({
+  //     include: { reviews: true },
+  //   });
+
+  //   for (let i = 0; i < this.Electives.length; i++) {
+  //     const sec1 = await Promise.all(
+  //       teacherData.map(async (teacher) => {
+  //         if (teacher.subject === this.Electives[i]) {
+  //           return {
+  //             //   id: teacher.id,
+  //             name: teacher.name,
+  //             subject: teacher.subject,
+  //             likes: teacher.likes.length,
+  //             dislikes: teacher.dislikes.length,
+  //             reviews: teacher.reviews.map((review) => review.comments),
+  //           };
+  //         }
+  //       }),
+  //     );
+
+  //     const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+  //     Elective.push({
+  //       subject: this.Electives[i],
+  //       data: filteredSec1,
+  //     });
+  //   }
+
+  //   const headers = Object.keys(Elective[0].data[0]);
+  //   console.log(headers);
+
+  //   const workbook = new ExcelJS.Workbook();
+  //   const worksheet = workbook.addWorksheet(`Elective_1`);
+
+  //   this.addSiteInformation(worksheet);
+  //   this.addReportGeneratedTime(worksheet);
+
+  //   worksheet.addRow(['Color Legend']);
+  //   this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+  //   this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+  //   this.addLegendRow(worksheet, 'Average', 'FFFF00');
+  //   this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+  //   this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
+  //   worksheet.addRow([]);
+  //   worksheet.addRow(headers);
+
+  //   Elective.forEach((sec) => {
+  //     worksheet.addRow([`Subject:- ${sec.subject}`]);
+  //     //   worksheet.addRow([`Section ${sec.section}`]);
+  //     //add some space to row
+
+  //     sec.data.forEach((row) => {
+  //       const values = headers.map((header) => row[header]);
+  //       const rowRef = worksheet.addRow(values);
+
+  //       const totalInteractions = row.likes + row.dislikes;
+
+  //       if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+  //         return 0; // Not enough interactions for a reliable recommendation
+  //       }
+
+  //       const ratio = row.likes / totalInteractions;
+  //       const p = Math.round(ratio * 100) / 100;
+  //       this.applyColorBasedOnRatio(rowRef, p);
+  //     });
+  //     worksheet.addRow([null]);
+  //   });
+
+  //   // Save workbook to a file
+  //   await workbook.xlsx.writeFile('Electives-Export.xlsx');
+  //   console.log(Elective);
+  //   return Elective;
+  // }
+
+
+ subjectMap = (subject:string)=>{
+
+    console.log(subject)
+   switch(subject){
+      case "CN":
+        return "COMPUTER NETWORKS"
+      case "SE":
+        return "SOFTWARE ENGINEERING"
+      case "CN Lab":
+        return "Computer Networks Lab"
+      case "EE":
+        return "Engineering Economics"
+      case "DAA Lab":
+        return "DAA Lab"
+      case "DAA":
+        return "DESIGN & ANALYSIS OF ALGO"
+      case "EOD":
+        return "Economics Of Development"
+      case "IEC":
+        return "International Economic Cooperation"
+      case "AI":
+        return "Artificial Intelligence"
+      case "ML":
+        return "Machine Learning"
+      case "HPC":
+        return "HIGH PERFORMANCE COMPUT"
+      case "IoT":
+        return "Internet Of Things"
+      case "DMDW":
+        console.log("here")
+        return "Data Mining and Data Warehousing"
+      case "BD":
+        return "Big Data"
+      case "DSA":
+        return "Data Science And Analytics"
+      case "DOS":
+        return "Distributed Operating System"
+      case "CI":
+        return "Computational Intelligence"
+      case "CD":
+        return "COMPILER DESIGN"
+  
+      default:
+        return subject;
+    }
+  
+  }
+
+   reverseSubjectMap = (fullSubjectName:string) => {
+    console.log(fullSubjectName);
+    switch(fullSubjectName){
+      case "COMPUTER NETWORKS":
+        return "CN";
+      case "SOFTWARE ENGINEERING":
+        return "SE";
+      case "Computer Networks Lab":
+        return "CN Lab";
+      case "Engineering Economics":
+        return "EE";
+      case "DAA Lab":
+        return "DAA Lab";
+      case "DESIGN & ANALYSIS OF ALGO":
+        return "DAA";
+      case "Economics Of Development":
+        return "EOD";
+      case "International Economic Cooperation":
+        return "IEC";
+      case "Artificial Intelligence":
+        return "AI";
+      case "Machine Learning":
+        return "ML";
+      case "HIGH PERFORMANCE COMPUT":
+        return "HPC";
+      case "Internet Of Things":
+        return "IoT";
+      case "Data Mining and Data Warehousing":
+        console.log("here");
+        return "DMDW";
+      case "Big Data":
+        return "BD";
+      case "Data Science And Analytics":
+        return "DSA";
+      case "Distributed Operating System":
+        return "DOS";
+      case "Computational Intelligence":
+        return "CI";
+      case "COMPILER DESIGN":
+        return "CD";
+      default:
+        return fullSubjectName;
+    }
+  };
+  
+  applyColor(rowRef: ExcelJS.Row, color: string) {
+    for (let i = 1; i <= rowRef.cellCount; i++) {
+      rowRef.getCell(i).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    }
+  }
+
+  addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
+    const legendRow = worksheet.addRow([label]);
+    legendRow.eachCell((cell) => {
+      cell.font = {
+        // color: { argb: '' },
+        // White font color
+
+        bold: true,
+        size: 13,
+      };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    });
+  }
+
+  applyColorBasedOnRatio(rowRef: any, ratio: any) {
+    switch (true) {
+      case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FF00'); // Green color
+        break;
+      case ratio >= this.RECOMMENDED_THRESHOLD &&
+        ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FFFF'); // Blue color
+        break;
+      case ratio >= this.AVERAGE_THRESHOLD &&
+        ratio < this.RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FFFF00'); // Yellow color
+        break;
+      case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
+        ratio < this.AVERAGE_THRESHOLD:
+        this.applyColor(rowRef, 'FFA500'); // Orange color
+        break;
+      case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FF0000'); // Red color
+        break;
+      default:
+        break;
+    }
+  }
+
+  addSiteInformation(worksheet: ExcelJS.Worksheet) {
+    const lines = this.siteInformation.split('\n');
+
+    // Style for bold text
+    const boldStyle = {
+      bold: true,
+    };
+
+    // Style for hyperlinks
+    const hyperlinkStyle = {
+      font: {
+        color: { argb: '0000FF' }, // Blue font color
+        underline: true,
+      },
+    };
+
+    // Style for normal text
+    const normalStyle = {};
+
+    lines.forEach((line) => {
+      const cell = worksheet.addRow([line]).getCell(1);
+
+      // Apply styles based on content
+      if (line.includes('Website:')) {
+        cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+      } else if (line.includes('WhatsApp Group:')) {
+        cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+      } else {
+        cell.font = Object.assign({}, boldStyle, normalStyle);
+      }
+    });
+
+    // Add an empty row for separation
+    worksheet.addRow([null]);
+  }
+
+  addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
+    const now = new Date();
+    const formattedTime = `Report generated on: ${now.toLocaleString()}`;
+
+    // Style for italicized and gray text
+    const timeStyle = {
+      font: {
+        italic: true,
+        color: { argb: '756562' }, // Gray font color
+      },
+    };
+
+    // Add the report generated time with styles
+    worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
+    worksheet.addRow([null]); // Add an empty row for separation
+  }
+
+
+
+
+// 
+
+//   subjects = {
+//     0: 'CSE',
+//     1: 'DSS',
+//     2: 'OOPJ',
+//     3: 'DBMS',
+//     4: 'OS',
+//     5: 'COA',
+//     6: 'STW',
+//     7: 'OS(L)',
+//     8: 'OPPJ(L)',
+//     9: 'DBMS(L)',
+//     10: 'VT(L)',
+//   };
+
+//   AllFaculty: {} = {};
+
+//   idp = 0;
+
+//   //async fetch all data from xls file
+//   async fetchAllDataFromXls() {
+//     // const workbook = new ExcelJS.Workbook();
+
+//     const filepath = path.join(process.cwd(), 'forthsem.xlsx');
+//     const workbook = await xlsx.readFile(filepath);
+
+//     //  const workbook = xlsx.readFile('./Quiz_Question.xlsx');  // Step 2
+//     let workbook_sheet = workbook.SheetNames;
+//     let workbook_response = xlsx.utils.sheet_to_json(
+//       // Step 4
+//       workbook.Sheets[workbook_sheet[0]],
+//     );
+
+//     const first = workbook_response[2];
+//     const headers = workbook_response[1];
+//     console.log(headers, first);
+
+//     workbook_response.forEach(async (element, index) => {
+//       if (index === 0 || index === 1) return;
+//       Object.keys(element).forEach((key, idx) => {
+//         if (idx === 0) return;
+
+//         if (element[key].includes('New Faculty')) {
+//           return;
+//         }
+
+//         if (this.AllFaculty[element[key]]) {
+//           if (
+//             !this.AllFaculty[element[key]].subjects.includes(this.subjects[idx])
+//           ) {
+//             this.AllFaculty[element[key]].subjects.push(this.subjects[idx]);
+//           }
+//           if (!this.AllFaculty[element[key]].sections.includes(index - 1)) {
+//             this.AllFaculty[element[key]].sections.push(index - 1);
+//           }
+//         } else {
+//           this.AllFaculty[element[key]] = {
+//             name: element[key],
+//             subjects: [this.subjects[idx]],
+//             sections: [index - 1],
+//           };
+//         }
+//       });
+//     });
+
+//     // workbook_response.forEach(async (element) => {
+//     //  console.log(element)
+
+//     //   });
+//     // console.log(addData);
+
+//     // console.log(workbook_response);
+
+//     return this.AllFaculty;
+//   }
+
+
+
+
+
+
+
+
+
 
 }

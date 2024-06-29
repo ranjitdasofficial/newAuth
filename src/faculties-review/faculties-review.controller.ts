@@ -148,6 +148,16 @@ export class FacultiesReviewController {
     return this.facultiesReviewService.getElectiveFaculties();
   }
 
+  @Post('generateReport')
+  async generateReport(@Body() data:{
+    branch:string,
+    semester:number
+  }){
+
+console.log(data)
+    return this.facultiesReviewService.generateReport(data);
+  }
+
   
 }
 

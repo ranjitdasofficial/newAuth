@@ -322,4 +322,11 @@ export class KiitUsersController {
   }
 
 
+  @Get("enableDisabledUser")
+  async enableDisabledUser(){
+    return this.kiitUserService.enableDisabledUser();
+  }
+
+  
+
 }

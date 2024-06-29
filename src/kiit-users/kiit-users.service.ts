@@ -5628,4 +5628,34 @@ export class KiitUsersService {
       
     }
   }
+
+
+  async enableDisabledUser(){
+    try {
+     const p= await this.prisma.premiumMember.updateMany({
+        where:{
+          isActive:false,
+        },
+        // select:{
+        //   user:{
+        //     select:{
+        //       email:true,
+        //       name:true
+        //     }
+        //   }
+        // }
+        data:{
+          isActive:true
+        }
+      })
+
+      return p;
+      // return p.map((p)=>p.user.email);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in activating users');
+      
+    }
+  }
+
 }
