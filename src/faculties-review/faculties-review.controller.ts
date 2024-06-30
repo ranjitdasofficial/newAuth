@@ -159,5 +159,14 @@ console.log(data)
   }
 
   
+
+
+  @Post("increaseDecreaseLikes")
+  async increaseDecreaseLikes(@Body() data:{
+    facultyId:string,
+    event:string
+  }){
+    return this.facultiesReviewService.increaseDecreaseLikes(data);
+  }
 }
 

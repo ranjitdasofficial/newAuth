@@ -21922,7 +21922,44 @@ try {
 
 
 
+async increaseDecreaseLikes(data:{facultyId:string,event:string}){
+  try {
+    const faculty = await this.prisma.facultiesDetails.findUnique({
+      where:{
+        id:data.facultyId
+      }
+    });
 
+    if(!faculty) throw new BadRequestException('Faculty not found');
+
+
+
+    const ids = ['65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47']
+    const dataClause = data.event === 'Like' ? {
+      likesId:{
+        set:[...faculty.likesId,...ids]
+      }
+    }:{
+      dislikesId:{
+        set:[...faculty.dislikesId,...ids]
+      }
+    }
+
+    const updateLikesDislikes = await this.prisma.facultiesDetails.update({
+      where: {
+        id: data.facultyId,
+      },
+      data: dataClause
+
+    })
+
+    return true; 
+
+  } catch (error) {
+    console.log(error)
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+}
 
 
 
