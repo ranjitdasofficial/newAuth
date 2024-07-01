@@ -329,4 +329,9 @@ export class KiitUsersController {
 
   
 
+  @Post("changeYear")
+  async changeYear(@Body() dto:{userId:string,year:string}){
+    return this.kiitUserService.changeYear(dto);
+  }
+
 }

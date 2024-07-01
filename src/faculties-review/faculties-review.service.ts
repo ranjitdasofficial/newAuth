@@ -21515,7 +21515,7 @@ try {
     this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
     this.addLegendRow(worksheet, 'Recommended', '00FFFF');
     this.addLegendRow(worksheet, 'Average', 'FFFF00');
-    this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+    this.addLegendRow(worksheet, 'Below Average', 'FFA500');
     this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
     worksheet.addRow([]);
     worksheet.addRow(headers);
@@ -21545,9 +21545,16 @@ try {
           return 0; // Not enough interactions for a reliable recommendation
         }
 
-        const ratio = row.likes / totalInteractions;
+        const rat = row.likes / Math.max(row.dislikes, 1);
+
+
+        // const ratio = row.likes / totalInteractions;
+
+        const ratio = Math.round(rat * 100) / 100;
+        console.log(ratio);
+      
         const p = Math.round(ratio * 100) / 100;
-        this.applyColorBasedOnRatio(rowRef, p);
+        this.applyColorBasedOnRatio(rowRef, ratio);
       });
       worksheet.addRow([null]);
     });
@@ -21762,26 +21769,52 @@ try {
 
   applyColorBasedOnRatio(rowRef: any, ratio: any) {
     switch (true) {
-      case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, '00FF00'); // Green color
+      // case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+      //   this.applyColor(rowRef, '00FF00'); // Green color
+      //   break;
+      // case ratio >= this.RECOMMENDED_THRESHOLD &&
+      //   ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
+      //   this.applyColor(rowRef, '00FFFF'); // Blue color
+      //   break;
+      // case ratio >= this.AVERAGE_THRESHOLD &&
+      //   ratio < this.RECOMMENDED_THRESHOLD:
+      //   this.applyColor(rowRef, 'FFFF00'); // Yellow color
+      //   break;
+      // case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
+      //   ratio < this.AVERAGE_THRESHOLD:
+      //   this.applyColor(rowRef, 'FFA500'); // Orange color
+      //   break;
+      // case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+      //   this.applyColor(rowRef, 'FF0000'); // Red color
+      //   break;
+      // default:
+      //   break;
+
+     // Red color
+      case ratio >= 3:
+        // Highly recommended
+         this.applyColor(rowRef, '00FF00'); // Green color
         break;
-      case ratio >= this.RECOMMENDED_THRESHOLD &&
-        ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, '00FFFF'); // Blue color
-        break;
-      case ratio >= this.AVERAGE_THRESHOLD &&
-        ratio < this.RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, 'FFFF00'); // Yellow color
-        break;
-      case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
-        ratio < this.AVERAGE_THRESHOLD:
-        this.applyColor(rowRef, 'FFA500'); // Orange color
-        break;
-      case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, 'FF0000'); // Red color
-        break;
+  
+      case ratio >= 2 && ratio < 3:
+        // Recommended
+            this.applyColor(rowRef, '00FFFF'); // Blue color
+            break;
+      case ratio >= 1.6 && ratio < 2:
+        // Average
+             this.applyColor(rowRef, 'FFFF00'); // Yellow color
+
+             break;
+      case ratio >= 1 && ratio < 1.6:
+        // Moderately Recommended
+      this.applyColor(rowRef, 'FFA500'); // Orange color
+      break;
+      case ratio < 1:
+        // Not Recommended
+          this.applyColor(rowRef, 'FF0000'); // Red color
+          break;
       default:
-        break;
+       break;
     }
   }
 

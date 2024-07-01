@@ -5658,4 +5658,26 @@ export class KiitUsersService {
     }
   }
 
+
+  async changeYear(dto:{
+    userId:string,
+    year:string,
+  }){
+    try {
+      const user = await this.prisma.premiumMember.update({
+        where: {
+          userId: dto.userId,
+        },
+        data:{
+          year:dto.year
+        }
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in changing year');
+    }
+  }
+  
+
 }
