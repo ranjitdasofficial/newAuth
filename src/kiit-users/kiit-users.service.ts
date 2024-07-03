@@ -379,9 +379,13 @@ export class KiitUsersService {
   async getAllPremiumUser() {
     try {
       const users = await this.prisma.premiumMember.findMany({
+
+      
         include: {
           user: true,
         },
+
+
         orderBy: {
           createdAt: 'desc',
         },
