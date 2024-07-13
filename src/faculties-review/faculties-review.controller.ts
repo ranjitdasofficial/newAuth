@@ -80,6 +80,11 @@ export class FacultiesReviewController {
   @Get("getFacultiesDetailsByBranchAndSemester")
   async getFacultiesDetailsByBranchAndSemester(@Query("branch") branch: string, @Query("semester") semester: string){
     return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemester(branch, semester);
+  } 
+  
+  @Get("getFacultiesDetailsByBranchAndSemesterTest")
+  async getFacultiesDetailsByBranchAndSemesterTest(@Query("branch") branch: string, @Query("semester") semester: string){
+    return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemesterTest(branch, semester);
   }
 
   @Get(':facultiesId')
@@ -126,6 +131,11 @@ export class FacultiesReviewController {
    
   }){
     return this.facultiesReviewService.createFaculty(data);
+  }
+  
+  @Get('/get/createManyFaculty')
+  async createManyFaculty(){
+    return this.facultiesReviewService.createManyFaculty();
   }
 
   @Post('disconnectFacultyFromSection')

@@ -20724,6 +20724,7 @@ export class FacultiesReviewService {
         },
         semesterSection: {
           select: {
+            id:true,
             section: true,
             semester: {
               select: {
@@ -20996,6 +20997,100 @@ export class FacultiesReviewService {
               }
             },
           },
+        
+          subject: {
+            select: {
+              name: true,
+
+            },
+          },
+          reviews: {
+            select: {
+              id: true,
+            },
+          },
+        
+        },
+
+
+      });
+
+      return {
+        facultiesData: facultiesData,
+        semesterDetails: {
+          noOfSections: semesterId.numberOfSectionForSwapping,
+        },
+      };
+    } catch (error) {
+      console.log(error);
+      if (
+        error instanceof BadRequestException ||
+        error instanceof ServiceUnavailableException
+      ) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+
+  async getFacultiesDetailsByBranchAndSemesterTest(
+    branch: string,
+    semester: string,
+  ) {
+    try {
+      const branchId = await this.prisma.branch.findUnique({
+        where: {
+          name: branch,
+        },
+      });
+
+      if (!branchId) throw new BadRequestException('Branch not found');
+      console.log(branch, semester);
+      const semesterId = await this.prisma.semester.findUnique({
+        where: {
+          number: {
+            equals: Number(semester),
+          },
+          branchId: branchId.id,
+        },
+      });
+
+      if (!semesterId.isFacultyReviewEnabled) {
+        throw new ServiceUnavailableException(
+          'Faculty Review is not enabled for this semester',
+        );
+      }
+      const targetDate = new Date('2024-07-12T00:00:00Z');
+
+      const facultiesData = await this.prisma.facultiesDetails.findMany({
+        where: {
+          semesterSection: {
+            some: {
+              semesterId: semesterId.id,
+            },
+          },
+          createdAt:{
+            gte:targetDate
+          }
+        },
+        include: {
+          semesterSection: {
+            select: {
+              section: true,
+              semester:{
+                select:{
+                  number:true,
+                  branch:{
+                    select:{
+                      id:true,
+                      name:true
+                    }
+                  }
+                }
+              }
+            },
+          },
           subject: {
             select: {
               name: true,
@@ -21212,6 +21307,40 @@ export class FacultiesReviewService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+
+  async createManyFaculty() {
+    try {
+      const fac = [
+        "S.S. Singh",
+        "Anita Nayak",
+        "Shweta Alpna",
+        "Santosh Kumar Hotta",
+        "P. Chandrasekhar",
+        "Tarak Kumar Sahoo",
+        "Smita Rani Panda",
+        "A. Samui",
+        "M. Behera",
+        "M. K. Beuria",
+        "Mrutyunjay Das",
+        "A. K. Behera",
+        "Ashish Panda",
+        "Malaya Mohanty",
+        "Sunil Kumar Sawant"
+      ];
+      
+      
+  
+      const facultyData = fac.map(name => ({ name }));
+  
+      await this.prisma.facultiesDetails.createMany({
+        data: facultyData
+      });
+      
+    } catch (error) {
+      console.error("Error creating faculties:", error);
     }
   }
 
@@ -21566,7 +21695,22 @@ try {
   }
 
 
-  subjectList =  ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
+  subjectList =   [
+    "Industry 4.0 Technologies",
+    "Data Structure",
+    "Digital Systems Design",
+    "Automata Theory and Formal Languages",
+    "Scientific and Technical Writing",
+    "DSD Lab",
+    "Data Structure Lab",
+    "Communication Engineering",
+    "COA",
+    "OOP JAVA",
+    "Probability and Statistics",
+    'CE Lab'
+  ];
+  
+  // ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
   // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
 
   // async getDataForElective() {
@@ -21697,43 +21841,71 @@ try {
    reverseSubjectMap = (fullSubjectName:string) => {
     console.log(fullSubjectName);
     switch(fullSubjectName){
-      case "COMPUTER NETWORKS":
-        return "CN";
-      case "SOFTWARE ENGINEERING":
-        return "SE";
-      case "Computer Networks Lab":
-        return "CN Lab";
-      case "Engineering Economics":
-        return "EE";
-      case "DAA Lab":
-        return "DAA Lab";
-      case "DESIGN & ANALYSIS OF ALGO":
-        return "DAA";
-      case "Economics Of Development":
-        return "EOD";
-      case "International Economic Cooperation":
-        return "IEC";
-      case "Artificial Intelligence":
-        return "AI";
-      case "Machine Learning":
-        return "ML";
-      case "HIGH PERFORMANCE COMPUT":
-        return "HPC";
-      case "Internet Of Things":
-        return "IoT";
-      case "Data Mining and Data Warehousing":
-        console.log("here");
-        return "DMDW";
-      case "Big Data":
-        return "BD";
-      case "Data Science And Analytics":
-        return "DSA";
-      case "Distributed Operating System":
-        return "DOS";
-      case "Computational Intelligence":
-        return "CI";
-      case "COMPILER DESIGN":
-        return "CD";
+
+      case "Probability and Statistics":
+        return "PS";
+    case "Industry 4.0 Technologies":
+        return "IND4";
+    case "Data Structure":
+        return "DS";
+    case "Digital Systems Design":
+        return "DSD";
+    case "Automata Theory and Formal Languages":
+        return "AFL";
+    case "Scientific and Technical Writing":
+        return "STW";
+    case "DSD Lab":
+        return "DSD(L)";
+    case "Data Structure Lab":
+        return "DS(L)";
+    case "Communication Engineering":
+        return "CE";
+    case "COA":
+        return "COA";
+    case "OOP JAVA":
+        return "OOPJ";
+    case "CE Lab":
+        return "CE(L)";
+      // case "COMPUTER NETWORKS":
+      //   return "CN";
+      // case "SOFTWARE ENGINEERING":
+      //   return "SE";
+      // case "Computer Networks Lab":
+      //   return "CN Lab";
+      // case "Engineering Economics":
+      //   return "EE";
+      // case "DAA Lab":
+      //   return "DAA Lab";
+      // case "DESIGN & ANALYSIS OF ALGO":
+      //   return "DAA";
+      // case "Economics Of Development":
+      //   return "EOD";
+      // case "International Economic Cooperation":
+      //   return "IEC";
+      // case "Artificial Intelligence":
+      //   return "AI";
+      // case "Machine Learning":
+      //   return "ML";
+      // case "HIGH PERFORMANCE COMPUT":
+      //   return "HPC";
+      // case "Internet Of Things":
+      //   return "IoT";
+      // case "Data Mining and Data Warehousing":
+      //   console.log("here");
+      //   return "DMDW";
+      // case "Big Data":
+      //   return "BD";
+      // case "Data Science And Analytics":
+      //   return "DSA";
+      // case "Distributed Operating System":
+      //   return "DOS";
+      // case "Computational Intelligence":
+      //   return "CI";
+      // case "COMPILER DESIGN":
+      //   return "CD";
+
+
+
       default:
         return fullSubjectName;
     }
