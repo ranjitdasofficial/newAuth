@@ -288,7 +288,7 @@ export class KiitUsersService {
         name: user.user.name,
         branch: user.branch,
         year: user.year,
-        amount: '66',
+        amount: '99',
         paymentDate:
           new Date().toLocaleDateString() +
           ' ' +
