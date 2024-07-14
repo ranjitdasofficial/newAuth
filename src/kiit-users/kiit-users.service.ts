@@ -399,6 +399,34 @@ export class KiitUsersService {
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
+  
+  async getNotPremiumUsers() {
+    try {
+      const users = await this.prisma.premiumMember.findMany({
+        where:{
+          user:{
+            isPremium:false
+          }
+        },
+      
+        include: {
+          user: true,
+        },
+
+
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+      return users;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
 
   private async streamToBuffer(stream: Readable): Promise<Buffer> {
     return new Promise((resolve, reject) => {

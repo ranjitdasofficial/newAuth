@@ -90,6 +90,12 @@ export class KiitUsersController {
     return this.kiitUserService.getAllPremiumUser();
   }
 
+  @Get('getNotPremiumUsers')
+  async getNotPremiumUsers() {
+    return this.kiitUserService.getNotPremiumUsers();
+  }
+
+
   @Get("allUsers")
   async getAllUsers(){
     return this.kiitUserService.getAllUsers();
