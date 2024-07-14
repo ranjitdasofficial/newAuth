@@ -3715,6 +3715,27 @@ export class KiitUsersService {
     }
   }
 
+  async resetLoginAdmin(email:string) {
+    try {
+
+      const checkUser = await this.prisma.user.findUnique({
+        where:{
+          email:email
+        }
+      })
+     
+      if (checkUser.isPremium) {
+        await this.cacheService.set(email, JSON.stringify([]));
+        return true;
+      }
+
+      throw new BadRequestException("Invalid Mail");
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Bad Email');
+    }
+  }
+
   generateReferralCode(length: number) {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

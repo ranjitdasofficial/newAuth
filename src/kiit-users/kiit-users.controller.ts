@@ -245,6 +245,12 @@ export class KiitUsersController {
     return this.kiitUserService.checkTokenAndResetDevice(token);
   }
 
+  @Get("resetLoginAdmin")
+  async resetLoginAdmin(@Query("email") email:string){
+    console.log(email)
+    return this.kiitUserService.resetLoginAdmin(email);
+  }
+
   
   @Get("updateUsers")
   async updateUsers(){
