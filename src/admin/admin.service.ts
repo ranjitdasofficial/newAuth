@@ -81,7 +81,7 @@ export class AdminService {
     try {
       return await this.prisma.placements.findMany({
         select: {
-          companyName: true,
+          // companyName: true,
           id: true,
         },
       });

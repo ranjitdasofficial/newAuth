@@ -34,12 +34,8 @@ model User {
 
   allowedProfileUpdate Boolean @default(true)
 
-  courseId String[] @db.ObjectId
-  courses        Courses[] @relation(fields: [courseId], references: [id])
-
-  
-  
-
+  courseId String[]  @db.ObjectId
+  courses  Courses[] @relation(fields: [courseId], references: [id])
 }
 
 model PremiumMember {
@@ -131,8 +127,8 @@ model ProfessorContacts {
 }
 
 model FacultiesDetails {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String @unique
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
 
   phone       String?
   email       String?
@@ -149,9 +145,9 @@ model FacultiesDetails {
   subjectId         String[]           @db.ObjectId
   subject           Subject[]          @relation(fields: [subjectId], references: [id])
 
-  reviews           Review[]    
+  reviews Review[]
 
-  isElective        Boolean @default(false)  
+  isElective Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -194,7 +190,6 @@ model kiitsocial {
   updatedAt DateTime   @updatedAt
   user      User       @relation(fields: [userId], references: [id])
 }
-
 
 type Note {
   id             String  @default(uuid()) // Unique identifier for notes
@@ -282,38 +277,36 @@ model VerifySolution {
 
 // }
 model Semester {
-  id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  number            Int
-  subjectId         String[]           @db.ObjectId
-  subjects          Subject[]          @relation(fields: [subjectId], references: [id])
-  branch            Branch             @relation(fields: [branchId], references: [id])
-  branchId          String             @unique @db.ObjectId
-  semesterSectionId String[]           @db.ObjectId
-  semesterSections  SemesterSections[]
-  isFacultyReviewEnabled Boolean @default(false)
-  isSwappingEnabled Boolean @default(false) 
-  numberOfSectionForSwapping Int @default(0)
+  id                         String             @id @default(auto()) @map("_id") @db.ObjectId
+  number                     Int
+  subjectId                  String[]           @db.ObjectId
+  subjects                   Subject[]          @relation(fields: [subjectId], references: [id])
+  branch                     Branch             @relation(fields: [branchId], references: [id])
+  branchId                   String             @unique @db.ObjectId
+  semesterSectionId          String[]           @db.ObjectId
+  semesterSections           SemesterSections[]
+  isFacultyReviewEnabled     Boolean            @default(false)
+  isSwappingEnabled          Boolean            @default(false)
+  numberOfSectionForSwapping Int                @default(0)
 }
 
 model Swapping {
-  id                 String     @id @default(auto()) @map("_id") @db.ObjectId
-  name               String
-  branch             String
-  Semester           Int
-  alloted            Int
-  userId             String     @unique @db.ObjectId
-  
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  branch   String
+  Semester Int
+  alloted  Int
+  userId   String @unique @db.ObjectId
+
   lookingFor         Int[]
   matched            Boolean    @default(false)
   contact            String
-  remoteUserId       String?     @db.ObjectId
+  remoteUserId       String?    @db.ObjectId
   remoteUser         Swapping?  @relation("SwappingToSwapping", fields: [remoteUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   editLeft           Int        @default(3)
   createdAt          DateTime   @default(now())
   SwappingToSwapping Swapping[] @relation("SwappingToSwapping")
 }
-
-
 
 model SemesterSections {
   id         String             @id @default(auto()) @map("_id") @db.ObjectId
@@ -348,20 +341,18 @@ model PremiumGiveway {
   updatedAt        DateTime @updatedAt
 }
 
-
-model Courses{
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  userId    String[]  @db.ObjectId
-  subscribers User[] @relation(fields: [userId], references: [id])
-  Topics    Topic[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+model Courses {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  userId      String[] @db.ObjectId
+  subscribers User[]   @relation(fields: [userId], references: [id])
+  Topics      Topic[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 type Questions {
-  id       String  @default(uuid()) // Unique identifier for PYQS
+  id       String @default(uuid()) // Unique identifier for PYQS
   question String
   answer   String
 }
@@ -376,27 +367,43 @@ model Topic {
   updatedAt DateTime    @updatedAt
 }
 
-
-
 model placmentMaterials {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   type      String
-  fileId      String
-  companyId String @db.ObjectId
-  placement   Placements @relation(fields: [companyId], references: [id])
+  fileId    String
+  companyId String   @db.ObjectId
+  Company   Company  @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+}
+
+model Company {
+  id                 String              @id @default(auto()) @map("_id") @db.ObjectId
+  companyName        String              @unique
+  companyLogo        String?
+  companyUrl         String?
+  companyDesc        String?
+  placementMaterials placmentMaterials[]
+
+  placementId String[]     @db.ObjectId
+  Placements  Placements[] @relation(fields: [placementId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Placements {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  companyName   String @unique
-  companyLogo   String?
-  companyUrl    String?
-  companyDesc   String?
-  placementMaterials placmentMaterials[]
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  year               Int? @unique
+  highestPackage     Int?
+  noOfCompnayVisited Int?
+  noOfJobOffered     Int?
+  extraInfo          String?
+
+  companyId String[]  @db.ObjectId
+  Company   Company[] @relation(fields: [companyId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

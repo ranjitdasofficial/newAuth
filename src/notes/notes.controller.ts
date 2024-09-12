@@ -174,6 +174,16 @@ export class NotesController {
     return this.notesService.getMaterialsByBranchIdAndSemesterId(dto);
   }
 
+
+  @Get('getPYQSByBranchIdAndSemesterNumberWithoutAuthentication')
+  async getNotesByBranchIdAndSemesterIdWithoutAuth(
+    @Query() dto: { branchId: string; semesterNumber: string; type: string },
+  ) {
+    console.log(dto);
+    return this.notesService.getMaterialsByBranchIdAndSemesterIdWithoutAuth(dto);
+  }
+
+
   @Get('UpdateDocument')
   async UpdateDocument() {
     return this.notesService.updateDocuments();

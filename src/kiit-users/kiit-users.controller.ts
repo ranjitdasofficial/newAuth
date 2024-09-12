@@ -339,6 +339,16 @@ export class KiitUsersController {
     return this.kiitUserService.enableDisabledUser();
   }
 
+  @Get("/getUser/nonpremium")
+  async getNonPremiumUser(@Query("roll" ) roll:string){
+    return this.kiitUserService.getNonPremiumUser(roll);
+  }
+
+
+@Get('/getUser/premium')
+async getPremiumUser(@Query("roll" ) roll:string){
+  return this.kiitUserService.getPremiumUser(roll);
+}
   
 
   @Post("changeYear")

@@ -19,6 +19,11 @@ export class PlacementsController {
     return this.placementsService.createCompany(data);
   }
 
+  @Get('getPlacementsDetails/:year')
+  async getPlacementsDetails(@Param('year') year: number) {
+    return this.placementsService.getPlacementsDetails(year);
+  }
+
   @Get('getCompanies')
   async getCompanies() {
     return this.placementsService.getCompanies();

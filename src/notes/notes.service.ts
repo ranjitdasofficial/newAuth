@@ -689,6 +689,93 @@ export class NotesService {
       console.log(error);
       throw new InternalServerErrorException('Error while fetching materials');
     }
+  } 
+  
+  
+  async getMaterialsByBranchIdAndSemesterIdWithoutAuth(dto: {
+    branchId: string;
+    semesterNumber: string;
+    type: string;
+  }) {
+    try {
+      let selectFields: any = {
+        name: true,
+        SUBCODE: true,
+        id: true,
+        folderId: true,
+        syllabus:true,
+      };
+
+
+      if (dto.type === 'pyqs') {
+        selectFields.pyqs = {
+          select:{
+            id:true,
+            name:true,
+            year:true,
+            type:true,
+            status:true,
+            solutionUploadedBy:true,
+            QuestionUploadedBy:true,
+            mimeType:true,
+            // Question:true,
+            solution:true,
+          }
+        };
+      } else if (dto.type === 'notes') {
+        selectFields.notes = {
+          select:{
+            id:true,
+            name:true,
+            mimeType:true,
+            isDownloadable:true,
+            status:true,
+            // year:true,
+          }
+        };
+      } else {
+        throw new Error('Invalid type provided');
+      }
+
+      const material = await this.prismaService.branch.findUnique({
+        where: {
+          id: dto.branchId,
+        },
+        include: {
+          semesters: {
+            where: {
+              number: Number(dto.semesterNumber),
+            },
+            include: {
+              subjects: {
+                select: selectFields,
+              },
+            },
+          },
+        },
+      });
+
+
+      if (material) {
+        material.semesters.forEach((semester) => {
+          semester.subjects.forEach((subject) => {
+            if (dto.type === 'pyqs' && subject.pyqs) {
+              subject.pyqs.forEach((pq) => {
+                pq.solution=pq.solution?'A':'B'  // Set status based on whether Question has data
+              });
+            }
+          });
+        });
+      }
+  
+
+      // console.log(material);
+
+      return material;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while fetching materials');
+    }
   }
 
   async updateDocuments() {

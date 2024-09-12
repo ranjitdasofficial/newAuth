@@ -5731,6 +5731,48 @@ export class KiitUsersService {
       throw new Error('Error in changing year');
     }
   }
+
+
+  async getNonPremiumUser(roll:string)
+  {
+    try {
+      const user = await this.prisma.user.findMany({
+        where:{
+          email:{
+            startsWith:roll
+          },
+          isPremium:false
+        }
+      })
+      return {
+        length:user.length,
+        user
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in fetching user');
+    }
+  }
+    async getPremiumUser(roll:string)
+  {
+    try {
+      const user = await this.prisma.user.findMany({
+        where:{
+          email:{
+            startsWith:roll,
+          },
+          isPremium:true
+        }
+      })
+      return {
+        length:user.length,
+        user
+      };
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in fetching user');
+    }
+  }
   
 
 }
