@@ -168,7 +168,7 @@ async sendNonRegistered(email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Access Your Premium Membership Now!',
+    subject: 'Access well structured Pyqs/Solution and Notes',
     // template: 'not-premium', // Name of your template file without extension
     template: 'non-registered', // Name of your template file without extension
     

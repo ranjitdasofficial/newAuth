@@ -314,6 +314,12 @@ export class KiitUsersController {
     return this.kiitUserService.getPremiumUserAfter();
   }
 
+
+  @Get('getPremiumUsers')
+  async getPremiumUsers() {
+    return this.kiitUserService.getPremiumUsers();
+  }
+
   
 
   @Get('clearAllTokens')

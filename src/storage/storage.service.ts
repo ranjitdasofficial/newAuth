@@ -12,15 +12,17 @@ export class StorageService {
 
   constructor() {
     this.s3 =  new AWS.S3({
-      accessKeyId: 'DO00AKT9M2FJT4MEKC6R',
-      secretAccessKey: '6m5H/jAppq1xRRJPz2Eo0m7hIG+DzkdX6w3+g4JTbcI',
-      endpoint: 'https://kiitconnect.blr1.digitaloceanspaces.com',
+      accessKeyId: 'DO00DWQVENYR8L6KRDGR',
+      // accessKeyId: 'DO00AKT9M2FJT4MEKC6R',
+      // secretAccessKey: '6m5H/jAppq1xRRJPz2Eo0m7hIG+DzkdX6w3+g4JTbcI',
+      secretAccessKey: 'kWMzeUCgF1aMs6opZgQbkxP7JTejZ1ZkwXAJHgOB5gw',
+      endpoint: 'https://kiitconnect2.blr1.digitaloceanspaces.com',
       s3ForcePathStyle: true, // needed with Spaces
       signatureVersion: 'v4',
   });
 
   
-    this.bucket = "kiitconnect";
+    this.bucket = "kiitconnect2";
   }
 
   // async save(
