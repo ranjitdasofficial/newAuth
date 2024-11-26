@@ -331,4 +331,9 @@ export class KiitUsersController {
   async getPremiumUserByYear(@Query('year') year: string) {
     return this.kiitUserService.getPremiumUserByYear(year);
   }
+
+  @Get('removePremiumMembersByBatch')
+  async removePremiumMembersByBatch(@Query('year') year: string) {
+    return this.kiitUserService.removePremiumMembersByBatch(year);
+  }
 }
