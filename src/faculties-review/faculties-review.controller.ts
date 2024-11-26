@@ -12,6 +12,11 @@ export class FacultiesReviewController {
     return this.facultiesReviewService.createSections();
   }
 
+  @Get('getAllPremiumMembers')
+  async getAllPremiumMembers(){
+    return this.facultiesReviewService.getAllPremiumMembers();
+  }
+
   @Get('get-sections/:semesterId')
   async getSectionBySemeseterId(@Param('semesterId') semesterId: string) {
     console.log(semesterId);
@@ -52,6 +57,11 @@ export class FacultiesReviewController {
     console.log(data);
     return this.facultiesReviewService.assignSubjectToFaculty(data);
   }  
+
+  @Get("disconnectAllSubjectsFromFaculty")
+  async disconnectAllSubjectsFromFaculty(){
+    return this.facultiesReviewService.disconnectAllSubjectsFromFaculties();
+  }
   
   @Post("assignSectionToFaculty")
   async assignSectionToFaculty(@Body() data: {facultiesId: string[], sectionId: string}){
@@ -81,6 +91,9 @@ export class FacultiesReviewController {
   async getFacultiesDetailsByBranchAndSemester(@Query("branch") branch: string, @Query("semester") semester: string){
     return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemester(branch, semester);
   } 
+
+
+  
   
   @Get("getFacultiesDetailsByBranchAndSemesterTest")
   async getFacultiesDetailsByBranchAndSemesterTest(@Query("branch") branch: string, @Query("semester") semester: string){
@@ -146,6 +159,13 @@ export class FacultiesReviewController {
     return this.facultiesReviewService.disconnectSectionsFromFaculty(data);
   }
 
+  @Post('disconnectFacultyFromSections')
+  async disconnectFacultyFromSections(@Body() data:{
+    facultyId:string
+  }){
+    return this.facultiesReviewService.disconnectAllSectionsFromFaculties();
+  }
+
 
   @Get('/get/updateElectiveFac')
   async updateElectiveFac(){
@@ -178,5 +198,7 @@ console.log(data)
   }){
     return this.facultiesReviewService.increaseDecreaseLikes(data);
   }
+
+ 
 }
 

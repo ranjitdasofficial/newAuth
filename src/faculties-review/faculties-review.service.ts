@@ -20724,7 +20724,7 @@ export class FacultiesReviewService {
         },
         semesterSection: {
           select: {
-            id:true,
+            id: true,
             section: true,
             semester: {
               select: {
@@ -20770,7 +20770,7 @@ export class FacultiesReviewService {
         select: {
           subjectId: true,
           id: true,
-          name:true
+          name: true,
         },
       });
 
@@ -20778,11 +20778,11 @@ export class FacultiesReviewService {
 
       const promises = allFaculties.map(async (d) => {
         const subjectIds = d.subjectId;
-        console.log(subjectIds,d)
+        console.log(subjectIds, d);
         if (!subjectIds.includes(subjectId)) {
           // Connect the subject to the faculty
 
-          console.log("here")
+          console.log('here');
           await this.prisma.facultiesDetails.update({
             where: {
               id: d.id,
@@ -20802,9 +20802,77 @@ export class FacultiesReviewService {
 
       return true;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new InternalServerErrorException(
         'Error in assigning subject to faculty',
+      );
+    }
+  }
+
+  async disconnectAllSubjectsFromFaculties() {
+    try {
+      const allFaculties = await this.prisma.facultiesDetails.findMany({
+        select: {
+          id: true,
+          subjectId: true,
+        },
+      });
+
+      for (const faculty of allFaculties) {
+        await this.prisma.facultiesDetails.update({
+          where: {
+            id: faculty.id,
+          },
+          data: {
+            subject: {
+              disconnect: faculty.subjectId.map((subjectId) => ({
+                id: subjectId,
+              })),
+            },
+          },
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Error disconnecting all subjects from faculties',
+      );
+    }
+  }
+
+  //disconnect sll sections from faculties
+  async disconnectAllSectionsFromFaculties() {
+    try {
+      const allFaculties = await this.prisma.facultiesDetails.findMany({
+        select: {
+          id: true,
+          semesterSectionId: true,
+        },
+      });
+
+      for (const faculty of allFaculties) {
+        await this.prisma.facultiesDetails.update({
+          where: {
+            id: faculty.id,
+          },
+
+          data: {
+            semesterSection: {
+              disconnect: faculty.semesterSectionId.map((sectionId) => ({
+                id: sectionId,
+              })),
+            },
+          },
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Error disconnecting all sections from faculties',
       );
     }
   }
@@ -20832,8 +20900,10 @@ export class FacultiesReviewService {
 
       const promises = allFaculties.map(async (d) => {
         const sectionIds = d.semesterSectionId;
+        console.log(sectionIds.includes(sectionId));
         if (!sectionIds.includes(sectionId)) {
           // Connect the subject to the faculty
+          console.log('here we go');
           await this.prisma.facultiesDetails.update({
             where: {
               id: d.id,
@@ -20966,6 +21036,8 @@ export class FacultiesReviewService {
         },
       });
 
+      console.log(semesterId);
+
       if (!semesterId.isFacultyReviewEnabled) {
         throw new ServiceUnavailableException(
           'Faculty Review is not enabled for this semester',
@@ -20984,24 +21056,23 @@ export class FacultiesReviewService {
           semesterSection: {
             select: {
               section: true,
-              semester:{
-                select:{
-                  number:true,
-                  branch:{
-                    select:{
-                      id:true,
-                      name:true
-                    }
-                  }
-                }
-              }
+              semester: {
+                select: {
+                  number: true,
+                  branch: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
             },
           },
-        
+
           subject: {
             select: {
               name: true,
-
             },
           },
           reviews: {
@@ -21009,10 +21080,7 @@ export class FacultiesReviewService {
               id: true,
             },
           },
-        
         },
-
-
       });
 
       return {
@@ -21032,7 +21100,6 @@ export class FacultiesReviewService {
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
-
 
   async getFacultiesDetailsByBranchAndSemesterTest(
     branch: string,
@@ -21070,25 +21137,25 @@ export class FacultiesReviewService {
               semesterId: semesterId.id,
             },
           },
-          createdAt:{
-            gte:targetDate
-          }
+          createdAt: {
+            gte: targetDate,
+          },
         },
         include: {
           semesterSection: {
             select: {
               section: true,
-              semester:{
-                select:{
-                  number:true,
-                  branch:{
-                    select:{
-                      id:true,
-                      name:true
-                    }
-                  }
-                }
-              }
+              semester: {
+                select: {
+                  number: true,
+                  branch: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
             },
           },
           subject: {
@@ -21131,16 +21198,17 @@ export class FacultiesReviewService {
           semesterSection: {
             select: {
               section: true,
-              semester:{
-                select:{
-                  number:true,
-                  branch:{
-                    select:{
-                      id:true,
-                      name:true
-                    }}
-                }
-              }
+              semester: {
+                select: {
+                  number: true,
+                  branch: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
             },
           },
           subject: {
@@ -21281,12 +21349,12 @@ export class FacultiesReviewService {
   }) {
     try {
       const updateFaculties = await this.prisma.facultiesDetails.update({
-        where:{
-          id:data.id
+        where: {
+          id: data.id,
         },
-        data:{
-          ...data.data
-        }
+        data: {
+          ...data.data,
+        },
       });
 
       return true;
@@ -21295,12 +21363,12 @@ export class FacultiesReviewService {
     }
   }
 
-  async createFaculty(data:{name:string}){
+  async createFaculty(data: { name: string }) {
     try {
-      const fac  = await this.prisma.facultiesDetails.create({
-        data:{
-          name:data.name
-        }
+      const fac = await this.prisma.facultiesDetails.create({
+        data: {
+          name: data.name,
+        },
       });
 
       return fac;
@@ -21310,237 +21378,886 @@ export class FacultiesReviewService {
     }
   }
 
-
   async createManyFaculty() {
     try {
       const fac = [
-        "S.S. Singh",
-        "Anita Nayak",
-        "Shweta Alpna",
-        "Santosh Kumar Hotta",
-        "P. Chandrasekhar",
-        "Tarak Kumar Sahoo",
-        "Smita Rani Panda",
-        "A. Samui",
-        "M. Behera",
-        "M. K. Beuria",
-        "Mrutyunjay Das",
-        "A. K. Behera",
-        "Ashish Panda",
-        "Malaya Mohanty",
-        "Sunil Kumar Sawant"
+        'B.V.V. S. Subhramanyam',
+        'S Ramavath',
+        'Priyanka Panigrahi'
       ];
-      
-      
-  
-      const facultyData = fac.map(name => ({ name }));
-  
+
+      const facultyData = fac.map((name) => ({ name }));
+
       await this.prisma.facultiesDetails.createMany({
-        data: facultyData
+        data: facultyData,
       });
-      
     } catch (error) {
-      console.error("Error creating faculties:", error);
+      console.error('Error creating faculties:', error);
     }
   }
 
-  async disconnectSectionsFromFaculty(data:{facultyId:string,sectionId:string}){
+  async disconnectSectionsFromFaculty(data: {
+    facultyId: string;
+    sectionId: string;
+  }) {
     try {
       const faculty = await this.prisma.facultiesDetails.findUnique({
-        where:{
-          id:data.facultyId
-
-        }
+        where: {
+          id: data.facultyId,
+        },
       });
 
-      if(!faculty) throw new BadRequestException('Faculty not found');
+      if (!faculty) throw new BadRequestException('Faculty not found');
 
       const updateFaculty = await this.prisma.facultiesDetails.update({
-
-        where:{
-          id:data.facultyId
+        where: {
+          id: data.facultyId,
         },
-        data:{
-          semesterSection:{
-            disconnect:{
-              id:data.sectionId
+        data: {
+          semesterSection: {
+            disconnect: {
+              id: data.sectionId,
+            },
+          },
+        },
+      });
 
-            }
-          }
-        }
-      }
-    )
-
-    return updateFaculty;
-  }catch (error){
-    console.log(error)
-    throw new InternalServerErrorException('Internal Server Error');
+      return updateFaculty;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
   }
-}
 
-async enableElecFac(){
-  const facIds = [
-    '65a6e829307b55dd84067476',
-   
-  ]
+  async enableElecFac() {
+    const facIds = ['65a6e829307b55dd84067476'];
 
-  try {
-    const update = await this.prisma.facultiesDetails.updateMany({
-      where:{
-        id:{
-          in:facIds
-        }
-      },
-      data:{
-        isElective:true
-      }
-      
-    })
+    try {
+      const update = await this.prisma.facultiesDetails.updateMany({
+        where: {
+          id: {
+            in: facIds,
+          },
+        },
+        data: {
+          isElective: true,
+        },
+      });
 
-    return update;
-  } catch (error) {
-
-    console.log(error)
-    throw new InternalServerErrorException('Internal Server Error');
-    
+      return update;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
   }
-}
 
-
-
-
-
-async getElectiveFaculties(){
-
-const subject  =['Artificial Intelligence','Machine Learning','HIGH PERFORMANCE COMPUT','Internet Of Things','Data Mining and Data Warehousing','Big Data','Data Science And Analytics','Distributed Operating System','Computational Intelligence','COMPILER DESIGN']
-try {
-
-  const faculties = await this.prisma.facultiesDetails.findMany({
-    where:{
-      isElective:true,
-      subject:{
-        some:{
-          name:{
-            in:subject
-          }
-        }
-      }
-    },
-    select: {
-      semesterSection: {
-        select: {
-          section: true,
-          semester:{
-            select:{
-              number:true,
-              branch:{
-                select:{
-                  id:true,
-                  name:true
-                }
-              }
-            }
-          }
+  async getElectiveFaculties() {
+    const subject = [
+      'Artificial Intelligence',
+      'Machine Learning',
+      'HIGH PERFORMANCE COMPUT',
+      'Internet Of Things',
+      'Data Mining and Data Warehousing',
+      'Big Data',
+      'Data Science And Analytics',
+      'Distributed Operating System',
+      'Computational Intelligence',
+      'COMPILER DESIGN',
+    ];
+    try {
+      const faculties = await this.prisma.facultiesDetails.findMany({
+        where: {
+          isElective: true,
+          subject: {
+            some: {
+              name: {
+                in: subject,
+              },
+            },
+          },
         },
-      },
-      likesId:true,
-      dislikesId:true,
-      id:true,
-      name:true,
-
-      subject: {
         select: {
-          name: true,
-        },
-      },
-      reviews: {
-        select: {
+          semesterSection: {
+            select: {
+              section: true,
+              semester: {
+                select: {
+                  number: true,
+                  branch: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          likesId: true,
+          dislikesId: true,
           id: true,
+          name: true,
+
+          subject: {
+            select: {
+              name: true,
+            },
+          },
+          reviews: {
+            select: {
+              id: true,
+            },
+          },
         },
-      },
-    },
-  });
+      });
 
-  console.log(faculties)
+      console.log(faculties);
 
-  return {
-    facultiesData: faculties,
-    semesterDetails: {
-      noOfSections:0,
-    },
-  };
-} catch (error) {
+      return {
+        facultiesData: faculties,
+        semesterDetails: {
+          noOfSections: 0,
+        },
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
 
-  console.log(error);
-  throw new InternalServerErrorException('Internal Server Error');
-  
-}
-}
+  // -------------------------------------------
+  // //generate reports
 
+  // //   constructor(private readonly prismService: PrismaService) {}
+  //   HIGHLY_RECOMMENDED_THRESHOLD = 0.8; // Adjust as needed
+  //   RECOMMENDED_THRESHOLD = 0.6; // Adjust as needed
+  //   AVERAGE_THRESHOLD = 0.4; // Adjust as needed
+  //   MODERATELY_RECOMMENDED_THRESHOLD = 0.2; // Adjust as needed
+  //   MIN_INTERACTIONS_THRESHOLD = 5; // Minimum interactions to consider
 
+  // //   //get Teachee By Section
 
-//generate reports
+  //   siteInformation: string = `
+  //   Report generated from KIIT-CONNECT WEBSITE.
+  //   Website: https://www.kiitconnect.com/
+  //   WhatsApp Group: https://chat.whatsapp.com/Bmnw7wm9jUi19HD59bJ8Zn
+  //   Auto Generated by KIIT-CONNECT
+  // `;
+  //   async generateReport(data:{
+  //     branch:string,
+  //     semester:number,
 
-//   constructor(private readonly prismService: PrismaService) {}
-  HIGHLY_RECOMMENDED_THRESHOLD = 0.8; // Adjust as needed
-  RECOMMENDED_THRESHOLD = 0.6; // Adjust as needed
-  AVERAGE_THRESHOLD = 0.4; // Adjust as needed
-  MODERATELY_RECOMMENDED_THRESHOLD = 0.2; // Adjust as needed
-  MIN_INTERACTIONS_THRESHOLD = 5; // Minimum interactions to consider
- 
+  //   }) {
 
+  //     console.log(data)
+  //     const Teachers =[]
+  //     // const teacherData = await this.prisma.facultiesDetails.findMany({
+  //     //   // where:{
+  //     //   //   semesterSection:{
+  //     //   //     every:{
+  //     //   //       semesterId:"65d20c6248b08e85746da025"
+  //     //   //     }
+  //     //   //   }
+  //     //   // },
+  //     //   include: { reviews: true,semesterSection:true,subject:true,},
+  //     // });
 
+  //     const branchId = await this.prisma.branch.findUnique({
+  //       where: {
+  //         name: data.branch,
+  //       },
+  //     });
 
+  //     if (!branchId) throw new BadRequestException('Branch not found');
+  //     const semesterId = await this.prisma.semester.findUnique({
+  //       where: {
+  //         number: {
+  //           equals: data.semester,
+  //         },
+  //         branchId: branchId.id,
+  //       },
+  //     });
 
+  //     if (!semesterId.isFacultyReviewEnabled) {
+  //       throw new ServiceUnavailableException(
+  //         'Faculty Review is not enabled for this semester',
+  //       );
+  //     }
 
+  //     const facultiesData = await this.prisma.facultiesDetails.findMany({
+  //       where: {
+  //         semesterSection: {
+  //           some: {
+  //             semesterId: semesterId.id,
+  //           },
+  //         },
+  //       },
+  //       include: {
+  //         semesterSection: {
+  //           select: {
+  //             section: true,
+  //             semester:{
+  //               select:{
+  //                 number:true,
+  //                 branch:{
+  //                   select:{
+  //                     id:true,
+  //                     name:true
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           },
+  //         },
+  //         subject: {
+  //           select: {
+  //             name: true,
+  //           },
+  //         },
+  //         reviews: {
+  //           select: {
+  //             id: true,
+  //             comments: true,
+  //           },
+  //         },
+  //       },
+  //     });
 
-//   //get Teachee By Section
+  //     const pq = facultiesData.filter((f)=>{
+  //     return f.semesterSection.map((p)=>p.semester.branch.name).includes(data.branch)
+  //     })
 
-  
+  //     console.log(pq)
+
+  //     // return pq;
+
+  //     for (let i = 1; i <= semesterId.numberOfSectionForSwapping; i++) {
+  //       const sec1 = await Promise.all(
+  //         pq.map(async (teacher) => {
+
+  //           const filtr = teacher.semesterSection.filter((g)=>g.semester.number===data.semester && g.section===i && g.semester.branch.name===data.branch);
+  //           if (filtr.length>0) {
+
+  //             return {
+  //               //   id: teacher.id,
+  //               name: teacher.name,
+  //               subject: teacher.subject.filter((f)=>{
+  //                 return this.subjectList.includes(f.name)
+  //               }).map((s)=>{
+
+  //                 return this.reverseSubjectMap(s.name)
+  //               })
+  //               ,
+  //               likes: teacher.likesId.length,
+  //               dislikes: teacher.dislikesId.length,
+  //               reviews: teacher.reviews.map((review) => review.comments),
+  //             };
+  //           }
+
+  //         }),
+  //       );
+
+  //       const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+  //       Teachers.push({
+  //         section: i,
+  //         data: filteredSec1,
+  //       });
+  //     }
+
+  //     console.log(Teachers);
+
+  //     const headers = Object.keys(Teachers[0].data[0]);
+  //     console.log(headers);
+
+  //     const workbook = new ExcelJS.Workbook();
+  //     const worksheet = workbook.addWorksheet(`Section_1`);
+
+  //     this.addSiteInformation(worksheet);
+  //     this.addReportGeneratedTime(worksheet);
+  //     this.addCustomMessage(worksheet,"Just Avoid: If anyone found sharing of screenshot then that person id will be banned permanentally from kiit-connect and if anyone report about that person who has shared the screenshot can be rewarded Premium Membership and Some gift.")
+
+  //     worksheet.addRow(['Color Legend']);
+  //     this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+  //     this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+  //     this.addLegendRow(worksheet, 'Medium', 'FFFF00');
+  //     this.addLegendRow(worksheet, 'Try to Avoid', 'FFA500');
+  //     this.addLegendRow(worksheet, 'Avoid(Not Recommended)', 'FF0000');
+  //     worksheet.addRow([]);
+  //     worksheet.addRow(headers);
+
+  //     worksheet.columns = [
+  //       { header: headers[0], width: 1 / 0.02645833 }, // 15 cm
+  //       { header: headers[1], width: 0.6 / 0.02645833 }, // 10 cm
+  //       { header: headers[2], width: 0.3 / 0.02645833 }, // 10 cm
+  //       { header: headers[3], width: 0.3 / 0.02645833 }, // 10 cm
+  //       { header: headers[4], width: 10 / 0.02645833 }, // 10 cm
+  //       // Add more columns if needed
+  //   ];
+
+  //     Teachers.forEach((sec) => {
+  //       worksheet.addRow([`Section ${sec.section}`]);
+  //       //   worksheet.addRow([`Section ${sec.section}`]);
+  //       //add some space to row
+
+  //       sec.data.forEach((row) => {
+  //         const values = headers.map((header) => row[header]);
+  //         const rowRef = worksheet.addRow(values);
+
+  //         const totalInteractions = row.likes + row.dislikes;
+
+  //         if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+  //           return 0; // Not enough interactions for a reliable recommendation
+  //         }
+
+  //         // export const applyColorBasedOnRatio = (like: number, dislike: number) => {
+  //         //   const totalInteractions = like + dislike;
+
+  //         //   if (totalInteractions < MIN_INTERACTIONS_THRESHOLD) {
+  //         //     return {
+  //         //       color: "text-cyan-500",
+  //         //       text: "In Progress",
+  //         //     };
+  //         //     // Not enough interactions for a reliable recommendation
+  //         //   }
+
+  //         //   const p = like / totalInteractions;
+  //         //   const ratio = Math.round(p * 100) / 100;
+
+  //         // const rat = row.likes / Math.max(row.dislikes, 1);
+
+  //         const rat = row.likes / totalInteractions;
+  //                 //   const ratio = Math.round(p * 100) / 100;
+
+  //         const ratio = Math.round(rat * 100) / 100;
+  //         console.log(ratio);
+
+  //         // const p = Math.round(ratio * 100) / 100;
+  //         this.applyColorBasedOnRatio(rowRef, ratio);
+  //       });
+  //       worksheet.addRow([null]);
+  //     });
+
+  //     // Save workbook to a file
+  //     await workbook.xlsx.writeFile(`${data.branch}-${data.semester}.xlsx`);
+
+  //     return Teachers;
+  //   }
+
+  //   subjectList =   [
+  //     // "Industry 4.0 Technologies",
+  //     // "Data Structure",
+  //     // "Digital Systems Design",
+  //     // "Automata Theory and Formal Languages",
+  //     // "Scientific and Technical Writing",
+  //     // "DSD Lab",
+  //     // "Data Structure Lab",
+  //     // "Communication Engineering",
+  //     // "COA",
+  //     // "OOP JAVA",
+  //     // "Probability and Statistics",
+  //     // 'CE Lab'
+
+  //     "Cloud Computing",
+  //     "Artificial Intelligence",
+  //     "Machine Learning",
+  //     "Software Project Management",
+  //   ];
+
+  //   // ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
+  //   // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
+
+  //   // async getDataForElective() {
+  //   //   const Elective = [];
+  //   //   const teacherData = await this.prismService.elective.findMany({
+  //   //     include: { reviews: true },
+  //   //   });
+
+  //   //   for (let i = 0; i < this.Electives.length; i++) {
+  //   //     const sec1 = await Promise.all(
+  //   //       teacherData.map(async (teacher) => {
+  //   //         if (teacher.subject === this.Electives[i]) {
+  //   //           return {
+  //   //             //   id: teacher.id,
+  //   //             name: teacher.name,
+  //   //             subject: teacher.subject,
+  //   //             likes: teacher.likes.length,
+  //   //             dislikes: teacher.dislikes.length,
+  //   //             reviews: teacher.reviews.map((review) => review.comments),
+  //   //           };
+  //   //         }
+  //   //       }),
+  //   //     );
+
+  //   //     const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+  //   //     Elective.push({
+  //   //       subject: this.Electives[i],
+  //   //       data: filteredSec1,
+  //   //     });
+  //   //   }
+
+  //   //   const headers = Object.keys(Elective[0].data[0]);
+  //   //   console.log(headers);
+
+  //   //   const workbook = new ExcelJS.Workbook();
+  //   //   const worksheet = workbook.addWorksheet(`Elective_1`);
+
+  //   //   this.addSiteInformation(worksheet);
+  //   //   this.addReportGeneratedTime(worksheet);
+
+  //   //   worksheet.addRow(['Color Legend']);
+  //   //   this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+  //   //   this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+  //   //   this.addLegendRow(worksheet, 'Average', 'FFFF00');
+  //   //   this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+  //   //   this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
+  //   //   worksheet.addRow([]);
+  //   //   worksheet.addRow(headers);
+
+  //   //   Elective.forEach((sec) => {
+  //   //     worksheet.addRow([`Subject:- ${sec.subject}`]);
+  //   //     //   worksheet.addRow([`Section ${sec.section}`]);
+  //   //     //add some space to row
+
+  //   //     sec.data.forEach((row) => {
+  //   //       const values = headers.map((header) => row[header]);
+  //   //       const rowRef = worksheet.addRow(values);
+
+  //   //       const totalInteractions = row.likes + row.dislikes;
+
+  //   //       if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+  //   //         return 0; // Not enough interactions for a reliable recommendation
+  //   //       }
+
+  //   //       const ratio = row.likes / totalInteractions;
+  //   //       const p = Math.round(ratio * 100) / 100;
+  //   //       this.applyColorBasedOnRatio(rowRef, p);
+  //   //     });
+  //   //     worksheet.addRow([null]);
+  //   //   });
+
+  //   //   // Save workbook to a file
+  //   //   await workbook.xlsx.writeFile('Electives-Export.xlsx');
+  //   //   console.log(Elective);
+  //   //   return Elective;
+  //   // }
+
+  //  subjectMap = (subject:string)=>{
+
+  //     console.log(subject)
+  //    switch(subject){
+  //       case "CN":
+  //         return "COMPUTER NETWORKS"
+  //       case "SE":
+  //         return "SOFTWARE ENGINEERING"
+  //       case "CN Lab":
+  //         return "Computer Networks Lab"
+  //       case "EE":
+  //         return "Engineering Economics"
+  //       case "DAA Lab":
+  //         return "DAA Lab"
+  //       case "DAA":
+  //         return "DESIGN & ANALYSIS OF ALGO"
+  //       case "EOD":
+  //         return "Economics Of Development"
+  //       case "IEC":
+  //         return "International Economic Cooperation"
+  //       case "AI":
+  //         return "Artificial Intelligence"
+  //       case "ML":
+  //         return "Machine Learning"
+  //       case "HPC":
+  //         return "HIGH PERFORMANCE COMPUT"
+  //       case "IoT":
+  //         return "Internet Of Things"
+  //       case "DMDW":
+  //         console.log("here")
+  //         return "Data Mining and Data Warehousing"
+  //       case "BD":
+  //         return "Big Data"
+  //       case "DSA":
+  //         return "Data Science And Analytics"
+  //       case "DOS":
+  //         return "Distributed Operating System"
+  //       case "CI":
+  //         return "Computational Intelligence"
+  //       case "CD":
+  //         return "COMPILER DESIGN"
+
+  //       default:
+  //         return subject;
+  //     }
+
+  //   }
+
+  //    reverseSubjectMap = (fullSubjectName:string) => {
+  //     console.log(fullSubjectName);
+  //     switch(fullSubjectName){
+
+  //       case "Probability and Statistics":
+  //         return "PS";
+  //     case "Industry 4.0 Technologies":
+  //         return "IND4";
+  //     case "Data Structure":
+  //         return "DS";
+  //     case "Digital Systems Design":
+  //         return "DSD";
+  //     case "Automata Theory and Formal Languages":
+  //         return "AFL";
+  //     case "Scientific and Technical Writing":
+  //         return "STW";
+  //     case "DSD Lab":
+  //         return "DSD(L)";
+  //     case "Data Structure Lab":
+  //         return "DS(L)";
+  //     case "Communication Engineering":
+  //         return "CE";
+  //     case "COA":
+  //         return "COA";
+  //     case "OOP JAVA":
+  //         return "OOPJ";
+  //     case "CE Lab":
+  //         return "CE(L)";
+  //       // case "COMPUTER NETWORKS":
+  //       //   return "CN";
+  //       // case "SOFTWARE ENGINEERING":
+  //       //   return "SE";
+  //       // case "Computer Networks Lab":
+  //       //   return "CN Lab";
+  //       // case "Engineering Economics":
+  //       //   return "EE";
+  //       // case "DAA Lab":
+  //       //   return "DAA Lab";
+  //       // case "DESIGN & ANALYSIS OF ALGO":
+  //       //   return "DAA";
+  //       // case "Economics Of Development":
+  //       //   return "EOD";
+  //       // case "International Economic Cooperation":
+  //       //   return "IEC";
+  //       // case "Artificial Intelligence":
+  //       //   return "AI";
+  //       // case "Machine Learning":
+  //       //   return "ML";
+  //       // case "HIGH PERFORMANCE COMPUT":
+  //       //   return "HPC";
+  //       // case "Internet Of Things":
+  //       //   return "IoT";
+  //       // case "Data Mining and Data Warehousing":
+  //       //   console.log("here");
+  //       //   return "DMDW";
+  //       // case "Big Data":
+  //       //   return "BD";
+  //       // case "Data Science And Analytics":
+  //       //   return "DSA";
+  //       // case "Distributed Operating System":
+  //       //   return "DOS";
+  //       // case "Computational Intelligence":
+  //       //   return "CI";
+  //       // case "COMPILER DESIGN":
+  //       //   return "CD";
+
+  //       default:
+  //         return fullSubjectName;
+  //     }
+  //   };
+
+  //   applyColor(rowRef: ExcelJS.Row, color: string) {
+  //     for (let i = 1; i <= rowRef.cellCount; i++) {
+  //       rowRef.getCell(i).fill = {
+  //         type: 'pattern',
+  //         pattern: 'solid',
+  //         fgColor: { argb: color },
+  //       };
+  //     }
+  //   }
+
+  //   addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
+  //     const legendRow = worksheet.addRow([label]);
+  //     legendRow.eachCell((cell) => {
+  //       cell.font = {
+  //         // color: { argb: '' },
+  //         // White font color
+
+  //         bold: true,
+  //         size: 13,
+  //       };
+  //       cell.fill = {
+  //         type: 'pattern',
+  //         pattern: 'solid',
+  //         fgColor: { argb: color },
+  //       };
+  //     });
+  //   }
+
+  //   applyColorBasedOnRatio(rowRef: any, ratio: any) {
+  //     switch (true) {
+  //       case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+  //         this.applyColor(rowRef, '00FF00'); // Green color
+  //         break;
+  //       case ratio >= this.RECOMMENDED_THRESHOLD &&
+  //         ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
+  //         this.applyColor(rowRef, '00FFFF'); // Blue color
+  //         break;
+  //       case ratio >= this.AVERAGE_THRESHOLD &&
+  //         ratio < this.RECOMMENDED_THRESHOLD:
+  //         this.applyColor(rowRef, 'FFFF00'); // Yellow color
+  //         break;
+  //       case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
+  //         ratio < this.AVERAGE_THRESHOLD:
+  //         this.applyColor(rowRef, 'FFA500'); // Orange color
+  //         break;
+  //       case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+  //         this.applyColor(rowRef, 'FF0000'); // Red color
+  //         break;
+  //       default:
+  //         break;
+
+  //     }
+  //   }
+
+  //   addSiteInformation(worksheet: ExcelJS.Worksheet) {
+  //     const lines = this.siteInformation.split('\n');
+
+  //     // Style for bold text
+  //     const boldStyle = {
+  //       bold: true,
+  //     };
+
+  //     // Style for hyperlinks
+  //     const hyperlinkStyle = {
+  //       font: {
+  //         color: { argb: '0000FF' }, // Blue font color
+  //         underline: true,
+  //       },
+  //     };
+
+  //     // Style for normal text
+  //     const normalStyle = {};
+
+  //     lines.forEach((line) => {
+  //       const cell = worksheet.addRow([line]).getCell(1);
+
+  //       // Apply styles based on content
+  //       if (line.includes('Website:')) {
+  //         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+  //       } else if (line.includes('WhatsApp Group:')) {
+  //         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+  //       } else {
+  //         cell.font = Object.assign({}, boldStyle, normalStyle);
+  //       }
+  //     });
+
+  //     // Add an empty row for separation
+  //     worksheet.addRow([null]);
+  //   }
+
+  //   addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
+  //     const now = new Date();
+  //     const formattedTime = `Report generated on: ${now.toLocaleString()}`;
+
+  //     // Style for italicized and gray text
+  //     const timeStyle = {
+  //       font: {
+  //         italic: true,
+  //         color: { argb: '756562' }, // Gray font color
+  //       },
+  //     };
+
+  //     // Add the report generated time with styles
+  //     worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
+  //     worksheet.addRow([null]); // Add an empty row for separation
+  //   }
+  //   addCustomMessage(worksheet: ExcelJS.Worksheet,message:string) {
+
+  //     // Style for italicized and gray text
+  //     const timeStyle = {
+  //       font: {
+  //         // italic: true,
+  //         bold:true,
+  //         color: { argb: 'FF0000' }, // red font color
+  //       },
+  //     };
+
+  //     // Add the report generated time with styles
+  //     worksheet.addRow([message]).getCell(1).style = timeStyle;
+  //     worksheet.addRow([null]); // Add an empty row for separation
+  //   }
+  // -------------------------------------------------------
+
+  HIGHLY_RECOMMENDED_THRESHOLD = 0.8;
+  RECOMMENDED_THRESHOLD = 0.6;
+  AVERAGE_THRESHOLD = 0.4;
+  MODERATELY_RECOMMENDED_THRESHOLD = 0.2;
+  MIN_INTERACTIONS_THRESHOLD = 5;
+
   siteInformation: string = `
   Report generated from KIIT-CONNECT WEBSITE.
   Website: https://www.kiitconnect.com/
   WhatsApp Group: https://chat.whatsapp.com/Bmnw7wm9jUi19HD59bJ8Zn
   Auto Generated by KIIT-CONNECT
 `;
-  async generateReport(data:{
-    branch:string,
-    semester:number,
 
-  }) {
+  checkSemesterSubjects(semester: number, branch: string, subject: string) {
+    switch (branch) {
+      case 'CSE':
+        switch (semester) {
+          case 1:
+            break;
+          case 2:
+            break;
 
-    console.log(data)
-    const Teachers =[]
-    // const teacherData = await this.prisma.facultiesDetails.findMany({
-    //   // where:{
-    //   //   semesterSection:{
-    //   //     every:{
-    //   //       semesterId:"65d20c6248b08e85746da025"
-    //   //     }
-    //   //   }
-    //   // },
-    //   include: { reviews: true,semesterSection:true,subject:true,},
-    // });
+          case 3:
+            break;
 
+          case 4:
+            break;
 
+          case 5:
+            break;
+          case 6:
+            const subjectList = [
+              'machine learning',
+              'artificial intelligence',
+              'cloud computing',
+              'software project management',
+            ];
+            return subjectList.includes(subject);
+          default:
+            break;
+        }
+
+        break;
+
+      case 'CSSE':
+        switch (semester) {
+          case 1:
+            break;
+
+          case 2:
+            break;
+
+          case 3:
+            break;
+
+          case 4:
+            break;
+
+          case 5:
+            break;
+          case 6:
+            break;
+
+          default:
+            break;
+        }
+
+        break;
+
+      case 'CSCE':
+        switch (semester) {
+          case 1:
+            break;
+
+          case 2:
+            break;
+
+          case 3:
+            break;
+
+          case 4:
+            break;
+
+          case 5:
+            break;
+          case 6:
+            break;
+
+          default:
+            break;
+        }
+
+        break;
+
+      case 'IT':
+        switch (semester) {
+          case 1:
+            break;
+
+          case 2:
+            break;
+
+          case 3:
+            break;
+
+          case 4:
+            break;
+
+          case 5:
+            break;
+          case 6:
+            const subjectList = [
+              'machine learning',
+              'cloud computing',
+              'data science and analytics',
+              'software project management',
+            ];
+
+            return subjectList.includes(subject);
+
+          default:
+            return false;
+        }
+        break;
+
+      default:
+        return false;
+    }
+
+    //   const subjectList = [
+    //     "Industry 4.0 Technologies",
+    //     "Data Structure",
+    //     "Digital Systems Design",
+    //     "Automata Theory and Formal Languages",
+    //     "Scientific and Technical Writing",
+    //     "DSD Lab",
+    //     "Data Structure Lab",
+    //     "Communication Engineering",
+    //     "COA",
+    //     "OOP JAVA",
+    //     "Probability and Statistics",
+    //     'CE Lab'
+    //   ];
+
+    // }
+  }
+
+  reverseSubjectMap(fullSubjectName: string): string {
+    const subjectMapping: { [key: string]: string } = {
+      'Cloud Computing': 'Cloud Computing',
+      'Artificial Intelligence': 'Artificial Intelligence',
+      'Machine Learning': 'Machine Learning',
+      'Software Project Management': 'Software Project Management',
+      // Add other mappings here
+    };
+    return subjectMapping[fullSubjectName] || fullSubjectName;
+  }
+
+  async generateReport(data: { branch: string; semester: number }) {
+    const TeachersBySubject: { [key: string]: any[] } = {};
 
     const branchId = await this.prisma.branch.findUnique({
-      where: {
-        name: data.branch,
-      },
+      where: { name: data.branch },
     });
-
     if (!branchId) throw new BadRequestException('Branch not found');
-    const semesterId = await this.prisma.semester.findUnique({
+
+    const semester = await this.prisma.semester.findUnique({
       where: {
-        number: {
-          equals: data.semester,
-        },
+        number: data.semester,
         branchId: branchId.id,
       },
     });
-
-    if (!semesterId.isFacultyReviewEnabled) {
+    if (!semester || !semester.isFacultyReviewEnabled) {
       throw new ServiceUnavailableException(
         'Faculty Review is not enabled for this semester',
       );
@@ -21548,129 +22265,80 @@ try {
 
     const facultiesData = await this.prisma.facultiesDetails.findMany({
       where: {
-        semesterSection: {
-          some: {
-            semesterId: semesterId.id,
-          },
-        },
+        semesterSection: { some: { semesterId: semester.id } },
       },
       include: {
-        semesterSection: {
-          select: {
-            section: true,
-            semester:{
-              select:{
-                number:true,
-                branch:{
-                  select:{
-                    id:true,
-                    name:true
-                  }
-                }
-              }
-            }
-          },
-        },
-        subject: {
-          select: {
-            name: true,
-          },
-        },
-        reviews: {
-          select: {
-            id: true,
-            comments: true,
-          },
-        },
+        subject: { select: { name: true } },
+        reviews: { select: { id: true, comments: true } },
       },
     });
 
-    const pq = facultiesData.filter((f)=>{
-    return f.semesterSection.map((p)=>p.semester.branch.name).includes(data.branch)
-    })
+    facultiesData.forEach((faculty) => {
+      faculty.subject.forEach((subject) => {
+        const subjectName = this.reverseSubjectMap(subject.name);
 
-    console.log(pq)
+        if(!this.checkSemesterSubjects(data.semester,data.branch,subjectName.toLowerCase())) return;
 
-    // return pq;
+        if (!TeachersBySubject[subjectName]) {
+          TeachersBySubject[subjectName] = [];
+        }
 
 
-    for (let i = 1; i <= semesterId.numberOfSectionForSwapping; i++) {
-      const sec1 = await Promise.all(
-        pq.map(async (teacher) => {
-
-          const filtr = teacher.semesterSection.filter((g)=>g.semester.number===data.semester && g.section===i && g.semester.branch.name===data.branch);
-          if (filtr.length>0) {
-
-            
-            return {
-              //   id: teacher.id,
-              name: teacher.name,
-              subject: teacher.subject.filter((f)=>{
-                return this.subjectList.includes(f.name)
-              }).map((s)=>{
-                
-                return this.reverseSubjectMap(s.name)
-              })
-              ,
-              likes: teacher.likesId.length,
-              dislikes: teacher.dislikesId.length,
-              reviews: teacher.reviews.map((review) => review.comments),
-            };
-          }
-
-         
-        }),
-      );
-
-      const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
-
-      Teachers.push({
-        section: i,
-        data: filteredSec1,
+        TeachersBySubject[subjectName].push({
+          name: faculty.name,
+          likes: faculty.likesId?.length || 0,
+          dislikes: faculty.dislikesId?.length || 0,
+          reviews: faculty.reviews
+            .map((review) => review.comments)
+            .filter(Boolean),
+        });
       });
-    }
-
-    console.log(Teachers);
-
-    const headers = Object.keys(Teachers[0].data[0]);
-    console.log(headers);
+    });
 
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet(`Section_1`);
+    const worksheet = workbook.addWorksheet('Faculty Report');
 
     this.addSiteInformation(worksheet);
     this.addReportGeneratedTime(worksheet);
-    this.addCustomMessage(worksheet,"Just Avoid: If anyone found sharing of screenshot then that person id will be banned permanentally from kiit-connect and if anyone report about that person who has shared the screenshot can be rewarded Premium Membership and Some gift.")
+    this.addLegend(worksheet);
 
-    worksheet.addRow(['Color Legend']);
-    this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
-    this.addLegendRow(worksheet, 'Recommended', '00FFFF');
-    this.addLegendRow(worksheet, 'Medium', 'FFFF00');
-    this.addLegendRow(worksheet, 'Try to Avoid', 'FFA500');
-    this.addLegendRow(worksheet, 'Avoid(Not Recommended)', 'FF0000');
-    worksheet.addRow([]);
-    worksheet.addRow(headers);
+    Object.keys(TeachersBySubject).forEach((subjectName) => {
+      const subjectRow = worksheet.addRow([`Subject: ${subjectName}`]);
+      this.applyColor(subjectRow, 'ADD8E6'); // Light Blue for subject header
+
+      worksheet.addRow(['Faculty Name', 'Likes', 'Dislikes', 'Reviews']); // Table header
+
+      worksheet.columns = [
+        { header: "Faculty Name", width: 1 / 0.02645833 }, // 15 cm
+        { header: "Likes", width: 0.6 / 0.02645833 }, // 10 cm
+        { header: "Dislikes", width: 0.3 / 0.02645833 }, // 10 cm 
+        { header: "Reviews", width: 10 / 0.02645833 }, // 10 cm
+        // { header:"Reviews", width: 0.3 / 0.02645833 }, // 10 cm 
+        // Add more columns if needed
+    ];
+
+      TeachersBySubject[subjectName].forEach((faculty) => {
+        const row = worksheet.addRow([
+          faculty.name,
+          faculty.likes,
+          faculty.dislikes,
+          faculty.reviews.join('; '),
+        ]);
+
+        // Calculate and apply color based on the ratio of likes to dislikes
+        // const totalInteractions = faculty.likes + faculty.dislikes;
+        // const ratio =
+        //   totalInteractions >= this.MIN_INTERACTIONS_THRESHOLD
+        //     ? faculty.likes / totalInteractions
+        //     : 0;
+        // this.applyColorBasedOnRatio(row, ratio);
 
 
-    worksheet.columns = [
-      { header: headers[0], width: 1 / 0.02645833 }, // 15 cm
-      { header: headers[1], width: 0.6 / 0.02645833 }, // 10 cm
-      { header: headers[2], width: 0.3 / 0.02645833 }, // 10 cm 
-      { header: headers[3], width: 0.3 / 0.02645833 }, // 10 cm 
-      { header: headers[4], width: 10 / 0.02645833 }, // 10 cm
-      // Add more columns if needed
-  ];
 
-    Teachers.forEach((sec) => {
-      worksheet.addRow([`Section ${sec.section}`]);
-      //   worksheet.addRow([`Section ${sec.section}`]);
-      //add some space to row
+        // const values = headers.map((header) => row[header]);
+        // const rowRef = worksheet.addRow(values);
 
-      sec.data.forEach((row) => {
-        const values = headers.map((header) => row[header]);
-        const rowRef = worksheet.addRow(values);
-
-        const totalInteractions = row.likes + row.dislikes;
+        const totalInteractions = faculty.likes + faculty.dislikes;
 
         if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
           return 0; // Not enough interactions for a reliable recommendation
@@ -21695,7 +22363,7 @@ try {
         // const rat = row.likes / Math.max(row.dislikes, 1);
 
 
-        const rat = row.likes / totalInteractions;
+        const rat = faculty.likes / totalInteractions;
                 //   const ratio = Math.round(p * 100) / 100;
 
 
@@ -21703,355 +22371,25 @@ try {
         console.log(ratio);
       
         // const p = Math.round(ratio * 100) / 100;
-        this.applyColorBasedOnRatio(rowRef, ratio);
+        this.applyColorBasedOnRatio(row, ratio);
+        
+
       });
-      worksheet.addRow([null]);
+
+      worksheet.addRow([]); // Add spacing between subjects
     });
 
-    // Save workbook to a file
-    await workbook.xlsx.writeFile(`${data.branch}-${data.semester}.xlsx`);
+    const filePath = `${data.branch}-${data.semester}-FacultyReport.xlsx`;
+    await workbook.xlsx.writeFile(filePath);
 
-    return Teachers;
+    return {
+      message: 'Report generated successfully',
+      path: filePath,
+    };
   }
-
-
-  subjectList =   [
-    "Industry 4.0 Technologies",
-    "Data Structure",
-    "Digital Systems Design",
-    "Automata Theory and Formal Languages",
-    "Scientific and Technical Writing",
-    "DSD Lab",
-    "Data Structure Lab",
-    "Communication Engineering",
-    "COA",
-    "OOP JAVA",
-    "Probability and Statistics",
-    'CE Lab'
-  ];
-  
-  // ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
-  // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
-
-  // async getDataForElective() {
-  //   const Elective = [];
-  //   const teacherData = await this.prismService.elective.findMany({
-  //     include: { reviews: true },
-  //   });
-
-  //   for (let i = 0; i < this.Electives.length; i++) {
-  //     const sec1 = await Promise.all(
-  //       teacherData.map(async (teacher) => {
-  //         if (teacher.subject === this.Electives[i]) {
-  //           return {
-  //             //   id: teacher.id,
-  //             name: teacher.name,
-  //             subject: teacher.subject,
-  //             likes: teacher.likes.length,
-  //             dislikes: teacher.dislikes.length,
-  //             reviews: teacher.reviews.map((review) => review.comments),
-  //           };
-  //         }
-  //       }),
-  //     );
-
-  //     const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
-
-  //     Elective.push({
-  //       subject: this.Electives[i],
-  //       data: filteredSec1,
-  //     });
-  //   }
-
-  //   const headers = Object.keys(Elective[0].data[0]);
-  //   console.log(headers);
-
-  //   const workbook = new ExcelJS.Workbook();
-  //   const worksheet = workbook.addWorksheet(`Elective_1`);
-
-  //   this.addSiteInformation(worksheet);
-  //   this.addReportGeneratedTime(worksheet);
-
-  //   worksheet.addRow(['Color Legend']);
-  //   this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
-  //   this.addLegendRow(worksheet, 'Recommended', '00FFFF');
-  //   this.addLegendRow(worksheet, 'Average', 'FFFF00');
-  //   this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
-  //   this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
-  //   worksheet.addRow([]);
-  //   worksheet.addRow(headers);
-
-  //   Elective.forEach((sec) => {
-  //     worksheet.addRow([`Subject:- ${sec.subject}`]);
-  //     //   worksheet.addRow([`Section ${sec.section}`]);
-  //     //add some space to row
-
-  //     sec.data.forEach((row) => {
-  //       const values = headers.map((header) => row[header]);
-  //       const rowRef = worksheet.addRow(values);
-
-  //       const totalInteractions = row.likes + row.dislikes;
-
-  //       if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
-  //         return 0; // Not enough interactions for a reliable recommendation
-  //       }
-
-  //       const ratio = row.likes / totalInteractions;
-  //       const p = Math.round(ratio * 100) / 100;
-  //       this.applyColorBasedOnRatio(rowRef, p);
-  //     });
-  //     worksheet.addRow([null]);
-  //   });
-
-  //   // Save workbook to a file
-  //   await workbook.xlsx.writeFile('Electives-Export.xlsx');
-  //   console.log(Elective);
-  //   return Elective;
   // }
 
 
- subjectMap = (subject:string)=>{
-
-    console.log(subject)
-   switch(subject){
-      case "CN":
-        return "COMPUTER NETWORKS"
-      case "SE":
-        return "SOFTWARE ENGINEERING"
-      case "CN Lab":
-        return "Computer Networks Lab"
-      case "EE":
-        return "Engineering Economics"
-      case "DAA Lab":
-        return "DAA Lab"
-      case "DAA":
-        return "DESIGN & ANALYSIS OF ALGO"
-      case "EOD":
-        return "Economics Of Development"
-      case "IEC":
-        return "International Economic Cooperation"
-      case "AI":
-        return "Artificial Intelligence"
-      case "ML":
-        return "Machine Learning"
-      case "HPC":
-        return "HIGH PERFORMANCE COMPUT"
-      case "IoT":
-        return "Internet Of Things"
-      case "DMDW":
-        console.log("here")
-        return "Data Mining and Data Warehousing"
-      case "BD":
-        return "Big Data"
-      case "DSA":
-        return "Data Science And Analytics"
-      case "DOS":
-        return "Distributed Operating System"
-      case "CI":
-        return "Computational Intelligence"
-      case "CD":
-        return "COMPILER DESIGN"
-  
-      default:
-        return subject;
-    }
-  
-  }
-
-   reverseSubjectMap = (fullSubjectName:string) => {
-    console.log(fullSubjectName);
-    switch(fullSubjectName){
-
-      case "Probability and Statistics":
-        return "PS";
-    case "Industry 4.0 Technologies":
-        return "IND4";
-    case "Data Structure":
-        return "DS";
-    case "Digital Systems Design":
-        return "DSD";
-    case "Automata Theory and Formal Languages":
-        return "AFL";
-    case "Scientific and Technical Writing":
-        return "STW";
-    case "DSD Lab":
-        return "DSD(L)";
-    case "Data Structure Lab":
-        return "DS(L)";
-    case "Communication Engineering":
-        return "CE";
-    case "COA":
-        return "COA";
-    case "OOP JAVA":
-        return "OOPJ";
-    case "CE Lab":
-        return "CE(L)";
-      // case "COMPUTER NETWORKS":
-      //   return "CN";
-      // case "SOFTWARE ENGINEERING":
-      //   return "SE";
-      // case "Computer Networks Lab":
-      //   return "CN Lab";
-      // case "Engineering Economics":
-      //   return "EE";
-      // case "DAA Lab":
-      //   return "DAA Lab";
-      // case "DESIGN & ANALYSIS OF ALGO":
-      //   return "DAA";
-      // case "Economics Of Development":
-      //   return "EOD";
-      // case "International Economic Cooperation":
-      //   return "IEC";
-      // case "Artificial Intelligence":
-      //   return "AI";
-      // case "Machine Learning":
-      //   return "ML";
-      // case "HIGH PERFORMANCE COMPUT":
-      //   return "HPC";
-      // case "Internet Of Things":
-      //   return "IoT";
-      // case "Data Mining and Data Warehousing":
-      //   console.log("here");
-      //   return "DMDW";
-      // case "Big Data":
-      //   return "BD";
-      // case "Data Science And Analytics":
-      //   return "DSA";
-      // case "Distributed Operating System":
-      //   return "DOS";
-      // case "Computational Intelligence":
-      //   return "CI";
-      // case "COMPILER DESIGN":
-      //   return "CD";
-
-
-
-      default:
-        return fullSubjectName;
-    }
-  };
-  
-  applyColor(rowRef: ExcelJS.Row, color: string) {
-    for (let i = 1; i <= rowRef.cellCount; i++) {
-      rowRef.getCell(i).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: color },
-      };
-    }
-  }
-
-  addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
-    const legendRow = worksheet.addRow([label]);
-    legendRow.eachCell((cell) => {
-      cell.font = {
-        // color: { argb: '' },
-        // White font color
-
-        bold: true,
-        size: 13,
-      };
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: color },
-      };
-    });
-  }
-
-
-      // switch (true) {
-      //       case ratio >= HIGHLY_RECOMMENDED_THRESHOLD:
-      //         // applyColor(rowRef, '00FF00');
-      //         // Green color
-      //         return {
-      //           color: "text-green-500",
-      //           text: "Highly Recomended",
-      //         };
-      //         break;
-      //       case ratio >= RECOMMENDED_THRESHOLD && ratio < HIGHLY_RECOMMENDED_THRESHOLD:
-      //         // applyColor(rowRef, '00FFFF'); // Blue color
-      //         return {
-      //           color: "text-blue-500",
-      //           text: "Recomended",
-      //         };
-        
-      //       case ratio >= AVERAGE_THRESHOLD && ratio < RECOMMENDED_THRESHOLD:
-      //         // applyColor(rowRef, 'FFFF00'); // Yellow color
-      //         return {
-      //           color: "yellow",
-      //           text: "Average",
-      //         };
-      //       case ratio >= MODERATELY_RECOMMENDED_THRESHOLD && ratio < AVERAGE_THRESHOLD:
-      //         // applyColor(rowRef, 'FFA500'); // Orange color
-      //         return {
-      //           color: "orange",
-      //           text: "Below Average",
-      //         };
-      //       case ratio < MODERATELY_RECOMMENDED_THRESHOLD:
-      //         // applyColor(rowRef, 'FF0000'); // Red color
-      //         return {
-      //           color: "text-red-500",
-      //           text: "Not Recomended",
-      //         };
-      //       default:
-      //         return {
-      //           color: "text-blue-500",
-      //           text: "Not Rated",
-      //         };
-      //     }
-      //   };
-
-  applyColorBasedOnRatio(rowRef: any, ratio: any) {
-    switch (true) {
-      case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, '00FF00'); // Green color
-        break;
-      case ratio >= this.RECOMMENDED_THRESHOLD &&
-        ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, '00FFFF'); // Blue color
-        break;
-      case ratio >= this.AVERAGE_THRESHOLD &&
-        ratio < this.RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, 'FFFF00'); // Yellow color
-        break;
-      case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
-        ratio < this.AVERAGE_THRESHOLD:
-        this.applyColor(rowRef, 'FFA500'); // Orange color
-        break;
-      case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
-        this.applyColor(rowRef, 'FF0000'); // Red color
-        break;
-      default:
-        break;
-
-     // Red color
-      // case ratio >= 3:
-      //   // Highly recommended
-      //    this.applyColor(rowRef, '00FF00'); // Green color
-      //   break;
-  
-      // case ratio >= 2 && ratio < 3:
-      //   // Recommended
-      //       this.applyColor(rowRef, '00FFFF'); // Blue color
-      //       break;
-      // case ratio >= 1.6 && ratio < 2:
-      //   // Average
-      //        this.applyColor(rowRef, 'FFFF00'); // Yellow color
-
-      //        break;
-      // case ratio >= 1 && ratio < 1.6:
-      //   // Moderately Recommended
-      // this.applyColor(rowRef, 'FFA500'); // Orange color
-      // break;
-      // case ratio < 1:
-      //   // Not Recommended
-      //     this.applyColor(rowRef, 'FF0000'); // Red color
-      //     break;
-      // default:
-      //  break;
-    }
-  }
 
   addSiteInformation(worksheet: ExcelJS.Worksheet) {
     const lines = this.siteInformation.split('\n');
@@ -22124,127 +22462,296 @@ try {
 
 
 
-// 
+  // addSiteInformation(worksheet: ExcelJS.Worksheet) {
+  //   const lines = this.siteInformation.split('\n');
+  //   lines.forEach((line) => worksheet.addRow([line]));
+  //   worksheet.addRow([null]);
+  // }
 
-//   subjects = {
-//     0: 'CSE',
-//     1: 'DSS',
-//     2: 'OOPJ',
-//     3: 'DBMS',
-//     4: 'OS',
-//     5: 'COA',
-//     6: 'STW',
-//     7: 'OS(L)',
-//     8: 'OPPJ(L)',
-//     9: 'DBMS(L)',
-//     10: 'VT(L)',
-//   };
-
-//   AllFaculty: {} = {};
-
-//   idp = 0;
-
-//   //async fetch all data from xls file
-//   async fetchAllDataFromXls() {
-//     // const workbook = new ExcelJS.Workbook();
-
-//     const filepath = path.join(process.cwd(), 'forthsem.xlsx');
-//     const workbook = await xlsx.readFile(filepath);
-
-//     //  const workbook = xlsx.readFile('./Quiz_Question.xlsx');  // Step 2
-//     let workbook_sheet = workbook.SheetNames;
-//     let workbook_response = xlsx.utils.sheet_to_json(
-//       // Step 4
-//       workbook.Sheets[workbook_sheet[0]],
-//     );
-
-//     const first = workbook_response[2];
-//     const headers = workbook_response[1];
-//     console.log(headers, first);
-
-//     workbook_response.forEach(async (element, index) => {
-//       if (index === 0 || index === 1) return;
-//       Object.keys(element).forEach((key, idx) => {
-//         if (idx === 0) return;
-
-//         if (element[key].includes('New Faculty')) {
-//           return;
-//         }
-
-//         if (this.AllFaculty[element[key]]) {
-//           if (
-//             !this.AllFaculty[element[key]].subjects.includes(this.subjects[idx])
-//           ) {
-//             this.AllFaculty[element[key]].subjects.push(this.subjects[idx]);
-//           }
-//           if (!this.AllFaculty[element[key]].sections.includes(index - 1)) {
-//             this.AllFaculty[element[key]].sections.push(index - 1);
-//           }
-//         } else {
-//           this.AllFaculty[element[key]] = {
-//             name: element[key],
-//             subjects: [this.subjects[idx]],
-//             sections: [index - 1],
-//           };
-//         }
-//       });
-//     });
-
-//     // workbook_response.forEach(async (element) => {
-//     //  console.log(element)
-
-//     //   });
-//     // console.log(addData);
-
-//     // console.log(workbook_response);
-
-//     return this.AllFaculty;
-//   }
+  // addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
+  //   const now = new Date();
+  //   worksheet.addRow([`Report generated on: ${now.toLocaleString()}`]);
+  //   worksheet.addRow([null]);
+  // }
 
 
 
 
-
-async increaseDecreaseLikes(data:{facultyId:string,event:string}){
-  try {
-    const faculty = await this.prisma.facultiesDetails.findUnique({
-      where:{
-        id:data.facultyId
-      }
-    });
-
-    if(!faculty) throw new BadRequestException('Faculty not found');
-
-
-
-    const ids = ['65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47','65ec7b99c25f0eb2966fea47']
-    const dataClause = data.event === 'Like' ? {
-      likesId:{
-        set:[...faculty.likesId,...ids]
-      }
-    }:{
-      dislikesId:{
-        set:[...faculty.dislikesId,...ids]
-      }
-    }
-
-    const updateLikesDislikes = await this.prisma.facultiesDetails.update({
-      where: {
-        id: data.facultyId,
-      },
-      data: dataClause
-
-    })
-
-    return true; 
-
-  } catch (error) {
-    console.log(error)
-    throw new InternalServerErrorException('Internal Server Error');
+  addLegend(worksheet: ExcelJS.Worksheet) {
+    worksheet.addRow(['Legend:']);
+    this.addLegendRow(worksheet, 'Highly Recommended (≥ 80%)', '00FF00'); // Green
+    this.addLegendRow(worksheet, 'Recommended (60-79%)', '00FFFF'); // Blue
+    this.addLegendRow(worksheet, 'Average (40-59%)', 'FFFF00'); // Yellow
+    this.addLegendRow(worksheet, 'Moderately Recommended (20-39%)', 'FFA500'); // Orange
+    this.addLegendRow(worksheet, 'Not Recommended (< 20%)', 'FF0000'); // Red
+    worksheet.addRow([null]);
   }
-}
+
+  // applyColor(rowRef: ExcelJS.Row, color: string) {
+  //   for (let i = 1; i <= rowRef.cellCount; i++) {
+  //     rowRef.getCell(i).fill = {
+  //       type: 'pattern',
+  //       pattern: 'solid',
+  //       fgColor: { argb: color },
+  //     };
+  //   }
+  // }
+
+  applyColor(rowRef: ExcelJS.Row, color: string) {
+    for (let i = 1; i <= rowRef.cellCount; i++) {
+      rowRef.getCell(i).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    }
+  }
+
+  addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
+    const legendRow = worksheet.addRow([label]);
+    legendRow.eachCell((cell) => {
+      cell.font = {
+        // color: { argb: '' },
+        // White font color
+
+        bold: true,
+        size: 13,
+      };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    });
+  }
 
 
 
+  applyColorBasedOnRatio(rowRef: any, ratio: any) {
+    switch (true) {
+      case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FF00'); // Green color
+        break;
+      case ratio >= this.RECOMMENDED_THRESHOLD &&
+        ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FFFF'); // Blue color
+        break;
+      case ratio >= this.AVERAGE_THRESHOLD &&
+        ratio < this.RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FFFF00'); // Yellow color
+        break;
+      case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
+        ratio < this.AVERAGE_THRESHOLD:
+        this.applyColor(rowRef, 'FFA500'); // Orange color
+        break;
+      case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FF0000'); // Red color
+        break;
+      default:
+        break;
 
+     // Red color
+      // case ratio >= 3:
+      //   // Highly recommended
+      //    this.applyColor(rowRef, '00FF00'); // Green color
+      //   break;
+  
+      // case ratio >= 2 && ratio < 3:
+      //   // Recommended
+      //       this.applyColor(rowRef, '00FFFF'); // Blue color
+      //       break;
+      // case ratio >= 1.6 && ratio < 2:
+      //   // Average
+      //        this.applyColor(rowRef, 'FFFF00'); // Yellow color
+
+      //        break;
+      // case ratio >= 1 && ratio < 1.6:
+      //   // Moderately Recommended
+      // this.applyColor(rowRef, 'FFA500'); // Orange color
+      // break;
+      // case ratio < 1:
+      //   // Not Recommended
+      //     this.applyColor(rowRef, 'FF0000'); // Red color
+      //     break;
+      // default:
+      //  break;
+    }
+  }
+
+
+  // addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
+  //   const legendRow = worksheet.addRow([label]);
+  //   legendRow.eachCell((cell) => {
+  //     cell.font = { bold: true, size: 13 };
+  //     cell.fill = {
+  //       type: 'pattern',
+  //       pattern: 'solid',
+  //       fgColor: { argb: color },
+  //     };
+  //   });
+  // }
+
+  // applyColorBasedOnRatio(rowRef: ExcelJS.Row, ratio: number) {
+  //   switch (true) {
+  //     case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+  //       this.applyColor(rowRef, '00FF00'); // Green
+  //       break;
+  //     case ratio >= this.RECOMMENDED_THRESHOLD:
+  //       this.applyColor(rowRef, '00FFFF'); // Blue
+  //       break;
+  //     case ratio >= this.AVERAGE_THRESHOLD:
+  //       this.applyColor(rowRef, 'FFFF00'); // Yellow
+  //       break;
+  //     case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD:
+  //       this.applyColor(rowRef, 'FFA500'); // Orange
+  //       break;
+  //     case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+  //       this.applyColor(rowRef, 'FF0000'); // Red
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
+
+  //
+
+  //   subjects = {
+  //     0: 'CSE',
+  //     1: 'DSS',
+  //     2: 'OOPJ',
+  //     3: 'DBMS',
+  //     4: 'OS',
+  //     5: 'COA',
+  //     6: 'STW',
+  //     7: 'OS(L)',
+  //     8: 'OPPJ(L)',
+  //     9: 'DBMS(L)',
+  //     10: 'VT(L)',
+  //   };
+
+  //   AllFaculty: {} = {};
+
+  //   idp = 0;
+
+  //   //async fetch all data from xls file
+  //   async fetchAllDataFromXls() {
+  //     // const workbook = new ExcelJS.Workbook();
+
+  //     const filepath = path.join(process.cwd(), 'forthsem.xlsx');
+  //     const workbook = await xlsx.readFile(filepath);
+
+  //     //  const workbook = xlsx.readFile('./Quiz_Question.xlsx');  // Step 2
+  //     let workbook_sheet = workbook.SheetNames;
+  //     let workbook_response = xlsx.utils.sheet_to_json(
+  //       // Step 4
+  //       workbook.Sheets[workbook_sheet[0]],
+  //     );
+
+  //     const first = workbook_response[2];
+  //     const headers = workbook_response[1];
+  //     console.log(headers, first);
+
+  //     workbook_response.forEach(async (element, index) => {
+  //       if (index === 0 || index === 1) return;
+  //       Object.keys(element).forEach((key, idx) => {
+  //         if (idx === 0) return;
+
+  //         if (element[key].includes('New Faculty')) {
+  //           return;
+  //         }
+
+  //         if (this.AllFaculty[element[key]]) {
+  //           if (
+  //             !this.AllFaculty[element[key]].subjects.includes(this.subjects[idx])
+  //           ) {
+  //             this.AllFaculty[element[key]].subjects.push(this.subjects[idx]);
+  //           }
+  //           if (!this.AllFaculty[element[key]].sections.includes(index - 1)) {
+  //             this.AllFaculty[element[key]].sections.push(index - 1);
+  //           }
+  //         } else {
+  //           this.AllFaculty[element[key]] = {
+  //             name: element[key],
+  //             subjects: [this.subjects[idx]],
+  //             sections: [index - 1],
+  //           };
+  //         }
+  //       });
+  //     });
+
+  //     // workbook_response.forEach(async (element) => {
+  //     //  console.log(element)
+
+  //     //   });
+  //     // console.log(addData);
+
+  //     // console.log(workbook_response);
+
+  //     return this.AllFaculty;
+  //   }
+
+  async increaseDecreaseLikes(data: { facultyId: string; event: string }) {
+    try {
+      const faculty = await this.prisma.facultiesDetails.findUnique({
+        where: {
+          id: data.facultyId,
+        },
+      });
+
+      if (!faculty) throw new BadRequestException('Faculty not found');
+
+      const ids = [
+        '65ec7b99c25f0eb2966fea47',
+        '65ec7b99c25f0eb2966fea47',
+        '65ec7b99c25f0eb2966fea47',
+        '65ec7b99c25f0eb2966fea47',
+        '65ec7b99c25f0eb2966fea47',
+      ];
+      const dataClause =
+        data.event === 'Like'
+          ? {
+              likesId: {
+                set: [...faculty.likesId, ...ids],
+              },
+            }
+          : {
+              dislikesId: {
+                set: [...faculty.dislikesId, ...ids],
+              },
+            };
+
+      const updateLikesDislikes = await this.prisma.facultiesDetails.update({
+        where: {
+          id: data.facultyId,
+        },
+        data: dataClause,
+      });
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async getAllPremiumMembers() {
+    try {
+      const users = await this.prisma.user.findMany({
+        where: {
+          isPremium: true,
+          email: {
+            startsWith: '24',
+          },
+        },
+      });
+
+      return {
+        length: users.length,
+        // users:users
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
 }

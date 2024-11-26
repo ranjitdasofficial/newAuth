@@ -93,9 +93,13 @@ import { PlacementsService } from './placements/placements.service';
       from: 'KIIT-CONNECT<support@kiitconnect.com>',
 
       // from: 'KIIT-CONNECT <notify@kiitconnect.com>',
-      // from: 'KIIT-CONNECT<support@notification.kiitconnect.com>',
+      // from: 'KIIT-CONNECT <support@notification.kiitconnect.com>',
+      // from: 'KIIT-CONNECT <noreply@alert.kiitconnect.com>',
+      // from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
+      // from: 'KIIT-CONNECT <noreply@notify.kiitconnect.com',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
-      // from: 'KIIT-CONNECT<account@kiitconnect.live>',
+      // from: 'KIIT-CONNECT<account@kiitconnect.live>', 
+      
       // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
     },
     template: {

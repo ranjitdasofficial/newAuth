@@ -125,7 +125,7 @@ async passwordChanged(to: string,username:string) {
 }
 
 
-async sendPaymentReminder(data:{email:string,name:string,branch:string,year:string}) {
+async sendPaymentReminder(data:{email:string,name:string}) {
   await this.mailService.sendMail({
     to: data.email,
     subject: 'Important: Activate Your Premium Membership',
@@ -169,8 +169,10 @@ async sendNonRegistered(email:string,index:number){
   await this.mailService.sendMail({
     to: email,
     subject: 'Access well structured Pyqs/Solution and Notes',
+    // subject: 'Welcome to KIIT-CONNECT!',
     // template: 'not-premium', // Name of your template file without extension
     template: 'non-registered', // Name of your template file without extension
+    // template: '2nd-sem', // Name of your template file without extension
     
   }).then(()=>{
     console.log("Email Has been Sent",index,email);
