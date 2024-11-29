@@ -156,7 +156,7 @@ export class FacultiesReviewController {
     facultyId:string,
     sectionId:string
   }){
-    return this.facultiesReviewService.disconnectSectionsFromFaculty(data);
+    return this.facultiesReviewService.disconnectSectionsFromFaculty(data) ;
   }
 
   @Post('disconnectFacultyFromSections')
@@ -197,6 +197,11 @@ console.log(data)
     event:string
   }){
     return this.facultiesReviewService.increaseDecreaseLikes(data);
+  }
+
+  @Post('countNoOfPremiumUsers')
+  async countNoOfPremiumUsers(){
+    return this.facultiesReviewService.countNoOfPremiumUsers();
   }
 
  

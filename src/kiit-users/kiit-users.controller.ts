@@ -36,6 +36,8 @@ export class KiitUsersController {
     return this.kiitUserService.registerUser(dto);
   }
 
+  
+
   @Get('getUserByEmail/:email')
   async getUserById(@Param('email') email: string) {
     return this.kiitUserService.getUserByEmail(email);
@@ -335,5 +337,10 @@ export class KiitUsersController {
   @Get('removePremiumMembersByBatch')
   async removePremiumMembersByBatch(@Query('year') year: string) {
     return this.kiitUserService.removePremiumMembersByBatch(year);
+  }
+
+  @Get('removePaymentScreenshot')
+  async removePaymentScreenshot(@Query('email') email: string) {
+    return this.kiitUserService.removePaymentScreenshot(email);
   }
 }

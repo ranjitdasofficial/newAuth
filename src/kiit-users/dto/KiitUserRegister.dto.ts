@@ -10,6 +10,10 @@ export class KiitUserRegister {
   @IsOptional()
   @IsString()
   profileImage: string;
+
+  @IsOptional()
+  @IsString()
+  password: string;
 }
 
 export class PremiumUserRegisterDto {

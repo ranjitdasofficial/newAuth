@@ -103,6 +103,12 @@ import {
   async sendTestMail(){
     return this.swappingService.sendTestMail();
   }
+
+  @Get("deleteSwapUsers")
+  async deleteSwapUsers(){
+    return this.swappingService.deleteSwapUserProfile();
+  }
+
     // return this.swappingService.uploadFile(dto);
   }
   

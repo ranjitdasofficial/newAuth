@@ -168,7 +168,7 @@ async sendNonRegistered(email:string,index:number){
   }
   await this.mailService.sendMail({
     to: email,
-    subject: 'Access well structured Pyqs/Solution and Notes',
+    subject: 'Access Faculty Selection and Section Swapping Pack',
     // subject: 'Welcome to KIIT-CONNECT!',
     // template: 'not-premium', // Name of your template file without extension
     template: 'non-registered', // Name of your template file without extension

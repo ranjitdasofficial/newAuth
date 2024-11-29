@@ -62,8 +62,8 @@ import { PlacementsService } from './placements/placements.service';
   }), MailerModule.forRoot({
     transport: {
     pool: true,
-    host: 'smtp.gmail.com',
-    // host: 'smtp.mailgun.com',
+    // host: 'smtp.gmail.com',
+    host: 'smtp.mailgun.com',
     // host:"rdmails.me",
     // port: 25,
     port:587,
@@ -80,9 +80,9 @@ import { PlacementsService } from './placements/placements.service';
         // pass: `Hijecked@#98`,
       
       }, 
-      // tls:{ 
-      //   rejectUnauthorized:false
-      // }
+      tls:{ 
+        rejectUnauthorized:false
+      }
     },
     defaults: {
       // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
@@ -90,12 +90,12 @@ import { PlacementsService } from './placements/placements.service';
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
 
-      from: 'KIIT-CONNECT<support@kiitconnect.com>',
+      // from: 'KIIT-CONNECT<support@kiitconnect.com>',
 
       // from: 'KIIT-CONNECT <notify@kiitconnect.com>',
-      // from: 'KIIT-CONNECT <support@notification.kiitconnect.com>',
-      // from: 'KIIT-CONNECT <noreply@alert.kiitconnect.com>',
+      from: 'KIIT-CONNECT <support@notification.kiitconnect.com>',
       // from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
+      // from: 'KIIT-CONNECT <noreply@alert.kiitconnect.com>',
       // from: 'KIIT-CONNECT <noreply@notify.kiitconnect.com',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
       // from: 'KIIT-CONNECT<account@kiitconnect.live>', 

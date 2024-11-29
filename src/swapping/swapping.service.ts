@@ -633,5 +633,23 @@ import { CustomException } from "src/customException";
         
       }
     }
+
+    async deleteSwapUserProfile (){
+      try {
+        const deleteData = await this.prisma.swapping.deleteMany({
+          where:{
+            Semester:5
+          }
+        });
+
+        return deleteData;
+
+        // return deleteData;
+      } catch (error) {
+        console.log(error)
+        throw new InternalServerErrorException("Internal Server Error");
+        
+      }
+    }
   }
   
