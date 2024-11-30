@@ -335,12 +335,39 @@ export class KiitUsersController {
   }
 
   @Get('removePremiumMembersByBatch')
-  async removePremiumMembersByBatch(@Query('year') year: string) {
-    return this.kiitUserService.removePremiumMembersByBatch(year);
+  async removePremiumMembersByBatch(@Query() query: {
+    dateBefore: string;
+    batch: string;
+  }) {
+    return this.kiitUserService.removePremiumMembersByBatch(query.batch,query.dateBefore);
   }
 
   @Get('removePaymentScreenshot')
   async removePaymentScreenshot(@Query('email') email: string) {
     return this.kiitUserService.removePaymentScreenshot(email);
   }
+
+  @Post("restorePremium")
+  async restorePremium(){
+    return this.kiitUserService.restorePremium();
+  }
+
+  @Post('getPremiumUserByYearN')
+  async getPremiumUserByYearN(@Body() dto: { year: string }) {
+    return this.kiitUserService.getPremiumUserByYearN(dto.year);
+  }
+
+
+
+  @Post('generateSignedUrlForUploadImage')
+  async generateSignedUrlForUploadImage(@Body() dto: { filename: string,fileType:string }) {
+    return this.kiitUserService.generateSignedUrlForUploadImage(dto);
+  }
+
+  @Post('saveScreenShotToDb')
+  async saveScreenShotToDb(@Body() dto: { userId: string,fileId:string }) {
+    return this.kiitUserService.saveScreenShotToDb(dto.userId,dto.fileId);
+  }
+
+
 }

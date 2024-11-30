@@ -20747,6 +20747,9 @@ export class FacultiesReviewService {
           id: true,
           name: true,
         },
+        orderBy:{
+          name:"asc"
+        }
       });
     } catch (error) {
       console.log(error);
@@ -20754,13 +20757,12 @@ export class FacultiesReviewService {
     }
   }
 
-  async assignSubjectToFaculty(data: {
-    facultiesId: string[];
-    subjectId: string;
-  }) {
+
+  async assignSubjectToFaculty(data: { facultiesId: string[]; subjectId: string }) {
     try {
       const { facultiesId, subjectId } = data;
-
+  
+      // Fetch all faculties that match the given IDs
       const allFaculties = await this.prisma.facultiesDetails.findMany({
         where: {
           id: {
@@ -20773,33 +20775,42 @@ export class FacultiesReviewService {
           name: true,
         },
       });
-
+  
       console.log(facultiesId, subjectId, allFaculties);
-
-      const promises = allFaculties.map(async (d) => {
-        const subjectIds = d.subjectId;
-        console.log(subjectIds, d);
-        if (!subjectIds.includes(subjectId)) {
-          // Connect the subject to the faculty
-
-          console.log('here');
-          await this.prisma.facultiesDetails.update({
-            where: {
-              id: d.id,
-            },
-            data: {
-              subject: {
-                connect: {
-                  id: subjectId,
+  
+      // Helper to chunk the faculties array
+      const chunkArray = (array: any[], size: number) =>
+        array.reduce((acc, _, i) => (i % size === 0 ? [...acc, array.slice(i, i + size)] : acc), []);
+  
+      // Process in chunks to avoid overloading the database
+      const facultyChunks = chunkArray(allFaculties, 10); // Adjust chunk size as needed
+  
+      for (const chunk of facultyChunks) {
+        const promises = chunk.map(async (d) => {
+          const subjectIds = d.subjectId || []; // Ensure subjectId is defined
+          console.log(subjectIds, d);
+          if (!subjectIds.includes(subjectId)) {
+            // Connect the subject to the faculty
+            console.log('here');
+            await this.prisma.facultiesDetails.update({
+              where: {
+                id: d.id,
+              },
+              data: {
+                subject: {
+                  connect: {
+                    id: subjectId,
+                  },
                 },
               },
-            },
-          });
-        }
-      });
-
-      await Promise.all(promises);
-
+            });
+          }
+        });
+  
+        // Wait for all updates in this chunk to complete
+        await Promise.all(promises);
+      }
+  
       return true;
     } catch (error) {
       console.log(error);
@@ -20808,6 +20819,62 @@ export class FacultiesReviewService {
       );
     }
   }
+  
+
+  // async assignSubjectToFaculty(data: {
+  //   facultiesId: string[];
+  //   subjectId: string;
+  // }) {
+  //   try {
+  //     const { facultiesId, subjectId } = data;
+
+  //     const allFaculties = await this.prisma.facultiesDetails.findMany({
+  //       where: {
+  //         id: {
+  //           in: facultiesId,
+  //         },
+  //       },
+  //       select: {
+  //         subjectId: true,
+  //         id: true,
+  //         name: true,
+  //       },
+  //     });
+
+  //     console.log(facultiesId, subjectId, allFaculties);
+
+  //     const promises = allFaculties.map(async (d) => {
+  //       const subjectIds = d.subjectId;
+  //       console.log(subjectIds, d);
+  //       if (!subjectIds.includes(subjectId)) {
+  //         // Connect the subject to the faculty
+
+  //         console.log('here');
+  //         await this.prisma.facultiesDetails.update({
+  //           where: {
+  //             id: d.id,
+  //           },
+  //           data: {
+  //             subject: {
+  //               connect: {
+  //                 id: subjectId,
+  //               },
+  //             },
+  //           },
+  //         });
+  //       }
+  //     });
+
+  //     await Promise.all(promises);
+
+  //     return true;
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new InternalServerErrorException(
+  //       'Error in assigning subject to faculty',
+  //     );
+  //   }
+  // }
 
   async disconnectAllSubjectsFromFaculties() {
     try {
@@ -22901,7 +22968,7 @@ export class FacultiesReviewService {
         where: {
           isPremium: true,
           email:{
-            startsWith:"22"
+            startsWith:"24"
           }
           // updatedAt: {
           //   gte: todayStart,

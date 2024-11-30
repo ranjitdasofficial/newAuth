@@ -99,4 +99,21 @@ export class StorageService {
 
     await this.s3.deleteObject(params).promise();
 }
+
+
+async getPresignedUrl(fileName: string, fileType: string): Promise<string> {
+  const params = {
+    Bucket: this.bucket,
+    Key: fileName,
+    Expires: 200, // URL expiration time in seconds
+    ContentType: fileType,
+    ACL: 'public-read',
+  };
+
+  return this.s3.getSignedUrlPromise('putObject', params);
+}
+
+
+
+
 }

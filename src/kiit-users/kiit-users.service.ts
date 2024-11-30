@@ -7760,6 +7760,8 @@ const users2 = ['21053420@kiit.ac.in']
     }
   }
 
+
+
   async getPremiumUserByYear(year:string)
   {
     try {
@@ -7803,14 +7805,49 @@ const users2 = ['21053420@kiit.ac.in']
   }
   
 
-  async removePremiumMembersByBatch(batch: string) {
+  async getPremiumUserByYearN(year:string){
     try {
+      const user = await this.prisma.premiumMember.findMany({
+        where:{
+          user:{
+            email:{
+              startsWith:year
+            }
+          }
+        },
+        select:{
+          user:{
+            select:{
+              id:true,
+            }
+          }
+        }
+      
+
+      });
+      return {
+        length:user.length,
+        user
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error in fetching user');
+      
+    }
+}
+
+  async removePremiumMembersByBatch(batch: string,dateBefore:string) {
+    // try {
+      const date = new Date(dateBefore);
+
+      console.log(date);
       const users = await this.prisma.premiumMember.findMany({
         where: {
           user: {
             email: {
               startsWith: batch,
             },
+           
           },
         },
         include: {
@@ -7819,7 +7856,9 @@ const users2 = ['21053420@kiit.ac.in']
       });
   
       const userIds = users.map((u) => u.userId);
-      const userEmails = users.map((u) => u.user.email);
+      // const userEmails = users.map((u) => u.user.email);
+
+    
   
       // Transaction to delete users from premium member and update users table
       await this.prisma.$transaction([
@@ -7843,13 +7882,14 @@ const users2 = ['21053420@kiit.ac.in']
         }),
       ]);
   
-      // Remove from cache (outside the transaction)
-      await this.removeUsersFromCache(userEmails);
+      // // Remove from cache (outside the transaction)
+      // await this.removeUsersFromCache(userEmails);
     } catch (error) {
       console.error('Error in deleting user:', error);
       throw new Error('Error in deleting user');
     }
-  }
+    
+  
   
   async removeUsersFromCache(userEmails: string[]) {
     try {
@@ -7896,7 +7936,1098 @@ const users2 = ['21053420@kiit.ac.in']
   }
 
 
+  // mapBatchToYear(email: string) {
+
+  //   const batch = email.slice(0, 2);
+  //   switch(batch){
+  //     case '22':
+  //       return '3rd Year';
+
+  //     case '23':
+  //       return '2nd Year';
+
+  //     case '21':
+  //       return '4th Year';
+
+  //     case '24':
+  //       return '1st Year';
+
+  //     default:
+  //       return 'Invalid Batch';
+
+  //   }
+
   
+  // }
+  // async restorePremium(){
+ 
+  //   const userPremium=[
+  //     {
+  //       "id": "65b51ea871212d151fedf6b8",
+  //       "email": "22053256@kiit.ac.in",
+  //       "name": "3256_MANIDIP MANDAL",
+  //       "batch": "3rd Year"
+  //   },
+  //   {
+  //       "id": "65b5267847ab2137a3346d2c",
+  //       "email": "23052419@kiit.ac.in",
+  //       "name": "SAKET SUMAN",
+  //       "batch": "2nd Year"
+  //   },
+  //   ]
+
+  // try {
+
+  //   for(const usr of userPremium){
+
+  //     const trans = await this.prisma.$transaction([
+  //       this.prisma.premiumMember.create({
+  //         data:{
+  //           userId:usr.id,
+  //           branch:'CSE',
+  //           whatsappNumber:"0000000000",
+  //           paymentScreenshot:"addedByuser",
+  //           year:usr.batch,
+  //           isActive:true
+  //         }
+  //       }),
+  //       this.prisma.user.update({
+  //         where:{
+  //           email:usr.email
+  //         },
+  //         data:{
+  //           isPremium:true,
+  //           allowedProfileUpdate:true,
+
+  //         }
+  //       })
+  //     ])
+  //   }
+
+  //   return true;
+ 
+
+  //   // }
+
+  // } catch (error) {
+
+  //   console.log(error);
+  //   return null;
+    
+  // }
+
+
+  // }
+  
+  
+
+  mapBatchToYear(email: string) {
+    const batchToYearMap: Record<string, string> = {
+      '22': '3rd Year',
+      '23': '2nd Year',
+      '21': '4th Year',
+      '24': '1st Year',
+    };
+  
+    const batch = email.slice(0, 2);
+    return batchToYearMap[batch] || 'Invalid Batch';
+  }
+  
+  async restorePremium() {
+    const userPremium = [
+   
+
+   
+    
+  
+   
+    
+    
+   
+   
+   
+   
+    {
+        "id": "66e486e8f740b2b3e5002c23",
+        "email": "23053217@kiit.ac.in",
+        "name": "KUSHAGRA BHARTIYAM",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e4ae07f740b2b3e5002c29",
+        "email": "2205554@kiit.ac.in",
+        "name": "554_GOURAB MONDAL",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "66e55d0bf740b2b3e5002c35",
+        "email": "2329217@kiit.ac.in",
+        "name": "TANMAY VERMA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e59261f740b2b3e5002c37",
+        "email": "24051898@kiit.ac.in",
+        "name": "VANSHIKA VIRMANI",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66e67e46f740b2b3e5002c45",
+        "email": "2305855@kiit.ac.in",
+        "name": "DEV DAS",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e68641f740b2b3e5002c47",
+        "email": "24155793@kiit.ac.in",
+        "name": "5793_RITIKA SRIVASTAVA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66e68eaaf740b2b3e5002c49",
+        "email": "2405921@kiit.ac.in",
+        "name": "TEJAS VERMA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66e6ee8ef740b2b3e5002c57",
+        "email": "23052091@kiit.ac.in",
+        "name": "RAJARSHI MUKHERJEE",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e7b68af740b2b3e5002c61",
+        "email": "24057074@kiit.ac.in",
+        "name": "SIDDHID RAGHAVANSHA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66e863d0f740b2b3e5002c76",
+        "email": "24158133@kiit.ac.in",
+        "name": "ZORAVAR SINGH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66e87e51f740b2b3e5002c82",
+        "email": "23052745@kiit.ac.in",
+        "name": "PUNIT MOHAN",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e87fa4f740b2b3e5002c83",
+        "email": "22053783@kiit.ac.in",
+        "name": "LOPAMUDRA TRIPATHY",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "66e8977af740b2b3e5002c88",
+        "email": "2305555@kiit.ac.in",
+        "name": "5555_Rachit Kumar Singh",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66e920d8f740b2b3e5002c8f",
+        "email": "23053437@kiit.ac.in",
+        "name": "HUSSAIN PATEL",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66eac0b7f740b2b3e5002caf",
+        "email": "24057050@kiit.ac.in",
+        "name": "OMKAR PATRA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66eae08cf740b2b3e5002cb1",
+        "email": "22053056@kiit.ac.in",
+        "name": "ARKA KUNDU",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "66eaf36df740b2b3e5002cb3",
+        "email": "22051015@kiit.ac.in",
+        "name": "1015_SANSKAR SINGH",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "66ebb8aaf740b2b3e5002cd2",
+        "email": "22054071@kiit.ac.in",
+        "name": "4071_Priyansh Sahu",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "66ec05eef740b2b3e5002cda",
+        "email": "23051003@kiit.ac.in",
+        "name": "ANIKET SAHOO",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66ec2c88f740b2b3e5002cdf",
+        "email": "2305926@kiit.ac.in",
+        "name": "926_Aryaman Verma",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66ed1155f740b2b3e5002cf1",
+        "email": "2328221@kiit.ac.in",
+        "name": "ARYAN GUPTA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66ed4319f740b2b3e5002cf3",
+        "email": "23051110@kiit.ac.in",
+        "name": "1110 JATINDRA DASH",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66ed91adf740b2b3e5002d41",
+        "email": "24057004@kiit.ac.in",
+        "name": "ABHISEK PAL",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66ed9532f740b2b3e5002d4b",
+        "email": "24052379@kiit.ac.in",
+        "name": "SABBIR AHMED ABIR",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66eda2b2f740b2b3e5002d5b",
+        "email": "24155590@kiit.ac.in",
+        "name": "TRIPTI RAJ",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66ee4dd3f740b2b3e5002d70",
+        "email": "24052389@kiit.ac.in",
+        "name": "SUKANYA MITRA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66eea122f740b2b3e5002d75",
+        "email": "2305600@kiit.ac.in",
+        "name": "ANKIT JHA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66eecdc9f740b2b3e5002d79",
+        "email": "24052679@kiit.ac.in",
+        "name": "ANUP KUMAR GUPTA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66eeddbff740b2b3e5002d7b",
+        "email": "23052072@kiit.ac.in",
+        "name": "Binit",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66eeebe3f740b2b3e5002d7c",
+        "email": "23051500@kiit.ac.in",
+        "name": "1500-DEBARPITA MOHANTY",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66efb2f5f740b2b3e5002d83",
+        "email": "24052026@kiit.ac.in",
+        "name": "SARTHAK SINGH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66efe53df740b2b3e5002d8a",
+        "email": "2405026@kiit.ac.in",
+        "name": "ABEER AGARWAL",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f02186f740b2b3e5002d8d",
+        "email": "2305602@kiit.ac.in",
+        "name": "5602_Anurag",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66f044dbf740b2b3e5002d93",
+        "email": "23051760@kiit.ac.in",
+        "name": "1760_Manish kumar Kandpan",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66f1458ef740b2b3e5002d99",
+        "email": "2405137@kiit.ac.in",
+        "name": "PRACHI RANJAN",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f18d25f740b2b3e5002d9e",
+        "email": "24052614@kiit.ac.in",
+        "name": "SHREYA JHA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f1dacff740b2b3e5002da4",
+        "email": "23051323@kiit.ac.in",
+        "name": "AGNIPRAVO ALI",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66f2b169f740b2b3e5002dab",
+        "email": "2430104@kiit.ac.in",
+        "name": "MADHUSUDAN TRIPATHY",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f6a506f740b2b3e5002dbf",
+        "email": "2405679@kiit.ac.in",
+        "name": "RUDRAKSH SINHA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f7b4e6f740b2b3e5002dc6",
+        "email": "2405847@kiit.ac.in",
+        "name": "TANISHQ ARYA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f83c41f740b2b3e5002dc9",
+        "email": "23053914@kiit.ac.in",
+        "name": "Shivam Gupta",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66f8f428f740b2b3e5002dcf",
+        "email": "24158073@kiit.ac.in",
+        "name": "8073_SAI SWARUP MISHRA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66f9889cf740b2b3e5002dd2",
+        "email": "24052654@kiit.ac.in",
+        "name": "ROHIT GUPTA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "66fa35d1f740b2b3e5002dd4",
+        "email": "23051973@kiit.ac.in",
+        "name": "1973_ALIMPAN",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "66fcd048f740b2b3e5002dd9",
+        "email": "24052730@kiit.ac.in",
+        "name": "MANIBHUSHAN YADAV",
+        "batch": "1st Year"
+    },
+    {
+        "id": "67076156f740b2b3e5002e28",
+        "email": "24052744@kiit.ac.in",
+        "name": "PIYUSH KUMAR GUPTA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "671127aa5a965de869c432b9",
+        "email": "23053773@kiit.ac.in",
+        "name": "PRINCE SHAH",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6713d3265a965de869c432ca",
+        "email": "2228002@kiit.ac.in",
+        "name": "ADITYA SINGH",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6713fc035a965de869c432cc",
+        "email": "22052324@kiit.ac.in",
+        "name": "324_ PREETI SUMAN",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "671609005a965de869c432d4",
+        "email": "23051805@kiit.ac.in",
+        "name": "ABHIJEET PATRA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "671bcaea5a965de869c432e5",
+        "email": "2205282@kiit.ac.in",
+        "name": "282_DEBLEENA BISWAS (2205282_DEBLEENA)",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "671d0e045a965de869c43310",
+        "email": "24155063@kiit.ac.in",
+        "name": "5063_Tanish",
+        "batch": "1st Year"
+    },
+    {
+        "id": "671d132c5a965de869c43313",
+        "email": "2428010@kiit.ac.in",
+        "name": "AYAN DAS",
+        "batch": "1st Year"
+    },
+    {
+        "id": "671d16c65a965de869c43317",
+        "email": "24155128@kiit.ac.in",
+        "name": "5128_SOHAN DAS",
+        "batch": "1st Year"
+    },
+    {
+        "id": "671e5b075a965de869c43346",
+        "email": "23051630@kiit.ac.in",
+        "name": "SNEHAN DEO",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "671e67ca5a965de869c43348",
+        "email": "24155654@kiit.ac.in",
+        "name": "SAYAN PAL",
+        "batch": "1st Year"
+    },
+    {
+        "id": "671e9e165a965de869c43353",
+        "email": "23053730@kiit.ac.in",
+        "name": "SUMIT SHAH",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "671fc22a5a965de869c43362",
+        "email": "24051828@kiit.ac.in",
+        "name": "AFREEN AKTAR",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672277c45a965de869c433a8",
+        "email": "24156093@kiit.ac.in",
+        "name": "SAYAN MONDAL",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672343665a965de869c433b7",
+        "email": "24155986@kiit.ac.in",
+        "name": "HRIDAY SHARMA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6723a4e55a965de869c433b9",
+        "email": "2405393@kiit.ac.in",
+        "name": "SWASTIK DAS MOHAPATRA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6723e1d95a965de869c433bc",
+        "email": "24155772@kiit.ac.in",
+        "name": "5772_Gunagnya Nayak",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6724fec05a965de869c433ca",
+        "email": "2429050@kiit.ac.in",
+        "name": "MOHAMED ABDIRAHMAN WARSAME",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672666b05a965de869c433e4",
+        "email": "23053869@kiit.ac.in",
+        "name": "RITU DAS_3869",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6726b9bc5a965de869c433ea",
+        "email": "22054276@kiit.ac.in",
+        "name": "Ayush Prasad",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6726e7245a965de869c433ed",
+        "email": "2405314@kiit.ac.in",
+        "name": "TANAYA DALABEHERA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672767075a965de869c433f8",
+        "email": "24158142@kiit.ac.in",
+        "name": "ABHINAV MISHRA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672847a55a965de869c43409",
+        "email": "23052088@kiit.ac.in",
+        "name": "PRIYANSHU RANJAN",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "672861d55a965de869c4340f",
+        "email": "24052369@kiit.ac.in",
+        "name": "KRISHNASHIS BARMAN KABYA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6729cfeb5a965de869c4342e",
+        "email": "23057048@kiit.ac.in",
+        "name": "SOUHARDYA BOSE",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "672cd3aa5a965de869c43468",
+        "email": "24052768@kiit.ac.in",
+        "name": "RODRO DEY DIPU",
+        "batch": "1st Year"
+    },
+    {
+        "id": "672cec855a965de869c4346a",
+        "email": "2405739@kiit.ac.in",
+        "name": "MRINAL SINGH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6730f9cd5a965de869c43499",
+        "email": "24057110@kiit.ac.in",
+        "name": "MAYUKH CHATTERJEE",
+        "batch": "1st Year"
+    },
+    {
+        "id": "67319f6b5a965de869c4349f",
+        "email": "22052158@kiit.ac.in",
+        "name": "2158_ SOHAM SAHU",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673231db5a965de869c434af",
+        "email": "24159019@kiit.ac.in",
+        "name": "TIYASHA CHOWDHURI",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6734b2f55a965de869c434c3",
+        "email": "2205214@kiit.ac.in",
+        "name": "214_KANISHK RAJ",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67375e9a5a965de869c4352d",
+        "email": "22053399@kiit.ac.in",
+        "name": "3399_Ankita",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673782ff5a965de869c43534",
+        "email": "2205733@kiit.ac.in",
+        "name": "JAGANNATH BEHERA",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673829845a965de869c4353e",
+        "email": "22052163@kiit.ac.in",
+        "name": "2163 _Subhajit Senapati",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673833995a965de869c43544",
+        "email": "22053911@kiit.ac.in",
+        "name": "3911_SUVANSH CHOUDHARY",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673838b85a965de869c4354a",
+        "email": "23057019@kiit.ac.in",
+        "name": "7019_DEBASIS MISHRA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673846465a965de869c4354e",
+        "email": "22052095@kiit.ac.in",
+        "name": "2095_ANKITA MAHAPATRA",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673859c45a965de869c43553",
+        "email": "22053067@kiit.ac.in",
+        "name": "3067_Debarchita",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673893b25a965de869c4355c",
+        "email": "23052363@kiit.ac.in",
+        "name": "TANMAYA DWIVEDY",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6738e98b5a965de869c43569",
+        "email": "23057018@kiit.ac.in",
+        "name": "BISESWAR SAHOO",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "67390ae15a965de869c43570",
+        "email": "2205304@kiit.ac.in",
+        "name": "304_MEENAKSHI SAHU",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673970b05a965de869c43578",
+        "email": "23051364@kiit.ac.in",
+        "name": "1364 PRIYANSHU KUMAR",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "67398fbe5a965de869c43585",
+        "email": "23051071@kiit.ac.in",
+        "name": "TANISHQ AGARKAR",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6739a0335a965de869c43589",
+        "email": "2305931@kiit.ac.in",
+        "name": "931 - Ayush",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6739ce4b5a965de869c43593",
+        "email": "24051664@kiit.ac.in",
+        "name": "SOUMYADIP DAS",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6739e43d5a965de869c4359b",
+        "email": "2305508@kiit.ac.in",
+        "name": "508_ABINASH MOHANTY",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6739e68c5a965de869c4359e",
+        "email": "2405751@kiit.ac.in",
+        "name": "ROUNAK GOPE",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673a13925a965de869c435aa",
+        "email": "22053480@kiit.ac.in",
+        "name": "ABHISHEK ACHARYA (22053480)",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673a32155a965de869c435b3",
+        "email": "24051158@kiit.ac.in",
+        "name": "ANJALI RAVISH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673a41be5a965de869c435c0",
+        "email": "23053899@kiit.ac.in",
+        "name": "MD MONAM HOSSAIN",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673b496a5a965de869c43605",
+        "email": "2305015@kiit.ac.in",
+        "name": "SNEHA BISWAS",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673b4af75a965de869c43607",
+        "email": "24155790@kiit.ac.in",
+        "name": "PRIYANSH SINGH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673b4b655a965de869c4360a",
+        "email": "2330015@kiit.ac.in",
+        "name": "ARKA MITRA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673b567d5a965de869c4360f",
+        "email": "23053063@kiit.ac.in",
+        "name": "PRABAL DEEP 3063",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673b6b0b5a965de869c43614",
+        "email": "241551024@kiit.ac.in",
+        "name": "1024_ankita",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673b71d85a965de869c43617",
+        "email": "2428059@kiit.ac.in",
+        "name": "AYUB ABDISALAN DUALE",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673bbc085a965de869c4362b",
+        "email": "23053848@kiit.ac.in",
+        "name": "PROSANJIT GUPTA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673c2dc35a965de869c4363d",
+        "email": "23051035@kiit.ac.in",
+        "name": "1035NUPUR KUMARI",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673c47935a965de869c43645",
+        "email": "23052234@kiit.ac.in",
+        "name": "AYUSH KUMAR",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673c53165a965de869c43648",
+        "email": "2306379@kiit.ac.in",
+        "name": "379_HRUSHIKESH BEHERA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673de5c65a965de869c43685",
+        "email": "23051604@kiit.ac.in",
+        "name": "NAYANI PAUL",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673def7b5a965de869c4368b",
+        "email": "2405669@kiit.ac.in",
+        "name": "NIHAL SINGH",
+        "batch": "1st Year"
+    },
+    {
+        "id": "673ec9485a965de869c436a3",
+        "email": "23052768@kiit.ac.in",
+        "name": "SWASTIK NAYAK",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673eccea5a965de869c436a5",
+        "email": "23052380@kiit.ac.in",
+        "name": "ALOK BHARDWAJ",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673f08265a965de869c436ae",
+        "email": "2305402@kiit.ac.in",
+        "name": "5402_SABYASACHI MISHRA",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "673f462b5a965de869c436b6",
+        "email": "2205342@kiit.ac.in",
+        "name": "342_UDAY CHAKRABORTY",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "673fde015a965de869c436bf",
+        "email": "24057055@kiit.ac.in",
+        "name": "PRIYANSHU THAKUR",
+        "batch": "1st Year"
+    },
+    {
+        "id": "67415e085a965de869c436e5",
+        "email": "24051829@kiit.ac.in",
+        "name": "AGNISHWAR RANJIT",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6741fd095a965de869c436f7",
+        "email": "24155109@kiit.ac.in",
+        "name": "MANAS KAUSHAL",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6742295f5a965de869c436fe",
+        "email": "2305182@kiit.ac.in",
+        "name": "YACHNA SHIVALI",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "67440ac35a965de869c43726",
+        "email": "24052485@kiit.ac.in",
+        "name": "SHUBHAYAN CHAKRABORTY",
+        "batch": "1st Year"
+    },
+    {
+        "id": "67455b9f5a965de869c43743",
+        "email": "24052391@kiit.ac.in",
+        "name": "SUYASH GUPTA",
+        "batch": "1st Year"
+    },
+    {
+        "id": "6745beb672375d8fe31136de",
+        "email": "2229055@kiit.ac.in",
+        "name": "RYAN",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746b19172375d8fe311377f",
+        "email": "22053234@kiit.ac.in",
+        "name": "3234_AYUSH KISHOR",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746ba4972375d8fe311378d",
+        "email": "22051985@kiit.ac.in",
+        "name": "1985_SMAYAN KUMAR",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746d28272375d8fe31137ae",
+        "email": "2205668@kiit.ac.in",
+        "name": "5668_SAMPURNA SEN",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746dcf172375d8fe31137be",
+        "email": "23052078@kiit.ac.in",
+        "name": "KAUSTUBH TIWARI",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6746ecb972375d8fe31137da",
+        "email": "22053047@kiit.ac.in",
+        "name": "3047_ABHIJEET RAJ",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746eccc72375d8fe31137dc",
+        "email": "22054316@kiit.ac.in",
+        "name": "AJAY KUMAR",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6746fd0e72375d8fe31137f7",
+        "email": "2206146@kiit.ac.in",
+        "name": "6146_vidisha",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747106572375d8fe311381d",
+        "email": "22052813@kiit.ac.in",
+        "name": "2813_DIVYANSH MODI",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747121372375d8fe3113820",
+        "email": "2229166@kiit.ac.in",
+        "name": "SUMEDHA PAL",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747163f72375d8fe311382a",
+        "email": "22053058@kiit.ac.in",
+        "name": "ARPANKUMAR DAS",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67471a2272375d8fe3113831",
+        "email": "2306279@kiit.ac.in",
+        "name": "279_DrishtiJoshi",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "674720db72375d8fe311383d",
+        "email": "22053233@kiit.ac.in",
+        "name": "3233_AVIRUP BANERJEE",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67472c3a72375d8fe3113855",
+        "email": "22051236@kiit.ac.in",
+        "name": "ANIRUDHA DEY",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674738df72375d8fe311387c",
+        "email": "22052234@kiit.ac.in",
+        "name": "SAPTARSHI PAL",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747411e72375d8fe311389d",
+        "email": "22051786@kiit.ac.in",
+        "name": "SANDIPAN BASAK",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674756a2539efe3be1810d89",
+        "email": "2205344@kiit.ac.in",
+        "name": "344_VANSH RAJ SOOD",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674757d9539efe3be1810d8f",
+        "email": "22051301@kiit.ac.in",
+        "name": "VEDRAJ THAKUR",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67476179539efe3be1810db4",
+        "email": "22051190@kiit.ac.in",
+        "name": "Sanak Aich Bhowmick",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67476420539efe3be1810db9",
+        "email": "22053547@kiit.ac.in",
+        "name": "SHIVANI NAYAK (22053547)",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747b708539efe3be1810de7",
+        "email": "2306003@kiit.ac.in",
+        "name": "003_Abhilasha Kakoty",
+        "batch": "2nd Year"
+    },
+    {
+        "id": "6747f4a8539efe3be1810e21",
+        "email": "22051806@kiit.ac.in",
+        "name": "1806_Suhita Sikdar",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747f4e7539efe3be1810e24",
+        "email": "22052085@kiit.ac.in",
+        "name": "2085_YASH RAJ",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747f590539efe3be1810e2c",
+        "email": "22052039@kiit.ac.in",
+        "name": "2039_PRATYAY SAMANTA",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6747fa26539efe3be1810e58",
+        "email": "22053036@kiit.ac.in",
+        "name": "UTKARSH SINGH",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674800eb539efe3be1810e7d",
+        "email": "22053846@kiit.ac.in",
+        "name": "ARMAAN GUPTA",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674801ea539efe3be1810e80",
+        "email": "2205813@kiit.ac.in",
+        "name": "5813_Kanya Sahu",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "67481a12539efe3be1810ec6",
+        "email": "2205534@kiit.ac.in",
+        "name": "534_ANKAN BANERJEE",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "674865a55be95033336bffef",
+        "email": "22053972@kiit.ac.in",
+        "name": "3972_Rishabh Shrivastav",
+        "batch": "3rd Year"
+    },
+    {
+        "id": "6748795e5be95033336bfffb",
+        "email": "2205484@kiit.ac.in",
+        "name": "484_Piyush",
+        "batch": "3rd Year"
+    }
+    ];
+  
+    try {
+      const transactions = userPremium.map((usr) => ({
+        premiumMember: this.prisma.premiumMember.create({
+          data: {
+            userId: usr.id,
+            branch: 'CSE',
+            whatsappNumber: '0000000000',
+            paymentScreenshot: 'addedByuser',
+            year: usr.batch,
+            isActive: true,
+          },
+        }),
+        userUpdate: this.prisma.user.update({
+          where: {
+            email: usr.email,
+          },
+          data: {
+            isPremium: true,
+            allowedProfileUpdate: true,
+          },
+        }),
+      }));
+  
+      await this.prisma.$transaction(
+        transactions.flatMap((t) => [t.premiumMember, t.userUpdate])
+      );
+      return true;
+    } catch (error) {
+      console.error('Error restoring premium users:', error);
+      return null;
+    }
+  }
+
+  async generateSignedUrlForUploadImage(dto:{
+    filename: string;
+    fileType:string
+  }){
+    try {
+      console.log(dto);
+      
+      const signedUrl = await this.storageService.getPresignedUrl(dto.filename,dto.fileType);
+      console.log(signedUrl)
+      return {
+        signedUrl: signedUrl,
+      };
+    } catch (error) {
+      console.error('Error generating signed url:', error);
+      throw new InternalServerErrorException('Error generating signed url');
+      
+    }
+  }
+
+
+
+async saveScreenShotToDb(userId:string,fileId:string){
+
+  try{
+
+    console.log(userId,fileId);
+
+    if(!userId || !fileId) throw new BadRequestException('Invalid request');
+   
+    const user = await this.prisma.premiumMember.update({
+      where:{
+        userId:userId
+      },
+      include:{
+        user:true
+      },
+      data:{
+        paymentScreenshot:fileId
+      }
+    })
+    if (!user) throw new NotFoundException('User not found');
+    const data = {
+      email: user.user.email,
+      name: user.user.name,
+      branch: user.branch,
+      year: user.year,
+      amount: '99',
+      paymentDate:
+        new Date().toLocaleDateString() +
+        ' ' +
+        new Date().toLocaleTimeString(),
+    };
+    await this.mailService.sendPaymentConfirmation(data);
+
+  
+  } catch (error) {
+    console.error('Error saving screenshot:', error);
+    if(error instanceof NotFoundException || error instanceof BadRequestException){
+      throw error;
+    }
+    throw new InternalServerErrorException('Error saving screenshot');
+  
+}
+}
   
 
 }
