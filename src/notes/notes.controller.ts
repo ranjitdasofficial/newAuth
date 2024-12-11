@@ -339,4 +339,40 @@ export class NotesController {
     return this.notesService.removeSyllabus(dto.subjectId);
   }
 
+
+
+  // -----------------  Notes Submission starts here -------------------
+
+  @Post('createSubjectsForSubmission')
+  async createSubjectsForSubmission(@Body() dto:{name:string}[]) {
+    return this.notesService.createSubjectsForSubmission(dto);
+  }
+
+
+  @Post('addTopicToSubjectSubmission')
+  async addTopicToSubjectSubmission(
+    @Body() dto: { names: string[]; subjectSubmissionId: string },
+  ) {
+    return this.notesService.addTopicToSubjectSubmission(
+      dto
+    );
+  }
+
+  @Post("addSubmissionToSubjectTopic")
+  async addSubmissionToSubjectTopic(
+    @Body() dto: { userId: string; upiId: string,submissionLink:string; subjectTopicsId: string },
+  ) {
+    return this.notesService.addSubmissionToSubjectTopic(dto);
+  }
+
+
+  @Get('getAllSubjectSubmission')
+  async getAllSubjectSubmission() {
+    return this.notesService.getAllSubjectSubmission();
+  }
+
+
+  // -----------------  Notes Submission ends here -------------------
+
+
 }

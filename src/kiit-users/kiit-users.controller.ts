@@ -28,13 +28,15 @@ export class KiitUsersController {
   constructor(
     private readonly kiitUserService: KiitUsersService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   @Post('registerUser')
   async registerUser(@Body() dto: KiitUserRegister) {
     console.log(dto);
     return this.kiitUserService.registerUser(dto);
   }
+
+
 
   
 
@@ -69,16 +71,25 @@ export class KiitUsersController {
     return this.kiitUserService.removeSiginToken(dto);
   }
 
+
+
   @Post('registerPremiumUser')
   async registerPremiumUser(@Body() dto: PremiumUserRegisterDto) {
     console.log(dto);
     return this.kiitUserService.registerPremiumUser(dto);
   }
 
+  @Post("setPassword")
+  async setPassword(@Body() dto: { email: string, password: string }) {
+    return this.kiitUserService.setPassword(dto);
+  }
+
   @Get('getUsers')
   async getAllPremiumUser() {
     return this.kiitUserService.getAllPremiumUser();
   }
+
+
 
   @Get('getNotPremiumUsers')
   async getNotPremiumUsers() {
@@ -125,7 +136,7 @@ export class KiitUsersController {
     return this.kiitUserService.activateAll();
   }
 
-  
+
   async checkIfImage(fileInfo: {
     mimetype: string;
     path: string;
@@ -339,7 +350,7 @@ export class KiitUsersController {
     dateBefore: string;
     batch: string;
   }) {
-    return this.kiitUserService.removePremiumMembersByBatch(query.batch,query.dateBefore);
+    return this.kiitUserService.removePremiumMembersByBatch(query.batch, query.dateBefore);
   }
 
   @Get('removePaymentScreenshot')
@@ -348,7 +359,7 @@ export class KiitUsersController {
   }
 
   @Post("restorePremium")
-  async restorePremium(){
+  async restorePremium() {
     return this.kiitUserService.restorePremium();
   }
 
@@ -360,13 +371,13 @@ export class KiitUsersController {
 
 
   @Post('generateSignedUrlForUploadImage')
-  async generateSignedUrlForUploadImage(@Body() dto: { filename: string,fileType:string }) {
+  async generateSignedUrlForUploadImage(@Body() dto: { filename: string, fileType: string }) {
     return this.kiitUserService.generateSignedUrlForUploadImage(dto);
   }
 
   @Post('saveScreenShotToDb')
-  async saveScreenShotToDb(@Body() dto: { userId: string,fileId:string }) {
-    return this.kiitUserService.saveScreenShotToDb(dto.userId,dto.fileId);
+  async saveScreenShotToDb(@Body() dto: { userId: string, fileId: string }) {
+    return this.kiitUserService.saveScreenShotToDb(dto.userId, dto.fileId);
   }
 
 

@@ -11,6 +11,7 @@ import { Readable } from 'stream';
 
 import * as fs from 'fs';
 import { DriveService } from 'src/drive.service';
+import { add } from 'cheerio/lib/api/traversing';
 
 interface pyqs {
   id: string;
@@ -1466,4 +1467,132 @@ export class NotesService {
       throw new InternalServerErrorException('Error while adding pyqs');
     }
   }
+
+  // -----------------  Submission Note for Subjects starts here -------------------
+
+
+  async createSubjectsForSubmission(dto: { name: string }[]) {
+    try {
+      return await this.prismaService.subjectSubmission.createMany({
+        data: dto,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Error while creating subjects');
+    }
+  }
+
+
+  async addTopicToSubjectSubmission(dto: { names: string[]; subjectSubmissionId: string }){
+    try {
+      const subject = await this.prismaService.subjectSubmission.findUnique({
+        where: { id: dto.subjectSubmissionId },
+      });
+      if (!subject) {
+        throw new NotFoundException('Subject not found');
+      }
+
+      const addTopicToSubject =await this.prismaService.subjectTopics.createMany({
+        data: dto.names.map((name) => {
+          return {
+            name: name,
+            subjectSubmissionId: dto.subjectSubmissionId,
+          };
+        }),
+      });
+      return addTopicToSubject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+
+  async addSubmissionToSubjectTopic(dto: { userId: string; upiId: string,submissionLink:string; subjectTopicsId: string }){
+    try {
+      const subject = await this.prismaService.subjectTopics.findUnique({
+        where: { id: dto.subjectTopicsId },
+        include: { subjectTopicSubmission: true },
+      });
+      if (!subject) {
+        throw new NotFoundException('Topic not found');
+      }
+
+      if(subject.noOfSubmissions>=10){
+        throw new BadRequestException('You can not submit more than 10 submissions');
+      }
+
+      if(subject.subjectTopicSubmission.some((s)=>s.userId===dto.userId)){
+        throw new BadRequestException('You have already submitted');
+      }
+
+
+      const createTopicSubmission =await this.prismaService.subjectTopicsSubmission.create({
+        data: {
+          submissionLink: dto.submissionLink,
+          subjectTopicsId: dto.subjectTopicsId,
+          userId: dto.userId,
+          upiId: dto.upiId,
+        },
+      })
+
+      if(!createTopicSubmission) throw new InternalServerErrorException('Failed to add submission');
+      await this.prismaService.subjectTopics.update({
+        where: { id: dto.subjectTopicsId },
+        data: {
+        noOfSubmissions:{
+          increment:1
+        } 
+        },
+      });
+
+      await this.prismaService.subjectSubmission.update({
+        where: { id: subject.subjectSubmissionId },
+        data: {
+        totalSubmissions:{
+          increment:1
+        } 
+        },
+      });
+      return createTopicSubmission;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error while adding pyqs');
+    }
+  }
+
+
+  async getAllSubjectSubmission(){
+    try {
+      return await this.prismaService.subjectSubmission.findMany({
+        select:{
+          id:true,
+          name:true,
+          totalSubmissions:true,
+          subjectTopics:{
+            select:{
+              id:true,
+              name:true,
+              noOfSubmissions:true,
+              subjectTopicSubmission:{
+                select:{
+                  userId:true,
+
+                }
+              }
+            }
+          }
+        }
+      });
+
+
+
+
+    } catch (error) {
+      throw new InternalServerErrorException('Internal Server Error!');
+    }
+  }
+
+
+
+  // -----------------  Submission Note for Subjects ends here -------------------
 }

@@ -230,6 +230,27 @@ export class KiitUsersService {
     }
   }
 
+
+  async setPassword(dto: { email: string; password: string }) {
+    try {
+      const user = await this.prisma.user.update({
+        where: {
+          email: dto.email,
+        },
+        data: {
+          password: dto.password,
+        },
+      });
+      if (!user) throw new NotFoundException('User not found');
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
   async getPremiumUserById(userId: string) {
     try {
       const user = await this.prisma.premiumMember.findUnique({
