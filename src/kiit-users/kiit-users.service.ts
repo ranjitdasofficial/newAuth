@@ -257,7 +257,15 @@ export class KiitUsersService {
         where: {
           userId: userId,
         },
+        include:{
+          user:{
+            select:{
+              isPremium:true,
+            }
+          }
+        }
       });
+    
       if (!user) throw new NotFoundException('User not found');
       console.log(user);
       return user;
@@ -330,8 +338,20 @@ export class KiitUsersService {
     }
   }
 
-  async activatePremiumUser(userId: string) {
+  async activatePremiumUser(userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string) {
     try {
+
+     await this.prisma.paymentOrder.create({
+        data:{
+          userId:userId,
+          razorpay_payment_id:razorpay_payment_id,
+          razorpay_order_id:razorpay_order_id,
+          razorpay_signature:razorpay_signature,
+        }
+      })
+
+      
+
       const user = await this.prisma.user.update({
         where: {
           id: userId,

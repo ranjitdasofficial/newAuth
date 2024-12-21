@@ -371,6 +371,12 @@ export class NotesController {
     return this.notesService.getAllSubjectSubmission();
   }
 
+  @Get("getAllSubjectSubmissionByAdmin")
+  async getAllSubjectSubmissionByAdmin() {
+    return this.notesService.getAllSubjectSubmissionByAdmin();
+  }
+
+
 
   // -----------------  Notes Submission ends here -------------------
 

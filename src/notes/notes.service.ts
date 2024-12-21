@@ -1581,6 +1581,34 @@ export class NotesService {
               }
             }
           }
+        },
+       
+      });
+
+
+
+
+    } catch (error) {
+      throw new InternalServerErrorException('Internal Server Error!');
+    }
+  }
+
+
+  async getAllSubjectSubmissionByAdmin(){
+    try {
+      return await this.prismaService.subjectTopicsSubmission.findMany({
+       
+        include:{
+          user:true,
+          
+          subjectTopics:{
+            include:{
+              subjectSubmission:true
+            }
+          }
+        },
+        orderBy:{
+          createdAt:"desc"
         }
       });
 
@@ -1591,6 +1619,7 @@ export class NotesService {
       throw new InternalServerErrorException('Internal Server Error!');
     }
   }
+
 
 
 
