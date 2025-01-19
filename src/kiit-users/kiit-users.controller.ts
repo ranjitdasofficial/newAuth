@@ -381,4 +381,12 @@ export class KiitUsersController {
   }
 
 
+
+  // ------------- Fetch all the orders of Razorpay -------------
+  @Get('getAllOrders')
+  async getAllOrders() {
+    return this.kiitUserService.getAllOrders();
+  }
+
+
 }

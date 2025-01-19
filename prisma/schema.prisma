@@ -465,3 +465,13 @@ userId String @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+
+model PaymentOrder_phonepe{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+merchantTransactionId String
+userId String @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

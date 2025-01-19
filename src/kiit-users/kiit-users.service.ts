@@ -338,6 +338,89 @@ export class KiitUsersService {
     }
   }
 
+
+
+  async activatePremiumUser_by_phonepe(userId: string,merchantTransactionId:string) {
+    try {
+
+     await this.prisma.paymentOrder_phonepe.create({
+        data:{
+          userId:userId,
+         merchantTransactionId:merchantTransactionId,
+        }
+      })
+
+
+
+      const user = await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+
+        data: {
+          isPremium: true,
+          
+        },
+      });
+      if (!user) throw new NotFoundException('User not found');
+
+      if (user.referredBy) {
+        const refUser = await this.prisma.user.findUnique({
+          where: {
+            id: user.referredBy,
+          },
+        });
+        console.log(refUser);
+        if (refUser) {
+          const up = await this.prisma.user.update({
+            where: {
+              id: refUser.id,
+            },
+            data: {
+              refralAmount: {
+                increment: 10,
+              },
+            },
+          });
+          if (!up)
+            throw new InternalServerErrorException(
+              'Failed to Update Referral Amount',
+            );
+        }
+      }
+
+      const p = await this.prisma.premiumMember.update({
+        where: {
+          userId: userId,
+        },
+        data: {
+          isActive: true,
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      if (!p) throw new NotFoundException('User not found');
+
+      const data = {
+        email: p.user.email,
+        name: p.user.name,
+        branch: p.branch,
+        year: p.year,
+      };
+      await this.mailService.sendAccountActivated(data);
+      //       return complete;
+
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
   async activatePremiumUser(userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string) {
     try {
 
@@ -350,7 +433,7 @@ export class KiitUsersService {
         }
       })
 
-      
+
 
       const user = await this.prisma.user.update({
         where: {
@@ -9068,6 +9151,27 @@ async saveScreenShotToDb(userId:string,fileId:string){
     throw new InternalServerErrorException('Error saving screenshot');
   
 }
+}
+
+
+// -------------- Get all the orders of razorpay --------------
+async getAllOrders() {
+  try {
+    const orders = await this.prisma.paymentOrder.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return {
+      length: orders.length,
+      orders: orders,
+    };
+  } catch (error) {
+    console.error('Error getting all orders:', error);
+    throw new InternalServerErrorException('Error getting all orders');
+
+  }
 }
   
 
