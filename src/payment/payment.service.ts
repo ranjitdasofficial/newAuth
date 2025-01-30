@@ -198,12 +198,22 @@ export class PaymentService {
             };
 
 
-            const response = await axios(options);
+            const response = await fetch(`https://api.phonepe.com/apis/hermes/status/${merchant_id}/${merchantTransactionId}`,{
+                method:"GET",
+                headers:{
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-VERIFY": checksum,
+                    "X-MERCHANT-ID": merchant_id,
+            }});
 
 
-            console.log(response.data)
+console.dir(response)
+            const res = await response.json();
+            console.log("response",res)
 
-            if (response.data.success === true) {
+
+            if (res.success === true) {
 
                 const users = await this.prisma.user.findUnique({
                     where: {

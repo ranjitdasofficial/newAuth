@@ -137,6 +137,89 @@ export class KiitUsersService {
     }
   }
 
+
+  async getUserByEmailByPassword(email: string,password:string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+        include:{
+          PremiumMember:{
+            select:{
+              isActive:true,
+            }
+          },
+        }
+      });
+      console.log(user);
+
+
+      if (!user) throw new NotFoundException('User not found');
+
+      if(!user.password){
+        throw new BadRequestException('Password not set');
+      }
+
+      if(user.password!==password){
+        console.log(user.password,password,user.password!==password);
+        throw new BadRequestException('Password not matched');
+      }
+    
+
+      if (!user.isPremium) {
+        const p = user.PremiumMember;    
+        return {
+          user: {...user, isActive:p?p.isActive:true},
+        };
+      }
+
+      const getEmailSession: string = await this.cacheService.get(email);
+      console.log(getEmailSession);
+      let getSessionData = [];
+
+      if ( !this.exceptionUser.includes(email) && getEmailSession) {
+        getSessionData = JSON.parse(getEmailSession);
+        console.log(getSessionData, getSessionData.length);
+        if (getSessionData.length >= 2) {
+          throw new ConflictException(
+            'Already two users are using with this id',
+          );
+        }
+      }
+      const uniqueCode = await this.generateMediaId();
+
+      getSessionData.push(uniqueCode);
+      await this.cacheService.set(email, JSON.stringify(getSessionData));
+      console.log(getSessionData);
+
+      const iat = Math.floor(Date.now() / 1000);
+      const exp = iat + 60; // seconds
+      const tokens = await this.jwtService.signAsync(
+        { email: email },
+
+        {
+          expiresIn: '1m',
+
+          secret: 'Ranjit',
+        },
+      );
+      this.tokens[email] = tokens;
+      return {
+        user: {...user, isActive:true},
+        tokens: tokens,
+        uniqueCode: uniqueCode,
+      };
+    } catch (error) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof ConflictException
+      ) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
   async verifyToken(token: string, email: string) {
     try {
       const getSession: string | null = await this.cacheService.get(email);
@@ -475,6 +558,98 @@ export class KiitUsersService {
       const p = await this.prisma.premiumMember.update({
         where: {
           userId: userId,
+        },
+        data: {
+          isActive: true,
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      if (!p) throw new NotFoundException('User not found');
+
+      const data = {
+        email: p.user.email,
+        name: p.user.name,
+        branch: p.branch,
+        year: p.year,
+      };
+      await this.mailService.sendAccountActivated(data);
+      //       return complete;
+
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+
+  async activatePremiumUserByEmail(email: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string) {
+    try {
+
+      const usr = await this.prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+
+      if(!usr) throw new NotFoundException('User not found');
+
+     await this.prisma.paymentOrder.create({
+        data:{
+          userId:usr.id,
+          razorpay_payment_id:razorpay_payment_id,
+          razorpay_order_id:razorpay_order_id,
+          razorpay_signature:razorpay_signature,
+        }
+      })
+
+
+
+      const user = await this.prisma.user.update({
+        where: {
+          id: usr.id,
+        },
+
+        data: {
+          isPremium: true,
+          
+        },
+      });
+      if (!user) throw new NotFoundException('User not found');
+
+      if (user.referredBy) {
+        const refUser = await this.prisma.user.findUnique({
+          where: {
+            id: user.referredBy,
+          },
+        });
+        console.log(refUser);
+        if (refUser) {
+          const up = await this.prisma.user.update({
+            where: {
+              id: refUser.id,
+            },
+            data: {
+              refralAmount: {
+                increment: 10,
+              },
+            },
+          });
+          if (!up)
+            throw new InternalServerErrorException(
+              'Failed to Update Referral Amount',
+            );
+        }
+      }
+
+      const p = await this.prisma.premiumMember.update({
+        where: {
+          userId: usr.id,
         },
         data: {
           isActive: true,

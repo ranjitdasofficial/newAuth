@@ -45,6 +45,11 @@ export class KiitUsersController {
     return this.kiitUserService.getUserByEmail(email);
   }
 
+  @Post('getUserByEmailByPassword')
+  async getUserByIdByPassword(@Body('email') email: string, @Body('password') password: string) {
+    return this.kiitUserService.getUserByEmailByPassword(email,password);
+  }
+
   @Post('verifyTokenUser')
   async verifyTokenUser(@Body() dto: { token: string; email: string }) {
     try {
@@ -125,6 +130,14 @@ export class KiitUsersController {
     // console.log(dto)
     return this.kiitUserService.activatePremiumUser(dto.userId,dto.razorpay_payment_id,dto.razorpay_order_id,dto.razorpay_signature);
   }
+
+
+  @Post('activateUserByEmail')
+  async updatePremiumUserByEmail(@Body() dto: { email: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string }) {
+    // console.log(dto)
+    return this.kiitUserService.activatePremiumUserByEmail(dto.email,dto.razorpay_payment_id,dto.razorpay_order_id,dto.razorpay_signature);
+  }
+
 
   @Post('deactivateUser')
   async deactivateUser(@Body() dto: { userId: string }) {
