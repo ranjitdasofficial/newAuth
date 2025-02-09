@@ -229,6 +229,7 @@ model Subject {
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
   verfySolution VerifySolution[]
+  youtubePlaylist YoutubePlaylist[]
   faculty       FacultiesDetails[] @relation(fields: [facultyId], references: [id])
   facultyId     String[]           @db.ObjectId
 }
@@ -472,6 +473,31 @@ model PaymentOrder_phonepe{
   id String @id @default(auto()) @map("_id") @db.ObjectId
 merchantTransactionId String
 userId String @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+type Item{
+  id  String @default(uuid())
+  title String
+  thumbnail String
+  videoId String
+  duration String
+  createdAt DateTime @default(now())
+}
+
+
+
+model YoutubePlaylist{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  playlistId String
+  title String
+  noOfVideos Int
+  views Int @default(0)
+  items Item[]
+  subjectId String @db.ObjectId
+  subject Subject @relation(fields: [subjectId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

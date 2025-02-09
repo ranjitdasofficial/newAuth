@@ -653,6 +653,13 @@ export class NotesService {
         id: true,
         folderId: true,
         syllabus:true,
+        youtubePlaylist:{
+          select:{
+            id:true,
+            title:true,
+            noOfVideos:true,
+          }
+        }
       };
 
       // console.log(dto.type === 'pyqs', dto.type);
@@ -677,6 +684,7 @@ export class NotesService {
             include: {
               subjects: {
                 select: selectFields,
+
               },
             },
           },
@@ -705,6 +713,13 @@ export class NotesService {
         id: true,
         folderId: true,
         syllabus:true,
+        youtubePlaylist:{
+          select:{
+            id:true,
+            title:true,
+            noOfVideos:true,
+          }
+        }
       };
 
 

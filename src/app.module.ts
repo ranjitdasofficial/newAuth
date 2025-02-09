@@ -51,6 +51,9 @@ import { PlacementsService } from './placements/placements.service';
 import { PaymentController } from './payment/payment.controller';
 import { PaymentModule } from './payment/payment.module';
 import { PaymentService } from './payment/payment.service';
+import { YoutubePlaylistController } from './youtube-playlist/youtube-playlist.controller';
+import { YoutubePlaylistModule } from './youtube-playlist/youtube-playlist.module';
+import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.service';
 
 
 @Module({
@@ -112,9 +115,9 @@ import { PaymentService } from './payment/payment.service';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService,PaymentService],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule, YoutubePlaylistModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService,PaymentService,YoutubePlaylistService],
   exports:[CacheModule]
   
 }) 

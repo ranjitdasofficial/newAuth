@@ -127,12 +127,14 @@ export class KiitUsersService {
         uniqueCode: uniqueCode,
       };
     } catch (error) {
+      console.log(error);
       if (
         error instanceof NotFoundException ||
         error instanceof ConflictException
       ) {
         throw error;
       }
+      
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
@@ -672,6 +674,7 @@ export class KiitUsersService {
 
       return user;
     } catch (error) {
+      console.log(error);
       if (error instanceof NotFoundException) {
         throw error;
       }

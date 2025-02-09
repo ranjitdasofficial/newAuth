@@ -42,6 +42,7 @@ export class KiitUsersController {
 
   @Get('getUserByEmail/:email')
   async getUserById(@Param('email') email: string) {
+    console.log(email);
     return this.kiitUserService.getUserByEmail(email);
   }
 
@@ -134,7 +135,7 @@ export class KiitUsersController {
 
   @Post('activateUserByEmail')
   async updatePremiumUserByEmail(@Body() dto: { email: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string }) {
-    // console.log(dto)
+    console.log(dto)
     return this.kiitUserService.activatePremiumUserByEmail(dto.email,dto.razorpay_payment_id,dto.razorpay_order_id,dto.razorpay_signature);
   }
 
@@ -398,6 +399,7 @@ export class KiitUsersController {
   // ------------- Fetch all the orders of Razorpay -------------
   @Get('getAllOrders')
   async getAllOrders() {
+    console.log("here getAllOrderCalled")
     return this.kiitUserService.getAllOrders();
   }
 
