@@ -58,10 +58,6 @@ export class YoutubePlaylistService {
 
         try {
 
-          
-
-            
-
             const playlist = await this.prismaSerivice.youtubePlaylist.findUnique({
                 where: {
                     id: playlistId

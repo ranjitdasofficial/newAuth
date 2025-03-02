@@ -127,9 +127,9 @@ export class KiitUsersController {
   }
 
   @Post('activateUser')
-  async updatePremiumUser(@Body() dto: { userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string }) {
+  async updatePremiumUser(@Body() dto: { userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string,plan:string }) {
     // console.log(dto)
-    return this.kiitUserService.activatePremiumUser(dto.userId,dto.razorpay_payment_id,dto.razorpay_order_id,dto.razorpay_signature);
+    return this.kiitUserService.activatePremiumUser(dto.userId,dto.razorpay_payment_id,dto.razorpay_order_id,dto.razorpay_signature,dto.plan);
   }
 
 

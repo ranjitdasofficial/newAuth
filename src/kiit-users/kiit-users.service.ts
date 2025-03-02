@@ -506,7 +506,7 @@ export class KiitUsersService {
     }
   }
 
-  async activatePremiumUser(userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string) {
+  async activatePremiumUser(userId: string,razorpay_payment_id:string,razorpay_order_id:string,razorpay_signature:string,plan:string) {
     try {
 
      await this.prisma.paymentOrder.create({
@@ -527,7 +527,11 @@ export class KiitUsersService {
 
         data: {
           isPremium: true,
-          
+          paymentDate:new Date(),
+          plan:plan,
+          expiryDate:plan === 'Monthly'
+          ? new Date(new Date().setDate(new Date().getDate() + 30)) // Adds 30 days to the current date
+          : null
         },
       });
       if (!user) throw new NotFoundException('User not found');
@@ -734,14 +738,14 @@ export class KiitUsersService {
     }
   }
 
-  private async streamToBuffer(stream: Readable): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const chunks: Buffer[] = [];
-      stream.on('data', (chunk) => chunks.push(chunk));
-      stream.on('error', reject);
-      stream.on('end', () => resolve(Buffer.concat(chunks)));
-    });
-  }
+  // private async streamToBuffer(stream: Readable): Promise<Buffer> {
+  //   return new Promise((resolve, reject) => {
+  //     const chunks: Buffer[] = [];
+  //     stream.on('data', (chunk) => chunks.push(chunk));
+  //     stream.on('error', reject);
+  //     stream.on('end', () => resolve(Buffer.concat(chunks)));
+  //   });
+  // }
 
   async generateMediaId() {
     return await this.storageService.generateMediaId();
