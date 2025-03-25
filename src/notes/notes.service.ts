@@ -516,7 +516,7 @@ export class NotesService {
                 id: dto.pyqsId,
               },
               data: {
-                solution: null,
+                nSolution: null,
                 status: 'NO-SOLUTION',
               },
             },
@@ -735,7 +735,7 @@ export class NotesService {
             QuestionUploadedBy:true,
             mimeType:true,
             // Question:true,
-            solution:true,
+            nSolution:true,
           }
         };
       } else if (dto.type === 'notes') {
@@ -777,7 +777,7 @@ export class NotesService {
           semester.subjects.forEach((subject) => {
             if (dto.type === 'pyqs' && subject.pyqs) {
               subject.pyqs.forEach((pq) => {
-                pq.solution=pq.solution?'A':'B'  // Set status based on whether Question has data
+                pq.nSolution=pq.nSolution?'A':'B'  // Set status based on whether Question has data
               });
             }
           });
@@ -936,7 +936,7 @@ export class NotesService {
               },
               data: {
                 status: 'APPROVED',
-                solution: dto.solution,
+                nSolution: dto.solution,
               },
             },
           },
@@ -1042,7 +1042,7 @@ export class NotesService {
                 },
                 data: {
                   status: 'APPROVED',
-                  solution: ap.solution,
+                  nSolution: ap.solution,
                 },
               },
             },
@@ -1229,7 +1229,7 @@ export class NotesService {
                 id: PyqId,
               },
               data: {
-                Question: Question,
+                nQuestion: Question,
                 type: Type,
               },
             },

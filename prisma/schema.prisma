@@ -215,6 +215,9 @@ type PYQS {
   mimeType           String?
   Question           String?
   solution           String?
+  nQuestion          String?
+  nSolution          String?
+  
 }
 
 model Subject {
@@ -224,6 +227,7 @@ model Subject {
   Credit        String?
   description   String?
   folderId      String?
+  nFolderId     String?
   notes         Note[]
   pyqs          PYQS[]
   syllabus      String?
