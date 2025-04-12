@@ -421,47 +421,6 @@ model Topic {
   updatedAt DateTime    @updatedAt
 }
 
-model placmentMaterials {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  type      String
-  fileId    String
-  companyId String   @db.ObjectId
-  Company   Company  @relation(fields: [companyId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Company {
-  id                 String              @id @default(auto()) @map("_id") @db.ObjectId
-  companyName        String              @unique
-  companyLogo        String?
-  companyUrl         String?
-  companyDesc        String?
-  placementMaterials placmentMaterials[]
-
-  placementId String[]     @db.ObjectId
-  Placements  Placements[] @relation(fields: [placementId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Placements {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  year               Int? @unique
-  highestPackage     Int?
-  noOfCompnayVisited Int?
-  noOfJobOffered     Int?
-  extraInfo          String?
-
-  companyId String[]  @db.ObjectId
-  Company   Company[] @relation(fields: [companyId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 
 
 model PaymentOrder{
@@ -505,6 +464,178 @@ model YoutubePlaylist{
   items Item[]
   subjectId String @db.ObjectId
   subject Subject @relation(fields: [subjectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+
+
+// This is your Prisma schema file for MongoDB
+// You can use this schema file to generate your database with Prisma
+// To use it, you would need to set up a MongoDB connection and run prisma db push
+
+
+
+
+
+// model placmentMaterials {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   type      String
+//   fileId    String
+//   companyId String   @db.ObjectId
+//   Company   Company  @relation(fields: [companyId], references: [id])
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Company {
+//   id                 String              @id @default(auto()) @map("_id") @db.ObjectId
+//   companyName        String              @unique
+//   companyLogo        String?
+//   companyUrl         String?
+//   companyDesc        String?
+//   placementMaterials placmentMaterials[]
+
+//   placementId String[]     @db.ObjectId
+//   Placements  Placements[] @relation(fields: [placementId], references: [id])
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Placements {
+//   id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+//   year               Int? @unique
+//   highestPackage     Int?
+//   noOfCompnayVisited Int?
+//   noOfJobOffered     Int?
+//   extraInfo          String?
+
+//   companyId String[]  @db.ObjectId
+//   Company   Company[] @relation(fields: [companyId], references: [id])
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+
+
+model Company {
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  logo             String
+  description      String?
+  tagline          String?
+  website          String?
+  students         Int?               @default(0)
+  firstVisit       Int?
+  slug             String            @unique
+  yearlyPlacements YearlyPlacement[]
+  examPattern      ExamPattern[]
+  commonQuestions  CommonQuestion[]  
+  shortlistingInfo ShortlistingInfo?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model YearlyPlacement {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  year      String
+  iscompleted Boolean  @default(false)
+  totalStudentsApplied Int?
+  totalStudentsPlaced  Int?
+  highestPackage       Int?
+  averagePackage       Int?
+  lowestPackage        Int?
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String   @db.ObjectId
+  placedStudents   PlacedStudent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type ExamPattern {
+  id          String   @default(uuid())
+  round       String?
+  duration    String?
+  description String?
+  focusArea   String[]
+  createdAt   DateTime @default(now())
+}
+
+
+type CommonQuestions{
+  id          String   @default(uuid())
+  question   String
+  answer     String?
+}
+
+type CommonQuestion {
+  id          String   @default(cuid()) 
+  round       String?
+  questions   CommonQuestions[]
+  createdAt   DateTime @default(now())
+}
+
+type ShortlistingInfo {
+  id              String    @default(cuid())
+  total           Int @default(0)
+  shortlisted     Int @default(0)
+  criteriaPoints  String[]
+  createdAt       DateTime @default(now())
+}
+
+
+model PlacedStudent {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  avatar      String?
+  designation String?
+  department  String?
+  batch       String?
+  skills      String[]
+  package     String?
+  linkedin    String?
+  github      String?
+  portfolio   String?
+  testimonial String?
+  companyId     String?
+  yealrlyPlacementId String @db.ObjectId
+  yearlyPlacement    YearlyPlacement @relation(fields: [yealrlyPlacementId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// model Student {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   avatar      String
+//   designation String?
+//   college     String
+//   department  String
+//   batch       String
+//   skills      String[]
+//   placementDate DateTime?
+//   company     String?
+//   package     String?
+//   linkedin    String?
+//   github      String?
+//   portfolio   String?
+//   testimonial String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+
+
+model SecurityViolated{
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String?   @db.ObjectId
+  isBlocked Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

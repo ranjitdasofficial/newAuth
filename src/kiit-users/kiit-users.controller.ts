@@ -404,4 +404,21 @@ export class KiitUsersController {
   }
 
 
+  // @Post("transferFile")
+  // async transferFile() {
+  //   return this.kiitUserService.transferFilesNotesFromGdriveToR2();
+  // }
+
+  @Post('securityViolated')
+  async securityViolated(@Body() data: { userId: string }) {
+    return this.kiitUserService.securityViolated(data);
+  }
+
+  @Get('getSecurityViolated')
+  async getSecurityViolated() {
+    return this.kiitUserService.getSecurityViolated();
+  }
+  
+  
+
 }

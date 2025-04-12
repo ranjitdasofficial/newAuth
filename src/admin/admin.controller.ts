@@ -18,8 +18,8 @@ export class AdminController {
 
   //
 
-  @Get('getCompanies')
-  async getCompanies() {
-    return this.adminService.getCompanies();
-  }
+  // @Get('getCompanies')
+  // async getCompanies() {
+  //   return this.adminService.getCompanies();
+  // }
 }

@@ -175,6 +175,8 @@ export class NotesController {
   }
 
 
+
+
   @Get('getPYQSByBranchIdAndSemesterNumberWithoutAuthentication')
   async getNotesByBranchIdAndSemesterIdWithoutAuth(
     @Query() dto: { branchId: string; semesterNumber: string; type: string },
@@ -380,5 +382,48 @@ export class NotesController {
 
   // -----------------  Notes Submission ends here -------------------
 
+
+
+//   @Post('copyPYQS')
+//   async copyPYQS() {
+//     return this.notesService.copyPYQS();
+//   }
+
+
+
+// @Post("/restrictDriveAccess")
+// async restrictDriveAccess() {
+//   return this.notesService.restrictDriveAccess();
+// }
+
+
+@Post('getPyqsAndSol')
+async getPyqsAndSol() {
+  return this.notesService.getAllPyqsBySubjectId();
+}
+@Post('getAllSolutions')
+async getAllSolutions() {
+  return this.notesService.getAllSolutions();
+}
+
+@Post('getAllVerifiedNotes')
+async getAllVerifiedNotes() {
+  return this.notesService.getAllSVerifiedNotes();
+}
+
+@Post('transferPdf')
+async transferPdf(@Body() dto: { fileId: string; name: string }) {
+  return this.notesService.transferFile(dto.fileId, dto.name);
+}
+
+@Post('updateStatusFromVerifiedToApproved')
+async updateStatusFromVerifiedToApproved() {
+  return this.notesService.updateStatusVerifiedToApproved();
+}
+
+@Post('listDriveFilesByFolderId')
+async listDriveFilesByFolderId() {
+  return this.notesService.listDriveFilesByFolderId();
+}
 
 }

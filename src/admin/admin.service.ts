@@ -77,17 +77,17 @@ export class AdminService {
     throw new InternalServerErrorException('Error while fetching users');
   }
 
-  async getCompanies() {
-    try {
-      return await this.prisma.placements.findMany({
-        select: {
-          // companyName: true,
-          id: true,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
-  }
+  // async getCompanies() {
+  //   try {
+  //     return await this.prisma.placements.findMany({
+  //       select: {
+  //         // companyName: true,
+  //         id: true,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new InternalServerErrorException('Internal Server Error');
+  //   }
+  // }
 }

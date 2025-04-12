@@ -10,229 +10,266 @@ import { PrismaService } from 'src/prisma.service';
 export class PlacementsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCompany(data: {
-    companyName: string;
-    companyLogo?: string;
-    companyDesc?: string;
-    companyUrl?: string;
+
+
+  async createCompany(data:{
+    name: string;
+    description: string;
+    logo: string;
+    website: string;
+    tagline: string;
+    students: number;
+    firstVisit: number;    
   }) {
     try {
+      const generateSlug = data.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
       return await this.prisma.company.create({
-        data,
+        data: {...data,slug:generateSlug}
       });
     } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
+      throw new InternalServerErrorException(error);
     }
+
   }
 
-  async getPlacementsDetails(year:number){
+
+
+  // year      String
+  // iscompleted Boolean  @default(false)
+  // totalStudentsApplied Int?
+  // totalStudentsPlaced  Int?
+  // highestPackage       Int?
+  // averagePackage       Int?
+  // lowestPackage        Int?
+
+  async createYealyPlacements(data:{
+    year: string;
+    companyId: string;
+    iscompleted: boolean;
+    totalStudentsApplied: number;
+    totalStudentsPlaced: number;
+    highestPackage: number;
+    averagePackage: number;
+    lowestPackage: number;
+  }) {
     try {
-      const company = await this.prisma.placements.findUnique({
-        where:{
-          year:year
-        },
-        include:{
-          Company:{
-            select:{
-              companyName:true,
-              companyLogo:true,
-              id:true
-            }
-          }
+      return await this.prisma.yearlyPlacement.create({
+        data: {
+          ...data,
+          companyId: data.companyId
         }
       });
-
-      if(!company){
-        throw new NotFoundException('Record Not Found');
-      }
-
-      return company;
-      
     } catch (error) {
-      
+      console.log(error);
+      throw new InternalServerErrorException(error);
     }
+
   }
+
 
   async getCompanies() {
-    try {
-      return await this.prisma.company.findMany({
-        select: {
-          companyName: true,
-          companyLogo: true,
-          id: true,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
-  }
-
-  async createMaterial(data: {
-    companyId: string;
-    name: string;
-    type: string;
-    fileId: string;
-  }) {
-    try {
-      return await this.prisma.placmentMaterials.create({
-        data: data,
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
-  }
-
-  async getCompanyById(companyId: string) {
-    try {
-      return await this.prisma.company.findUnique({
-        where: {
-          id: companyId,
-        },
-        include: {
-          placementMaterials: {
-            select: {
-              id: true,
-              fileId: true,
-              name: true,
-              type: true,
-            },
-          },
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
-  }
-
-  async createPlacementRecord(data: {
-    year: number;
-    highestPackage: number;
-    noOfCompaniesVisited: number;
-    noOfJobOffered: number;
-    extraInfo: string;
-  }) {
-    try {
-      const record = await this.prisma.placements.findFirst({
-        where: {
-          year: data.year,
-        },
-      });
-
-      if (record) {
-        throw new InternalServerErrorException('Record Already Exists');
+    return await this.prisma.company.findMany({
+      include:{
+        yearlyPlacements:true
       }
-
-      return await this.prisma.placements.create({
-        data: data,
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
+    });
   }
 
-  async getPlacementRecords() {
+
+
+  // model ExamPattern {
+  //   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  //   round       String?
+  //   duration    String?
+  //   description String?
+  //   company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  //   companyId   String   @db.ObjectId
+  //   createdAt   DateTime @default(now())
+  //   updatedAt   DateTime @updatedAt
+  // }
+
+  async addExamPatternToCompany(
+    companyId: string,
+    data:{
+      round: string;
+      duration: string;
+      description: string;
+    
+  }[]) {
     try {
-      return await this.prisma.placements.findMany({
-        orderBy: {
-          year: 'desc',
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Internal Server Error');
-    }
-  }
-
-  async addCompanyToPlacement(data: {
-    companyId: string;
-    placementId: string;
-  }) {
-    try {
-      const record = await this.prisma.placements.findFirst({
+      return await this.prisma.company.update({
         where: {
-          id: data.placementId,
-        },
-      });
-
-      if (!record) {
-        throw new NotFoundException('Record Not Found');
-      }
-
-      if (record.companyId.includes(data.companyId)) {
-        throw new ConflictException('Company Already Added');
-      }
-
-      return await this.prisma.placements.update({
-        where: {
-          id: data.placementId,
+          id: companyId
         },
         data: {
-          Company: {
-            connect: {
-              id: data.companyId,
-            },
-          },
-        },
+         examPattern: {
+             push: data
+         }
+        }
       });
     } catch (error) {
-      console.log(error);
-      if (
-        error instanceof NotFoundException ||
-        error instanceof ConflictException
-      ) {
-        throw error;
-      }
-
-      throw new InternalServerErrorException('Internal Server Error');
+      console.log(error)
+      throw new InternalServerErrorException(error);
     }
   }
 
-  async removeCompanyFromPlacement(data: {
-    companyId: string;
-    placementId: string;
-  }) {
+
+  // type CommonQuestions{
+  //   id          String   @default(uuid())
+  //   question   String
+  //   answer     String
+  // }
+  
+  // type CommonQuestion {
+  //   id          String   @default(cuid()) 
+  //   round       String?
+  //   questions   CommonQuestions[]
+  //   createdAt   DateTime @default(now())
+  // }
+  
+
+
+  async addCommonQuestionsToCompany(
+    companyId: string,
+    data:{
+      round: string;
+       questions: {
+        question: string;
+        answer: string;
+      }[]
+    }[]) {
     try {
-      const record = await this.prisma.placements.findFirst({
+      return await this.prisma.company.update({
         where: {
-          id: data.placementId,
-        },
-      });
-
-      if (!record) {
-        throw new NotFoundException('Record Not Found');
-      }
-
-      if (!record.companyId.includes(data.companyId)) {
-        throw new ConflictException('Company Not Added');
-      }
-
-      return await this.prisma.placements.update({
-        where: {
-          id: data.placementId,
+          id: companyId
         },
         data: {
-          Company: {
-            disconnect: {
-              id: data.companyId,
-            },
-          },
-        },
+         commonQuestions: {
+             push: data
+         }
+        }
       });
     } catch (error) {
-      console.log(error);
-      if (
-        error instanceof NotFoundException ||
-        error instanceof ConflictException
-      ) {
-        throw error;
-      }
-
-      throw new InternalServerErrorException('Internal Server Error');
+      console.log(error)
+      throw new InternalServerErrorException(error);
     }
   }
+   
+
+  async addShortlistingInfoToCompany(
+    companyId: string,
+    data:{
+      shortlisted: number;
+      criteriaPoints: string[];
+      total: number;
+    }) {  
+    try {
+      return await this.prisma.company.update({
+        where: {
+          id: companyId
+        },
+        data: {
+         shortlistingInfo:data
+        }
+      });
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+
+  async addPlacementInfo(
+    yearlyPlacements:{
+      year: string
+      iscompleted: boolean
+      totalStudentsApplied: number
+      totalStudentsPlaced: number
+      highestPackage: number
+      averagePackage: number
+      lowestPackage: number
+    }[],
+
+
+    data:{
+    examPattern: {
+      round: string
+      duration: string
+      description: string,
+      focusAreas: string[]
+    }[]
+    commonQuestions: {
+      round: string
+      questions: {
+        id: string
+        question: string
+        answer: any
+      }[]
+    }[]
+    shortlistingInfo: {
+      total: number
+      shortlisted: number
+      criteriaPoints: string[]
+    },
+   
+    name: string
+    logo: string
+    description: string
+    tagline: string
+    website: string
+    students: number
+    firstVisit: number
+  }
+){
+  try {
+  const company = await this.prisma.company.create({
+    data: {
+      ...data,
+      yearlyPlacements:{
+        createMany: {
+          data: yearlyPlacements
+        }
+      },
+      slug: data.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+    }
+  });
+    return company;
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException(error);
+  }
+}
+
+
+async getCompanyBySlug(slug: string) {
+  try {
+    return await this.prisma.company.findUnique({
+      where: {
+        slug
+      },
+      include: {
+        yearlyPlacements: true,
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException(error);
+  }
+
+}
+
+
+async deleteCompanyById(companyId: string) {
+  try {
+    return await this.prisma.company.delete({
+      where: {
+        id: companyId
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException(error);
+  }
+}
+
 }

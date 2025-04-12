@@ -7,11 +7,12 @@ import { MyMailService } from 'src/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import { CACHE_MANAGER, CacheModule } from '@nestjs/cache-manager';
 import { AppModule } from 'src/app.module';
+import { DriveService } from 'src/drive.service';
 
 @Module({
   controllers: [KiitUsersController],
   imports: [],
-  providers: [KiitUsersService,PrismaService,StorageService,MyMailService,JwtService,],
+  providers: [KiitUsersService,PrismaService,StorageService,MyMailService,JwtService,DriveService],
   
 })
 export class KiitUsersModule {}
