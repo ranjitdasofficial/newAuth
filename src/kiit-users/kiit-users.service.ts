@@ -3035,12 +3035,275 @@ export class KiitUsersService {
 
   async getSecurityViolated(){
     try {
-      const user = await this.prisma.securityViolated.findMany({})
+      const user = await this.prisma.securityViolated.findMany({
+        orderBy:{
+          createdAt:"desc"
+        },
+        include:{
+          user:{
+            select:{
+              name:true,
+              email:true,
+            }
+          }
+        }
+      })
       return user;
 
     } catch (error) {
       console.error("Error fetching  security violated data: ", error);
       throw new InternalServerErrorException("Error getting security violated data");
+    }
+  }
+
+  async getMonthlyPlan(){
+    try {
+      const user = await this.prisma.user.findMany({
+        where:{
+          plan:"Monthly",
+          expiryDate:{
+            lte:new Date()
+          }
+        },
+
+        select:{
+          id:true,
+          name:true,
+          email:true,
+          plan:true,
+          expiryDate:true,
+        },
+        orderBy:{
+          createdAt:"desc"
+        },
+      
+      })
+      return {
+        length:user.length,
+        data:user
+      }
+
+    } catch (error) {
+      console.error("Error fetching  monthly plan data: ", error);
+      throw new InternalServerErrorException("Error getting monthly plan data");
+    }
+  }
+
+
+  
+
+
+  async expireMonthlyUsers(){
+    try {
+      const users = await this.prisma.user.findMany({
+        where:{
+          plan:"Monthly",
+          expiryDate:{
+            lte:new Date()
+          },
+          isPremium:true
+        },
+      });
+
+      for (const user of users) {
+        await this.prisma.premiumMember.delete({
+          where:{
+            userId:user.id
+          },
+        });
+
+        await this.prisma.user.update({
+          where:{
+            id:user.id
+          },
+          data:{
+            isPremium:false,
+          plan:null,
+            expiryDate:null
+          }
+        });
+        await this.mailService.sendMailToPremiumExpired(user.email, user.name);
+        await this.cacheService.del(user.email);
+
+
+      }
+
+return users;
+     
+
+    } catch (error) {
+      console.error("Error fetching  monthly plan data: ", error);
+      throw new InternalServerErrorException("Error getting monthly plan data");
+    }
+  }
+
+  async expireMonthlyUsersByHard(){
+    try {
+      const users =[
+        {
+            "id": "67cdfa8b8db82be398f21fed",
+            "name": "PRATIK KUMAR SAH",
+            "email": "24052521@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-10T12:50:56.185Z"
+        },
+        {
+            "id": "67c6a16f55b9f267bcab9fe0",
+            "name": "ANURAG PATEL",
+            "email": "23053670@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-04T05:59:32.821Z"
+        },
+        {
+            "id": "67c5e28655b9f267bcab9fcf",
+            "name": "488_PRATYUSH SHRIVASTAVA",
+            "email": "2205488@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T17:27:31.910Z"
+        },
+        {
+            "id": "67c5e1b655b9f267bcab9fce",
+            "name": "7063_SACHIN SUVIJAY",
+            "email": "24057063@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T17:12:54.307Z"
+        },
+        {
+            "id": "67c4c99255b9f267bcab9fb4",
+            "name": "MEDHANSH VIBHU",
+            "email": "23052812@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T21:13:16.693Z"
+        },
+        {
+            "id": "67c3d559d3e72b4dfd56fa95",
+            "name": "Anita Devi",
+            "email": "anitadevidas625@gmail.com",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T04:46:04.804Z"
+        },
+        {
+            "id": "67c37ef3d3e72b4dfd56fa91",
+            "name": "3860_DISHA KARMAKAR",
+            "email": "22053860@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T15:58:58.163Z"
+        },
+        {
+            "id": "672e14a15a965de869c43474",
+            "name": "389_Shashwat Sharma",
+            "email": "2306389@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T09:20:44.903Z"
+        },
+        {
+            "id": "66c1c5c442841c454a166df9",
+            "name": "PRIYANSHU DAS",
+            "email": "2305231@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T13:01:35.053Z"
+        },
+        {
+            "id": "669530bf42841c454a166bc5",
+            "name": "NAITIK ANAND",
+            "email": "23052335@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T12:20:16.056Z"
+        },
+        {
+            "id": "6694b63a42841c454a166a0f",
+            "name": "ANKIT SHAH",
+            "email": "23053658@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-06T05:28:54.188Z"
+        },
+        {
+            "id": "668e97a197969283509b089a",
+            "name": "5640_Glena SAHA",
+            "email": "2205640@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T07:52:15.073Z"
+        },
+        {
+            "id": "66823aa9b73d79e426242b91",
+            "name": "GAURAV KUNJILWAR",
+            "email": "22052207@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T07:54:02.633Z"
+        },
+        {
+            "id": "667eac433c448e32cdf1a368",
+            "name": "Tusher Tarafder",
+            "email": "22054096@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-02T20:13:57.994Z"
+        },
+        {
+            "id": "664ef052d14af87f4424ffd0",
+            "name": "115_Ashish Gulati",
+            "email": "2205115@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-01T05:41:02.491Z"
+        },
+        {
+            "id": "664055081cc9557b148663f1",
+            "name": "PRASHAMSA BUDHATHOKI_3864",
+            "email": "23053864@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-03T06:51:58.206Z"
+        },
+        {
+            "id": "6615803ef3924a11a97cb303",
+            "name": "ANIKET SINGH",
+            "email": "2205876@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-13T04:53:55.258Z"
+        },
+        {
+            "id": "6602e2a4ece362a62c15d4e4",
+            "name": "PRAJWAL PANTH",
+            "email": "22054402@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-05T06:22:42.502Z"
+        },
+        {
+            "id": "65da2e7c0fb947f5b2548010",
+            "name": "ANURAG MODAK",
+            "email": "22053143@kiit.ac.in",
+            "plan": "Monthly",
+            "expiryDate": "2025-04-06T10:29:51.262Z"
+        }
+    ]
+
+      for (const user of users) {
+        await this.prisma.premiumMember.delete({
+          where:{
+            userId:user.id
+          },
+        });
+
+        await this.prisma.user.update({
+          where:{
+            id:user.id
+          },
+          data:{
+            isPremium:false,
+          plan:null,
+            expiryDate:null
+          }
+        });
+        await this.mailService.sendMailToPremiumExpired(user.email, user.name);
+        await this.cacheService.del(user.email);
+
+
+      }
+
+return users;
+     
+
+    } catch (error) {
+      console.error("Error fetching  monthly plan data: ", error);
+      throw new InternalServerErrorException("Error getting monthly plan data");
     }
   }
 

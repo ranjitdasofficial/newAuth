@@ -418,7 +418,17 @@ export class KiitUsersController {
   async getSecurityViolated() {
     return this.kiitUserService.getSecurityViolated();
   }
-  
+
+  @Get('getMonthlyPlan')
+  async getUserByRoll() {
+    return this.kiitUserService.getMonthlyPlan();
+  }
+
+  @Post('expireUser')
+  async expireUser() {
+    return this.kiitUserService.expireMonthlyUsers();
+  }
+
   
 
 }

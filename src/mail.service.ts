@@ -358,4 +358,22 @@ async sendMailToDeactivateAccount(email:string,name:string) {
 
 }
 
+
+async sendMailToPremiumExpired(email:string,name:string) {
+  await this.mailService.sendMail({
+    to: email,
+    subject: 'Your monthly has been expired! - KIIT-CONNECT',
+    template: 'monthlyPlanExpired', // Name of your template file without extension
+    context:{
+      name:name
+    },
+  }).then(()=>{ 
+    console.log("Email Has been Sent");
+  }).catch((err)=>{
+    console.log(err);
+  });   
+
+}
+
+
 }

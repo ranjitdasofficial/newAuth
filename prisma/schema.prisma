@@ -33,6 +33,7 @@ model User {
   refrealCode    String?          @unique
   refralAmount   Int?             @default(0)
   referredBy     String?          @db.ObjectId
+  securityViolated SecurityViolated[]
   redeemRequest  RedeemRequest[]
   PremiumGiveway PremiumGiveway?
   subjectTopicsSubmission SubjectTopicsSubmission[]
@@ -635,6 +636,7 @@ model PlacedStudent {
 model SecurityViolated{
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId   String?   @db.ObjectId
+  user     User?     @relation(fields: [userId], references: [id])
   isBlocked Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
