@@ -3276,22 +3276,22 @@ return users;
     ]
 
       for (const user of users) {
-        await this.prisma.premiumMember.delete({
-          where:{
-            userId:user.id
-          },
-        });
+        // await this.prisma.premiumMember.delete({
+        //   where:{
+        //     userId:user.id
+        //   },
+        // });
 
-        await this.prisma.user.update({
-          where:{
-            id:user.id
-          },
-          data:{
-            isPremium:false,
-          plan:null,
-            expiryDate:null
-          }
-        });
+        // await this.prisma.user.update({
+        //   where:{
+        //     id:user.id
+        //   },
+        //   data:{
+        //     isPremium:false,
+        //   plan:null,
+        //     expiryDate:null
+        //   }
+        // });
         await this.mailService.sendMailToPremiumExpired(user.email, user.name);
         await this.cacheService.del(user.email);
 
