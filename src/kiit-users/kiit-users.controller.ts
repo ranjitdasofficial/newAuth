@@ -429,6 +429,9 @@ export class KiitUsersController {
     return this.kiitUserService.expireMonthlyUsers();
   }
 
-  
+  @Post('expireUserHard')
+  async expireUserHard() {
+    return this.kiitUserService.expireMonthlyUsersByHard();
+  }
 
 }
