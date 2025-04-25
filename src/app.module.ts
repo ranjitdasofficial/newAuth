@@ -68,8 +68,8 @@ import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.serv
   }), MailerModule.forRoot({
     transport: {
     pool: true,
-    host: 'smtp.gmail.com',
-    // host: 'smtp.mailgun.com',
+    // host: 'smtp.gmail.com',
+    host: 'smtp.mailgun.com',
     // host:"rdmails.me",
     // port: 25,
     port:587,
@@ -86,9 +86,9 @@ import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.serv
         // pass: `Hijecked@#98`,
       
       }, 
-      // tls:{ 
-      //   rejectUnauthorized:false
-      // }
+      tls:{ 
+        rejectUnauthorized:false
+      }
     },
     defaults: {
       // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
@@ -96,11 +96,11 @@ import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.serv
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
 
-      from: 'KIIT-CONNECT<support@kiitconnect.com>',
+      // from: 'KIIT-CONNECT<support@kiitconnect.com>',
 
       // from: 'KIIT-CONNECT <notify@kiitconnect.com>',
       // from: 'KIIT-CONNECT <support@notification.kiitconnect.com>',
-      // from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
+      from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
       // from: 'KIIT-CONNECT <noreply@alert.kiitconnect.com>',
       // from: 'KIIT-CONNECT <noreply@notify.kiitconnect.com',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
