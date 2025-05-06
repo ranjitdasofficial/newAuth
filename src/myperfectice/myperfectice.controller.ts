@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { MyperfecticeService } from './myperfectice.service';
 
 @Controller('myperfectice')
@@ -26,6 +26,14 @@ export class MyperfecticeController {
         return this.myperfecticeService.createCourse();
     }
 
+    @Delete('deleteCourse/:id')
+    async deleteCourse(@Param() dto:{
+        id:string;
+    }){
+        return this.myperfecticeService.deleteCourse(dto.id);
+    }
+
+
     @Post("createQuestion")
     async createQuestion(@Body() dto:{
         id:string;
@@ -39,7 +47,7 @@ export class MyperfecticeController {
 
 
     @Get("getTopicsByCourseId/:id")
-    async getTopicsByCourseId(@Body() dto:{
+    async getTopicsByCourseId(@Param() dto:{
         id:string;
     }){
         return this.myperfecticeService.getTopicsByCourseId(dto.id);
