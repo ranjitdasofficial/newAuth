@@ -45,6 +45,22 @@ export class MyperfecticeController {
         return this.myperfecticeService.createQuestion(dto.question,dto.id);
     }
 
+    @Post("createQuestionForCode")
+    async createQuestionForCode(@Body() dto:{
+        id:string;
+        question:{
+            question:string;
+            answer:string;
+            code:string;
+            input:string;
+            output:string;
+            explanation:string;
+        }[];
+    }){
+        return this.myperfecticeService.createQuestionForCode(dto.question,dto.id);
+    }
+
+
 
     @Get("getTopicsByCourseId/:id")
     async getTopicsByCourseId(@Param() dto:{

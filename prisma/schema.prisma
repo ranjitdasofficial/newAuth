@@ -402,6 +402,7 @@ model Courses {
   userId      String[] @db.ObjectId
   subscribers User[]   @relation(fields: [userId], references: [id])
   Topics      Topic[]
+  containsCode Boolean @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -410,6 +411,12 @@ type Questions {
   id       String @default(uuid()) // Unique identifier for PYQS
   question String
   answer   String
+  language String? @default("cpp")
+  input    String?
+  output   String?
+  explanation String?
+  code    String?
+
 }
 
 model Topic {
@@ -533,10 +540,13 @@ model Company {
   website          String?
   students         Int?               @default(0)
   firstVisit       Int?
+  location         String?
+  jobDescription   String?
   slug             String            @unique
   yearlyPlacements YearlyPlacement[]
   examPattern      ExamPattern[]
   commonQuestions  CommonQuestion[]  
+  placementMaterials   placmentMaterialsCategory[]
   shortlistingInfo ShortlistingInfo?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -630,6 +640,25 @@ model PlacedStudent {
 //   createdAt   DateTime @default(now())
 //   updatedAt   DateTime @updatedAt
 // }
+
+model placmentMaterialsCategory {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  category String
+  companyId String   @db.ObjectId
+  Company   Company  @relation(fields: [companyId], references: [id])
+  placementMaterials placmentMaterials[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+type placmentMaterials {
+  id        String  @default(uuid()) // Unique identifier for notes
+  name      String
+  type      String
+  fileId    String
+  createdAt DateTime @default(now())
+}
 
 
 

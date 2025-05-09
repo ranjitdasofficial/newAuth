@@ -9,7 +9,8 @@ export class MyperfecticeService {
     try {
       const course = await this.prisma.courses.create({
         data: {
-          name: 'PlaceMe CSE/MCS/Msc',
+          name: 'CODE MASTER v2.0',
+          containsCode: true,
         },
       });
       return course;
@@ -35,52 +36,80 @@ export class MyperfecticeService {
 
   async createTopic() {
     const data = [
-      "Practice 01 of 24 ( Data Structure )",
-      "Practice 02 of 24 ( Data Structure )",
-      "Practice 03 of 24 ( Data Structure )",
-      "Mock 01 of 24 ( Data Structure )",
       
-      "Practice 04 of 24 ( Algorithm )",
-      "Practice 05 of 24 ( Algorithm )",
-      "Practice 06 of 24 ( Algorithm )",
-      "Mock 02 of 24 ( Algorithm )",
-      
-      "Practice 07 of 24 ( DBMS )",
-      "Practice 08 of 24 ( DBMS )",
-      "Practice 09 of 24 ( DBMS )",
-      "Mock 03 of 24 ( DBMS )",
-      
-      "Practice 10 of 24 ( Operating System )",
-      "Practice 11 of 24 ( Operating System )",
-      "Practice 12 of 24 ( Operating System )",
-      "Mock 04 of 24 ( Operating System )",
-      
-      "Practice 13 of 24 ( Computer Network )",
-      "Practice 14 of 24 ( Computer Network )",
-      "Practice 15 of 24 ( Computer Network )",
-      "Mock 05 of 24 ( Computer Network )",
-      
-      "Practice 16 of 24 ( TOC )",
-      "Practice 17 of 24 ( TOC )",
-      "Practice 18 of 24 ( TOC )",
-      "Mock 06 of 24 ( TOC )",
-      
-      "Practice 19 of 24 ( Linux )",
-      "Practice 20 of 24 ( Linux )",
-      "Practice 21 of 24 ( Linux )",
-      "Mock 07 of 24 ( Linux )",
-      
-      "Practice 22 of 24 ( Compiler Design )",
-      "Practice 23 of 24 ( Compiler Design )",
-      "Practice 24 of 24 ( Compiler Design )",
-      "Mock 08 of 24 ( Compiler Design )"
+        "N2N-L4-Array-Set1",
+        "N2N-L4-Array-Set2",
+        "N2N-L4-Array-Set3",
+        "N2N-L4-Array-Set4",
+        "N2N-L4-Array-Set5",
+        "N2N-L4-Array-Set6",
+        "N2N-L4-Array-Set7",
+        "N2N-L4-Array-Set8",
+        "N2N-L4-Array-Set9",
+        "N2N-L4-Array-Set10",
+        "N2N-L4-Array-Set11",
+        "N2N-L4-Array-Set12",
+        "N2N-L4-Array-Set13",
+        "N2N-L4-Array-Set14",
+        "N2N-L4-Array-Set15",
+        "N2N-L4-Array-Set16",
+        "N2N-L4-Array-Set17",
+        "N2N-L4-Array-Set18",
+        "N2N-L4-Array-Set19",
+        "N2N-L4-Array-Set20",
+        "N2N-L4-Array-Set21",
+        "N2N-L4-Array-Set22",
+        "N2N-L4-Array-Set23",
+        "N2N-L4-Array-Set24",
+        "N2N-L4-Array-Set25",
+        "N2N-L4-Array-Set26",
+        "N2N-L4-Array-Set27",
+        "N2N-L4-Array-Set28",
+        "N2N-L4-Bit Manipulation-Set 1",
+        "N2N-L4-Bit Manipulation-Set 2",
+        "N2N-L4-Bit Manipulation-Set 3",
+        "N2N-L4-Bit Manipulation-Set 4",
+        "N2N-L4-Bit Manipulation-Set 5",
+        "N2N-L4-Bit Manipulation-Set 6",
+        "N2N-L4-Bit Manipulation-Set 7",
+        "N2N-L4-Bit Manipulation-Set 8",
+        "N2N-L4-Bit Manipulation-Set 9",
+        "N2N-L4-Divide & Conquer-Set 1",
+        "N2N-L4-Divide & Conquer-Set 2",
+        "N2N-L4-Divide & Conquer-Set 3",
+        "N2N-L4-Divide & Conquer-Set 4",
+        "N2N-L4-Divide & Conquer-Set 5",
+        "N2N-L4-Binary Search Tree-Set 1",
+  "N2N-L4-Binary Search Tree-Set 2",
+  "N2N-L4-Binary Search Tree-Set 3",
+  "N2N-L4-Binary Search Tree-Set 4",
+  "N2N-L4-Binary Search Tree-Set 5",
+  "N2N-L4-Binary Search Tree-Set 6",
+  "N2N-L4-Dynamic Programming-Set 1",
+  "N2N-L4-Dynamic Programming-Set 2",
+  "N2N-L4-Dynamic Programming-Set 3",
+  "N2N-L4-Dynamic Programming-Set 4",
+  "N2N-L4-Dynamic Programming-Set 5",
+  "N2N-L4-Dynamic Programming-Set 6",
+  "N2N-L4-Dynamic Programming-Set 7",
+  "N2N-L4-Dynamic Programming-Set 8",
+  "N2N-L4-Dynamic Programming-Set 9",
+  "N2N-L4-Dynamic Programming-Set 10",
+  "N2N-L4-Dynamic Programming-Set 11",
+  "N2N-L4-Heap-Set1",
+  "N2N-L4-Graph-Set1",
+  "N2N-L4-Backtracking-Set1",
+  "N2N-L4-Greedy",
+  "N2N-L4-Linked List-Set1",
+  "N2N-L4-Stack-Set1",
+            
     ];
 
     try {
       const topic = await this.prisma.topic.createMany({
         data: data.map((name) => ({
           name: name,
-          courseId: '6819ab8f5fb8df7cc46cb222',
+          courseId: '681d84d0d4e9e84155e8061e',
         })),
       });
 
@@ -148,10 +177,52 @@ export class MyperfecticeService {
     }
   }
 
+  async createQuestionForCode(
+    questions: {
+      question: string;
+      answer: string;
+      code:string;
+      input:string;
+      output:string;
+      explanation:string;
+    }[],
+    id: string,
+  ) {
+    try {
+      const question = await this.prisma.topic.update({
+        where: {
+          id: id,
+        },
+
+        data: {
+          Questions: questions.map((q) => ({
+            question: q.question,
+            code:q.code,
+            answer: "NA",
+            input:q.input,
+            output:q.output,
+            explanation:q.explanation,
+          })),
+        },
+      });
+
+      if (!question) {
+        throw new InternalServerErrorException('Topic not found');
+      }
+
+      return question;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error in creating question');
+    }
+  }
+
+
   async createQuestion(
     questions: {
       question: string;
       answer: string;
+  
     }[],
     id: string,
   ) {
@@ -165,6 +236,7 @@ export class MyperfecticeService {
           Questions: questions.map((q) => ({
             question: q.question,
             answer: q.answer,
+           
           })),
         },
       });
