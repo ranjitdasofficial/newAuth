@@ -112,8 +112,6 @@ export class PlacementsController {
     name: string
     logo: string
     description: string
-    jobDescription: string
-    location: string
     tagline: string
     website: string
     students: number

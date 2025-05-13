@@ -54,10 +54,6 @@ import { PaymentService } from './payment/payment.service';
 import { YoutubePlaylistController } from './youtube-playlist/youtube-playlist.controller';
 import { YoutubePlaylistModule } from './youtube-playlist/youtube-playlist.module';
 import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.service';
-import { TicketsController } from './tickets/tickets.controller';
-import { TicketsModule } from './tickets/tickets.module';
-import { TicketsService } from './tickets/tickets.service';
-import { WebSocketModule } from './web-socket/webSocket.module';
 
 
 @Module({
@@ -119,9 +115,9 @@ import { WebSocketModule } from './web-socket/webSocket.module';
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule, YoutubePlaylistModule, TicketsModule, WebSocketModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController, TicketsController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService,PaymentService,YoutubePlaylistService,TicketsService],
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule, YoutubePlaylistModule],
+  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController],
+  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService,PaymentService,YoutubePlaylistService],
   exports:[CacheModule]
   
 }) 
