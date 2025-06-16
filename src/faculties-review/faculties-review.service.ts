@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { disconnect } from 'process';
@@ -21084,8 +21085,44 @@ export class FacultiesReviewService {
   async getFacultiesDetailsByBranchAndSemester(
     branch: string,
     semester: string,
+    userId: string,
   ) {
     try {
+
+
+      const map = {
+        "1": "1st Year",
+        "2": "1st Year",
+        "3": "2nd Year",
+        "4": "2nd Year",
+        "5": "3rd Year",
+        "6": "3rd Year",
+        "7": "4th Year",
+        "8": "4th Year"
+      }
+
+
+      const getUserInfo = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          PremiumMember: {
+            select: {
+              branch: true,
+              year: true,
+            }
+          }
+        }
+      });
+      if (!getUserInfo) throw new NotFoundException("User not found")
+      if (!getUserInfo.PremiumMember) throw new NotFoundException({ message: "You need Premium to Access Section Selection Pack", isPremium: false })
+        console.log("here we go" ,getUserInfo,branch,semester,)
+      if (getUserInfo.PremiumMember.branch !== branch ||  getUserInfo.PremiumMember.year !== map[semester as keyof typeof map])
+        throw new NotFoundException("Your Profile doesnot match with the the current branch and semester, please update your profile to continue");
+
+      
+
       const branchId = await this.prisma.branch.findUnique({
         where: {
           name: branch,
@@ -21105,11 +21142,11 @@ export class FacultiesReviewService {
 
       console.log(semesterId);
 
-      if (!semesterId.isFacultyReviewEnabled) {
-        throw new ServiceUnavailableException(
-          'Faculty Review is not enabled for this semester',
-        );
-      }
+      // if (!semesterId.isFacultyReviewEnabled) {
+      //   throw new ServiceUnavailableException(
+      //     'Faculty Review is not enabled for this semester',
+      //   );
+      // }
 
       const facultiesData = await this.prisma.facultiesDetails.findMany({
         where: {
@@ -21150,8 +21187,70 @@ export class FacultiesReviewService {
         },
       });
 
+
+
+      const subject = [
+      'Artificial Intelligence',
+      'Machine Learning',
+      'HIGH PERFORMANCE COMPUT',
+      'Internet Of Things',
+      'Data Mining and Data Warehousing',
+      'Big Data',
+      'Data Science And Analytics',
+      'Distributed Operating System',
+      'Computational Intelligence',
+      'COMPILER DESIGN',
+    ];
+
+      const faculties = await this.prisma.facultiesDetails.findMany({
+        where: {
+          isElective: true,
+          subject: {
+            some: {
+              name: {
+                in: subject,
+              },
+            },
+          },
+        },
+        select: {
+          semesterSection: {
+            select: {
+              section: true,
+              semester: {
+                select: {
+                  number: true,
+                  branch: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          likesId: true,
+          dislikesId: true,
+          id: true,
+          name: true,
+
+          subject: {
+            select: {
+              name: true,
+            },
+          },
+          reviews: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
       return {
         facultiesData: facultiesData,
+        electiveFaculties: faculties,
         semesterDetails: {
           noOfSections: semesterId.numberOfSectionForSwapping,
         },
@@ -21160,7 +21259,8 @@ export class FacultiesReviewService {
       console.log(error);
       if (
         error instanceof BadRequestException ||
-        error instanceof ServiceUnavailableException
+        error instanceof ServiceUnavailableException ||
+        error instanceof NotFoundException
       ) {
         throw error;
       }

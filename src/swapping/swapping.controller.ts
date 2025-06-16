@@ -26,7 +26,7 @@ import {
     async getSwappingData(
       @Query() dto: { branch: string; semester: number; userId: string },
     ) {
-      return this.swappingService.getAllSwapping(dto);
+      return this.swappingService.getSwappingData(dto);
     }
 
     @Get('getMyInfo')
@@ -53,6 +53,7 @@ import {
       userId:string,
       alloted:number,
       lookingFor:number[],
+      contact:string,
     }) {
       return this.swappingService.updateSwapDetails(dto);
     }

@@ -88,8 +88,8 @@ export class FacultiesReviewController {
 
 
   @Get("getFacultiesDetailsByBranchAndSemester")
-  async getFacultiesDetailsByBranchAndSemester(@Query("branch") branch: string, @Query("semester") semester: string){
-    return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemester(branch, semester);
+  async getFacultiesDetailsByBranchAndSemester(@Query("branch") branch: string, @Query("semester") semester: string, @Query('userId') userId: string){
+    return this.facultiesReviewService.getFacultiesDetailsByBranchAndSemester(branch, semester,userId);
   } 
 
 
@@ -110,6 +110,7 @@ export class FacultiesReviewController {
 
   @Post("likeDislike")
   async likeDislike(@Body() data: {facultyId: string, userId: string,event: string}){
+    console.log(data)
     return this.facultiesReviewService.likeDislikeFaculties(data.facultyId, data.userId,data.event);
   }
 
