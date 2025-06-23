@@ -12,7 +12,7 @@ import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class FacultiesReviewService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createSections() {
     try {
@@ -20748,8 +20748,8 @@ export class FacultiesReviewService {
           id: true,
           name: true,
         },
-        orderBy:{
-          name:"asc"
+        orderBy: {
+          name: "asc"
         }
       });
     } catch (error) {
@@ -20762,7 +20762,7 @@ export class FacultiesReviewService {
   async assignSubjectToFaculty(data: { facultiesId: string[]; subjectId: string }) {
     try {
       const { facultiesId, subjectId } = data;
-  
+
       // Fetch all faculties that match the given IDs
       const allFaculties = await this.prisma.facultiesDetails.findMany({
         where: {
@@ -20776,16 +20776,16 @@ export class FacultiesReviewService {
           name: true,
         },
       });
-  
+
       console.log(facultiesId, subjectId, allFaculties);
-  
+
       // Helper to chunk the faculties array
       const chunkArray = (array: any[], size: number) =>
         array.reduce((acc, _, i) => (i % size === 0 ? [...acc, array.slice(i, i + size)] : acc), []);
-  
+
       // Process in chunks to avoid overloading the database
       const facultyChunks = chunkArray(allFaculties, 10); // Adjust chunk size as needed
-  
+
       for (const chunk of facultyChunks) {
         const promises = chunk.map(async (d) => {
           const subjectIds = d.subjectId || []; // Ensure subjectId is defined
@@ -20807,11 +20807,11 @@ export class FacultiesReviewService {
             });
           }
         });
-  
+
         // Wait for all updates in this chunk to complete
         await Promise.all(promises);
       }
-  
+
       return true;
     } catch (error) {
       console.log(error);
@@ -20820,7 +20820,7 @@ export class FacultiesReviewService {
       );
     }
   }
-  
+
 
   // async assignSubjectToFaculty(data: {
   //   facultiesId: string[];
@@ -21117,11 +21117,11 @@ export class FacultiesReviewService {
       });
       if (!getUserInfo) throw new NotFoundException("User not found")
       if (!getUserInfo.PremiumMember) throw new NotFoundException({ message: "You need Premium to Access Section Selection Pack", isPremium: false })
-        console.log("here we go" ,getUserInfo,branch,semester,)
-      if (getUserInfo.PremiumMember.branch !== branch ||  getUserInfo.PremiumMember.year !== map[semester as keyof typeof map])
+      console.log("here we go", getUserInfo, branch, semester,)
+      if (getUserInfo.PremiumMember.branch !== branch || getUserInfo.PremiumMember.year !== map[semester as keyof typeof map])
         throw new NotFoundException("Your Profile doesnot match with the the current branch and semester, please update your profile to continue");
 
-      
+
 
       const branchId = await this.prisma.branch.findUnique({
         where: {
@@ -21173,6 +21173,7 @@ export class FacultiesReviewService {
               },
             },
           },
+        
 
           subject: {
             select: {
@@ -21184,23 +21185,24 @@ export class FacultiesReviewService {
               id: true,
             },
           },
+        
         },
       });
 
 
 
       const subject = [
-      'Artificial Intelligence',
-      'Machine Learning',
-      'HIGH PERFORMANCE COMPUT',
-      'Internet Of Things',
-      'Data Mining and Data Warehousing',
-      'Big Data',
-      'Data Science And Analytics',
-      'Distributed Operating System',
-      'Computational Intelligence',
-      'COMPILER DESIGN',
-    ];
+        'Artificial Intelligence',
+        'Machine Learning',
+        'HIGH PERFORMANCE COMPUT',
+        'Internet Of Things',
+        'Data Mining and Data Warehousing',
+        'Big Data',
+        'Data Science And Analytics',
+        'Distributed Operating System',
+        'Computational Intelligence',
+        'COMPILER DESIGN',
+      ];
 
       const faculties = await this.prisma.facultiesDetails.findMany({
         where: {
@@ -21232,6 +21234,8 @@ export class FacultiesReviewService {
           },
           likesId: true,
           dislikesId: true,
+          tagline: true,
+          tags: true,
           id: true,
           name: true,
 
@@ -21548,9 +21552,36 @@ export class FacultiesReviewService {
   async createManyFaculty() {
     try {
       const fac = [
-        'B.V.V. S. Subhramanyam',
-        'S Ramavath',
-        'Priyanka Panigrahi'
+       
+    'Basanta K. Nanda',
+    'Diptikanta Das',
+    'Ramanuj Kumar',
+    'Siba P. Behera',
+    'Hemalata Jena',
+    'Kamal K Joshi',
+    'Pruthwiraj Sahu',
+    'Basanta Kumar Rana',
+    'Sudesna Roy',
+    'Ram Kumar Kesharwani',
+    'S. Chaudhuri',
+    'Radha Kanta Sarangi',
+    'Abhilas Swain',
+    'Nilotpala Bej',
+    'Gyan Sagar Sinha',
+    'Vijay Kumar Mishra',
+    'Ambesh Kumar',
+    'Rasmi R. Behera',
+    'Srikant Panigrahi',
+    'Sudhansu S Patro',
+    'Sasmita Sahu',
+    'A. K. Rout',
+    'Pushkar Jha',
+    'S. K. Ghadei',
+    'Bharat Chandra Routara',
+    'Ranjan Ku Behera',
+    'Rajiva L. Mohanty'
+
+
       ];
 
       const facultyData = fac.map((name) => ({ name }));
@@ -21696,685 +21727,685 @@ export class FacultiesReviewService {
   // //generate reports
 
   //   constructor(private readonly prismService: PrismaService) {}
-    HIGHLY_RECOMMENDED_THRESHOLD = 0.8; // Adjust as needed
-    RECOMMENDED_THRESHOLD = 0.6; // Adjust as needed
-    AVERAGE_THRESHOLD = 0.4; // Adjust as needed
-    MODERATELY_RECOMMENDED_THRESHOLD = 0.2; // Adjust as needed
-    MIN_INTERACTIONS_THRESHOLD = 5; // Minimum interactions to consider
+  HIGHLY_RECOMMENDED_THRESHOLD = 0.8; // Adjust as needed
+  RECOMMENDED_THRESHOLD = 0.6; // Adjust as needed
+  AVERAGE_THRESHOLD = 0.4; // Adjust as needed
+  MODERATELY_RECOMMENDED_THRESHOLD = 0.2; // Adjust as needed
+  MIN_INTERACTIONS_THRESHOLD = 5; // Minimum interactions to consider
 
   //   //get Teachee By Section
 
-    siteInformation: string = `
+  siteInformation: string = `
     Report generated from KIIT-CONNECT WEBSITE.
     Website: https://www.kiitconnect.com/
     WhatsApp Group: https://chat.whatsapp.com/Bmnw7wm9jUi19HD59bJ8Zn
     Auto Generated by KIIT-CONNECT
   `;
-    async generateReport(data:{
-      branch:string,
-      semester:number,
+  async generateReport(data: {
+    branch: string,
+    semester: number,
 
-    }) {
+  }) {
 
-      console.log(data)
-      const Teachers =[]
-      // const teacherData = await this.prisma.facultiesDetails.findMany({
-      //   // where:{
-      //   //   semesterSection:{
-      //   //     every:{
-      //   //       semesterId:"65d20c6248b08e85746da025"
-      //   //     }
-      //   //   }
-      //   // },
-      //   include: { reviews: true,semesterSection:true,subject:true,},
-      // });
+    console.log(data)
+    const Teachers = []
+    // const teacherData = await this.prisma.facultiesDetails.findMany({
+    //   // where:{
+    //   //   semesterSection:{
+    //   //     every:{
+    //   //       semesterId:"65d20c6248b08e85746da025"
+    //   //     }
+    //   //   }
+    //   // },
+    //   include: { reviews: true,semesterSection:true,subject:true,},
+    // });
 
-      const branchId = await this.prisma.branch.findUnique({
-        where: {
-          name: data.branch,
+    const branchId = await this.prisma.branch.findUnique({
+      where: {
+        name: data.branch,
+      },
+    });
+
+    if (!branchId) throw new BadRequestException('Branch not found');
+    const semesterId = await this.prisma.semester.findUnique({
+      where: {
+        number: {
+          equals: data.semester,
         },
-      });
+        branchId: branchId.id,
+      },
+    });
 
-      if (!branchId) throw new BadRequestException('Branch not found');
-      const semesterId = await this.prisma.semester.findUnique({
-        where: {
-          number: {
-            equals: data.semester,
+    if (!semesterId.isFacultyReviewEnabled) {
+      throw new ServiceUnavailableException(
+        'Faculty Review is not enabled for this semester',
+      );
+    }
+
+    const facultiesData = await this.prisma.facultiesDetails.findMany({
+      where: {
+        semesterSection: {
+          some: {
+            semesterId: semesterId.id,
           },
-          branchId: branchId.id,
         },
-      });
-
-      if (!semesterId.isFacultyReviewEnabled) {
-        throw new ServiceUnavailableException(
-          'Faculty Review is not enabled for this semester',
-        );
-      }
-
-      const facultiesData = await this.prisma.facultiesDetails.findMany({
-        where: {
-          semesterSection: {
-            some: {
-              semesterId: semesterId.id,
-            },
-          },
-        },
-        include: {
-          semesterSection: {
-            select: {
-              section: true,
-              semester:{
-                select:{
-                  number:true,
-                  branch:{
-                    select:{
-                      id:true,
-                      name:true
-                    }
+      },
+      include: {
+        semesterSection: {
+          select: {
+            section: true,
+            semester: {
+              select: {
+                number: true,
+                branch: {
+                  select: {
+                    id: true,
+                    name: true
                   }
                 }
               }
-            },
-          },
-          subject: {
-            select: {
-              name: true,
-            },
-          },
-          reviews: {
-            select: {
-              id: true,
-              comments: true,
-            },
+            }
           },
         },
-      });
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        reviews: {
+          select: {
+            id: true,
+            comments: true,
+          },
+        },
+      },
+    });
 
-      const pq = facultiesData.filter((f)=>{
-      return f.semesterSection.map((p)=>p.semester.branch.name).includes(data.branch)
-      })
+    const pq = facultiesData.filter((f) => {
+      return f.semesterSection.map((p) => p.semester.branch.name).includes(data.branch)
+    })
 
-      console.log(pq)
+    console.log(pq)
 
-      // return pq;
+    // return pq;
 
-      for (let i = 1; i <= semesterId.numberOfSectionForSwapping; i++) {
-        const sec1 = await Promise.all(
-          pq.map(async (teacher) => {
+    for (let i = 1; i <= semesterId.numberOfSectionForSwapping; i++) {
+      const sec1 = await Promise.all(
+        pq.map(async (teacher) => {
 
-            const filtr = teacher.semesterSection.filter((g)=>g.semester.number===data.semester && g.section===i && g.semester.branch.name===data.branch);
-            if (filtr.length>0) {
+          const filtr = teacher.semesterSection.filter((g) => g.semester.number === data.semester && g.section === i && g.semester.branch.name === data.branch);
+          if (filtr.length > 0) {
 
-              return {
-                //   id: teacher.id,
-                name: teacher.name,
-                subject: teacher.subject.filter((f)=>{
-                  return this.subjectList.includes(f.name)
-                }).map((s)=>{
+            return {
+              //   id: teacher.id,
+              name: teacher.name,
+              subject: teacher.subject.filter((f) => {
+                return this.subjectList.includes(f.name)
+              }).map((s) => {
 
-                  return this.reverseSubjectMap(s.name)
-                })
-                ,
-                likes: teacher.likesId.length,
-                dislikes: teacher.dislikesId.length,
-                reviews: teacher.reviews.map((review) => review.comments),
-              };
-            }
-
-          }),
-        );
-
-        const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
-
-        Teachers.push({
-          section: i,
-          data: filteredSec1,
-        });
-      }
-
-      console.log(Teachers);
-
-      const headers = Object.keys(Teachers[0].data[0]);
-      console.log(headers);
-
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet(`Section_1`);
-
-      this.addSiteInformation(worksheet);
-      this.addReportGeneratedTime(worksheet);
-      this.addCustomMessage(worksheet,"Just Avoid: If anyone found sharing of screenshot then that person id will be banned permanentally from kiit-connect and if anyone report about that person who has shared the screenshot can be rewarded Premium Membership and Some gift.")
-
-      worksheet.addRow(['Color Legend']);
-      this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
-      this.addLegendRow(worksheet, 'Recommended', '00FFFF');
-      this.addLegendRow(worksheet, 'Medium', 'FFFF00');
-      this.addLegendRow(worksheet, 'Try to Avoid', 'FFA500');
-      this.addLegendRow(worksheet, 'Avoid(Not Recommended)', 'FF0000');
-      worksheet.addRow([]);
-      worksheet.addRow(headers);
-
-      worksheet.columns = [
-        { header: headers[0], width: 1 / 0.02645833 }, // 15 cm
-        { header: headers[1], width: 0.6 / 0.02645833 }, // 10 cm
-        { header: headers[2], width: 0.3 / 0.02645833 }, // 10 cm
-        { header: headers[3], width: 0.3 / 0.02645833 }, // 10 cm
-        { header: headers[4], width: 20 / 0.02645833 }, // 10 cm
-        // Add more columns if needed
-    ];
-
-      Teachers.forEach((sec) => {
-        worksheet.addRow([`Section ${sec.section}`]);
-        //   worksheet.addRow([`Section ${sec.section}`]);
-        //add some space to row
-
-        sec.data.forEach((row) => {
-          const values = headers.map((header) => row[header]);
-          const rowRef = worksheet.addRow(values);
-
-          const totalInteractions = row.likes + row.dislikes;
-
-          if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
-            return 0; // Not enough interactions for a reliable recommendation
+                return this.reverseSubjectMap(s.name)
+              })
+              ,
+              likes: teacher.likesId.length,
+              dislikes: teacher.dislikesId.length,
+              reviews: teacher.reviews.map((review) => review.comments),
+            };
           }
 
-          // export const applyColorBasedOnRatio = (like: number, dislike: number) => {
-          //   const totalInteractions = like + dislike;
+        }),
+      );
 
-          //   if (totalInteractions < MIN_INTERACTIONS_THRESHOLD) {
-          //     return {
-          //       color: "text-cyan-500",
-          //       text: "In Progress",
-          //     };
-          //     // Not enough interactions for a reliable recommendation
-          //   }
+      const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
 
-          //   const p = like / totalInteractions;
-          //   const ratio = Math.round(p * 100) / 100;
-
-          // const rat = row.likes / Math.max(row.dislikes, 1);
-
-          const rat = row.likes / totalInteractions;
-                  //   const ratio = Math.round(p * 100) / 100;
-
-          const ratio = Math.round(rat * 100) / 100;
-          console.log(ratio);
-
-          // const p = Math.round(ratio * 100) / 100;
-          this.applyColorBasedOnRatio(rowRef, ratio);
-        });
-        worksheet.addRow([null]);
+      Teachers.push({
+        section: i,
+        data: filteredSec1,
       });
-
-      // Save workbook to a file
-      await workbook.xlsx.writeFile(`${data.branch}-${data.semester}.xlsx`);
-
-      return Teachers;
     }
 
-    subjectList =   [
-      // "Industry 4.0 Technologies",
-      // "Data Structure",
-      // "Digital Systems Design",
-      // "Automata Theory and Formal Languages",
-      // "Scientific and Technical Writing",
-      // "DSD Lab",
-      // "Data Structure Lab",
-      // "Communication Engineering",
-      // "COA",
-      // "OOP JAVA",
-      // "Probability and Statistics",
-      // 'CE Lab'
+    console.log(Teachers);
 
-      // "Cloud Computing",
-      "Artificial Intelligence",
-      "Machine Learning",
-      "Software Project Management",
-      // "Data Science and Analytics",
-      // "Data Analytics Laboratory",
+    const headers = Object.keys(Teachers[0].data[0]);
+    console.log(headers);
 
-      "CLOUD COMPUTING",
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(`Section_1`);
 
-      // "Compilers",
+    this.addSiteInformation(worksheet);
+    this.addReportGeneratedTime(worksheet);
+    this.addCustomMessage(worksheet, "Just Avoid: If anyone found sharing of screenshot then that person id will be banned permanentally from kiit-connect and if anyone report about that person who has shared the screenshot can be rewarded Premium Membership and Some gift.")
 
-      // "Wireless Mobile Communication",
-      // "Block Chain",
-      // "Wireless Communication & Networking Lab",
+    worksheet.addRow(['Color Legend']);
+    this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+    this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+    this.addLegendRow(worksheet, 'Medium', 'FFFF00');
+    this.addLegendRow(worksheet, 'Try to Avoid', 'FFA500');
+    this.addLegendRow(worksheet, 'Avoid(Not Recommended)', 'FF0000');
+    worksheet.addRow([]);
+    worksheet.addRow(headers);
 
-      // "ARM and Advanced Microprocessors",
-      // "Data Mining and Data Warehousing",
-      // "ARM Laboratory",
-      // "Advance Programming Laboratory",
-      // "Advance Programming"
-      "Artificial Intelligence Laboratory",
-      "Applications Development Laboratory",
-      "Applications Development"
+    worksheet.columns = [
+      { header: headers[0], width: 1 / 0.02645833 }, // 15 cm
+      { header: headers[1], width: 0.6 / 0.02645833 }, // 10 cm
+      { header: headers[2], width: 0.3 / 0.02645833 }, // 10 cm
+      { header: headers[3], width: 0.3 / 0.02645833 }, // 10 cm
+      { header: headers[4], width: 20 / 0.02645833 }, // 10 cm
+      // Add more columns if needed
     ];
 
-    // ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
-    // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
+    Teachers.forEach((sec) => {
+      worksheet.addRow([`Section ${sec.section}`]);
+      //   worksheet.addRow([`Section ${sec.section}`]);
+      //add some space to row
 
-    // async getDataForElective() {
-    //   const Elective = [];
-    //   const teacherData = await this.prismService.elective.findMany({
-    //     include: { reviews: true },
-    //   });
+      sec.data.forEach((row) => {
+        const values = headers.map((header) => row[header]);
+        const rowRef = worksheet.addRow(values);
 
-    //   for (let i = 0; i < this.Electives.length; i++) {
-    //     const sec1 = await Promise.all(
-    //       teacherData.map(async (teacher) => {
-    //         if (teacher.subject === this.Electives[i]) {
-    //           return {
-    //             //   id: teacher.id,
-    //             name: teacher.name,
-    //             subject: teacher.subject,
-    //             likes: teacher.likes.length,
-    //             dislikes: teacher.dislikes.length,
-    //             reviews: teacher.reviews.map((review) => review.comments),
-    //           };
-    //         }
-    //       }),
-    //     );
+        const totalInteractions = row.likes + row.dislikes;
 
-    //     const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+        if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+          return 0; // Not enough interactions for a reliable recommendation
+        }
 
-    //     Elective.push({
-    //       subject: this.Electives[i],
-    //       data: filteredSec1,
-    //     });
-    //   }
+        // export const applyColorBasedOnRatio = (like: number, dislike: number) => {
+        //   const totalInteractions = like + dislike;
 
-    //   const headers = Object.keys(Elective[0].data[0]);
-    //   console.log(headers);
+        //   if (totalInteractions < MIN_INTERACTIONS_THRESHOLD) {
+        //     return {
+        //       color: "text-cyan-500",
+        //       text: "In Progress",
+        //     };
+        //     // Not enough interactions for a reliable recommendation
+        //   }
 
-    //   const workbook = new ExcelJS.Workbook();
-    //   const worksheet = workbook.addWorksheet(`Elective_1`);
+        //   const p = like / totalInteractions;
+        //   const ratio = Math.round(p * 100) / 100;
 
-    //   this.addSiteInformation(worksheet);
-    //   this.addReportGeneratedTime(worksheet);
+        // const rat = row.likes / Math.max(row.dislikes, 1);
 
-    //   worksheet.addRow(['Color Legend']);
-    //   this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
-    //   this.addLegendRow(worksheet, 'Recommended', '00FFFF');
-    //   this.addLegendRow(worksheet, 'Average', 'FFFF00');
-    //   this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
-    //   this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
-    //   worksheet.addRow([]);
-    //   worksheet.addRow(headers);
+        const rat = row.likes / totalInteractions;
+        //   const ratio = Math.round(p * 100) / 100;
 
-    //   Elective.forEach((sec) => {
-    //     worksheet.addRow([`Subject:- ${sec.subject}`]);
-    //     //   worksheet.addRow([`Section ${sec.section}`]);
-    //     //add some space to row
+        const ratio = Math.round(rat * 100) / 100;
+        console.log(ratio);
 
-    //     sec.data.forEach((row) => {
-    //       const values = headers.map((header) => row[header]);
-    //       const rowRef = worksheet.addRow(values);
+        // const p = Math.round(ratio * 100) / 100;
+        this.applyColorBasedOnRatio(rowRef, ratio);
+      });
+      worksheet.addRow([null]);
+    });
 
-    //       const totalInteractions = row.likes + row.dislikes;
+    // Save workbook to a file
+    await workbook.xlsx.writeFile(`${data.branch}-${data.semester}.xlsx`);
 
-    //       if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
-    //         return 0; // Not enough interactions for a reliable recommendation
-    //       }
+    return Teachers;
+  }
 
-    //       const ratio = row.likes / totalInteractions;
-    //       const p = Math.round(ratio * 100) / 100;
-    //       this.applyColorBasedOnRatio(rowRef, p);
-    //     });
-    //     worksheet.addRow([null]);
-    //   });
+  subjectList = [
+    // "Industry 4.0 Technologies",
+    // "Data Structure",
+    // "Digital Systems Design",
+    // "Automata Theory and Formal Languages",
+    // "Scientific and Technical Writing",
+    // "DSD Lab",
+    // "Data Structure Lab",
+    // "Communication Engineering",
+    // "COA",
+    // "OOP JAVA",
+    // "Probability and Statistics",
+    // 'CE Lab'
 
-    //   // Save workbook to a file
-    //   await workbook.xlsx.writeFile('Electives-Export.xlsx');
-    //   console.log(Elective);
-    //   return Elective;
-    // }
+    // "Cloud Computing",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Software Project Management",
+    // "Data Science and Analytics",
+    // "Data Analytics Laboratory",
 
-   subjectMap = (subject:string)=>{
+    "CLOUD COMPUTING",
 
-      console.log(subject)
-     switch(subject){
-        case "CN":
-          return "COMPUTER NETWORKS"
-        case "SE":
-          return "SOFTWARE ENGINEERING"
-        case "CN Lab":
-          return "Computer Networks Lab"
-        case "EE":
-          return "Engineering Economics"
-        case "DAA Lab":
-          return "DAA Lab"
-        case "DAA":
-          return "DESIGN & ANALYSIS OF ALGO"
-        case "EOD":
-          return "Economics Of Development"
-        case "IEC":
-          return "International Economic Cooperation"
-        case "AI":
-          return "Artificial Intelligence"
-        case "ML":
-          return "Machine Learning"
-        case "HPC":
-          return "HIGH PERFORMANCE COMPUT"
-        case "IoT":
-          return "Internet Of Things"
-        case "DMDW":
-          console.log("here")
-          return "Data Mining and Data Warehousing"
-        case "BD":
-          return "Big Data"
-        case "DSA":
-          return "Data Science and Analytics"
-        case "DOS":
-          return "Distributed Operating System"
-        case "CI":
-          return "Computational Intelligence"
-        case "CD":
-          return "Compilers"
+    // "Compilers",
 
-       case "AD(L)":
+    // "Wireless Mobile Communication",
+    // "Block Chain",
+    // "Wireless Communication & Networking Lab",
+
+    // "ARM and Advanced Microprocessors",
+    // "Data Mining and Data Warehousing",
+    // "ARM Laboratory",
+    // "Advance Programming Laboratory",
+    // "Advance Programming"
+    "Artificial Intelligence Laboratory",
+    "Applications Development Laboratory",
+    "Applications Development"
+  ];
+
+  // ['DAA Lab','COMPUTER NETWORKS','SOFTWARE ENGINEERING','Computer Networks Lab','Engineering Economics','DESIGN & ANALYSIS OF ALGO','International Economic Cooperation','Economics Of Development']
+  // Electives: any[] = ['ML', 'IOT', 'NLP', 'DA'];
+
+  // async getDataForElective() {
+  //   const Elective = [];
+  //   const teacherData = await this.prismService.elective.findMany({
+  //     include: { reviews: true },
+  //   });
+
+  //   for (let i = 0; i < this.Electives.length; i++) {
+  //     const sec1 = await Promise.all(
+  //       teacherData.map(async (teacher) => {
+  //         if (teacher.subject === this.Electives[i]) {
+  //           return {
+  //             //   id: teacher.id,
+  //             name: teacher.name,
+  //             subject: teacher.subject,
+  //             likes: teacher.likes.length,
+  //             dislikes: teacher.dislikes.length,
+  //             reviews: teacher.reviews.map((review) => review.comments),
+  //           };
+  //         }
+  //       }),
+  //     );
+
+  //     const filteredSec1 = sec1.filter((teacher) => teacher !== undefined);
+
+  //     Elective.push({
+  //       subject: this.Electives[i],
+  //       data: filteredSec1,
+  //     });
+  //   }
+
+  //   const headers = Object.keys(Elective[0].data[0]);
+  //   console.log(headers);
+
+  //   const workbook = new ExcelJS.Workbook();
+  //   const worksheet = workbook.addWorksheet(`Elective_1`);
+
+  //   this.addSiteInformation(worksheet);
+  //   this.addReportGeneratedTime(worksheet);
+
+  //   worksheet.addRow(['Color Legend']);
+  //   this.addLegendRow(worksheet, 'Highly Recommended', '00FF00');
+  //   this.addLegendRow(worksheet, 'Recommended', '00FFFF');
+  //   this.addLegendRow(worksheet, 'Average', 'FFFF00');
+  //   this.addLegendRow(worksheet, 'Moderately Recommended', 'FFA500');
+  //   this.addLegendRow(worksheet, 'Not Recommended', 'FF0000');
+  //   worksheet.addRow([]);
+  //   worksheet.addRow(headers);
+
+  //   Elective.forEach((sec) => {
+  //     worksheet.addRow([`Subject:- ${sec.subject}`]);
+  //     //   worksheet.addRow([`Section ${sec.section}`]);
+  //     //add some space to row
+
+  //     sec.data.forEach((row) => {
+  //       const values = headers.map((header) => row[header]);
+  //       const rowRef = worksheet.addRow(values);
+
+  //       const totalInteractions = row.likes + row.dislikes;
+
+  //       if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+  //         return 0; // Not enough interactions for a reliable recommendation
+  //       }
+
+  //       const ratio = row.likes / totalInteractions;
+  //       const p = Math.round(ratio * 100) / 100;
+  //       this.applyColorBasedOnRatio(rowRef, p);
+  //     });
+  //     worksheet.addRow([null]);
+  //   });
+
+  //   // Save workbook to a file
+  //   await workbook.xlsx.writeFile('Electives-Export.xlsx');
+  //   console.log(Elective);
+  //   return Elective;
+  // }
+
+  subjectMap = (subject: string) => {
+
+    console.log(subject)
+    switch (subject) {
+      case "CN":
+        return "COMPUTER NETWORKS"
+      case "SE":
+        return "SOFTWARE ENGINEERING"
+      case "CN Lab":
+        return "Computer Networks Lab"
+      case "EE":
+        return "Engineering Economics"
+      case "DAA Lab":
+        return "DAA Lab"
+      case "DAA":
+        return "DESIGN & ANALYSIS OF ALGO"
+      case "EOD":
+        return "Economics Of Development"
+      case "IEC":
+        return "International Economic Cooperation"
+      case "AI":
+        return "Artificial Intelligence"
+      case "ML":
+        return "Machine Learning"
+      case "HPC":
+        return "HIGH PERFORMANCE COMPUT"
+      case "IoT":
+        return "Internet Of Things"
+      case "DMDW":
+        console.log("here")
+        return "Data Mining and Data Warehousing"
+      case "BD":
+        return "Big Data"
+      case "DSA":
+        return "Data Science and Analytics"
+      case "DOS":
+        return "Distributed Operating System"
+      case "CI":
+        return "Computational Intelligence"
+      case "CD":
+        return "Compilers"
+
+      case "AD(L)":
         return "Applications Development Laboratory"
 
-        case "AD":
-          return "Applications Development"
+      case "AD":
+        return "Applications Development"
 
-        case "AI(L)":
-          return "Artificial Intelligence Laboratory"
+      case "AI(L)":
+        return "Artificial Intelligence Laboratory"
 
-        case "ML(L)":
-          return "Machine Learning Laboratory"
+      case "ML(L)":
+        return "Machine Learning Laboratory"
 
-        case "SPM":
-          return "Software Project Management"
+      case "SPM":
+        return "Software Project Management"
 
-        case "CC":
-          return "CLOUD COMPUTING"
+      case "CC":
+        return "CLOUD COMPUTING"
 
-        case "CC(L)":
-          return "Cloud Computing Lab"
+      case "CC(L)":
+        return "Cloud Computing Lab"
 
-          case "DA(L)":
-            return "Data Analytics Laboratory"
+      case "DA(L)":
+        return "Data Analytics Laboratory"
 
-            case "AP(L)":
-              return "Advance Programming Laboratory"
+      case "AP(L)":
+        return "Advance Programming Laboratory"
 
-              case "AP":
-                return "Advance Programming"
+      case "AP":
+        return "Advance Programming"
 
-                case "BC":
-                  return "Block Chain"
+      case "BC":
+        return "Block Chain"
 
-                  case "WMC":
-                    return "Wireless Mobile Communication"
+      case "WMC":
+        return "Wireless Mobile Communication"
 
-                    case "WCN(L)":
-                      return "Wireless Communication & Networking Lab"
-
-
-                      case "AAM(L)":
-                        return "ARM Laboratory"
-
-                        case "AAM":
-                          return "ARM and Advanced Microprocessors"
+      case "WCN(L)":
+        return "Wireless Communication & Networking Lab"
 
 
+      case "AAM(L)":
+        return "ARM Laboratory"
 
-              
+      case "AAM":
+        return "ARM and Advanced Microprocessors"
 
 
 
 
-        default:
-          return subject;
-      }
 
+
+
+
+      default:
+        return subject;
     }
 
-     reverseSubjectMap = (fullSubjectName:string) => {
-      console.log(fullSubjectName);
-      switch(fullSubjectName){
+  }
 
-        case "Probability and Statistics":
-          return "PS";
+  reverseSubjectMap = (fullSubjectName: string) => {
+    console.log(fullSubjectName);
+    switch (fullSubjectName) {
+
+      case "Probability and Statistics":
+        return "PS";
       case "Industry 4.0 Technologies":
-          return "IND4";
+        return "IND4";
       case "Data Structure":
-          return "DS";
+        return "DS";
       case "Digital Systems Design":
-          return "DSD";
+        return "DSD";
       case "Automata Theory and Formal Languages":
-          return "AFL";
+        return "AFL";
       case "Scientific and Technical Writing":
-          return "STW";
+        return "STW";
       case "DSD Lab":
-          return "DSD(L)";
+        return "DSD(L)";
       case "Data Structure Lab":
-          return "DS(L)";
+        return "DS(L)";
       case "Communication Engineering":
-          return "CE";
+        return "CE";
       case "COA":
-          return "COA";
+        return "COA";
       case "OOP JAVA":
-          return "OOPJ";
+        return "OOPJ";
       case "CE Lab":
-          return "CE(L)";
-        case "COMPUTER NETWORKS":
-          return "CN";
-        case "SOFTWARE ENGINEERING":
-          return "SE";
-        case "Computer Networks Lab":
-          return "CN Lab";
-        case "Engineering Economics":
-          return "EE";
-        case "DAA Lab":
-          return "DAA Lab";
-        case "DESIGN & ANALYSIS OF ALGO":
-          return "DAA";
-        case "Economics Of Development":
-          return "EOD";
-        case "International Economic Cooperation":
-          return "IEC";
-        case "Artificial Intelligence":
-          return "AI";
-        case "Machine Learning":
-          return "ML";
-        case "HIGH PERFORMANCE COMPUT":
-          return "HPC";
-        case "Internet Of Things":
-          return "IoT";
-        case "Data Mining and Data Warehousing":
-          console.log("here");
-          return "DMDW";
-        case "Big Data":
-          return "BD";
-        case "Data Science and Analytics":
-          return "DSA";
-        case "Distributed Operating System":
-          return "DOS";
-        case "Computational Intelligence":
-          return "CI";
-        case "COMPILER DESIGN":
-          return "CD";
+        return "CE(L)";
+      case "COMPUTER NETWORKS":
+        return "CN";
+      case "SOFTWARE ENGINEERING":
+        return "SE";
+      case "Computer Networks Lab":
+        return "CN Lab";
+      case "Engineering Economics":
+        return "EE";
+      case "DAA Lab":
+        return "DAA Lab";
+      case "DESIGN & ANALYSIS OF ALGO":
+        return "DAA";
+      case "Economics Of Development":
+        return "EOD";
+      case "International Economic Cooperation":
+        return "IEC";
+      case "Artificial Intelligence":
+        return "AI";
+      case "Machine Learning":
+        return "ML";
+      case "HIGH PERFORMANCE COMPUT":
+        return "HPC";
+      case "Internet Of Things":
+        return "IoT";
+      case "Data Mining and Data Warehousing":
+        console.log("here");
+        return "DMDW";
+      case "Big Data":
+        return "BD";
+      case "Data Science and Analytics":
+        return "DSA";
+      case "Distributed Operating System":
+        return "DOS";
+      case "Computational Intelligence":
+        return "CI";
+      case "COMPILER DESIGN":
+        return "CD";
 
-        case "Applications Development Laboratory":
-          return "AD(L)";
+      case "Applications Development Laboratory":
+        return "AD(L)";
 
-        case "Applications Development":
-          return "AD";
+      case "Applications Development":
+        return "AD";
 
-        case "Artificial Intelligence Laboratory":
-          return "AI(L)";
+      case "Artificial Intelligence Laboratory":
+        return "AI(L)";
 
-        case "Machine Learning Laboratory":
-          return "ML(L)";
+      case "Machine Learning Laboratory":
+        return "ML(L)";
 
-        case "Software Project Management":
-          return "SPM";
+      case "Software Project Management":
+        return "SPM";
 
-        case "CLOUD COMPUTING":
-          return "CC";
+      case "CLOUD COMPUTING":
+        return "CC";
 
-        case "Cloud Computing Lab":
-          return "CC(L)";
+      case "Cloud Computing Lab":
+        return "CC(L)";
 
-          case "Data Analytics Laboratory":
-            return "DA(L)";
+      case "Data Analytics Laboratory":
+        return "DA(L)";
 
-            case "Advance Programming Laboratory":
-              return "AP(L)";
+      case "Advance Programming Laboratory":
+        return "AP(L)";
 
-              case "Advance Programming":
-                return "AP";
+      case "Advance Programming":
+        return "AP";
 
-                case "Block Chain":
-                  return "BC";
+      case "Block Chain":
+        return "BC";
 
-                  case "Wireless Mobile Communication":
-                    return "WMC";
+      case "Wireless Mobile Communication":
+        return "WMC";
 
-                    case "Wireless Communication & Networking Lab":
-                      return "WCN(L)";
-
-
-                      case "ARM Laboratory":
-                        return "AAM(L)";
-
-                        case "ARM and Advanced Microprocessors":
-                          return "AAM";
+      case "Wireless Communication & Networking Lab":
+        return "WCN(L)";
 
 
+      case "ARM Laboratory":
+        return "AAM(L)";
 
-
-                
+      case "ARM and Advanced Microprocessors":
+        return "AAM";
 
 
 
-        default:
-          return fullSubjectName;
-      }
+
+
+
+
+
+      default:
+        return fullSubjectName;
+    }
+  };
+
+  applyColor(rowRef: ExcelJS.Row, color: string) {
+    for (let i = 1; i <= rowRef.cellCount; i++) {
+      rowRef.getCell(i).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    }
+  }
+
+  addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
+    const legendRow = worksheet.addRow([label]);
+    legendRow.eachCell((cell) => {
+      cell.font = {
+        // color: { argb: '' },
+        // White font color
+
+        bold: true,
+        size: 13,
+      };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: color },
+      };
+    });
+  }
+
+  applyColorBasedOnRatio(rowRef: any, ratio: any) {
+    switch (true) {
+      case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FF00'); // Green color
+        break;
+      case ratio >= this.RECOMMENDED_THRESHOLD &&
+        ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, '00FFFF'); // Blue color
+        break;
+      case ratio >= this.AVERAGE_THRESHOLD &&
+        ratio < this.RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FFFF00'); // Yellow color
+        break;
+      case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
+        ratio < this.AVERAGE_THRESHOLD:
+        this.applyColor(rowRef, 'FFA500'); // Orange color
+        break;
+      case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
+        this.applyColor(rowRef, 'FF0000'); // Red color
+        break;
+      default:
+        break;
+
+    }
+  }
+
+  addSiteInformation(worksheet: ExcelJS.Worksheet) {
+    const lines = this.siteInformation.split('\n');
+
+    // Style for bold text
+    const boldStyle = {
+      bold: true,
     };
 
-    applyColor(rowRef: ExcelJS.Row, color: string) {
-      for (let i = 1; i <= rowRef.cellCount; i++) {
-        rowRef.getCell(i).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: color },
-        };
+    // Style for hyperlinks
+    const hyperlinkStyle = {
+      font: {
+        color: { argb: '0000FF' }, // Blue font color
+        underline: true,
+      },
+    };
+
+    // Style for normal text
+    const normalStyle = {};
+
+    lines.forEach((line) => {
+      const cell = worksheet.addRow([line]).getCell(1);
+
+      // Apply styles based on content
+      if (line.includes('Website:')) {
+        cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+      } else if (line.includes('WhatsApp Group:')) {
+        cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+      } else {
+        cell.font = Object.assign({}, boldStyle, normalStyle);
       }
-    }
+    });
 
-    addLegendRow(worksheet: ExcelJS.Worksheet, label: string, color: string) {
-      const legendRow = worksheet.addRow([label]);
-      legendRow.eachCell((cell) => {
-        cell.font = {
-          // color: { argb: '' },
-          // White font color
+    // Add an empty row for separation
+    worksheet.addRow([null]);
+  }
 
-          bold: true,
-          size: 13,
-        };
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: color },
-        };
-      });
-    }
+  addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
+    const now = new Date();
+    const formattedTime = `Report generated on: ${now.toLocaleString()}`;
 
-    applyColorBasedOnRatio(rowRef: any, ratio: any) {
-      switch (true) {
-        case ratio >= this.HIGHLY_RECOMMENDED_THRESHOLD:
-          this.applyColor(rowRef, '00FF00'); // Green color
-          break;
-        case ratio >= this.RECOMMENDED_THRESHOLD &&
-          ratio < this.HIGHLY_RECOMMENDED_THRESHOLD:
-          this.applyColor(rowRef, '00FFFF'); // Blue color
-          break;
-        case ratio >= this.AVERAGE_THRESHOLD &&
-          ratio < this.RECOMMENDED_THRESHOLD:
-          this.applyColor(rowRef, 'FFFF00'); // Yellow color
-          break;
-        case ratio >= this.MODERATELY_RECOMMENDED_THRESHOLD &&
-          ratio < this.AVERAGE_THRESHOLD:
-          this.applyColor(rowRef, 'FFA500'); // Orange color
-          break;
-        case ratio < this.MODERATELY_RECOMMENDED_THRESHOLD:
-          this.applyColor(rowRef, 'FF0000'); // Red color
-          break;
-        default:
-          break;
+    // Style for italicized and gray text
+    const timeStyle = {
+      font: {
+        italic: true,
+        color: { argb: '756562' }, // Gray font color
+      },
+    };
 
-      }
-    }
+    // Add the report generated time with styles
+    worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
+    worksheet.addRow([null]); // Add an empty row for separation
+  }
+  addCustomMessage(worksheet: ExcelJS.Worksheet, message: string) {
 
-    addSiteInformation(worksheet: ExcelJS.Worksheet) {
-      const lines = this.siteInformation.split('\n');
-
-      // Style for bold text
-      const boldStyle = {
+    // Style for italicized and gray text
+    const timeStyle = {
+      font: {
+        // italic: true,
         bold: true,
-      };
+        color: { argb: 'FF0000' }, // red font color
+      },
+    };
 
-      // Style for hyperlinks
-      const hyperlinkStyle = {
-        font: {
-          color: { argb: '0000FF' }, // Blue font color
-          underline: true,
-        },
-      };
-
-      // Style for normal text
-      const normalStyle = {};
-
-      lines.forEach((line) => {
-        const cell = worksheet.addRow([line]).getCell(1);
-
-        // Apply styles based on content
-        if (line.includes('Website:')) {
-          cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
-        } else if (line.includes('WhatsApp Group:')) {
-          cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
-        } else {
-          cell.font = Object.assign({}, boldStyle, normalStyle);
-        }
-      });
-
-      // Add an empty row for separation
-      worksheet.addRow([null]);
-    }
-
-    addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
-      const now = new Date();
-      const formattedTime = `Report generated on: ${now.toLocaleString()}`;
-
-      // Style for italicized and gray text
-      const timeStyle = {
-        font: {
-          italic: true,
-          color: { argb: '756562' }, // Gray font color
-        },
-      };
-
-      // Add the report generated time with styles
-      worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
-      worksheet.addRow([null]); // Add an empty row for separation
-    }
-    addCustomMessage(worksheet: ExcelJS.Worksheet,message:string) {
-
-      // Style for italicized and gray text
-      const timeStyle = {
-        font: {
-          // italic: true,
-          bold:true,
-          color: { argb: 'FF0000' }, // red font color
-        },
-      };
-
-      // Add the report generated time with styles
-      worksheet.addRow([message]).getCell(1).style = timeStyle;
-      worksheet.addRow([null]); // Add an empty row for separation
-    }
+    // Add the report generated time with styles
+    worksheet.addRow([message]).getCell(1).style = timeStyle;
+    worksheet.addRow([null]); // Add an empty row for separation
+  }
   // -------------------------------------------------------
 
 
@@ -22383,379 +22414,379 @@ export class FacultiesReviewService {
 
 
 
-//   HIGHLY_RECOMMENDED_THRESHOLD = 0.8;
-//   RECOMMENDED_THRESHOLD = 0.6;
-//   AVERAGE_THRESHOLD = 0.4;
-//   MODERATELY_RECOMMENDED_THRESHOLD = 0.2;
-//   MIN_INTERACTIONS_THRESHOLD = 5;
-
-//   siteInformation: string = `
-//   Report generated from KIIT-CONNECT WEBSITE.
-//   Website: https://www.kiitconnect.com/
-//   WhatsApp Group: https://chat.whatsapp.com/Bmnw7wm9jUi19HD59bJ8Zn
-//   Auto Generated by KIIT-CONNECT
-// `;
-
-//   checkSemesterSubjects(semester: number, branch: string, subject: string) {
-//     switch (branch) {
-//       case 'CSE':
-//         switch (semester) {
-//           case 1:
-//             break;
-//           case 2:
-//             break;
-
-//           case 3:
-//             break;
-
-//           case 4:
-//             break;
-
-//           case 5:
-//             break;
-//           case 6:
-//             const subjectList = [
-//               'machine learning',
-//               'artificial intelligence',
-//               'cloud computing',
-//               'software project management',
-//             ];
-//             return subjectList.includes(subject);
-//           default:
-//             break;
-//         }
-
-//         break;
-
-//       case 'CSSE':
-//         switch (semester) {
-//           case 1:
-//             break;
-
-//           case 2:
-//             break;
-
-//           case 3:
-//             break;
-
-//           case 4:
-//             break;
-
-//           case 5:
-//             break;
-//           case 6:
-//             break;
-
-//           default:
-//             break;
-//         }
-
-//         break;
-
-//       case 'CSCE':
-//         switch (semester) {
-//           case 1:
-//             break;
-
-//           case 2:
-//             break;
-
-//           case 3:
-//             break;
-
-//           case 4:
-//             break;
-
-//           case 5:
-//             break;
-//           case 6:
-//             break;
-
-//           default:
-//             break;
-//         }
-
-//         break;
-
-//       case 'IT':
-//         switch (semester) {
-//           case 1:
-//             break;
-
-//           case 2:
-//             break;
-
-//           case 3:
-//             break;
-
-//           case 4:
-//             break;
-
-//           case 5:
-//             break;
-//           case 6:
-//             const subjectList = [
-//               'machine learning',
-//               'cloud computing',
-//               'data science and analytics',
-//               'software project management',
-//             ];
-
-//             return subjectList.includes(subject);
-
-//           default:
-//             return false;
-//         }
-//         break;
-
-//       default:
-//         return false;
-//     }
-
-//     //   const subjectList = [
-//     //     "Industry 4.0 Technologies",
-//     //     "Data Structure",
-//     //     "Digital Systems Design",
-//     //     "Automata Theory and Formal Languages",
-//     //     "Scientific and Technical Writing",
-//     //     "DSD Lab",
-//     //     "Data Structure Lab",
-//     //     "Communication Engineering",
-//     //     "COA",
-//     //     "OOP JAVA",
-//     //     "Probability and Statistics",
-//     //     'CE Lab'
-//     //   ];
-
-//     // }
-//   }
-
-//   reverseSubjectMap(fullSubjectName: string): string {
-//     const subjectMapping: { [key: string]: string } = {
-//       'Cloud Computing': 'Cloud Computing',
-//       'Artificial Intelligence': 'Artificial Intelligence',
-//       'Machine Learning': 'Machine Learning',
-//       'Software Project Management': 'Software Project Management',
-//       // Add other mappings here
-//     };
-//     return subjectMapping[fullSubjectName] || fullSubjectName;
-//   }
-
-//   async generateReport(data: { branch: string; semester: number }) {
-//     const TeachersBySubject: { [key: string]: any[] } = {};
-
-//     const branchId = await this.prisma.branch.findUnique({
-//       where: { name: data.branch },
-//     });
-//     if (!branchId) throw new BadRequestException('Branch not found');
-
-//     const semester = await this.prisma.semester.findUnique({
-//       where: {
-//         number: data.semester,
-//         branchId: branchId.id,
-//       },
-//     });
-//     if (!semester || !semester.isFacultyReviewEnabled) {
-//       throw new ServiceUnavailableException(
-//         'Faculty Review is not enabled for this semester',
-//       );
-//     }
-
-//     const facultiesData = await this.prisma.facultiesDetails.findMany({
-//       where: {
-//         semesterSection: { some: { semesterId: semester.id } },
-//       },
-//       include: {
-//         subject: { select: { name: true } },
-//         reviews: { select: { id: true, comments: true } },
-//       },
-//     });
-
-//     facultiesData.forEach((faculty) => {
-//       faculty.subject.forEach((subject) => {
-//         const subjectName = this.reverseSubjectMap(subject.name);
-
-//         if(!this.checkSemesterSubjects(data.semester,data.branch,subjectName.toLowerCase())) return;
-
-//         if (!TeachersBySubject[subjectName]) {
-//           TeachersBySubject[subjectName] = [];
-//         }
-
-
-//         TeachersBySubject[subjectName].push({
-//           name: faculty.name,
-//           likes: faculty.likesId?.length || 0,
-//           dislikes: faculty.dislikesId?.length || 0,
-//           reviews: faculty.reviews
-//             .map((review) => review.comments)
-//             .filter(Boolean),
-//         });
-//       });
-//     });
-
-//     const workbook = new ExcelJS.Workbook();
-//     const worksheet = workbook.addWorksheet('Faculty Report');
-
-//     this.addSiteInformation(worksheet);
-//     this.addReportGeneratedTime(worksheet);
-//     this.addLegend(worksheet);
-
-//     Object.keys(TeachersBySubject).forEach((subjectName) => {
-//       const subjectRow = worksheet.addRow([`Subject: ${subjectName}`]);
-//       this.applyColor(subjectRow, 'ADD8E6'); // Light Blue for subject header
-
-//       worksheet.addRow(['Faculty Name', 'Likes', 'Dislikes', 'Reviews']); // Table header
-
-//       worksheet.columns = [
-//         { header: "Faculty Name", width: 1 / 0.02645833 }, // 15 cm
-//         { header: "Likes", width: 0.6 / 0.02645833 }, // 10 cm
-//         { header: "Dislikes", width: 0.3 / 0.02645833 }, // 10 cm 
-//         { header: "Reviews", width: 10 / 0.02645833 }, // 10 cm
-//         // { header:"Reviews", width: 0.3 / 0.02645833 }, // 10 cm 
-//         // Add more columns if needed
-//     ];
-
-//       TeachersBySubject[subjectName].forEach((faculty) => {
-//         const row = worksheet.addRow([
-//           faculty.name,
-//           faculty.likes,
-//           faculty.dislikes,
-//           faculty.reviews.join('; '),
-//         ]);
-
-//         // Calculate and apply color based on the ratio of likes to dislikes
-//         // const totalInteractions = faculty.likes + faculty.dislikes;
-//         // const ratio =
-//         //   totalInteractions >= this.MIN_INTERACTIONS_THRESHOLD
-//         //     ? faculty.likes / totalInteractions
-//         //     : 0;
-//         // this.applyColorBasedOnRatio(row, ratio);
-
-
-
-//         // const values = headers.map((header) => row[header]);
-//         // const rowRef = worksheet.addRow(values);
-
-//         const totalInteractions = faculty.likes + faculty.dislikes;
-
-//         if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
-//           return 0; // Not enough interactions for a reliable recommendation
-//         }
-
-
-//         // export const applyColorBasedOnRatio = (like: number, dislike: number) => {
-//         //   const totalInteractions = like + dislike;
-        
-//         //   if (totalInteractions < MIN_INTERACTIONS_THRESHOLD) {
-//         //     return {
-//         //       color: "text-cyan-500",
-//         //       text: "In Progress",
-//         //     };
-//         //     // Not enough interactions for a reliable recommendation
-//         //   }
-        
-//         //   const p = like / totalInteractions;
-//         //   const ratio = Math.round(p * 100) / 100;
-      
-
-//         // const rat = row.likes / Math.max(row.dislikes, 1);
-
-
-//         const rat = faculty.likes / totalInteractions;
-//                 //   const ratio = Math.round(p * 100) / 100;
-
-
-//         const ratio = Math.round(rat * 100) / 100;
-//         console.log(ratio);
-      
-//         // const p = Math.round(ratio * 100) / 100;
-//         this.applyColorBasedOnRatio(row, ratio);
-        
-
-//       });
-
-//       worksheet.addRow([]); // Add spacing between subjects
-//     });
-
-//     const filePath = `${data.branch}-${data.semester}-FacultyReport.xlsx`;
-//     await workbook.xlsx.writeFile(filePath);
-
-//     return {
-//       message: 'Report generated successfully',
-//       path: filePath,
-//     };
-//   }
-//   // }
-
-
-
-//   addSiteInformation(worksheet: ExcelJS.Worksheet) {
-//     const lines = this.siteInformation.split('\n');
-
-//     // Style for bold text
-//     const boldStyle = {
-//       bold: true,
-//     };
-
-//     // Style for hyperlinks
-//     const hyperlinkStyle = {
-//       font: {
-//         color: { argb: '0000FF' }, // Blue font color
-//         underline: true,
-//       },
-//     };
-
-//     // Style for normal text
-//     const normalStyle = {};
-
-//     lines.forEach((line) => {
-//       const cell = worksheet.addRow([line]).getCell(1);
-
-//       // Apply styles based on content
-//       if (line.includes('Website:')) {
-//         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
-//       } else if (line.includes('WhatsApp Group:')) {
-//         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
-//       } else {
-//         cell.font = Object.assign({}, boldStyle, normalStyle);
-//       }
-//     });
-
-//     // Add an empty row for separation
-//     worksheet.addRow([null]);
-//   }
-
-//   addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
-//     const now = new Date();
-//     const formattedTime = `Report generated on: ${now.toLocaleString()}`;
-
-//     // Style for italicized and gray text
-//     const timeStyle = {
-//       font: {
-//         italic: true,
-//         color: { argb: '756562' }, // Gray font color
-//       },
-//     };
-
-//     // Add the report generated time with styles
-//     worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
-//     worksheet.addRow([null]); // Add an empty row for separation
-//   }
-//   addCustomMessage(worksheet: ExcelJS.Worksheet,message:string) {
-
-//     // Style for italicized and gray text
-//     const timeStyle = {
-//       font: {
-//         // italic: true,
-//         bold:true,
-//         color: { argb: 'FF0000' }, // red font color
-//       },
-//     };
-
-//     // Add the report generated time with styles
-//     worksheet.addRow([message]).getCell(1).style = timeStyle;
-//     worksheet.addRow([null]); // Add an empty row for separation
-//   }
+  //   HIGHLY_RECOMMENDED_THRESHOLD = 0.8;
+  //   RECOMMENDED_THRESHOLD = 0.6;
+  //   AVERAGE_THRESHOLD = 0.4;
+  //   MODERATELY_RECOMMENDED_THRESHOLD = 0.2;
+  //   MIN_INTERACTIONS_THRESHOLD = 5;
+
+  //   siteInformation: string = `
+  //   Report generated from KIIT-CONNECT WEBSITE.
+  //   Website: https://www.kiitconnect.com/
+  //   WhatsApp Group: https://chat.whatsapp.com/Bmnw7wm9jUi19HD59bJ8Zn
+  //   Auto Generated by KIIT-CONNECT
+  // `;
+
+  //   checkSemesterSubjects(semester: number, branch: string, subject: string) {
+  //     switch (branch) {
+  //       case 'CSE':
+  //         switch (semester) {
+  //           case 1:
+  //             break;
+  //           case 2:
+  //             break;
+
+  //           case 3:
+  //             break;
+
+  //           case 4:
+  //             break;
+
+  //           case 5:
+  //             break;
+  //           case 6:
+  //             const subjectList = [
+  //               'machine learning',
+  //               'artificial intelligence',
+  //               'cloud computing',
+  //               'software project management',
+  //             ];
+  //             return subjectList.includes(subject);
+  //           default:
+  //             break;
+  //         }
+
+  //         break;
+
+  //       case 'CSSE':
+  //         switch (semester) {
+  //           case 1:
+  //             break;
+
+  //           case 2:
+  //             break;
+
+  //           case 3:
+  //             break;
+
+  //           case 4:
+  //             break;
+
+  //           case 5:
+  //             break;
+  //           case 6:
+  //             break;
+
+  //           default:
+  //             break;
+  //         }
+
+  //         break;
+
+  //       case 'CSCE':
+  //         switch (semester) {
+  //           case 1:
+  //             break;
+
+  //           case 2:
+  //             break;
+
+  //           case 3:
+  //             break;
+
+  //           case 4:
+  //             break;
+
+  //           case 5:
+  //             break;
+  //           case 6:
+  //             break;
+
+  //           default:
+  //             break;
+  //         }
+
+  //         break;
+
+  //       case 'IT':
+  //         switch (semester) {
+  //           case 1:
+  //             break;
+
+  //           case 2:
+  //             break;
+
+  //           case 3:
+  //             break;
+
+  //           case 4:
+  //             break;
+
+  //           case 5:
+  //             break;
+  //           case 6:
+  //             const subjectList = [
+  //               'machine learning',
+  //               'cloud computing',
+  //               'data science and analytics',
+  //               'software project management',
+  //             ];
+
+  //             return subjectList.includes(subject);
+
+  //           default:
+  //             return false;
+  //         }
+  //         break;
+
+  //       default:
+  //         return false;
+  //     }
+
+  //     //   const subjectList = [
+  //     //     "Industry 4.0 Technologies",
+  //     //     "Data Structure",
+  //     //     "Digital Systems Design",
+  //     //     "Automata Theory and Formal Languages",
+  //     //     "Scientific and Technical Writing",
+  //     //     "DSD Lab",
+  //     //     "Data Structure Lab",
+  //     //     "Communication Engineering",
+  //     //     "COA",
+  //     //     "OOP JAVA",
+  //     //     "Probability and Statistics",
+  //     //     'CE Lab'
+  //     //   ];
+
+  //     // }
+  //   }
+
+  //   reverseSubjectMap(fullSubjectName: string): string {
+  //     const subjectMapping: { [key: string]: string } = {
+  //       'Cloud Computing': 'Cloud Computing',
+  //       'Artificial Intelligence': 'Artificial Intelligence',
+  //       'Machine Learning': 'Machine Learning',
+  //       'Software Project Management': 'Software Project Management',
+  //       // Add other mappings here
+  //     };
+  //     return subjectMapping[fullSubjectName] || fullSubjectName;
+  //   }
+
+  //   async generateReport(data: { branch: string; semester: number }) {
+  //     const TeachersBySubject: { [key: string]: any[] } = {};
+
+  //     const branchId = await this.prisma.branch.findUnique({
+  //       where: { name: data.branch },
+  //     });
+  //     if (!branchId) throw new BadRequestException('Branch not found');
+
+  //     const semester = await this.prisma.semester.findUnique({
+  //       where: {
+  //         number: data.semester,
+  //         branchId: branchId.id,
+  //       },
+  //     });
+  //     if (!semester || !semester.isFacultyReviewEnabled) {
+  //       throw new ServiceUnavailableException(
+  //         'Faculty Review is not enabled for this semester',
+  //       );
+  //     }
+
+  //     const facultiesData = await this.prisma.facultiesDetails.findMany({
+  //       where: {
+  //         semesterSection: { some: { semesterId: semester.id } },
+  //       },
+  //       include: {
+  //         subject: { select: { name: true } },
+  //         reviews: { select: { id: true, comments: true } },
+  //       },
+  //     });
+
+  //     facultiesData.forEach((faculty) => {
+  //       faculty.subject.forEach((subject) => {
+  //         const subjectName = this.reverseSubjectMap(subject.name);
+
+  //         if(!this.checkSemesterSubjects(data.semester,data.branch,subjectName.toLowerCase())) return;
+
+  //         if (!TeachersBySubject[subjectName]) {
+  //           TeachersBySubject[subjectName] = [];
+  //         }
+
+
+  //         TeachersBySubject[subjectName].push({
+  //           name: faculty.name,
+  //           likes: faculty.likesId?.length || 0,
+  //           dislikes: faculty.dislikesId?.length || 0,
+  //           reviews: faculty.reviews
+  //             .map((review) => review.comments)
+  //             .filter(Boolean),
+  //         });
+  //       });
+  //     });
+
+  //     const workbook = new ExcelJS.Workbook();
+  //     const worksheet = workbook.addWorksheet('Faculty Report');
+
+  //     this.addSiteInformation(worksheet);
+  //     this.addReportGeneratedTime(worksheet);
+  //     this.addLegend(worksheet);
+
+  //     Object.keys(TeachersBySubject).forEach((subjectName) => {
+  //       const subjectRow = worksheet.addRow([`Subject: ${subjectName}`]);
+  //       this.applyColor(subjectRow, 'ADD8E6'); // Light Blue for subject header
+
+  //       worksheet.addRow(['Faculty Name', 'Likes', 'Dislikes', 'Reviews']); // Table header
+
+  //       worksheet.columns = [
+  //         { header: "Faculty Name", width: 1 / 0.02645833 }, // 15 cm
+  //         { header: "Likes", width: 0.6 / 0.02645833 }, // 10 cm
+  //         { header: "Dislikes", width: 0.3 / 0.02645833 }, // 10 cm 
+  //         { header: "Reviews", width: 10 / 0.02645833 }, // 10 cm
+  //         // { header:"Reviews", width: 0.3 / 0.02645833 }, // 10 cm 
+  //         // Add more columns if needed
+  //     ];
+
+  //       TeachersBySubject[subjectName].forEach((faculty) => {
+  //         const row = worksheet.addRow([
+  //           faculty.name,
+  //           faculty.likes,
+  //           faculty.dislikes,
+  //           faculty.reviews.join('; '),
+  //         ]);
+
+  //         // Calculate and apply color based on the ratio of likes to dislikes
+  //         // const totalInteractions = faculty.likes + faculty.dislikes;
+  //         // const ratio =
+  //         //   totalInteractions >= this.MIN_INTERACTIONS_THRESHOLD
+  //         //     ? faculty.likes / totalInteractions
+  //         //     : 0;
+  //         // this.applyColorBasedOnRatio(row, ratio);
+
+
+
+  //         // const values = headers.map((header) => row[header]);
+  //         // const rowRef = worksheet.addRow(values);
+
+  //         const totalInteractions = faculty.likes + faculty.dislikes;
+
+  //         if (totalInteractions < this.MIN_INTERACTIONS_THRESHOLD) {
+  //           return 0; // Not enough interactions for a reliable recommendation
+  //         }
+
+
+  //         // export const applyColorBasedOnRatio = (like: number, dislike: number) => {
+  //         //   const totalInteractions = like + dislike;
+
+  //         //   if (totalInteractions < MIN_INTERACTIONS_THRESHOLD) {
+  //         //     return {
+  //         //       color: "text-cyan-500",
+  //         //       text: "In Progress",
+  //         //     };
+  //         //     // Not enough interactions for a reliable recommendation
+  //         //   }
+
+  //         //   const p = like / totalInteractions;
+  //         //   const ratio = Math.round(p * 100) / 100;
+
+
+  //         // const rat = row.likes / Math.max(row.dislikes, 1);
+
+
+  //         const rat = faculty.likes / totalInteractions;
+  //                 //   const ratio = Math.round(p * 100) / 100;
+
+
+  //         const ratio = Math.round(rat * 100) / 100;
+  //         console.log(ratio);
+
+  //         // const p = Math.round(ratio * 100) / 100;
+  //         this.applyColorBasedOnRatio(row, ratio);
+
+
+  //       });
+
+  //       worksheet.addRow([]); // Add spacing between subjects
+  //     });
+
+  //     const filePath = `${data.branch}-${data.semester}-FacultyReport.xlsx`;
+  //     await workbook.xlsx.writeFile(filePath);
+
+  //     return {
+  //       message: 'Report generated successfully',
+  //       path: filePath,
+  //     };
+  //   }
+  //   // }
+
+
+
+  //   addSiteInformation(worksheet: ExcelJS.Worksheet) {
+  //     const lines = this.siteInformation.split('\n');
+
+  //     // Style for bold text
+  //     const boldStyle = {
+  //       bold: true,
+  //     };
+
+  //     // Style for hyperlinks
+  //     const hyperlinkStyle = {
+  //       font: {
+  //         color: { argb: '0000FF' }, // Blue font color
+  //         underline: true,
+  //       },
+  //     };
+
+  //     // Style for normal text
+  //     const normalStyle = {};
+
+  //     lines.forEach((line) => {
+  //       const cell = worksheet.addRow([line]).getCell(1);
+
+  //       // Apply styles based on content
+  //       if (line.includes('Website:')) {
+  //         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+  //       } else if (line.includes('WhatsApp Group:')) {
+  //         cell.font = Object.assign({}, boldStyle, hyperlinkStyle);
+  //       } else {
+  //         cell.font = Object.assign({}, boldStyle, normalStyle);
+  //       }
+  //     });
+
+  //     // Add an empty row for separation
+  //     worksheet.addRow([null]);
+  //   }
+
+  //   addReportGeneratedTime(worksheet: ExcelJS.Worksheet) {
+  //     const now = new Date();
+  //     const formattedTime = `Report generated on: ${now.toLocaleString()}`;
+
+  //     // Style for italicized and gray text
+  //     const timeStyle = {
+  //       font: {
+  //         italic: true,
+  //         color: { argb: '756562' }, // Gray font color
+  //       },
+  //     };
+
+  //     // Add the report generated time with styles
+  //     worksheet.addRow([formattedTime]).getCell(1).style = timeStyle;
+  //     worksheet.addRow([null]); // Add an empty row for separation
+  //   }
+  //   addCustomMessage(worksheet: ExcelJS.Worksheet,message:string) {
+
+  //     // Style for italicized and gray text
+  //     const timeStyle = {
+  //       font: {
+  //         // italic: true,
+  //         bold:true,
+  //         color: { argb: 'FF0000' }, // red font color
+  //       },
+  //     };
+
+  //     // Add the report generated time with styles
+  //     worksheet.addRow([message]).getCell(1).style = timeStyle;
+  //     worksheet.addRow([null]); // Add an empty row for separation
+  //   }
 
 
 
@@ -22853,7 +22884,7 @@ export class FacultiesReviewService {
   //     //   // Highly recommended
   //     //    this.applyColor(rowRef, '00FF00'); // Green color
   //     //   break;
-  
+
   //     // case ratio >= 2 && ratio < 3:
   //     //   // Recommended
   //     //       this.applyColor(rowRef, '00FFFF'); // Blue color
@@ -23008,15 +23039,15 @@ export class FacultiesReviewService {
       const dataClause =
         data.event === 'Like'
           ? {
-              likesId: {
-                set: [...faculty.likesId, ...ids],
-              },
-            }
+            likesId: {
+              set: [...faculty.likesId, ...ids],
+            },
+          }
           : {
-              dislikesId: {
-                set: [...faculty.dislikesId, ...ids],
-              },
-            };
+            dislikesId: {
+              set: [...faculty.dislikesId, ...ids],
+            },
+          };
 
       const updateLikesDislikes = await this.prisma.facultiesDetails.update({
         where: {
@@ -23062,20 +23093,20 @@ export class FacultiesReviewService {
       const yeaterdayStart = new Date();
       yeaterdayStart.setDate(yeaterdayStart.getDate() - 1);
 
-      console.log(todayStart,yeaterdayStart)
-        
+      console.log(todayStart, yeaterdayStart)
+
       const users = await this.prisma.user.findMany({
         where: {
           isPremium: true,
-          email:{
-            startsWith:"24"
+          email: {
+            startsWith: "24"
           }
           // updatedAt: {
           //   gte: todayStart,
           // },
         },
       });
-  
+
       return {
         length: users.length,
         users,
@@ -23085,5 +23116,9429 @@ export class FacultiesReviewService {
       throw new InternalServerErrorException('Unable to count premium users.');
     }
   }
-  
+
+
+  async getAllFaculty() {
+    try {
+      const faculties = await this.prisma.facultiesDetails.findMany({
+        select: {
+          likesId: true,
+          dislikesId: true,
+          id: true,
+          name: true,
+          reviews: {
+            select: {
+              comments: true,
+              rating: true,
+              internalScore: true,
+              userId: true,
+            }
+          },
+        }
+      })
+
+      return faculties.map(faculty => ({
+        id: faculty.id,
+        name: faculty.name,
+        likes: faculty.likesId.length,
+        dislikes: faculty.dislikesId.length,
+        reviews: faculty.reviews.map(review => ({
+          comments: review.comments,
+          rating: review.rating,
+          internalScore: review.internalScore,
+          userId: review.userId,
+        })),
+      }));
+
+    } catch (error) {
+      console.error('Error fetching all faculties:', error.message, error.stack);
+      throw new InternalServerErrorException('Unable to fetch all faculties.');
+    }
+  }
+
+  async addTagsAndTagline() {
+    try {
+      const details2 =
+        [
+          {
+            "id": "65a6e829307b55dd84067460",
+            "name": "Manas Ranjan Lenka",
+            "likes": 92,
+            "dislikes": 101,
+            "reviews": [
+              {
+                "comments": "Knowledgeable and nice teaching but very strict ",
+                "rating": 4,
+                "internalScore": 21,
+                "userId": "65b525a447ab2137a3346d25"
+              },
+              {
+                "comments": "ek toh marks nahi diya upar se ghar pe call kar diya",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "65dde4a30fb947f5b2548156"
+              },
+              {
+                "comments": "He will give marks in the midsem if you know the subject.But will cut marks in every possible way in endsems..He gave me 19 in midsem and in endsems our highest is 31 in oops.He didnt even teach that well as per exam question level standards..I would suggest you not to select him as a teacher",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65d07085afa614e831481aeb"
+              },
+              {
+                "comments": " ",
+                "rating": 1,
+                "internalScore": 9,
+                "userId": "65db9fc20fb947f5b25480b0"
+              }
+            ],
+            "tags": [
+              "Strict",
+              "Knowledgeable"
+            ],
+            "tagline": "Knowledgeable but known for being extremely strict with marking and giving low scores."
+          },
+          {
+            "id": "65a6e829307b55dd84067461",
+            "name": "M. Nazma B. J. Naskar",
+            "likes": 6,
+            "dislikes": 5,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Neutral Feedback"
+            ],
+            "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+          },
+          {
+            "id": "65a6e829307b55dd84067462",
+            "name": "Rajdeep Chatterjee",
+            "likes": 77,
+            "dislikes": 27,
+            "reviews": [
+              {
+                "comments": "Bhai GOD inshaan hai. Muh pe phek ke marks dete hain. Koi bhi subject me le lo full marks milega.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0c219afa614e831481b7c"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Popular"
+            ],
+            "tagline": "Overwhelmingly praised for being extremely generous with marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067463",
+            "name": "Mahendra Kumar Gourisaria",
+            "likes": 23,
+            "dislikes": 248,
+            "reviews": [
+              {
+                "comments": "80% of the class got a 25/50 in his internals",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65dae73b0fb947f5b2548047"
+              },
+              {
+                "comments": "Torture",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65df2c2b0fb947f5b25481c6"
+              },
+              {
+                "comments": "Don't..just don't ",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "65d0a762afa614e831481b39"
+              },
+              {
+                "comments": "Maa chud jayegi ",
+                "rating": 5,
+                "internalScore": 13,
+                "userId": "65d1b626afa614e831481c2b"
+              },
+              {
+                "comments": "h",
+                "rating": 1,
+                "internalScore": 1,
+                "userId": "663ef0881cc9557b14866330"
+              },
+              {
+                "comments": "worst ever",
+                "rating": 1,
+                "internalScore": 11,
+                "userId": "65ba835547ab2137a3346dbf"
+              },
+              {
+                "comments": "Drop out kar lena but ise maat lena",
+                "rating": 3,
+                "internalScore": 14,
+                "userId": "65d503e71d4b0e2de0baf5e7"
+              },
+              {
+                "comments": "Ekdum khadus teacher hai mood swings hote hai isko baat baat pe chillayega aur internal toh dega hi nahi  ppt khoke bakbak karega exam mei bhi marks nhi deta hai yeh . Yeh milgaya toh drop out karlena ya fir improvement ke liye tayar rhana\n",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "65d503e71d4b0e2de0baf5e7"
+              },
+              {
+                "comments": "Baap ko phone laga dega ..Galti sey v mat lena",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "65d225724d8381f50c551b5e"
+              },
+              {
+                "comments": "bekar teacher hai marks dega nhi bass katega or baat baat me parent ko call karega",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "667ead443c448e32cdf1a37a"
+              },
+              {
+                "comments": "Exam mein pakar liya tha...... maa chod diya tha ",
+                "rating": 1,
+                "internalScore": 1,
+                "userId": "67476179539efe3be1810db4"
+              },
+              {
+                "comments": "One of the worst teacher out there in KIIT .Dont take his section even by mistake . kuch padhana bhi aata nahi he ",
+                "rating": 5,
+                "internalScore": 10,
+                "userId": "65d1944cafa614e831481c05"
+              },
+              {
+                "comments": "One of the worst teacher out there in KIIT.Dont take his section by mistake even . kuch padhana to aata nahi bas gaali gaali and gaali",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "65d1944cafa614e831481c05"
+              },
+              {
+                "comments": "if i have option to go with my enemy or Mahendra Kumar Gourisaria..i will surely choose my enemy as my teacher....samjha jau kitna harami teacher hai Gourisaria..mistakely you have choose him then i will suggest you to leave KIIT and go back your city..it will better to go back to city",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "664f42efd14af87f44250073"
+              },
+              {
+                "comments": "bkl hee ek no kaa\n",
+                "rating": 1,
+                "internalScore": 11,
+                "userId": "6691ee1497969283509b0b67"
+              },
+              {
+                "comments": "average teacher",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "6693521ce41f723588baa52f"
+              },
+              {
+                "comments": "bohot bada randi ka baccha hai bhul k bhi maat lena liya to samajhna ki udhta tir gaand me lena , haar baat pe baap ko phone karega , bsdwala hai agar ye madharchod  behen ka lauda bahar mila to iski maa zarur chodna aur mujhe bhi bulana\n",
+                "rating": 1,
+                "internalScore": 1,
+                "userId": "66a0e76e42841c454a166ca0"
+              }
+            ],
+            "tags": [
+              "Avoid",
+              "Unpopular"
+            ],
+            "tagline": "Overwhelmingly negative feedback; cited for strict marking, poor teaching, and unprofessional behavior."
+          },
+          {
+            "id": "65a6e829307b55dd84067464",
+            "name": "Partha Pratim Sarangi",
+            "likes": 52,
+            "dislikes": 32,
+            "reviews": [
+              {
+                "comments": "Worst teacher ever! Even with 88% attendance I got bad internals. Very strict teacher if you come late even by 3-5 mins he will not allow you to enter. If you are caught using mobile phone then you are gone. Bhai ghar par call kar deta hai aur marks bhejega tab father cc mein honge",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65db52e90fb947f5b2548085"
+              },
+              {
+                "comments": "Biased towards toppers... All green wala upar ke toppers hi honge",
+                "rating": 3,
+                "internalScore": 18,
+                "userId": "6614382ef3924a11a97cb2ec"
+              },
+              {
+                "comments": "Topper k liye biased nhi hai sir but he will appreciate class participation and your internal will depend on how much you scored in mid sems. Avg internal of class was 25",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ddd73b0fb947f5b2548152"
+              },
+              {
+                "comments": "he is best",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65db52e90fb947f5b2548085"
+              }
+            ],
+            "tags": [
+              "Strict",
+              "Biased"
+            ],
+            "tagline": "Mixed reviews; some say he is the best, while others find him very strict and biased towards toppers."
+          },
+          {
+            "id": "65a6e829307b55dd84067465",
+            "name": "Monideepa Roy",
+            "likes": 17,
+            "dislikes": 55,
+            "reviews": [
+              {
+                "comments": "very good",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65d775f90fb947f5b2547e9d"
+              },
+              {
+                "comments": "bhai teacher ko class sa koi matlab nhi h baki study to bhul hi jao ha internals k liye strugle krna padega  like viva and all ",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "65db52e90fb947f5b2548085"
+              },
+              {
+                "comments": "As compared to other teachers she gives usually average marks to all of students . Bakki class mein aa kar bass ppt read karegi aur haan exam mein over all thik marks de deti hai.",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "663f38091cc9557b14866374"
+              },
+              {
+                "comments": "Internal km degi ... copy check average krti h ...padhati kuch nhi",
+                "rating": 5,
+                "internalScore": 24,
+                "userId": "664ebeba37a2080992d76a41"
+              },
+              {
+                "comments": "Please don't ever select her section because we went through hell when conducting the internal assessments with her. She made us stay during the vacations for the defaulter whereas the other teachers conducted it beforehand on request and for her we even had to visit the director himself for the change of dates and plans and still it didn't work for us... like she literally made us cry during our end semesters ",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "6618ea78a909c6db59a41fb5"
+              },
+              {
+                "comments": "doesnt comply with students. doesnt listens to any reaasoning of the student even if its justified. Does what she want to do.",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "665df147814ee23b7a2e7007"
+              },
+              {
+                "comments": "Does not know how to teach.\nChecks copy without giving notes\nvery strict \ngives very less marks",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "66f1b9a2f740b2b3e5002da3"
+              },
+              {
+                "comments": "Galti se bhi mat lena. Agar back lagwana hai toh le sakte ho. Padhati kuch nhi internals bhi nhi mile wala aur exam me katega alag.",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "66630338182c6fb152acc2bc"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Poor Teaching"
+            ],
+            "tagline": "Mostly negative feedback; common complaints include poor teaching, being uncooperative, and giving low marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067466",
+            "name": "Pradeep Kandula",
+            "likes": 46,
+            "dislikes": 61,
+            "reviews": [
+              {
+                "comments": "he doesn't give marks!",
+                "rating": 3,
+                "internalScore": 21,
+                "userId": "65d6ec2ba226064c68a248ca"
+              },
+              {
+                "comments": "worst faculty",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "65d09fbdafa614e831481b2a"
+              },
+              {
+                "comments": "Teaches good, Gives deserving marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d2f3365e6adfcd7bc0c116"
+              },
+              {
+                "comments": "Good teacher ",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65e1f7f7cc176893883e48bd"
+              },
+              {
+                "comments": "no extra marks ...just deserving marks\n",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65d4c12daa980c579a71dabd"
+              },
+              {
+                "comments": "gave good marks in both mid and end sem (oops java).",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "664eeec6d14af87f4424ffb6"
+              },
+              {
+                "comments": "gives deserving mark.. if good interaction during classes then might increase",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "664379b01cc9557b1486643c"
+              },
+              {
+                "comments": "if you are the one who would go to class just to sleep and enjoy ...he is very chill do anything in class he wont bother u much come teach and go ....average teaching skills but gives u good marks ..overall recommended ",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "668056ab91e026a159f63174"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Chill"
+            ],
+            "tagline": "Largely positive feedback; described as a good teacher who gives deserving marks and can be chill in class."
+          },
+          {
+            "id": "65a6e829307b55dd84067467",
+            "name": "Murari Mandal",
+            "likes": 19,
+            "dislikes": 78,
+            "reviews": [
+              {
+                "comments": "awful teacher! neither does he bother to teach and complete syllabus nor does he give decent internals",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "667efc84eaf7c4627682234b"
+              },
+              {
+                "comments": "bohot bada harami hai ye mat lena ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "This is a test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              },
+              {
+                "comments": "This is a test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "67c3d559d3e72b4dfd56fa95"
+              },
+              {
+                "comments": "This is a test message\n",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              },
+              {
+                "comments": "This is a test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              },
+              {
+                "comments": "this is test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              },
+              {
+                "comments": "This is a test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              },
+              {
+                "comments": "This is a test message ",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Bhai test",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Genuine comments describe him as an awful teacher who doesn't complete the syllabus or give decent marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067468",
+            "name": "Manjusha Pandey",
+            "likes": 14,
+            "dislikes": 18,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Controversial"
+            ],
+            "tagline": "No detailed reviews are available; the close like/dislike ratio suggests a divided student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd84067469",
+            "name": "Partha Sarathi Paul",
+            "likes": 19,
+            "dislikes": 23,
+            "reviews": [
+              {
+                "comments": "Bhai inko dekh k hi neend aa jaati hai. Tumhara answer jaisha bhi ho, agar answer script se match nhi kiya to marks nhi milega, step marks to bhul jao. ",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65db30540fb947f5b2548074"
+              }
+            ],
+            "tags": [
+              "Strict Marking",
+              "Boring Lectures"
+            ],
+            "tagline": "Feedback highlights a boring teaching style and extremely strict marking with no partial credit."
+          },
+          {
+            "id": "65a6e829307b55dd8406746a",
+            "name": "Lipika Dewangan",
+            "likes": 12,
+            "dislikes": 60,
+            "reviews": [
+              {
+                "comments": "Madarchod ka madarchod ",
+                "rating": 5,
+                "internalScore": 18,
+                "userId": "65d0f408afa614e831481bb8"
+              },
+              {
+                "comments": "Maam padhati achhi hai par internal aur mid sem mein deserving se kam marks deti hai aur end sem mein achhha marks deti hai aur pata nhi q padhate time achanak se psycho ho jati hai aur bina karan se bhi chillane lag jati hai. ",
+                "rating": 2,
+                "internalScore": 21,
+                "userId": "65ba835547ab2137a3346dbf"
+              },
+              {
+                "comments": "pata nhi hum toh shok mein krdiya hain\n",
+                "rating": 1,
+                "internalScore": 28,
+                "userId": "65ddd73b0fb947f5b2548152"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Unpredictable"
+            ],
+            "tagline": "Known for good teaching but also for harsh internal marking and unpredictable, unprofessional behavior."
+          },
+          {
+            "id": "65a6e829307b55dd8406746b",
+            "name": "Rajat Kumar Behera",
+            "likes": 12,
+            "dislikes": 90,
+            "reviews": [
+              {
+                "comments": "He is the worst teacher you can get.",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d18373afa614e831481bfb"
+              },
+              {
+                "comments": "Worst teacher in KIIT. Just avoid him for your own good.",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "6625eb0bad6e7bd16c843fd9"
+              },
+              {
+                "comments": "madarchod hey. he has a mental problem. ",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d60bd2cbccf4670b3ca118"
+              },
+              {
+                "comments": "He is the worst techer in KIIT. Just avoid him at any cost\n",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "6625eb0bad6e7bd16c843fd9"
+              },
+              {
+                "comments": "Chutiya no.1 hai. Ham v pele gaye the tum b pele jaaoge",
+                "rating": 5,
+                "internalScore": 12,
+                "userId": "66202b85ad6e7bd16c843f05"
+              },
+              {
+                "comments": "Chapri sir hai, No teaching skills and also don't give marks in internal and mid-sem.",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "665e8413814ee23b7a2e7048"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Unanimously labeled as one of the worst teachers; strongly advised to avoid."
+          },
+          {
+            "id": "65a6e829307b55dd8406746c",
+            "name": "Debashis Hati",
+            "likes": 44,
+            "dislikes": 34,
+            "reviews": [
+              {
+                "comments": "best teacher, taught OOPS in the 4th sem, got an O grade",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663676d41cc9557b14866098"
+              },
+              {
+                "comments": "Worst teacher in kiit. Cgpa girana h to jarur lena .Red bhi ni ha black flag hai.  Gave internal 4/30 ",
+                "rating": 1,
+                "internalScore": 4,
+                "userId": "6692b0c2e41f723588baa4f5"
+              },
+              {
+                "comments": "Average teacher, avg padhata hai, but test me sabko alag alag questions dega, direct test aaur quiz ka marks internal me chadata hai, exam me aacha number deta hai",
+                "rating": 3,
+                "internalScore": 24,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Worst teacher in kiit , na padhane aata hai na marks dene ...pata ni kon job diya isko ",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "6730b5425a965de869c43494"
+              },
+              {
+                "comments": "thik teacher h ,avarage pdhate h ,internal 30 bhi dete h ,copy bhi linient check krte h overall a good teacher ",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "668fdca397969283509b08fb"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Inconsistent Marking"
+            ],
+            "tagline": "Extremely polarized reviews; some call him the 'best' while others call him the 'worst'."
+          },
+          {
+            "id": "65a6e829307b55dd8406746d",
+            "name": "Harish Kumar Patnaik",
+            "likes": 15,
+            "dislikes": 42,
+            "reviews": [
+              {
+                "comments": "dont take him",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "65dc8a040fb947f5b25480da"
+              },
+              {
+                "comments": "comes late to class and discuss 1 code and leave",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65d626b0cbccf4670b3ca146"
+              },
+              {
+                "comments": "Neither gives internal marks ",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "66204636ad6e7bd16c843f47"
+              },
+              {
+                "comments": "padhata aacha hai but marks bilkul bhi nahi deta even exam mein if you solve all questions, he will hardly give you 20+ out of 50 ",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "663f38091cc9557b14866374"
+              },
+              {
+                "comments": "Teaches very well but copy thoda strictly check katra hey . other than that if u are ok with descent marks and a good knowledge then he is best",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "667ec73f3c448e32cdf1a445"
+              },
+              {
+                "comments": " Bahut Harami hai",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "667f845177b386dd006297d1"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "Often cited as a good teacher but is extremely strict with marking, making it difficult to score well."
+          },
+          {
+            "id": "65a6e829307b55dd8406746e",
+            "name": "Suchismita Rout",
+            "likes": 18,
+            "dislikes": 8,
+            "reviews": [
+              {
+                "comments": "Padhati bahut aacha, but bahut strict hai , internal itna bhi aacha nahi diya, overall average ",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Accha teacher hai,padhati acchi hai. If you study you will get good marks",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d07085afa614e831481aeb"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Strict"
+            ],
+            "tagline": "Well-regarded for her good teaching; she is very strict, but diligent students can expect good marks."
+          },
+          {
+            "id": "65a6e829307b55dd8406746f",
+            "name": "Pratyusa Mukherjee",
+            "likes": 86,
+            "dislikes": 28,
+            "reviews": [
+              {
+                "comments": "Maintain attendence and she will conduct only 2 tests premid and post mid and whatever you get in test that will be your internal and tests questions are from whatever she taught in the class",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d41c7c5e6adfcd7bc0c1bd"
+              },
+              {
+                "comments": "Jo padhayegi wohi quiz me puchegi agar acha aaya to marks degi nahi to nahi⚠️ baki exam me ache marks deti hai",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "If u are a guy she will give u marks and girl then not at all ",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "668177dc140f159b310ad5a6"
+              },
+              {
+                "comments": "best teacher maintain attendance only",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663f61371cc9557b14866388"
+              },
+              {
+                "comments": "good",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663f61371cc9557b14866388"
+              }
+            ],
+            "tags": [
+              "Attendance Focused",
+              "Biased"
+            ],
+            "tagline": "Popular teacher whose tests are based on her lectures; good attendance is key, but some reviews allege gender bias."
+          },
+          {
+            "id": "65a6e829307b55dd84067470",
+            "name": "Jayeeta Chakraborty",
+            "likes": 16,
+            "dislikes": 31,
+            "reviews": [
+              {
+                "comments": "too less as i did all she said \n",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65b5ebb347ab2137a3346d4f"
+              },
+              {
+                "comments": "marks nhi deti ekdam",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65ddf4060fb947f5b2548164"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Strict Marking"
+            ],
+            "tagline": "Feedback is negative; the primary complaint is that she does not give marks, resulting in low scores."
+          },
+          {
+            "id": "65a6e829307b55dd84067471",
+            "name": "Banhi Sanyal",
+            "likes": 1,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Positive Feedback"
+            ],
+            "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd84067472",
+            "name": "Priyanka Roy",
+            "likes": 14,
+            "dislikes": 85,
+            "reviews": [
+              {
+                "comments": "worst",
+                "rating": 1,
+                "internalScore": -2,
+                "userId": "65c5a0230985a524b12d0455"
+              },
+              {
+                "comments": "worst",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "65ba835547ab2137a3346dbf"
+              },
+              {
+                "comments": "avoid",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65b75f6f47ab2137a3346d7d"
+              },
+              {
+                "comments": "Best teacher, I don't know why everyone disliked",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66768d3a58823a77565cd342"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Overwhelmingly negative feedback, with most reviews simply stating 'worst' or 'avoid'."
+          },
+          {
+            "id": "65a6e829307b55dd84067473",
+            "name": "Shilpa Das",
+            "likes": 6,
+            "dislikes": 27,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Unpopular"
+            ],
+            "tagline": "No detailed reviews are available, but the like/dislike ratio is significantly negative."
+          },
+          {
+            "id": "65a6e829307b55dd84067474",
+            "name": "Anirban Bhattacharjee",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd84067475",
+            "name": "Debanjan Pathak",
+            "likes": 37,
+            "dislikes": 21,
+            "reviews": [
+              {
+                "comments": "Thik Thak",
+                "rating": 4,
+                "internalScore": 23,
+                "userId": "66d3ec2542841c454a166e60"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Decent Teacher"
+            ],
+            "tagline": "Positive feedback based on a high rating and favorable like ratio; described as 'okay/decent'."
+          },
+          {
+            "id": "65a6e829307b55dd84067476",
+            "name": "Hitesh Mohapatra",
+            "likes": 17,
+            "dislikes": 39,
+            "reviews": [
+              {
+                "comments": "Lab meh fail kiya hai kitno ko theory meh kya hi expect karoge",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "WILL MAKE YOUR LIFE LIVING HELL, DO NOT GIVE YOU MARKS AT ALL, AND BEHAVE LIKE IIT PROFESSOR, NOT HAVING ANY OF THE SUBJECT AND HOW TO TEACH",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65be1fe047ab2137a3346ddf"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Very negative reputation; reviews accuse him of failing students and having a poor attitude."
+          },
+          {
+            "id": "65a6e829307b55dd84067477",
+            "name": "Soumya Ranjan Mishra",
+            "likes": 55,
+            "dislikes": 18,
+            "reviews": [
+              {
+                "comments": "He's chill, he wont be a trouble to you.",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65b7558f47ab2137a3346d7a"
+              },
+              {
+                "comments": "Nah not at all good gives very less marks in mid sem and end sem... Don't take Or your semester will be hell. ",
+                "rating": 5,
+                "internalScore": 19,
+                "userId": "6642cad91cc9557b1486642e"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Chill"
+            ],
+            "tagline": "Conflicting feedback; some students find him 'chill,' while others warn of very low marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067478",
+            "name": "Krishnandu Hazra",
+            "likes": 4,
+            "dislikes": 26,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Unpopular"
+            ],
+            "tagline": "No detailed reviews are available, but the like/dislike ratio is highly negative."
+          },
+          {
+            "id": "65a6e829307b55dd84067479",
+            "name": "Prasenjit Maiti",
+            "likes": 73,
+            "dislikes": 12,
+            "reviews": [
+              {
+                "comments": "Has good knowledge of the subject and is very chilled out. Internals aur subject dono me marks mil jainge aaram se",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6680e487140f159b310ad554"
+              },
+              {
+                "comments": "must take him if possible\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d656decbccf4670b3ca16a"
+              },
+              {
+                "comments": "bad",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "661deb71a909c6db59a420b5"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Chill"
+            ],
+            "tagline": "Highly popular; praised for his knowledge, chilled-out demeanor, and lenient marking."
+          },
+          {
+            "id": "65a6e829307b55dd8406747a",
+            "name": "Jhalak Hota",
+            "likes": 6,
+            "dislikes": 20,
+            "reviews": [
+              {
+                "comments": "Matherchod teacher hai afl padhaya tha ussme bhi iska improv. bhare thae usme bhi yahi matherchod mila + exam me invigilator bhi yahi teacher tha",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d619fccbccf4670b3ca137"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Receives negative feedback, with feedback indicating a very poor student experience."
+          },
+          {
+            "id": "65a6e829307b55dd8406747b",
+            "name": "Jaydeep Das",
+            "likes": 39,
+            "dislikes": 83,
+            "reviews": [
+              {
+                "comments": "Very bad teacher. His teaching style is very bad his focus is to complete syllabus. For internals, he would never give full marks for assignments and all. He would take class test which would be of 15 mins and consist of 10 questions which are definitely not easy. He will roam around here and there and will check if you are cheating or not. Try not to go with this teacher otherwise ggs to your marks. Chatne se bhi nahi hoga dega nhi ye marks.",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Poor Teaching"
+            ],
+            "tagline": "Negative reputation; criticized for poor teaching, strict marking, and difficult tests."
+          },
+          {
+            "id": "65a6e829307b55dd8406747c",
+            "name": "Jamimamul Bakas",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd8406747d",
+            "name": "Saikat Chakraborty",
+            "likes": 13,
+            "dislikes": 24,
+            "reviews": [
+              {
+                "comments": "does NOT teach at all!",
+                "rating": 1,
+                "internalScore": 30,
+                "userId": "65d79a780fb947f5b2547ec9"
+              },
+              {
+                "comments": "Bohot test leta h ",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65e0a477cc176893883e488a"
+              },
+              {
+                "comments": "He does not teach well .. And you have to write exact words to get marks",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65bb037a47ab2137a3346dc4"
+              },
+              {
+                "comments": "WORST\n",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65d4bb06aa980c579a71dab7"
+              },
+              {
+                "comments": "his quizzes are the worst (out of 5 class avg is 1), does not teach well at all, very biased. ",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d41c7c5e6adfcd7bc0c1bd"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Poor Teaching"
+            ],
+            "tagline": "Poorly reviewed; complaints include poor teaching, extremely difficult quizzes, and biased, strict marking."
+          },
+          {
+            "id": "65a6e829307b55dd8406747e",
+            "name": "Rabi Shaw",
+            "likes": 19,
+            "dislikes": 129,
+            "reviews": [
+              {
+                "comments": "Probably one of the most evil teachers out there, he actively wants his students to fail miserably and then laugh at their helpless faces. He'll pull some of the the most outlandish bullshit just to make you feel worthless about everything. You CAN, however, get good marks under him if you make a very good impression on him somehow. ",
+                "rating": 1,
+                "internalScore": 30,
+                "userId": "65d2249e4d8381f50c551b5c"
+              },
+              {
+                "comments": "He is actually good, if you maintain discipline in class, have 90% above attendance and sit in first bench. He will give 28+ in internals out of 30. Just don’t disturb in his class, else he will make your semester hell.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b9ef3b47ab2137a3346db6"
+              },
+              {
+                "comments": "Marks depends on his mood 😂 ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d393545e6adfcd7bc0c192"
+              },
+              {
+                "comments": "Just the worst",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "65dd5f6a0fb947f5b2548140"
+              },
+              {
+                "comments": "Not at all recommended",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65d0aa9dafa614e831481b42"
+              },
+              {
+                "comments": "Ro doge jaaoge to ",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65d0aa9dafa614e831481b42"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Moody"
+            ],
+            "tagline": "Highly controversial; most describe him as moody and vindictive, though some get good marks with perfect discipline."
+          },
+          {
+            "id": "65a6e829307b55dd8406747f",
+            "name": "Ipsita Paul",
+            "likes": 27,
+            "dislikes": 83,
+            "reviews": [
+              {
+                "comments": "She don't clear any doubt. Other than study she can talk about anything. Boys who talk random things and entertain her will got marks not on the basis of talent",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65dc953f0fb947f5b25480ec"
+              },
+              {
+                "comments": "Worst teacher don't expect from her",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65d650f2cbccf4670b3ca163"
+              },
+              {
+                "comments": "bad ",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65de0eb40fb947f5b254817e"
+              },
+              {
+                "comments": "Bohot badi madharchod hai ye mat lena koi bhi",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "perfect teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6693521ce41f723588baa52f"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Biased"
+            ],
+            "tagline": "Predominantly negative feedback; criticized for not clearing doubts and for alleged biased marking."
+          },
+          {
+            "id": "65a6e829307b55dd84067480",
+            "name": "Chandani Kumari",
+            "likes": 33,
+            "dislikes": 33,
+            "reviews": [
+              {
+                "comments": "bahut kharab teacher haii... if lab me shanti chahiye please mat lena \n",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "667ea4103c448e32cdf1a31d"
+              },
+              {
+                "comments": "Bas tarif karegi , sar par uthayegi unke favourite students ko..baki kisi ki parwah nahi\n\nPadhati average hai lekin marks bhayankar wala katti hai",
+                "rating": 4,
+                "internalScore": 21,
+                "userId": "662182f7ad6e7bd16c843f68"
+              }
+            ],
+            "tags": [
+              "Biased",
+              "Strict Marking"
+            ],
+            "tagline": "A controversial teacher; described as being biased towards favorite students and very strict with marking."
+          },
+          {
+            "id": "65a6e829307b55dd84067481",
+            "name": "Jayanta Mondal",
+            "likes": 56,
+            "dislikes": 20,
+            "reviews": [
+              {
+                "comments": " ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b7353547ab2137a3346d6a"
+              },
+              {
+                "comments": "Regular class attend karo and assignment karo marks mil jayega",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "classes may feel boring but teaches well",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65d4b246aa980c579a71daab"
+              },
+              {
+                "comments": "agar class me sona hai to best faculty hai",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Bohot mc teacher hai maat lena koi . NPTL k nam pe 1000 rupee le lega fir kabhi nhi lautyaga",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65c21e2f0985a524b12d043a"
+              }
+            ],
+            "tags": [
+              "Good Marks",
+              "Boring Lectures"
+            ],
+            "tagline": "Generally well-liked; students report that attending class and doing assignments leads to good marks, though lectures can be boring."
+          },
+          {
+            "id": "65a6e829307b55dd84067482",
+            "name": "Sujoy Datta",
+            "likes": 104,
+            "dislikes": 19,
+            "reviews": [
+              {
+                "comments": "You will get good internal marks if ur attendance is decent...",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d72a880fb947f5b2547e53"
+              },
+              {
+                "comments": "just maintain assignments and attendence\n",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65c781b70985a524b12d045a"
+              },
+              {
+                "comments": "good teacher, gives decent marks",
+                "rating": 5,
+                "internalScore": -1,
+                "userId": "65dc953f0fb947f5b25480ec"
+              },
+              {
+                "comments": "which sujoy dutta is this assistant controller or another one",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "667ea2513c448e32cdf1a319"
+              },
+              {
+                "comments": "Best teacher very good knowledge and friendly but attend his class regularly he is strict about attendance he wants to teach you. ",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "668fb3ff97969283509b08f2"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Attendance Focused"
+            ],
+            "tagline": "A very popular and highly-regarded teacher; he is knowledgeable and friendly, but good attendance is required for high marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067483",
+            "name": "Tanamay Swain",
+            "likes": 1,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Positive Feedback"
+            ],
+            "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd84067484",
+            "name": "BSP Mishra",
+            "likes": 0,
+            "dislikes": 3,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Negative Feedback"
+            ],
+            "tagline": "No detailed reviews are available; feedback consists only of dislikes, indicating a negative perception."
+          },
+          {
+            "id": "65a6e829307b55dd84067485",
+            "name": "Amulya Ratna Swain",
+            "likes": 81,
+            "dislikes": 26,
+            "reviews": [
+              {
+                "comments": "Bhul se bhi mt lena",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65b752fb47ab2137a3346d77"
+              },
+              {
+                "comments": "Excellent teacher, teaches with intrest and gives deserving marks. ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "66387a961cc9557b14866159"
+              },
+              {
+                "comments": "improvement dene para gaa..gauarantee",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "66202aa3ad6e7bd16c843eed"
+              },
+              {
+                "comments": "One of the best teacher , I got in my engineering student carrer but if you are just focused for marks , a big RED FLAG , want to learn something and doesn't care about marks , GREEN SIGNAL from me",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "66768d3a58823a77565cd342"
+              },
+              {
+                "comments": "This is a test message",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "6809e80b7e1dc443b9805b19"
+              },
+              {
+                "comments": "this is a test message",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "6809e80b7e1dc443b9805b19"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "Praised as an excellent teacher for students who want to learn, but a 'red flag' for those focused only on marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067486",
+            "name": "Asif Uddin Khan",
+            "likes": 34,
+            "dislikes": 37,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Controversial"
+            ],
+            "tagline": "No detailed reviews are available; the close like/dislike ratio suggests a divided student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd84067487",
+            "name": "Dayal Kumar Behera",
+            "likes": 49,
+            "dislikes": 3,
+            "reviews": [
+              {
+                "comments": "He will take surprise test in class and if you attend more than 80% and if you just write anything in exam still he gives marks",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65d4c12daa980c579a71dabd"
+              },
+              {
+                "comments": "Teaches well and gives deserving marks",
+                "rating": 2,
+                "internalScore": 29,
+                "userId": "66204636ad6e7bd16c843f47"
+              },
+              {
+                "comments": "Best teacher. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d225724d8381f50c551b5e"
+              },
+              {
+                "comments": "Give good marks ",
+                "rating": 3,
+                "internalScore": 28,
+                "userId": "66803c5291e026a159f6316a"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Generous Marking"
+            ],
+            "tagline": "A very popular and well-liked teacher; he teaches well and is lenient with marking, especially for students with high attendance."
+          },
+          {
+            "id": "65a6e829307b55dd84067488",
+            "name": "Mandakini Priyadarshini",
+            "likes": 1,
+            "dislikes": 3,
+            "reviews": [
+              {
+                "comments": "Good teacher gives good marks. ",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "663f23021cc9557b1486636e"
+              },
+              {
+                "comments": "Give good marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663f23021cc9557b1486636e"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Good Teaching"
+            ],
+            "tagline": "Despite a negative like/dislike ratio, available reviews are positive, highlighting good teaching and generous marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067489",
+            "name": "Sharbani Purkayastha",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd8406748a",
+            "name": "Sarita Mishra",
+            "likes": 64,
+            "dislikes": 10,
+            "reviews": [
+              {
+                "comments": "BEST.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d0f408afa614e831481bb8"
+              },
+              {
+                "comments": "Not recommended ",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "66204636ad6e7bd16c843f47"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Polarizing"
+            ],
+            "tagline": "A popular teacher with highly polarized reviews ranging from 'BEST' to 'Not recommended'."
+          },
+          {
+            "id": "65a6e829307b55dd8406748b",
+            "name": "Soumya Ranjan Nayak",
+            "likes": 22,
+            "dislikes": 39,
+            "reviews": [
+              {
+                "comments": "South indian Villian ",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "65b5236047ab2137a3346d24"
+              },
+              {
+                "comments": "Very Good teacher... especially good if u can get in his good graces... \"You can't stop me from being myself\"",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65e8bef1cc176893883e48f2"
+              },
+              {
+                "comments": "du6urr6vubt o9uo8 ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d0ffc2afa614e831481bce"
+              },
+              {
+                "comments": "Good \"'if and only if\"' you are attentive and interact with the teacher",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65d51e411d4b0e2de0baf5ee"
+              },
+              {
+                "comments": "Thik thak hi padhata hai ,exam me bas marks Thora ulta sidha deta hai,kabhi kabhi sahi answers p marks nhi dega but recheck p dene se marks badha dega",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65dccb050fb947f5b2548125"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Biased"
+            ],
+            "tagline": "A good teacher for attentive students, as success seems to depend on getting into his 'good graces'."
+          },
+          {
+            "id": "65a6e829307b55dd8406748c",
+            "name": "Om Prakash Singh",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd8406748d",
+            "name": "Sampriti Soor",
+            "likes": 21,
+            "dislikes": 8,
+            "reviews": [
+              {
+                "comments": "Sirf re be tum tam karna aata hai, mithi baatein aur low internals inki khoobi hai",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d4e7501d4b0e2de0baf5d4"
+              }
+            ],
+            "tags": [
+              "Low Internals",
+              "Poorly Rated"
+            ],
+            "tagline": "Despite a positive like/dislike ratio, the single review is very negative, accusing her of 'sweet talk and low internals'."
+          },
+          {
+            "id": "65a6e829307b55dd8406748e",
+            "name": "MD. Shah Fahad",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd8406748f",
+            "name": "Aradhana Behura",
+            "likes": 38,
+            "dislikes": 31,
+            "reviews": [
+              {
+                "comments": "she may not be the best teacher but she will give you marks",
+                "rating": 3,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Just avoid",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Gives Marks",
+              "Avoid"
+            ],
+            "tagline": "Feedback is divided; some say she gives marks despite poor teaching, while others strongly recommend avoiding her."
+          },
+          {
+            "id": "65a6e829307b55dd84067490",
+            "name": "Mainak Chakraborty",
+            "likes": 43,
+            "dislikes": 0,
+            "reviews": [
+              {
+                "comments": "excellent teaching style; gives ample questions for practice; gives excellent marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d3851b5e6adfcd7bc0c183"
+              },
+              {
+                "comments": "Best teacher. Very lenient and gives good marks. Excellent teaching style. Internals mai almost sabko 30/30 diye the AFL mai❤️❤️",
+                "rating": 1,
+                "internalScore": 30,
+                "userId": "65de20f30fb947f5b2548186"
+              },
+              {
+                "comments": "Chill",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0bf01afa614e831481b73"
+              },
+              {
+                "comments": "good teacher and student friendly",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65d9f5510fb947f5b2547ff1"
+              },
+              {
+                "comments": "badhiya samjhate h, chill af and genuine",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65d58983cbccf4670b3ca0d9"
+              },
+              {
+                "comments": "He was the best teacher in kiit.Very chill.But he is dosent teach now in kiit",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d07085afa614e831481aeb"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Generous Marking"
+            ],
+            "tagline": "Outstandingly positive reviews; praised for his excellent teaching, chill demeanor, and for giving great marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067491",
+            "name": "A. Ranjith",
+            "likes": 12,
+            "dislikes": 2,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Popular"
+            ],
+            "tagline": "No detailed reviews are available, but his like/dislike ratio is strongly positive."
+          },
+          {
+            "id": "65a6e829307b55dd84067492",
+            "name": "Ajit Kumar Pasayat",
+            "likes": 74,
+            "dislikes": 7,
+            "reviews": [
+              {
+                "comments": "BEST PERSON, FULL SUPPORT TO STUDENTS AND EXTREMELY STUDENT FRIENDLY\n",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "65d0cff5afa614e831481b8c"
+              },
+              {
+                "comments": "best teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d4bb06aa980c579a71dab7"
+              },
+              {
+                "comments": "Full in internals\\n\\nSir gave extra marks in exam papers also and finally before submitting increased 4-5 marks, he is the best person as a teacher. (Highly recommended and He will surely get you 'O' grades.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "best of best",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Student-Friendly"
+            ],
+            "tagline": "Revered as one of the best and most supportive teachers; known for being extremely student-friendly and exceptionally generous with marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067493",
+            "name": "Raghunath Dey",
+            "likes": 36,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "good teaher linient in marks ",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "65d0ad0cafa614e831481b47"
+              },
+              {
+                "comments": "he's a good one. can be shitty in classes but when it comes to marks, he'll try his best to help you ",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65b7558f47ab2137a3346d7a"
+              },
+              {
+                "comments": "Cool teacher ",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65ec626fcc176893883e4916"
+              },
+              {
+                "comments": "He give's step marking also and chill teacher.",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "660d275530641ad00aae8ada"
+              },
+              {
+                "comments": "Gives decent marks",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "66803c5291e026a159f6316a"
+              }
+            ],
+            "tags": [
+              "Lenient Marking",
+              "Chill"
+            ],
+            "tagline": "A popular and well-liked teacher; described as 'cool' and 'chill' and is known for being lenient and helpful with marks."
+          },
+          {
+            "id": "65a6e829307b55dd84067494",
+            "name": "Mainak Biswas",
+            "likes": 37,
+            "dislikes": 21,
+            "reviews": [
+              {
+                "comments": "Easy to get marks. A little hard to aprroach but studying will get you marks \n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65e0b85fcc176893883e4892"
+              },
+              {
+                "comments": "Lenient ",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65d2454a5e6adfcd7bc0c0e3"
+              },
+              {
+                "comments": "Best teacher.Padhata thk hi hai lekin marks bahut deta hai.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ba835547ab2137a3346dbf"
+              },
+              {
+                "comments": "Very good teacher, chill, easy marks ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65e934cacc176893883e48f3"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Chill"
+            ],
+            "tagline": "Praised for being lenient, chill, and giving very good marks, making it easy to score well."
+          },
+          {
+            "id": "65a6e829307b55dd84067495",
+            "name": "Saurajit Behera",
+            "likes": 8,
+            "dislikes": 0,
+            "reviews": [
+              {
+                "comments": "He gives internal according to quiz and gives excellent marks in mid and end",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65fad0dbece362a62c15d4c0"
+              }
+            ],
+            "tags": [
+              "Excellent Marks",
+              "Quiz-based Internals"
+            ],
+            "tagline": "Praised for giving excellent marks in all exams, with internals based on quiz performance."
+          },
+          {
+            "id": "65a6e829307b55dd84067496",
+            "name": "Jagannath Dass",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd84067497",
+            "name": "Sovan Kumar Sahoo",
+            "likes": 18,
+            "dislikes": 17,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Controversial"
+            ],
+            "tagline": "No detailed reviews are available; the evenly split like/dislike ratio indicates a highly divided student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd84067498",
+            "name": "Abhaya Kumar Sahoo",
+            "likes": 39,
+            "dislikes": 17,
+            "reviews": [
+              {
+                "comments": "He is just nice",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0c473afa614e831481b7f"
+              },
+              {
+                "comments": "He is a very good teacher. If you attend his class regularly and attentively, you can ace your exams and get good internals. He also has a good sense of humour😂. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b754e647ab2137a3346d79"
+              },
+              {
+                "comments": "Na toh padhne ata hei na hi marks Dene sale step marking deta hu nahi agar tum bohot ache student nhi ho toh maat lo",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "6632fac87d32b4eadcd5c27f"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Generous Marking"
+            ],
+            "tagline": "Receives conflicting reviews; praised as a good, humorous teacher, but also criticized for poor teaching and marking."
+          },
+          {
+            "id": "65a6e829307b55dd84067499",
+            "name": "Abhishek Raj",
+            "likes": 82,
+            "dislikes": 23,
+            "reviews": [
+              {
+                "comments": "Attendance Attendance.... Proxy very difficult also gives good internal only if 90% ",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65d44a015e6adfcd7bc0c1d2"
+              }
+            ],
+            "tags": [
+              "Strict",
+              "Attendance Focused"
+            ],
+            "tagline": "Known for being extremely strict about attendance, with high internals only for students with over 90% attendance."
+          },
+          {
+            "id": "65a6e829307b55dd8406749a",
+            "name": "Abhishek Ray",
+            "likes": 14,
+            "dislikes": 15,
+            "reviews": [
+              {
+                "comments": "Internal thik thak de dete hen , lekin class me kuch samjh nahi aaega aaur mid and end me marks bhi kharab milega ",
+                "rating": 1,
+                "internalScore": 28,
+                "userId": "65fad0dbece362a62c15d4c0"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Bad Exam Marks"
+            ],
+            "tagline": "Gives decent internal marks, but his teaching is considered poor, leading to bad scores in exams."
+          },
+          {
+            "id": "65a6e829307b55dd8406749b",
+            "name": "Abinas Panda",
+            "likes": 24,
+            "dislikes": 26,
+            "reviews": [
+              {
+                "comments": "Internal ma marks nahi deta baki sa thik ha aur har hafta quize ya classe test leta ha .",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "65dc92890fb947f5b25480e6"
+              }
+            ],
+            "tags": [
+              "Frequent Quizzes",
+              "Low Internals"
+            ],
+            "tagline": "Known for giving frequent quizzes and tests but does not award good internal marks."
+          },
+          {
+            "id": "65a6e829307b55dd8406749c",
+            "name": "Adyasha Dash",
+            "likes": 3,
+            "dislikes": 1,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Popular"
+            ],
+            "tagline": "No detailed reviews are available, but the positive like/dislike ratio suggests she is generally liked."
+          },
+          {
+            "id": "65a6e829307b55dd8406749d",
+            "name": "Ajay Anand",
+            "likes": 74,
+            "dislikes": 26,
+            "reviews": [
+              {
+                "comments": "He is literally autistic , Aakhn kaan band krke attendence leta h jo isko sunai diya wohi note kr deta h even if that roll no doesnt exist , Khud confused rehta h",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "66800fdf91e026a159f6313e"
+              }
+            ],
+            "tags": [
+              "Poorly Rated",
+              "Careless"
+            ],
+            "tagline": "Despite being popular by likes, the single review is highly critical, describing him as confused and careless."
+          },
+          {
+            "id": "65a6e829307b55dd8406749e",
+            "name": "Ajay Kumar Jena",
+            "likes": 7,
+            "dislikes": 27,
+            "reviews": [
+              {
+                "comments": "dont know anything but internal meh number deta hai",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "65d0f65bafa614e831481bbd"
+              },
+              {
+                "comments": "VERY BAD IN MARKING , EVERYTHING ELSE IS GOOD",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65bb037a47ab2137a3346dc4"
+              },
+              {
+                "comments": "Very Bad as He only speaks well teaches well but no good marking\n",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65bb037a47ab2137a3346dc4"
+              },
+              {
+                "comments": "Teaching wise average hai but politics khelta hai class mein. Marks nahi denga likh ke lele",
+                "rating": 5,
+                "internalScore": 19,
+                "userId": "65d0d9f3afa614e831481b95"
+              }
+            ],
+            "tags": [
+              "Bad Marking",
+              "Biased"
+            ],
+            "tagline": "Known for speaking well, but reviews consistently point to very bad marking and accusations of playing 'politics'."
+          },
+          {
+            "id": "65a6e829307b55dd8406749f",
+            "name": "Ajaya Kumar Parida",
+            "likes": 21,
+            "dislikes": 10,
+            "reviews": [
+              {
+                "comments": "Best Teacher",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Highly Rated"
+            ],
+            "tagline": "Well-liked, with a positive like ratio and a perfect 5-star review; described as the 'Best Teacher'."
+          },
+          {
+            "id": "65a6e829307b55dd840674a0",
+            "name": "Aleena Swetapadma",
+            "likes": 55,
+            "dislikes": 21,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Popular"
+            ],
+            "tagline": "No detailed reviews are available, but her like/dislike ratio is strongly positive."
+          },
+          {
+            "id": "65a6e829307b55dd840674a1",
+            "name": "Alok Kumar Jagadev",
+            "likes": 9,
+            "dislikes": 25,
+            "reviews": [
+              {
+                "comments": "Strict teacher and you need to be attentive in class.Will give marks as per you deserve and checks the assignments very strictly ",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "65d10b74afa614e831481bda"
+              },
+              {
+                "comments": "Strict, doesn't let u use phone in class. Good teacher. Sometimes his lectures might be boring, will never let u sleep.",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "65b754e647ab2137a3346d79"
+              },
+              {
+                "comments": "not good",
+                "rating": 2,
+                "internalScore": 24,
+                "userId": "65d490065e6adfcd7bc0c1e9"
+              },
+              {
+                "comments": "Pros: Teaches well you can understand everything only if your C basics are clear. Gives good Internal on the basis of attendance and your presence in class. Gives decent marks in mid and end sem.\nCons: Wont let you sleep in class will ask questions randomly...strict about using mobile phone. Can call parents if you have very low attendance. Very strict for assignments\n",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "6632f8d87d32b4eadcd5c27c"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Very Strict"
+            ],
+            "tagline": "A strict but effective teacher; he teaches well but demands full attention, giving fair marks based on merit."
+          },
+          {
+            "id": "65a6e829307b55dd840674a2",
+            "name": "Ambika Prasad Mishra",
+            "likes": 25,
+            "dislikes": 36,
+            "reviews": [
+              {
+                "comments": "best teacher to get full marks in internal.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d490065e6adfcd7bc0c1e9"
+              },
+              {
+                "comments": "teacher sai hei..but thoda psycho type ....endsem mark nehi deta",
+                "rating": 3,
+                "internalScore": 28,
+                "userId": "65d4caa3aa980c579a71dad0"
+              },
+              {
+                "comments": "sir mark nhi dete hai endsem me",
+                "rating": 5,
+                "internalScore": 18,
+                "userId": "65ed7c40cc176893883e4925"
+              },
+              {
+                "comments": "Same notes as of gate smashers. Easy marking ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "667edcee3c448e32cdf1a4a5"
+              },
+              {
+                "comments": "He is a very cool teacher. It's always fun attending his classes.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d8afb40fb947f5b2547f21"
+              },
+              {
+                "comments": "Good teacher \n",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65da25870fb947f5b2548009"
+              },
+              {
+                "comments": "Excellent prof",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663ef2bf1cc9557b14866337"
+              },
+              {
+                "comments": "Very bad teacher,didnot give internals,try to avoid",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65dcb1100fb947f5b254810e"
+              },
+              {
+                "comments": "A little dull teaching teaching biased in marks avg stands out only 21 for a class",
+                "rating": 3,
+                "internalScore": 19,
+                "userId": "65dc97440fb947f5b25480ef"
+              },
+              {
+                "comments": "average teacher...will give internals if u are regular in class",
+                "rating": 3,
+                "internalScore": 22,
+                "userId": "6639f4931cc9557b148661ac"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Inconsistent Marking"
+            ],
+            "tagline": "Extremely contradictory reviews; described as both a 'cool' teacher with easy marking and a 'very bad,' biased teacher."
+          },
+          {
+            "id": "65a6e829307b55dd840674a3",
+            "name": "Amiya Kumar Dash",
+            "likes": 1,
+            "dislikes": 29,
+            "reviews": [
+              {
+                "comments": "very baddddd",
+                "rating": 1,
+                "internalScore": 13,
+                "userId": "663ef0881cc9557b14866330"
+              },
+              {
+                "comments": "worst teacher ever for c language\n",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "6694778b42841c454a1668f7"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Overwhelmingly disliked; reviews are clear in labeling him as a 'very bad' and 'worst' teacher."
+          },
+          {
+            "id": "65a6e829307b55dd840674a4",
+            "name": "Amiya Ranjan Panda",
+            "likes": 33,
+            "dislikes": 17,
+            "reviews": [
+              {
+                "comments": "padhata bahut achha hai , lekin marks lana tough hai aur intenal mein bahut kharap marks deta even if you top in mid semester exam",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65db4e350fb947f5b2548082"
+              },
+              {
+                "comments": "Tension ni dega semester me...number bhi thik thaak de dega",
+                "rating": 4,
+                "internalScore": 24,
+                "userId": "65eb3c55cc176893883e4904"
+              },
+              {
+                "comments": "As a teacher, he's a very good one. Doesn't care much about the attendance and is'nt strict at all",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "65e21823cc176893883e48c2"
+              },
+              {
+                "comments": "->Would seem chill(isn't)\n->would tell you he gives marks (doesn't)\n->Taught us with slides screenshot ripped from youtube",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "663318e47d32b4eadcd5c297"
+              }
+            ],
+            "tags": [
+              "Mixed Reviews",
+              "Inconsistent"
+            ],
+            "tagline": "Reviews are inconsistent; some praise him as a good, chill teacher, while others claim he is strict and doesn't teach well."
+          },
+          {
+            "id": "65a6e829307b55dd840674a5",
+            "name": "Anjan Bandyopadhyay",
+            "likes": 21,
+            "dislikes": 37,
+            "reviews": [
+              {
+                "comments": "very biased",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "very good",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6693521ce41f723588baa52f"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Biased"
+            ],
+            "tagline": "Feedback is polarized and leans negative; described as both 'very good' and 'very biased'."
+          },
+          {
+            "id": "65a6e829307b55dd840674a6",
+            "name": "Anuja Kumar Acharya",
+            "likes": 23,
+            "dislikes": 32,
+            "reviews": [
+              {
+                "comments": "I would recommend mat lena. Risky sir hai. ",
+                "rating": 3,
+                "internalScore": 24,
+                "userId": "65d904a90fb947f5b2547fa0"
+              },
+              {
+                "comments": "He taught good, gave marks, but when i applied for recheck he never recheked it.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d08980afa614e831481b09"
+              },
+              {
+                "comments": "unnecessarily strict",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d0a55aafa614e831481b30"
+              },
+              {
+                "comments": "He teaches well but gives marks based on lot of random factors like submitting hw , solving 1 or 2 questions immediately after class , even takes quizzes offline and does not listen to any excuses if you are even a second late in submission . Also asks hardcopy of each assignment else you get 0 and must submit that hardcopy only in his class hrs or he won't take",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "6695688042841c454a166bea"
+              },
+              {
+                "comments": "Teaches Well but focus on one topic due to which at the end of semester he'll take extra classes and try to complete all topics which will mix up things, gives marks what you wrote for, unnecessary marks deduction in assignments.",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "6649ca791cc9557b14866460"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Very Strict"
+            ],
+            "tagline": "Known to teach well but described as 'risky' due to being unnecessarily strict and inflexible."
+          },
+          {
+            "id": "65a6e829307b55dd840674a7",
+            "name": "Arup Abhinna Acharya",
+            "likes": 52,
+            "dislikes": 25,
+            "reviews": [
+              {
+                "comments": "One of the best teachers in the university, but his quizzes can be brutal at times. ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65c4f5620985a524b12d0451"
+              },
+              {
+                "comments": "teaches well ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65bd00f047ab2137a3346dd4"
+              },
+              {
+                "comments": "Highly recommended for DSA",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65db07530fb947f5b2548057"
+              },
+              {
+                "comments": "Teaches very well but doesn't gives marks. Very stringent marking. No step marking and no marks for writing algorithms.",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "65db69060fb947f5b2548090"
+              },
+              {
+                "comments": "Marks nahi dete exam me.Quiz jaan le le",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "661b1707a909c6db59a42058"
+              },
+              {
+                "comments": "TEACHES VERY GOOD. BEST TEACHER IN DSA. BUT DOSEN'T GIVE MARKS IN EXAMS AS WELL AS INTERNALS. ONLY GIVE IF YOU ARE DOING GOOD IN QUIZZES AND EXAM. NO LINENET MARKING. ",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "66700163d343a387ff6524ba"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "Acclaimed for his teaching but notorious for extremely strict marking and tough quizzes."
+          },
+          {
+            "id": "65a6e829307b55dd840674a8",
+            "name": "Arup Sarkar",
+            "likes": 51,
+            "dislikes": 35,
+            "reviews": [
+              {
+                "comments": "Extremely linent. Bharke marks dega…",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65d2ffcd5e6adfcd7bc0c128"
+              },
+              {
+                "comments": "Marks dega. Lekin classes bohot boring honge..Friendly bhi ha",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d2ffcd5e6adfcd7bc0c128"
+              },
+              {
+                "comments": "Acha marks dega lenient v hai",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6672e5dd254e011388793ce3"
+              },
+              {
+                "comments": "Shitty teacher ",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "66819587140f159b310ad5be"
+              },
+              {
+                "comments": "Internals was average, highest internal was 44/50 in our class. His marking in mid sem was fairly lenient. Teaching is average.",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "662d194aad6e7bd16c844009"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Boring Lectures"
+            ],
+            "tagline": "Known for being extremely lenient and friendly, giving very high marks, though his teaching is average or boring."
+          },
+          {
+            "id": "65a6e829307b55dd840674a9",
+            "name": "Ashish Singh",
+            "likes": 8,
+            "dislikes": 133,
+            "reviews": [
+              {
+                "comments": "isko liya to pura semester bhugto ge",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65dc910e0fb947f5b25480e0"
+              },
+              {
+                "comments": "Worst faculty. Students are affected very badly",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "65dce8190fb947f5b2548132"
+              },
+              {
+                "comments": "Kuch bhi properly explain nahi kar pata. Galat ppt mein iske rehta hai. Students ko blame karta rahega lack of attentiveness par. Attendance Puri class ka deduct kar deta . Pura time back Laga Dene ki dhamki dega. Ladkiyon ko stare karta hai. Bina evidence malpractice mein lab me logo ko publicity sessional mein 0 de dala. Koi marks nahi deta . 90 percent PPL got below 10 in mid sem . Not even a single person got 20+ in internals. Call bhi reply nahi karta. Suicide karlo isko mat lo",
+                "rating": 3,
+                "internalScore": 13,
+                "userId": "65d0d9f3afa614e831481b95"
+              },
+              {
+                "comments": "Avoid",
+                "rating": 2,
+                "internalScore": 20,
+                "userId": "66156fe2f3924a11a97cb2fe"
+              },
+              {
+                "comments": "He can't teach , and is extremely egoistic.",
+                "rating": 2,
+                "internalScore": 19,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Vai marr jaa suicide karle but ye nehi",
+                "rating": 1,
+                "internalScore": 10,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Better to hang yourself than choosing him and TRUST ME WHEN I SAY THIS !!!!!",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "668116bf140f159b310ad577"
+              },
+              {
+                "comments": "Exactly the worst faculty in computer science engineering department combined(teaching+marks+behaviour). Isko liya toh pure semester moye moye ho jaayega. Class me literally hadka deta hai ki back laga doonga. Teaches wise below average.Pure class ka internal -5 deduct kar deta hai thodi students ki awaz aur attendance bhi deduct kar dega har baat pe mentor se signature laao. Madarchod ki aulaad hai randi ka bachcha saal. Class me paad maar deta hai",
+                "rating": 1,
+                "internalScore": 13,
+                "userId": "65d0d9f3afa614e831481b95"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Receives exceptionally negative reviews citing poor teaching, harsh marking, and unprofessional behavior; student consensus is to avoid."
+          },
+          {
+            "id": "65a6e829307b55dd840674aa",
+            "name": "Banchhanidhi Dash",
+            "likes": 49,
+            "dislikes": 22,
+            "reviews": [
+              {
+                "comments": "only attendance and interaction in class matters ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65db52e90fb947f5b2548085"
+              },
+              {
+                "comments": "Internal marks nhi dte utna... copy bhut acha marks dte h .. classes thoda boring hogi",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "664ebeba37a2080992d76a41"
+              }
+            ],
+            "tags": [
+              "Generous Exam Marking",
+              "Attendance Focused"
+            ],
+            "tagline": "Success in his class depends on attendance and interaction; while lectures can be boring, he gives good marks on final papers."
+          },
+          {
+            "id": "65a6e829307b55dd840674ab",
+            "name": "Benazir Neha",
+            "likes": 57,
+            "dislikes": 10,
+            "reviews": [
+              {
+                "comments": "Teaches ok and gives lots of marks.",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65d71599a226064c68a248e3"
+              },
+              {
+                "comments": "Internal mein bhi theek hi de deti hai but mid sem and end sem mein bhar bhar ke marks milenge and padhati bhi sahi hai kaafi",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65e9ddf3cc176893883e48f8"
+              },
+              {
+                "comments": "Gives internal according to quiz, excellent teaching, gives excellent marks in mid as well as end",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "best\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668fb3ff97969283509b08f2"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Generous Marking"
+            ],
+            "tagline": "Highly popular and unanimously praised; described as an excellent teacher who is also very generous with marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674ac",
+            "name": "Bhabani Shankar Prasad Mishra",
+            "likes": 15,
+            "dislikes": 34,
+            "reviews": [
+              {
+                "comments": "Gave me just 22 in internals after I sat in the first bench and interacted every class, really strict marking in midsems, always arrives late to class but never gives attendance if you enter after him. Barely teaches half an hour each class, and very surface level and provides basically no material to study on as well.",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "665fcce2814ee23b7a2e70ac"
+              },
+              {
+                "comments": "actually isne mere dost ko pdhaya tha use internal 22 mila and midsem mae 8, ye teacher tumhe o grade toh nhi dega a ya e mae rkehga thoda tension toh h agr option h toh ise mt lo",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "668fdca397969283509b08fb"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "Has a negative reputation; reviews criticize his teaching as brief and superficial, coupled with very strict marking."
+          },
+          {
+            "id": "65a6e829307b55dd840674ad",
+            "name": "Bhaswati Sahoo",
+            "likes": 37,
+            "dislikes": 21,
+            "reviews": [
+              {
+                "comments": "If you attend all the activities, you will get >= 25. She does it for all ... But 10 min late in class/ using mobile , only one sentence \\\" Get out of my class\\\" ...you have nothing to say 😅",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "try to avoid",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Very Strict",
+              "Good Internals"
+            ],
+            "tagline": "Known for being extremely strict about punctuality, but students who participate can expect good internal scores."
+          },
+          {
+            "id": "65a6e829307b55dd840674ae",
+            "name": "Bindu Agarwalla",
+            "likes": 240,
+            "dislikes": 11,
+            "reviews": [
+              {
+                "comments": "Great",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "''",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6640f8221cc9557b1486641f"
+              },
+              {
+                "comments": "One of the best teachers in KIIT. She's friendly and explains everything very well. I survived in HPC all thanks to her. She also doesn't take attendance in the majority of the classes but I'd still suggest you to come if you want a good understanding of the subject (unless it's COA, in which case you can just see her YouTube playlist).",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "662d194aad6e7bd16c844009"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Student-Friendly"
+            ],
+            "tagline": "Exceptionally popular and universally praised as one of the best teachers; she is friendly and explains concepts clearly."
+          },
+          {
+            "id": "65a6e829307b55dd840674af",
+            "name": "Chandra Shekhar",
+            "likes": 29,
+            "dislikes": 3,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Popular"
+            ],
+            "tagline": "No detailed reviews are available, but his like/dislike ratio is overwhelmingly positive."
+          },
+          {
+            "id": "65a6e829307b55dd840674b0",
+            "name": "Chittaranjan Pradhan",
+            "likes": 63,
+            "dislikes": 12,
+            "reviews": [
+              {
+                "comments": "accha padhate hai , sare unhi k ppt distribute hote hai to khudhi samajh lo.",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "65d0a8caafa614e831481b3b"
+              },
+              {
+                "comments": "Very good teacher ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65e227dfcc176893883e48c6"
+              },
+              {
+                "comments": "GOOD TEACHER",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "663f05061cc9557b14866358"
+              },
+              {
+                "comments": "Overhyped.",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "65b754e647ab2137a3346d79"
+              },
+              {
+                "comments": "very good teacher",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "665e8330814ee23b7a2e7047"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Highly Rated"
+            ],
+            "tagline": "A very popular and highly-rated teacher; most students describe him as a 'very good' teacher."
+          },
+          {
+            "id": "65a6e829307b55dd840674b1",
+            "name": "Deependra Singh",
+            "likes": 30,
+            "dislikes": 13,
+            "reviews": [
+              {
+                "comments": "No 1 chutiya hai bhai mat lena nahi to regret hoga ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65e0c4eccc176893883e4895"
+              },
+              {
+                "comments": "Teaches well, very friendly and gives good marks. The only negative is that he sometimes takes class tests with little to no warning. For example, we were told about our final OS lab test only the day before the exam, after he had explicitly told us the previous week that he wouldn't take it the following week.",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "662d194aad6e7bd16c844009"
+              },
+              {
+                "comments": "Inko lena mtlb khudke per me kuladhi marna\n",
+                "rating": 5,
+                "internalScore": 19,
+                "userId": "665ff625814ee23b7a2e70b6"
+              },
+              {
+                "comments": "Not getting proper internal marks ",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "66826fd7b73d79e426242d59"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Mixed Reviews"
+            ],
+            "tagline": "Feedback is very mixed; some praise his teaching, while others strongly advise against him due to poor experiences."
+          },
+          {
+            "id": "65a6e829307b55dd840674b2",
+            "name": "Dipti Dash",
+            "likes": 28,
+            "dislikes": 2,
+            "reviews": [
+              {
+                "comments": "chutiya\n",
+                "rating": 1,
+                "internalScore": 130,
+                "userId": "6691484897969283509b0a97"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Contradictory Feedback"
+            ],
+            "tagline": "Despite a very high like ratio, the single comment is extremely negative; internal score seems to be an error."
+          },
+          {
+            "id": "65a6e829307b55dd840674b3",
+            "name": "G B Mund",
+            "likes": 1,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Positive Feedback"
+            ],
+            "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd840674b4",
+            "name": "Gananath Bhuyan",
+            "likes": 36,
+            "dislikes": 26,
+            "reviews": [
+              {
+                "comments": "I know strict teacher hai, but internals dete hai lekin attendance cut kar lete hai, padhate good hai",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d8bf630fb947f5b2547f34"
+              },
+              {
+                "comments": "Internal bahut aacha dete hen 30/30 . Excellent teaching.\nMid sem and end sem me thik thak yaani aacha marks de dete hen ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Excellent teacher, but lazy.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+              },
+              {
+                "comments": "Teaching skill is good..if you study you will get marks...be sure you are regular to the class",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65d07085afa614e831481aeb"
+              },
+              {
+                "comments": "ek daaam chutiya hei",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "6632fac87d32b4eadcd5c27f"
+              },
+              {
+                "comments": "pdhata bhot hi bdhiya h,bs iske class mae thoda attentive rhoge toh jyada acha rhega i got 15 in midsem.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668fdca397969283509b08fb"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Generous Internals"
+            ],
+            "tagline": "Most reviews praise his excellent teaching and generous internal marks, but he is strict with attendance."
+          },
+          {
+            "id": "65a6e829307b55dd840674b5",
+            "name": "Himansu Das",
+            "likes": 33,
+            "dislikes": 23,
+            "reviews": [
+              {
+                "comments": "very biased and strict",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Biased",
+              "Strict"
+            ],
+            "tagline": "The single review is very negative, describing him as biased and strict, resulting in a low internal score."
+          },
+          {
+            "id": "65a6e829307b55dd840674b6",
+            "name": "Hrudaya Kumar Tripathy",
+            "likes": 21,
+            "dislikes": 13,
+            "reviews": [
+              {
+                "comments": "Excellent teacher gives good marks and very knowledgeable teacher.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "663f23021cc9557b1486636e"
+              },
+              {
+                "comments": "Absolutely zero teaching skills. Ekbaar inka class karne k baad aur class jane ka mann nhi karega boht boring hai. Midsem mai thik thak marks diye the but endsem mai boht strict checking karte. Internals mai v tumko boht tadpayega \ninternal marks distribution:\n1) 2 class activities(total 5 marks)- he can take this any day so if you're absent then your marks will be gone.\n2) 3 quiz conducted on moodle(atleast 20 questions given only 10-15 minutes). He will take best of the two of these quizes\n3)Two assignments.\n\noverall rating- Below average\nmy total internal marks-44/50 \nendsem marks-37/50 (I did attend above 45 marks but he did strict checking) ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "6672e5dd254e011388793ce3"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Boring Lectures"
+            ],
+            "tagline": "Feedback is completely polarized; described as both an 'excellent teacher' and having 'zero teaching skills'."
+          },
+          {
+            "id": "65a6e829307b55dd840674b7",
+            "name": "Jagannath Singh",
+            "likes": 56,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "best",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d71599a226064c68a248e3"
+              },
+              {
+                "comments": "Explains every concepts very well . ",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65de39700fb947f5b254819a"
+              },
+              {
+                "comments": "Very experienced teacher. Will make you understand every minute concept easily.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+              },
+              {
+                "comments": "I got bad marks in internals due to bad performance in quizes but i got 14 in midsems and 42 in endsems..His teaching skills are really good.In depth teaching...\nYou will get deserving marks only ",
+                "rating": 5,
+                "internalScore": 24,
+                "userId": "65d07085afa614e831481aeb"
+              },
+              {
+                "comments": "Listens to the issues faced by students. Teaches well and gives mark too ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66823bb4b73d79e426242bc5"
+              },
+              {
+                "comments": "he is a great teacher, he teaches you sincerely and also gives you enough questions to get the topic clear and is pretty friendly too in terms of asking doubts!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66601b7b814ee23b7a2e70c5"
+              },
+              {
+                "comments": "He teaches very well no doubt. But, he cuts the internal and mid-sem's marks. I got 14 out of 20 while I should have got 18 or 19. He strictly checks the exam sheet. Takes quiz and tests in class and you have no time to even look for the question. Guys, do you need marks or wants to study good in class. Me personally I would rather go for marks. Padhna toh youtube se hi hai",
+                "rating": 3,
+                "internalScore": 23,
+                "userId": "6672b04fd00a58460c6d1294"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Deserving Marks"
+            ],
+            "tagline": "Widely praised as an experienced and excellent teacher; his marking is considered fair but strict."
+          },
+          {
+            "id": "65a6e829307b55dd840674b8",
+            "name": "Jasaswi Prasad Mohanty",
+            "likes": 12,
+            "dislikes": 29,
+            "reviews": [
+              {
+                "comments": "Not recommended in any case",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "66204636ad6e7bd16c843f47"
+              },
+              {
+                "comments": "worst",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65de20e80fb947f5b2548184"
+              },
+              {
+                "comments": "very bad teacher",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "6632fac87d32b4eadcd5c27f"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Feedback is consistently negative, with students labeling him as a 'very bad teacher' and 'not recommended'."
+          },
+          {
+            "id": "65a6e829307b55dd840674b9",
+            "name": "Jay Sarraf",
+            "likes": 17,
+            "dislikes": 104,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Very Unpopular"
+            ],
+            "tagline": "No detailed reviews are available, but the extremely negative like/dislike ratio indicates he is one of the most disliked faculty."
+          },
+          {
+            "id": "65a6e829307b55dd840674ba",
+            "name": "Jayanti Dansana",
+            "likes": 11,
+            "dislikes": 10,
+            "reviews": [
+              {
+                "comments": "Nikalo isko kiit se",
+                "rating": 5,
+                "internalScore": 21,
+                "userId": "664eef83d14af87f4424ffc3"
+              },
+              {
+                "comments": "Nikalo isko kiit se",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "664eef83d14af87f4424ffc3"
+              },
+              {
+                "comments": "hell teacher\n",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "66812ba3140f159b310ad583"
+              }
+            ],
+            "tags": [
+              "Poorly Rated",
+              "Avoid"
+            ],
+            "tagline": "Despite a neutral like/dislike ratio, the comments are extremely negative, calling her a 'hell teacher'."
+          },
+          {
+            "id": "65a6e829307b55dd840674bb",
+            "name": "Joy Dutta",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd840674bc",
+            "name": "Junali Jasmine Jena",
+            "likes": 9,
+            "dislikes": 63,
+            "reviews": [
+              {
+                "comments": "j",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "She was my SE teacher.... kabhi kabhi gussa hojati hai and gaali deti hai but midsem mai boht acha marks di thi(more than deserving)...mera ek dost kuch v likhke nhi aya tha phir v 10/20 dedi....Hn internals mai thoda kam degi ye....Attendance, class test aur quiz k upar marks rheta...Class test aur quiz offline honge with a time limit of 10 minutes but cheating hojayega don't worry. Hn tum ma'am k under research v kar sakte ho which will help in your higher studies. She also helps in your projects and placements if you are a good student. Bas thoda mood swings hota ma'am ko aur internals thoda kam deti...She's not the best but not that bad teacher jitna log inko kharap bolte hai ",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "6672e5dd254e011388793ce3"
+              }
+            ],
+            "tags": [
+              "Moody",
+              "Generous Midsem Marking"
+            ],
+            "tagline": "Described as moody and prone to anger, but can be very generous with mid-semester marks and helpful with research."
+          },
+          {
+            "id": "65a6e829307b55dd840674bd",
+            "name": "Jyotiprakash Mishra",
+            "likes": 22,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "he is little bit faster while teaching otherwise he is good, and the study materials provided by him is really good if you only study that much you are good to go to score good marks ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663f38091cc9557b14866374"
+              },
+              {
+                "comments": "Teaches quite fast but if you match pace with him and refer his notes you are set.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d4b246aa980c579a71daab"
+              },
+              {
+                "comments": "Marks dedeta h ... But padhata kuch nhi h bhai... \nApna blog pakda dega and blog read karke padh lo(blog means online notes)... If already know the subject tab acha h... Woh tumko advance level kara dega... But he won't teach basic at all... ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "665df15a814ee23b7a2e7008"
+              },
+              {
+                "comments": "Gives good marks and notes but does not teach anything... U have to study on your own and come to his class prepared... Only question practices would be done... But he has great knowledge and if u approach, he will definitely help",
+                "rating": 2,
+                "internalScore": 30,
+                "userId": "665df15a814ee23b7a2e7008"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Self-Study Required"
+            ],
+            "tagline": "He gives good marks and excellent notes, but his teaching requires significant self-study."
+          },
+          {
+            "id": "65a6e829307b55dd840674be",
+            "name": "Krishna Chakravarty",
+            "likes": 25,
+            "dislikes": 12,
+            "reviews": [
+              {
+                "comments": "teaches really well",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Highly Rated"
+            ],
+            "tagline": "Praised for teaching 'really well'; feedback, though limited, is strongly positive."
+          },
+          {
+            "id": "65a6e829307b55dd840674bf",
+            "name": "Krutika Verma",
+            "likes": 15,
+            "dislikes": 100,
+            "reviews": [
+              {
+                "comments": "Just avoid 💀💀",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "\"Just avoid\"(2)",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "6625eb0bad6e7bd16c843fd9"
+              },
+              {
+                "comments": "Ma'am is one of the best teacher for design and analysis of algorithms ,teaches very well and very much helpful and will provide excellent guidance .The explanations of  algorithms were clear, concise, and easy to follow",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "66585b4dd14af87f44250134"
+              },
+              {
+                "comments": "will never give you marks, personal dushamni uthati hai sabse faltu me maa baap pr jaati h",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "667eefac3c448e32cdf1a4df"
+              },
+              {
+                "comments": "she is beautiful with too many mental issues. Takes written quiz for 2 marks from GATE ques. gives 0.125 marks in mid.",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d60bd2cbccf4670b3ca118"
+              },
+              {
+                "comments": "the worst you could ever get",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "667eefac3c448e32cdf1a4df"
+              },
+              {
+                "comments": "She has mental issues. One of the worst teacher in KIIT. Try to avoid her at any cost.",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "6625eb0bad6e7bd16c843fd9"
+              },
+              {
+                "comments": "good but very strict\n",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "66402bf71cc9557b148663ea"
+              },
+              {
+                "comments": "good teacher\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "663f61371cc9557b14866388"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Avoid"
+            ],
+            "tagline": "Extremely polarized feedback; most label her as one of the worst, citing unfair marking and unprofessional behavior."
+          },
+          {
+            "id": "65a6e829307b55dd840674c0",
+            "name": "Kumar Devadutta",
+            "likes": 53,
+            "dislikes": 22,
+            "reviews": [
+              {
+                "comments": "Teaches well, also if you have attendance, you can score full in internals. ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d63d7dcbccf4670b3ca156"
+              },
+              {
+                "comments": "Overall Great 👍🏻",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "something like that",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "667ec0f43c448e32cdf1a41b"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Attendance Focused"
+            ],
+            "tagline": "Mostly positive reviews; he teaches well and gives good internals, especially to students with good attendance."
+          },
+          {
+            "id": "65a6e829307b55dd840674c1",
+            "name": "Kunal Anand",
+            "likes": 91,
+            "dislikes": 13,
+            "reviews": [
+              {
+                "comments": "Very good teacher ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65b51ea871212d151fedf6b8"
+              },
+              {
+                "comments": "He's an okay teacher, gives decent marks in midsems and endsems but is kinda crappy when it comes to internals",
+                "rating": 3,
+                "internalScore": 21,
+                "userId": "65b7558f47ab2137a3346d7a"
+              },
+              {
+                "comments": "badhiya teacher h.",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "6621ea33ad6e7bd16c843f74"
+              }
+            ],
+            "tags": [
+              "Popular",
+              "Good Teacher"
+            ],
+            "tagline": "A very popular and good teacher who gives decent exam marks, but his internal marking can be inconsistent."
+          },
+          {
+            "id": "65a6e829307b55dd840674c2",
+            "name": "Lalit Kumar Vashishtha",
+            "likes": 27,
+            "dislikes": 20,
+            "reviews": [
+              {
+                "comments": "Friendly and teaches well, but is quite strict in marking and he sometimes takes tests in class. Even though he teaches well, he often jumps around between topics instead of following the syllabus in a linear fashion, so he might teach a topic one day, teach something else the next day and resume the first topic again the next day.",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "662d194aad6e7bd16c844009"
+              },
+              {
+                "comments": "As long as you’re attending classes, attentive in class and answers the questions good marks you’ll get. He teaches good ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66823bb4b73d79e426242bc5"
+              },
+              {
+                "comments": "He teaches well but dont give marks",
+                "rating": 3,
+                "internalScore": 22,
+                "userId": "667eca643c448e32cdf1a457"
+              },
+              {
+                "comments": "zindagi chuniye, lalit sir nahi",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "668e693697969283509b086b"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "He is friendly and teaches well, but this is offset by strict marking and a disorganized teaching style."
+          },
+          {
+            "id": "65a6e829307b55dd840674c3",
+            "name": "Leena Das",
+            "likes": 6,
+            "dislikes": 52,
+            "reviews": [
+              {
+                "comments": "!!!DANGER!!!",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d41c7c5e6adfcd7bc0c1bd"
+              },
+              {
+                "comments": "ok",
+                "rating": 5,
+                "internalScore": 21,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "She doesnt give marks, her behaviour is not so good as well\n",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "6625eb0bad6e7bd16c843fd9"
+              },
+              {
+                "comments": "she is the r word in my keyboard",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65d656decbccf4670b3ca16a"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Bad Behavior"
+            ],
+            "tagline": "Overwhelmingly negative feedback; students warn of 'danger,' citing poor behavior and not giving marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674c4",
+            "name": "Lipika Mohanty",
+            "likes": 89,
+            "dislikes": 35,
+            "reviews": [
+              {
+                "comments": "best faculty",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Give you a clear concept and good marks in internal like i got 28 in internal and 18 in mid sem and 42 in end sem",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Go for it if you really want to learn something and she is a chill faculty bas mood kharab mat karna she'll give give you good marks in both internal and exams",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "She is the boss🫡🫡",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Very good teacher ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "668256efb73d79e426242d1e"
+              },
+              {
+                "comments": "Teaches very well, lenient checking in mid-sem, high internal marks. 11 students got 48/50 in internals and 1 got 49/50.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "662d194aad6e7bd16c844009"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Generous Marking"
+            ],
+            "tagline": "Praised as a 'best faculty' who teaches concepts clearly and gives good marks; a great choice for learning and scoring well."
+          },
+          {
+            "id": "65a6e829307b55dd840674c5",
+            "name": "M Nazma BJ Naskar",
+            "likes": 0,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "No Feedback"
+            ],
+            "tagline": "There is no student feedback available for this faculty member."
+          },
+          {
+            "id": "65a6e829307b55dd840674c6",
+            "name": "Madhabananda Das",
+            "likes": 2,
+            "dislikes": 5,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Unpopular"
+            ],
+            "tagline": "No detailed reviews are available, but the negative like/dislike ratio suggests an unfavorable student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd840674c7",
+            "name": "Mainak Bandyopadhyay",
+            "likes": 40,
+            "dislikes": 36,
+            "reviews": [
+              {
+                "comments": "Mat Lena kabhi isse , random marks deta hai, bekar padhata hai mid and end me bin matlab marks kaatega.\nDon't choose him",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Really helpful regarding projects and doesn't take assignments. Just make notes of OS and he'll give good internals.",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65d2496e5e6adfcd7bc0c0e6"
+              },
+              {
+                "comments": "Leetcode pad kar janna padta hai class",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "664eef83d14af87f4424ffc3"
+              },
+              {
+                "comments": "Best teacher,gave 29 in internal and 42/50 in end sems",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65dcb1100fb947f5b254810e"
+              },
+              {
+                "comments": "internals dedega midsem me marks mushkil se dega kanjoos",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "65b8c3ed47ab2137a3346da5"
+              },
+              {
+                "comments": "Bahut hi madharchod insaan hai kuch nahi padhata hai class me bas ye karo wo karo bolta hai aur nahi kiya to marks to gaya",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65c061820985a524b12d041f"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Inconsistent"
+            ],
+            "tagline": "Receives highly inconsistent reviews, ranging from 'best teacher' to having poor teaching and random marking."
+          },
+          {
+            "id": "65a6e829307b55dd840674c8",
+            "name": "Manas Ranjan Biswal",
+            "likes": 22,
+            "dislikes": 24,
+            "reviews": [
+              {
+                "comments": "Excellent teacher",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Very poor, no knowledge, avd marking, and all assignments and activities taken in class hours",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Very poor",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Teach well and gives good marks in internal ,mid-term, end-semester also\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65b74eb847ab2137a3346d72"
+              },
+              {
+                "comments": "okay if study in class,you can get A",
+                "rating": 3,
+                "internalScore": 24,
+                "userId": "65dcb1100fb947f5b254810e"
+              },
+              {
+                "comments": "Avoid if attendance is issue for you",
+                "rating": 4,
+                "internalScore": 22,
+                "userId": "6667ccfa182c6fb152acc2e4"
+              },
+              {
+                "comments": "Worst teacher to be exist in KIIT. JUST AVOID!!!!",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "65dc97440fb947f5b25480ef"
+              },
+              {
+                "comments": "Good teacher to be honest. Gives good marks if you attend all his classes. ",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "672bc0ea5a965de869c43455"
+              }
+            ],
+            "tags": [
+              "Polarizing",
+              "Mixed Reviews"
+            ],
+            "tagline": "Feedback is extremely polarized; he is described as both an 'excellent teacher' and the 'worst teacher'."
+          },
+          {
+            "id": "65a6e829307b55dd840674c9",
+            "name": "Manas Ranjan Nayak",
+            "likes": 54,
+            "dislikes": 16,
+            "reviews": [
+              {
+                "comments": "Good overall. Not the best but will do.\n",
+                "rating": 3,
+                "internalScore": 23,
+                "userId": "65de17810fb947f5b2548181"
+              },
+              {
+                "comments": "Bhai is aadmi ko khud kuch nhi aata. Lenient h no doubt. But ha agr tmne shi likha h to b guarantee nhi h k marks milenge kyuki usko smjh nhi aata",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "65d4ae04aa980c579a71daa5"
+              },
+              {
+                "comments": "na",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d8dc230fb947f5b2547f56"
+              },
+              {
+                "comments": "attendance was 40%\n",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "663f61371cc9557b14866388"
+              },
+              {
+                "comments": "god teacher h bhai",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "663f61371cc9557b14866388"
+              }
+            ],
+            "tags": [
+              "Lenient Marking",
+              "Poor Teaching"
+            ],
+            "tagline": "Considered lenient with marks and attendance, but his subject knowledge is questioned by some students."
+          },
+          {
+            "id": "65a6e829307b55dd840674ca",
+            "name": "Mandakini Priyadarshani Behera",
+            "likes": 6,
+            "dislikes": 32,
+            "reviews": [
+              {
+                "comments": "Has no knowledge of the subject herself. Complete bookish knowledge and can't understand shit if you use your own brain and write a code which does not match the one taught in class. Has very poor idea of the subject.",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "65d214494d8381f50c551b42"
+              },
+              {
+                "comments": "kuch nahi aata usko, sahi likha answer bhi kata ke 0 kar degi , na internal deti hai nahi paper checking me",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65dcdbd60fb947f5b254812c"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "Negative reviews state she has poor subject knowledge and is very strict, penalizing answers that don't match her notes."
+          },
+          {
+            "id": "65a6e829307b55dd840674cb",
+            "name": "Manoj Kumar Mishra",
+            "likes": 45,
+            "dislikes": 5,
+            "reviews": [
+              {
+                "comments": "Lena hi mat isko toh.... teaches nothing, class mein aake bas bakchodi aur marks dene k time 7/50",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "664ebeb137a2080992d76a40"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Low Marks"
+            ],
+            "tagline": "Despite a positive like ratio, the single review is extremely negative, claiming he teaches nothing and gives very low marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674cc",
+            "name": "Meghana G Raj",
+            "likes": 5,
+            "dislikes": 29,
+            "reviews": [
+              {
+                "comments": "Very strict and does not tolerate any indiscipline or even a little bit of disrespectful behaviour such as yawning in her class. Will punish the whole class if any student does the above mentioned thing. Doesn't provide notes, strict marking as if she wants u to fail",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "very strict, won’t give you marks either. Strictly Avoid!",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "try to avoid her",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Very Strict",
+              "Avoid"
+            ],
+            "tagline": "Described as extremely strict regarding discipline and marking; students report she doesn't give marks and should be avoided."
+          },
+          {
+            "id": "65a6e829307b55dd840674cd",
+            "name": "Minakhi Rout",
+            "likes": 16,
+            "dislikes": 42,
+            "reviews": [
+              {
+                "comments": "very arrogant and she taught in a bookish manner, doesn't give internal marks or take any defaulter test/quiz ",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65d0aa9fafa614e831481b43"
+              },
+              {
+                "comments": "She's so sadistic, gives marks on her mood. Way too biased ",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d60b7bcbccf4670b3ca117"
+              },
+              {
+                "comments": "very irritating teacher, checks copy notes ",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "65e934cacc176893883e48f3"
+              },
+              {
+                "comments": "Definitely avoid. Gives you PTSD. You will get tortured and harassed in her class.",
+                "rating": 5,
+                "internalScore": 5,
+                "userId": "66e920d8f740b2b3e5002c8f"
+              }
+            ],
+            "tags": [
+              "Arrogant",
+              "Avoid"
+            ],
+            "tagline": "Strongly negative reviews; described as arrogant, biased, and creating a harassing environment."
+          },
+          {
+            "id": "65a6e829307b55dd840674ce",
+            "name": "Mohit Ranjan Panda",
+            "likes": 27,
+            "dislikes": 27,
+            "reviews": [
+              {
+                "comments": "Number acha de dega",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "65e086c80fb947f5b2548203"
+              },
+              {
+                "comments": "85 + attendance and he is god",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d656decbccf4670b3ca16a"
+              },
+              {
+                "comments": "He is a good teacher , teaches well, attendance freak if u keep 85+ he will give u good internal marks, gives marks for making notes, give u deserving marks no extra.",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "668f95d597969283509b08ec"
+              }
+            ],
+            "tags": [
+              "Attendance Focused",
+              "Good Marks"
+            ],
+            "tagline": "He is an 'attendance freak,' but students with over 85% attendance can expect good, deserving marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674cf",
+            "name": "Mukesh Kumar",
+            "likes": 43,
+            "dislikes": 24,
+            "reviews": [
+              {
+                "comments": "Friendly and class me mazak masti krta rehta ha. Lekin Zyada mt kr dena toh gussa ho jayega lekin baad me phirse has deta ha..Min 27 toh dega hi internals agr sab timely submitted ha toh",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d1b612afa614e831481c2a"
+              },
+              {
+                "comments": "Sahi teacher hain mazak masti karta hain class mein but zyada nahi aur marks bhi thik hi deta hain",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "664ebeb137a2080992d76a40"
+              },
+              {
+                "comments": "Teaches okay, gives lots of marks in internals as long as you submit on time, checks fairly leniently in both mid sem and end sem.",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "662d194aad6e7bd16c844009"
+              },
+              {
+                "comments": "bihari bhaiya best!!!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d4caa3aa980c579a71dad0"
+              }
+            ],
+            "tags": [
+              "Friendly",
+              "Generous Marking"
+            ],
+            "tagline": "A popular and friendly teacher known for being fun in class and giving good marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674d0",
+            "name": "N Biraja Isac",
+            "likes": 32,
+            "dislikes": 30,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Controversial"
+            ],
+            "tagline": "No detailed reviews are available; the evenly split like/dislike ratio indicates a divided student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd840674d1",
+            "name": "Nachiketa Tarasia",
+            "likes": 19,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "Brilliant teacher! His teaching methodology is outstanding. He will take every assessment in KIIT Moodle only. And he implements every possible technique to prevent malpractice.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+              },
+              {
+                "comments": "Green Forest",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "667829e13c448e32cdf1a254"
+              }
+            ],
+            "tags": [
+              "Brilliant Teaching",
+              "Strict on Cheating"
+            ],
+            "tagline": "Praised as a 'brilliant teacher' with an outstanding methodology; very strict about preventing malpractice."
+          },
+          {
+            "id": "65a6e829307b55dd840674d2",
+            "name": "Naliniprava Behera",
+            "likes": 8,
+            "dislikes": 6,
+            "reviews": [
+              {
+                "comments": "Internal marks nhi milta aur paper bahut strict check hota h.",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "665ff625814ee23b7a2e70b6"
+              },
+              {
+                "comments": "Not getting proper internal marks ",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "66826fd7b73d79e426242d59"
+              },
+              {
+                "comments": "Strict checking",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "665ffcb1814ee23b7a2e70b7"
+              }
+            ],
+            "tags": [
+              "Strict Checking",
+              "Low Internals"
+            ],
+            "tagline": "Despite a slightly positive like ratio, all reviews complain about strict checking and low internal marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674d3",
+            "name": "Namita Panda",
+            "likes": 72,
+            "dislikes": 19,
+            "reviews": [
+              {
+                "comments": "She is great",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d10b05afa614e831481bd7"
+              },
+              {
+                "comments": "She is great when it comes to teaching but for internals she conducts class test. You have to score well to get good internals. But can increase internals if you have scored well in mid sem.",
+                "rating": 4,
+                "internalScore": 23,
+                "userId": "65d7da240fb947f5b2547ed3"
+              }
+            ],
+            "tags": [
+              "Great Teaching",
+              "Performance-based Internals"
+            ],
+            "tagline": "A very popular faculty member who is great at teaching; good internals depend on performance in class tests."
+          },
+          {
+            "id": "65a6e829307b55dd840674d4",
+            "name": "Nibedan Panda",
+            "likes": 42,
+            "dislikes": 18,
+            "reviews": [
+              {
+                "comments": "He's a good teacher, does lenient marking as well.",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "663ef2bf1cc9557b14866337"
+              }
+            ],
+            "tags": [
+              "Good Teacher",
+              "Lenient Marking"
+            ],
+            "tagline": "Described as a good teacher who is also lenient with his marking; a solid and safe choice."
+          },
+          {
+            "id": "65a6e829307b55dd840674d5",
+            "name": "Niranjan Ray",
+            "likes": 12,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "Best teacher, padhata utna accha nahi lekin thukh kaar marks dega. exams mein kuch vi likhdo marks pakka hey. end sem mein 40 out of 50 toh sure hey , now depends upon u ki short qn kitna correct karoge\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667ec73f3c448e32cdf1a445"
+              },
+              {
+                "comments": "Best Teacher for marks\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "667ec73f3c448e32cdf1a445"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Poor Teaching"
+            ],
+            "tagline": "Known as the 'Best Teacher for marks'; his teaching is not great, but he is extremely lenient with grading."
+          },
+          {
+            "id": "65a6e829307b55dd840674d6",
+            "name": "Pinaki Sankar Chatterjee",
+            "likes": 48,
+            "dislikes": 36,
+            "reviews": [
+              {
+                "comments": "got E in oopj gives good internlals and marks too inspite of the tough oopj i got optimum marks",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "good teacher ",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65d41c7c5e6adfcd7bc0c1bd"
+              }
+            ],
+            "tags": [
+              "Good Teacher",
+              "Good Marks"
+            ],
+            "tagline": "Despite a mixed like/dislike ratio, reviews are positive, describing him as a good teacher who gives good marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674d7",
+            "name": "Prabhu Prasad Dev",
+            "likes": 6,
+            "dislikes": 7,
+            "reviews": [
+              {
+                "comments": "Excellent and student friendly teacher.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+              },
+              {
+                "comments": "didnt increase my 2 marks for grade upgradation",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "6690bf4097969283509b092a"
+              }
+            ],
+            "tags": [
+              "Mixed Reviews",
+              "Student-Friendly"
+            ],
+            "tagline": "Reviews are polarized; described as both an 'excellent and student friendly teacher' and as unhelpful for grade improvements."
+          },
+          {
+            "id": "65a6e829307b55dd840674d8",
+            "name": "Prachet Bhuyan",
+            "likes": 14,
+            "dislikes": 13,
+            "reviews": [
+              {
+                "comments": "boht bekar teacher hai , galti se bhi mat lena",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "662029ccad6e7bd16c843eb6"
+              },
+              {
+                "comments": "bekar hai bhai , bhul se bhi mat lena",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "662029ccad6e7bd16c843eb6"
+              },
+              {
+                "comments": "Don't take make your life hell!",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65d44a015e6adfcd7bc0c1d2"
+              },
+              {
+                "comments": "don't choose",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "662029ccad6e7bd16c843eb6"
+              }
+            ],
+            "tags": [
+              "Poorly Rated",
+              "Avoid"
+            ],
+            "tagline": "Despite a neutral like/dislike ratio, all written reviews are extremely negative, warning other students to avoid him."
+          },
+          {
+            "id": "65a6e829307b55dd840674d9",
+            "name": "Pradeep Kumar Mallick",
+            "likes": 39,
+            "dislikes": 20,
+            "reviews": [
+              {
+                "comments": "Nicee",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d760c80fb947f5b2547e8f"
+              },
+              {
+                "comments": "Great teacher",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d4f7ce1d4b0e2de0baf5e2"
+              },
+              {
+                "comments": "Internal nahi deta",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Best teacher you will come across in kiit.\nTeaches very well.",
+                "rating": 1,
+                "internalScore": 30,
+                "userId": "66204636ad6e7bd16c843f47"
+              },
+              {
+                "comments": "One of the, if not the best teacher, is very strict and punctual, but if you behave well and are sincere and are in the first two benches, and ofc have good attendance, he will give you internal marks you deserve, and also he is lenient in checking.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "661ffe44a909c6db59a420f8"
+              },
+              {
+                "comments": "Best Teacher!",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "66d3ec2542841c454a166e60"
+              }
+            ],
+            "tags": [
+              "Excellent Teacher",
+              "Strict but Fair"
+            ],
+            "tagline": "Praised as one of the best teachers; he is strict and punctual, but teaches well and gives deserving marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674da",
+            "name": "Prasant Kumar Pattnaik",
+            "likes": 61,
+            "dislikes": 7,
+            "reviews": [
+              {
+                "comments": "Excellent teacher, teaching in normal but if you want marks, he is the one. Very cool teacher and you can also do projects under hime in future.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65dc99760fb947f5b25480f7"
+              }
+            ],
+            "tags": [
+              "Best for Marks",
+              "Cool Teacher"
+            ],
+            "tagline": "An excellent and 'cool' teacher who is highly recommended for students who want to score high marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674db",
+            "name": "Ramakant Parida",
+            "likes": 5,
+            "dislikes": 7,
+            "reviews": [
+              {
+                "comments": "He doesn't give marks and his explanation sucks",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65db5cea0fb947f5b254808b"
+              },
+              {
+                "comments": "He says to make a notebook but usme sirf unke notes hone chiye so make a notebook and follow him free marks.",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "Just follow his instruction and get free marks... his explainations are really good... he taught me Autometa and everyone got really good marks in my class",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667eca643c448e32cdf1a457"
+              }
+            ],
+            "tags": [
+              "Mixed Reviews",
+              "Follow Instructions"
+            ],
+            "tagline": "Reviews are mixed; some say his explanations suck, while others say following his instructions yields free marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674dc",
+            "name": "Ramesh Kumar Thakur",
+            "likes": 39,
+            "dislikes": 1,
+            "reviews": [
+              {
+                "comments": "best faculty in whole kiit university",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65c3e9450985a524b12d044a"
+              },
+              {
+                "comments": "Teaching is below average but otherwise an absolute amazing person. ❣️",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0d6ffafa614e831481b92"
+              },
+              {
+                "comments": "Best Teacher of It",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65dc8e530fb947f5b25480de"
+              },
+              {
+                "comments": "Nice Professor",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65da0b2a0fb947f5b2547ffe"
+              },
+              {
+                "comments": "Best teacher in the department. O grade confirm hai",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65fad0dbece362a62c15d4c0"
+              },
+              {
+                "comments": "Best professor in cse department. Free mein 30 out of 30 . Not even a single person got single digit in mid semester exams. Not even a single person got below 30 out of 50 in fact 35. Most of the PPL got 45+ in internal only out of 50. Free mein attendance aaram se proxy lagao mobile chalao koi tension nahi . Phel ke marks deta hain. YouTube PE lecture send kar dega with amazing explanation. Very good in teaching and extremely friendly",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0d9f3afa614e831481b95"
+              }
+            ],
+            "tags": [
+              "Extremely Generous Marking",
+              "Student-Friendly"
+            ],
+            "tagline": "Universally praised as one of the best professors; known for giving 'free marks' and ensuring 'O' grades."
+          },
+          {
+            "id": "65a6e829307b55dd840674dd",
+            "name": "Rina Kumari",
+            "likes": 1,
+            "dislikes": 0,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Positive Feedback"
+            ],
+            "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd840674de",
+            "name": "Rinku Datta Rakshit",
+            "likes": 68,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "Padhati bohot acha h...highly recommended ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b85af247ab2137a3346d9c"
+              },
+              {
+                "comments": "Best",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "66156fe2f3924a11a97cb2fe"
+              },
+              {
+                "comments": "Best teacher I have ever seen.. Very supportive",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667eb35c3c448e32cdf1a3d0"
+              }
+            ],
+            "tags": [
+              "Excellent Teaching",
+              "Supportive"
+            ],
+            "tagline": "Unanimously praised as one of the best teachers; known for teaching very well and being highly supportive."
+          },
+          {
+            "id": "65a6e829307b55dd840674df",
+            "name": "Ronali Padhy",
+            "likes": 20,
+            "dislikes": 18,
+            "reviews": [
+              {
+                "comments": "poor",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d734260fb947f5b2547e63"
+              },
+              {
+                "comments": "avg in teaching and marks",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "664379b01cc9557b1486643c"
+              },
+              {
+                "comments": "Gives one grade above than the marks you deserve. All students got above 26 in internal in AFL",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ddd73b0fb947f5b2548152"
+              }
+            ],
+            "tags": [
+              "Generous Marking",
+              "Average Teaching"
+            ],
+            "tagline": "Feedback is mixed; some describe her as poor, while others say she gives average or even generous marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674e0",
+            "name": "Roshni Pradhan",
+            "likes": 4,
+            "dislikes": 8,
+            "reviews": [
+              {
+                "comments": "Don't teaches well and also don't give deserving marks in internal as well as mid and end sem",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65b74eb847ab2137a3346d72"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Strict Marking"
+            ],
+            "tagline": "The feedback is negative, citing poor teaching and not giving deserving marks in any assessment."
+          },
+          {
+            "id": "65a6e829307b55dd840674e1",
+            "name": "Samaresh Mishra",
+            "likes": 34,
+            "dislikes": 13,
+            "reviews": [
+              {
+                "comments": "Teaches well, and gives good marks as well!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663ef2bf1cc9557b14866337"
+              },
+              {
+                "comments": "Bhai devmanus hai just class kro roz n internals me full mil jaiga. Padhate bhi bhut acha h. Marking bhi bhut mxt krte h.",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "6680e487140f159b310ad554"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Generous Marking"
+            ],
+            "tagline": "Described as a 'devmanus' (god-like person); he teaches well and gives good marks to regular students."
+          },
+          {
+            "id": "65a6e829307b55dd840674e2",
+            "name": "Sankalp Nayak",
+            "likes": 4,
+            "dislikes": 56,
+            "reviews": [
+              {
+                "comments": "Not recommended at all. 17-18 was the average internal marks",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d0e2a2afa614e831481b9f"
+              },
+              {
+                "comments": "right answer step mark , wrong answer 1 mark",
+                "rating": 2,
+                "internalScore": 12,
+                "userId": "66dc98ee42841c454a166ec1"
+              }
+            ],
+            "tags": [
+              "Low Internals",
+              "Strict Marking"
+            ],
+            "tagline": "Not recommended at all; he is known for giving very low internal marks and having a strict marking scheme."
+          },
+          {
+            "id": "65a6e829307b55dd840674e3",
+            "name": "Santos Kumar Baliarsingh",
+            "likes": 10,
+            "dislikes": 11,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Controversial"
+            ],
+            "tagline": "No detailed reviews are available; the evenly split like/dislike ratio indicates a highly divided student opinion."
+          },
+          {
+            "id": "65a6e829307b55dd840674e4",
+            "name": "Santosh Kumar Pani",
+            "likes": 17,
+            "dislikes": 2,
+            "reviews": [
+              {
+                "comments": "very chill",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d6ab34a226064c68a248b7"
+              },
+              {
+                "comments": "best teacher in terms of everything",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d16fecafa614e831481bf7"
+              }
+            ],
+            "tags": [
+              "Chill",
+              "Best Teacher"
+            ],
+            "tagline": "Described as the 'best teacher in terms of everything'; he is very chill and gives high marks."
+          },
+          {
+            "id": "65a6e829307b55dd840674e5",
+            "name": "Santosh Kumar Swain",
+            "likes": 34,
+            "dislikes": 27,
+            "reviews": [
+              {
+                "comments": "Teaches well, assignments m 6-7/10 dete th and bohot average marking krte h.",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Energetic teacher, speaks loud and clear. Marks internals me thoda strictly check karta h and end sem wagera me bhi deserving marks dete h.",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Good Teaching",
+              "Strict Internals"
+            ],
+            "tagline": "An energetic teacher who teaches well, but his marking for internals and assignments is strict."
+          },
+          {
+            "id": "65a6e829307b55dd840674e6",
+            "name": "Santwana Sagnika",
+            "likes": 54,
+            "dislikes": 14,
+            "reviews": [
+              {
+                "comments": "xcve",
+                "rating": 5,
+                "internalScore": 100,
+                "userId": "668027ac91e026a159f6315b"
+              },
+              {
+                "comments": "Gives almost full in internals with less assignments. Overally Chill teacher with average checking at exams",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              },
+              {
+                "comments": "Teaches well, doesn't really fuss about kids missing classes etc. gave good marks in internals. Overall a W.",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+              }
+            ],
+            "tags": [
+              "Good Internals",
+              "Chill"
+            ],
+            "tagline": "A popular and chill teacher who teaches well and is known for giving high internal marks with minimal assignments."
+          },
+          {
+            "id": "65a6e829307b55dd840674e7",
+            "name": "Sarita Tripathy",
+            "likes": 10,
+            "dislikes": 2,
+            "reviews": [],
+            "tags": [
+              "No Reviews",
+              "Popular"
+            ],
+            "tagline": "No detailed reviews are available, but her positive like/dislike ratio suggests she is well-regarded."
+          },
+          {
+            "id": "65a6e829307b55dd840674e8",
+            "name": "Satarupa Mohanty",
+            "likes": 17,
+            "dislikes": 9,
+            "reviews": [
+              {
+                "comments": "If you really want to learn something, she is the one. One of the best and the sweetest faculty out there. Her classes will be so interactive u would love to attend. Gives good marks as well.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6680e487140f159b310ad554"
+              },
+              {
+                "comments": "Partial teacher",
+                "rating": 4,
+                "internalScore": 21,
+                "userId": "6667ccfa182c6fb152acc2e4"
+              },
+              {
+                "comments": "PLEASE DONT TAKE HIM AVOID",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65dc97440fb947f5b25480ef"
+              }
+            ],
+            "tags": [
+              "Interactive Classes",
+              "Biased"
+            ],
+            "tagline": "Described as one of the best and sweetest teachers, though some reviews accuse her of being partial."
+          },
+          {
+            "id": "65a6e829307b55dd840674e9",
+            "name": "Satyananda Champati Rai",
+            "likes": 5,
+            "dislikes": 8,
+            "reviews": [
+              {
+                "comments": "He will teach almost everything,but has absolutely no sense of responibility when it come to disscussion of major questions for mid and end sem,wastes his time only in activities(assignments,quiz)in only offline mode but dosent disscus anything properly in class ,mid and end sem exams are like hell and heaven different of what you are taught in class\n",
+                "rating": 3,
+                "internalScore": 23,
+                "userId": "65d1029cafa614e831481bd0"
+              },
+              {
+                "comments": "doesnt give internals and doesnt give marks no teaching skills awful teacher\n",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "66c9e90342841c454a166e23"
+              }
+            ],
+            "tags": [
+              "Poor Teaching",
+              "Low Internals"
+            ],
+            "tagline": "Negative reviews criticize his poor teaching skills, low internal marks, and misaligned exams."
+          },
+          {
+            "id": "65a6e829307b55dd840674ea",
+            "name": "Saurabh Bilgaiyan",
+            "likes": 13,
+            "dislikes": 190,
+            "reviews": [
+              {
+                "comments": "I never studied from him. But my roommate was in his class and he came for substitution in my OS class. I have entered my roommate's internals. He's a good guy assuming you study and attend classes. His teaching style was good. You'll understand stuff. But don't take if you're not gonna grind cause he's also infamous for failing people ",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65be804d47ab2137a3346dee"
+              },
+              {
+                "comments": "do NOT opt",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65b757ce47ab2137a3346d7b"
+              },
+              {
+                "comments": "Worst ever",
+                "rating": 4,
+                "internalScore": 18,
+                "userId": "65de43d20fb947f5b254819e"
+              },
+              {
+                "comments": "remember the teacher who made out with students? Yes that is him. \n",
+                "rating": 1,
+                "internalScore": -1,
+                "userId": "65c8ebbd0985a524b12d0467"
+              },
+              {
+                "comments": "Strict but be a bit disciplined u will ace",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65d65bcacbccf4670b3ca171"
+              },
+              {
+                "comments": "He teaches really great, gives excellent notes but his evaluation is strict.",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "66487e491cc9557b1486644f"
+              }
+            ],
+            "tags": [
+              "Unpopular",
+              "Strict Evaluation"
+            ],
+            "tagline": "Extremely unpopular and known for strict evaluation and failing students, despite some acknowledging his good teaching."
+          }
+        ]
+
+        const detail2=[
+    {
+        "id": "65a6e829307b55dd840674eb",
+        "name": "Saurabh Jha",
+        "likes": 14,
+        "dislikes": 24,
+        "reviews": [
+            {
+                "comments": "Quiz ka answer net pe mil jayega lekin mid aur end sem.. 🤞🤞",
+                "rating": 1,
+                "internalScore": 27,
+                "userId": "65d8f1680fb947f5b2547f8d"
+            },
+            {
+                "comments": "best teacher\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65be574147ab2137a3346de3"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Tough Exams"
+        ],
+        "tagline": "Feedback is mixed; some call him the best, while others note that exams are difficult."
+    },
+    {
+        "id": "65a6e829307b55dd840674ec",
+        "name": "Shaswati Patra",
+        "likes": 14,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "Has no knowledge. Class me kuch b kro kuch nhi bolegi exam me marks bhi de deti h bs padhane nhi aata",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "6680e487140f159b310ad554"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "Known for being lenient with marks despite having poor teaching skills."
+    },
+    {
+        "id": "65a6e829307b55dd840674ed",
+        "name": "Siddharth Swarup Rautaray",
+        "likes": 5,
+        "dislikes": 10,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "65a6e829307b55dd840674ee",
+        "name": "Sohail Khan",
+        "likes": 21,
+        "dislikes": 18,
+        "reviews": [
+            {
+                "comments": "Teaches good if you listen to him in class,he in the begining of the semester is a really soft spoken and timid person,dosent give a damn what you do at the back of the class or in class whatsoever ,but if you maintain a decency in class and interact and ask questions ,he will give quite good internals",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65d1029cafa614e831481bd0"
+            },
+            {
+                "comments": "If you are choosing him as your teacher, there are a few things you should know before even attending his first class:\n\nNever cheat in class tests. If you can study, do it, or at least try to do it on your own. If you are caught cheating or even talking during a test (worth 5 marks), he will say nothing during the class but will give you zero marks for that test.\nDo not proxy. He will not confront you but will directly give zero marks to both the person who did the proxy and the one for whom it was done.\nBesides this, the teacher is nice and teaches well. However, you really need to listen to him in class if you want to understand the material. He won’t say anything to you, even if you dance at the back of the class. Let’s just say the teacher is a little introverted. Respect him, and you might get full marks in the internals.\n\nDisclaimer: I said he teaches well only if you sit in the front row and pay attention. He won’t force you to focus, so if you stay in class playing games on your phone, you might not even understand a single class.\n\n",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65cfaed50985a524b12d0492"
+            },
+            {
+                "comments": "at the starting wo kuch nhi bolta hai par ek ek chiz ka hisab nikalta hai vo . Agar uske class mai atleast thoda sa bhi padh ke jaoge to hi ho payega vrna difficult hai.\n",
+                "rating": 3,
+                "internalScore": 24,
+                "userId": "65dae5f00fb947f5b2548046"
+            },
+            {
+                "comments": "He has difficulty teaching the full concept and deducts the entire mark if there is a mistake in the steps.",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "668e517a97969283509b0837"
+            },
+            {
+                "comments": "Not good",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "6667ccfa182c6fb152acc2e4"
+            },
+            {
+                "comments": "Really good teacher. If you study a little bit you can score easily. Ask questions in the class and interact with him. It will be beneficial for you",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "aint so nice. SILENT KILLER hai....kuch nhi bolega jo krna h kro, bss last m internals nhi dega. Teaching aint so great, test lega (galti se bhi cheat krte huye pakde nhi jaana)\n",
+                "rating": 2,
+                "internalScore": 25,
+                "userId": "662feeacad6e7bd16c84401c"
+            },
+            {
+                "comments": "Here's some excellent advice for mastering Automata and Formal Language (AFL) under Sohail sir.\n\nPay attention in class, make notes, interact with sir, ask doubts, never cheat in class tests—strict consequences(0 marks), revise the concepts on daily basis, study the day's concept from YouTube resources like: GATE Smashers, Knowledge Gate by Sanchit Sir, Sudhakar Atchala Lalit Vasistha,\nComplete the same concept the same day.\nQuestion Practice:\nFocus on solving high-quality questions from various sources ( GFG, etc)\nUnderstand different patterns and types of problems.\nStarting days or weeks one might feel confused and frustated ( i too experienced the same initially) , but just wait-n-watch.\nResult: With this disciplined approach, you'll build a strong foundation in AFL concepts and excel in exams ( guranteed not less than O grade)\n\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec626fcc176893883e4916"
+            }
+        ],
+        "tags": [
+            "Good for Attentive Students",
+            "Strict on Cheating"
+        ],
+        "tagline": "A good teacher for attentive students, but he is very strict on discipline and cheating."
+    },
+    {
+        "id": "65a6e829307b55dd840674ef",
+        "name": "Sourajit Behera",
+        "likes": 44,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "best teacher ever",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65bfbf8f0985a524b12d0419"
+            },
+            {
+                "comments": "Chill teacher ever You can go for it",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65b74eb847ab2137a3346d72"
+            },
+            {
+                "comments": "1",
+                "rating": 5,
+                "internalScore": 2,
+                "userId": "65d0a6e2afa614e831481b35"
+            },
+            {
+                "comments": "Gives internal according to quiz. Chill teacher. Gives excellent marks in mid as well as in end",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65fad0dbece362a62c15d4c0"
+            },
+            {
+                "comments": "Teaches very well, gives high marks and gives great notes. Very friendly and approachable as well.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "662d194aad6e7bd16c844009"
+            },
+            {
+                "comments": "Jitna deserve karte ho...usse zyada marks dete hain",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "6694afaa42841c454a16696b"
+            },
+            {
+                "comments": "banda chill h or nature vi acha.......marks shai deta h .likhwa tha jatha h bassss...",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "668fdca397969283509b08fb"
+            }
+        ],
+        "tags": [
+            "Popular",
+            "Generous Marking"
+        ],
+        "tagline": "Praised as a chill, friendly, and popular teacher who gives excellent marks."
+    },
+    {
+        "id": "65a6e829307b55dd840674f0",
+        "name": "Sourav Kumar Giri",
+        "likes": 16,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "He is down to earth, teaches all concepts nicely, gives almost full internal, solves doubt. He is Greatest of all time. Never irritates students.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "easy proxy.. easy internals... class me aake so jao... teaches very well... easy checking",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "He is the best JAVA teacher you can ever get. Teaches really well and inki class m proxy lagana bhi bohot easy hai. Internal m bhi he gives good marks and he also do lenient checking.",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Excellent Teaching",
+            "Lenient Marking"
+        ],
+        "tagline": "Described as a great teacher who is down-to-earth and very lenient with marking and internals."
+    },
+    {
+        "id": "65a6e829307b55dd840674f1",
+        "name": "Subhadip Pramanik",
+        "likes": 24,
+        "dislikes": 39,
+        "reviews": [
+            {
+                "comments": "poor lots of assignments and doesn't give marks",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "doesnt give marksss",
+                "rating": 2,
+                "internalScore": 10,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Strict Marking"
+        ],
+        "tagline": "Negative feedback indicates he gives lots of assignments but does not award good marks."
+    },
+    {
+        "id": "65a6e829307b55dd840674f2",
+        "name": "Subhashree Darshana",
+        "likes": 12,
+        "dislikes": 87,
+        "reviews": [
+            {
+                "comments": "if you want the worst teacher choose here. even if you do all internals properly still wont get marks,very biased.will give 5-7 less marks than expected.even if grade is short by one mark,she wont give",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Very biased towards few students,teaches like shit,conducts surprise tests and quizzes and will give 0 if you miss them,no defaulters.Will give 5-6 less than deserving in midsemand endsem,even if you apply for recheck,its of no use.",
+                "rating": 2,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Worst Teacher in KIIT ever !!",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Worst teacher ever, never ever chose her",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Worst teacher ever never gives any marks, is very biased and overall has a very horrible personality",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "66934657e41f723588baa51c"
+            }
+        ],
+        "tags": [
+            "Very Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Overwhelmingly negative reviews; students call her the worst teacher, very biased, and strict with marks."
+    },
+    {
+        "id": "65a6e829307b55dd840674f3",
+        "name": "Subhasis Dash",
+        "likes": 5,
+        "dislikes": 65,
+        "reviews": [
+            {
+                "comments": "more than enough knowledgeable. Sometimes his knowledge goes through the other side of the head, but Qn practiced in the class come in exam. If you have patients  select him it will be very beneficial.",
+                "rating": 4,
+                "internalScore": 22,
+                "userId": "65d8eb490fb947f5b2547f6b"
+            },
+            {
+                "comments": "He gives quiz on moodles",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d8dc230fb947f5b2547f56"
+            },
+            {
+                "comments": "WORST EVER TEACHER I HAVE SEEN\n",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "65d4bb06aa980c579a71dab7"
+            },
+            {
+                "comments": "Bohot bada harami hai ye",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Known for being very knowledgeable but has overwhelmingly negative reviews for his teaching and attitude."
+    },
+    {
+        "id": "65a6e829307b55dd840674f4",
+        "name": "Suchismita Das",
+        "likes": 22,
+        "dislikes": 8,
+        "reviews": [
+            {
+                "comments": "Way she teaches will make you understand everything ",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65da25870fb947f5b2548009"
+            },
+            {
+                "comments": "Good. Internals, mid sem and end sem sab mein sahi marks diya. but gets annoyed very easily. class mein bas zyada baat mat karna, just don't make her mad. she's like a tsundere lol. She hates the students but gives marks anyway :)",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "pdhati bhi thik hai aur internal me marks bhi de deti hai start me darayegi fir baad me number de deti hai",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "She taught us DS (3rd sem). You'll not regret choosing her. Teaches good, gives nice marks and overall very understanding. Very professional in her exchanges, and takes the time to respond to questions.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Good Marks"
+        ],
+        "tagline": "A good and professional teacher who gives great marks but is known to get annoyed easily in class."
+    },
+    {
+        "id": "65a6e829307b55dd840674f5",
+        "name": "Sujata Swain",
+        "likes": 88,
+        "dislikes": 16,
+        "reviews": [
+            {
+                "comments": "Marks nahi deta ",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65d44a015e6adfcd7bc0c1d2"
+            },
+            {
+                "comments": "bhai bilkul marks nahin ditthiii",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "667ec0f43c448e32cdf1a41b"
+            },
+            {
+                "comments": "Best teacher gives more and more marks in mid sem and end sem",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6642cad91cc9557b1486642e"
+            }
+        ],
+        "tags": [
+            "Popular",
+            "Polarizing"
+        ],
+        "tagline": "A popular teacher with extremely conflicting reviews on whether she gives marks or not."
+    },
+    {
+        "id": "65a6e829307b55dd840674f6",
+        "name": "Suneeta Mohanty",
+        "likes": 103,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "Best Mam ever",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Give you a good knowledge and good marks ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "best teacher",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66118e7630641ad00aae8b1c"
+            },
+            {
+                "comments": "best teacher ever. gives good marks and very helpful.\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "669214a8e41f723588baa47f"
+            }
+        ],
+        "tags": [
+            "Excellent Teacher",
+            "Helpful"
+        ],
+        "tagline": "Universally praised as one of the best and most helpful teachers who gives good marks."
+    },
+    {
+        "id": "65a6e829307b55dd840674f7",
+        "name": "Suresh Chandra Satapathy",
+        "likes": 20,
+        "dislikes": 15,
+        "reviews": [
+            {
+                "comments": "Attendance ke hisab se internal milega. End sem aaur mid sem me thik thak marks de dete hen",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65fad0dbece362a62c15d4c0"
+            }
+        ],
+        "tags": [
+            "Attendance Focused",
+            "Decent Marks"
+        ],
+        "tagline": "Gives decent marks in exams, with internals based on attendance."
+    },
+    {
+        "id": "65a6e829307b55dd840674f8",
+        "name": "Sushruta Mishra",
+        "likes": 120,
+        "dislikes": 13,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Very Popular"
+        ],
+        "tagline": "No detailed reviews are available, but has an overwhelmingly positive like/dislike ratio."
+    },
+    {
+        "id": "65a6e829307b55dd840674f9",
+        "name": "Susmita Das",
+        "likes": 16,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but has a very positive like/dislike ratio."
+    },
+    {
+        "id": "65a6e829307b55dd840674fa",
+        "name": "Swagatika Sahoo",
+        "likes": 21,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "Afl",
+                "rating": 5,
+                "internalScore": 26,
+                "userId": "65d8ef530fb947f5b2547f7e"
+            },
+            {
+                "comments": "Worst teacher, never take her as your teacher, will never give you marks, never teach and irritate you as hell",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "65e934cacc176893883e48f3"
+            },
+            {
+                "comments": "why would you willingly select her? gives decent marks in internal but you wont get any marks in midsems or endsems.",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "668e693697969283509b086b"
+            },
+            {
+                "comments": "Good if you are attentive in class. Her notes are great. Only  downside is that she is a little bit strict. Best if you attend all classes",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "672bc0ea5a965de869c43455"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Mixed Reviews"
+        ],
+        "tagline": "Feedback is extremely polarized, ranging from 'worst teacher' to 'good teacher' with great notes."
+    },
+    {
+        "id": "65a6e829307b55dd840674fb",
+        "name": "Tanik Saikh",
+        "likes": 12,
+        "dislikes": 42,
+        "reviews": [
+            {
+                "comments": "Not recommended... \nteaching skill is very poor..\nBohot bolne ke bad itna internal marks mila..\nQuiz viva sab cls me paper me le raha tha..\nLekin kuch padhana nahi ata he ..\nKuch bhi samjh nahi aya",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "65d60effcbccf4670b3ca12d"
+            },
+            {
+                "comments": "worst",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65d9183f0fb947f5b2547fa5"
+            },
+            {
+                "comments": "If you wanna fail go ahead",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "65d731930fb947f5b2547e5d"
+            },
+            {
+                "comments": "Sir padhata nhi hai utna achha, par unka notes bohot useful hai.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d8c1020fb947f5b2547f39"
+            },
+            {
+                "comments": "Sare quiz, written tests offline with surprise tests. Kaafi important cheezien miss kar denge aur number bhi nahi denge.(Mera paper copy karne wale ko (dusra section) 32/40 aur mujhe 13/40(no grace marks for topics not covered in class). Attendance theek rakhoge toh thoda easy rahega",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65d221ea4d8381f50c551b59"
+            },
+            {
+                "comments": "The worst teacher in kiit inko liya toh marks bhul jayo, padhate bhi bahat kharab hain, internals v nahi dete bahat mushkil se internals mein thoda badhaya ",
+                "rating": 2,
+                "internalScore": 26,
+                "userId": "65db4dec0fb947f5b2548080"
+            },
+            {
+                "comments": "dekho bhai ek cheez saaf saaf bol raha hu... isko choose karna matlab : \n'oo lakri kyun paadi ho jhar mein,\naake ghus jaao meri gaand mein' !!\n\nhappy learning... ",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65b7353547ab2137a3346d6a"
+            },
+            {
+                "comments": "Good teacher iff you're regular and you do self study.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            },
+            {
+                "comments": "faltu \n",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "6640f8221cc9557b1486641f"
+            },
+            {
+                "comments": "Demnn",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668508f6f6aabfe19cf4fd32"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Overwhelmingly negative reviews cite very poor teaching skills and unfair marking."
+    },
+    {
+        "id": "65a6e829307b55dd840674fc",
+        "name": "Tanmaya Swain",
+        "likes": 0,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the single dislike suggests a negative opinion."
+    },
+    {
+        "id": "65a6e829307b55dd840674fd",
+        "name": "Tanmoy Maitra",
+        "likes": 8,
+        "dislikes": 46,
+        "reviews": [
+            {
+                "comments": "Good knowledge, teaches very well..if you make notes of his class that will be more than enough. Just study that before exams nothing else. Friendly",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d2f3ab5e6adfcd7bc0c11a"
+            },
+            {
+                "comments": "He is strict.",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65dbfdc50fb947f5b25480bd"
+            },
+            {
+                "comments": "Good knowledge",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65b74eb847ab2137a3346d72"
+            }
+        ],
+        "tags": [
+            "Knowledgeable",
+            "Strict"
+        ],
+        "tagline": "He is knowledgeable and teaches well, but is unpopular due to being very strict."
+    },
+    {
+        "id": "65a6e829307b55dd840674fe",
+        "name": "Vijay Kumar Meena",
+        "likes": 25,
+        "dislikes": 63,
+        "reviews": [
+            {
+                "comments": "Shitty ass teaching and marks toh aur bhe kharab. Will take surprise tests jo shayad isse bhe solve na ho and just mar jao but isse mat lena.",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "667eaf0e3c448e32cdf1a3a1"
+            },
+            {
+                "comments": "padhana atta nhi hai aur na internals deta hai na he paper mein marks deta hai .suprise quiz aur le leta hai jo usse khud bhi solve na ho.iit ke assignment aur project aur de deta hai jo kisi se bhi na ho aur fir apne cabin mein bula ke uska demo aur karata hai.... Ekdur bekar hai galti se bhi mat lena..",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "6605f867ece362a62c15d4f7"
+            },
+            {
+                "comments": "Egoistic and Shitty Teacher, I wish I would never see his face again :)",
+                "rating": 1,
+                "internalScore": 23,
+                "userId": "668256efb73d79e426242d1e"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Overwhelmingly negative reviews describe him as an egoistic and poor teacher who gives bad marks."
+    },
+    {
+        "id": "65a6e829307b55dd840674ff",
+        "name": "Vikas Hassija",
+        "likes": 18,
+        "dislikes": 41,
+        "reviews": [
+            {
+                "comments": "Good",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65fad0dbece362a62c15d4c0"
+            },
+            {
+                "comments": "bilkul bhi marks nahi denge , mat lena isko bas has ke baat karte hai , marks nahi dete",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "662029ccad6e7bd16c843eb6"
+            },
+            {
+                "comments": "boht bekar hai marks dene me, baki behaviour sahi hai , dont go if you only want marks",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "662029ccad6e7bd16c843eb6"
+            },
+            {
+                "comments": "Has has k le lega hassija, 26 toh highest rehta hai iske internal me 🥸",
+                "rating": 4,
+                "internalScore": 22,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "avg in teaching and marks but bad in marks",
+                "rating": 2,
+                "internalScore": 22,
+                "userId": "664379b01cc9557b1486643c"
+            },
+            {
+                "comments": "good teacher and lenient checking ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667eb71a3c448e32cdf1a3e4"
+            },
+            {
+                "comments": "Very low internals",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65d8fd170fb947f5b2547f9b"
+            }
+        ],
+        "tags": [
+            "Low Internals",
+            "Strict Marking"
+        ],
+        "tagline": "Known for having good behavior but is unpopular for giving very low internal marks."
+    },
+    {
+        "id": "65a6e829307b55dd84067500",
+        "name": "Vishal Meena",
+        "likes": 23,
+        "dislikes": 7,
+        "reviews": [
+            {
+                "comments": "good",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "65d490065e6adfcd7bc0c1e9"
+            },
+            {
+                "comments": "excellent teacher. i had so much fun learning from him. his ppts are amazing + he gives great marks + super chill and friendly. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "664f6650d14af87f44250093"
+            }
+        ],
+        "tags": [
+            "Excellent Teacher",
+            "Chill"
+        ],
+        "tagline": "Praised as an excellent, super chill, and friendly teacher who gives great marks."
+    },
+    {
+        "id": "664de829e19980085db960a7",
+        "name": "Arghya Kundu",
+        "likes": 18,
+        "dislikes": 18,
+        "reviews": [
+            {
+                "comments": "Mt lena isko kabhi bhool kr bhi",
+                "rating": 1,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Controversial",
+            "Avoid"
+        ],
+        "tagline": "Despite a neutral like/dislike ratio, the single review strongly advises against him."
+    },
+    {
+        "id": "664de829e19980085db960a8",
+        "name": "Pramod Kumar Das",
+        "likes": 2,
+        "dislikes": 5,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "664de829e19980085db960a9",
+        "name": "Kalyani Mohanta",
+        "likes": 5,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "after attending classes and doing assignments in time you will get only 18 internal in subjects like s.t.w also don't accept marks in paper . this teacher is for affecting your good grades in such subject that has no value",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65db52e90fb947f5b2548085"
+            }
+        ],
+        "tags": [
+            "Low Internals",
+            "Strict Marking"
+        ],
+        "tagline": "Known for giving low internal marks even for easy subjects."
+    },
+    {
+        "id": "664de829e19980085db960aa",
+        "name": "Srikumar Acharya",
+        "likes": 19,
+        "dislikes": 12,
+        "reviews": [
+            {
+                "comments": "Excellent teacher!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            },
+            {
+                "comments": "He is a very good teacher. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b754e647ab2137a3346d79"
+            }
+        ],
+        "tags": [
+            "Excellent Teacher",
+            "Highly Rated"
+        ],
+        "tagline": "Unanimously praised as an excellent teacher who gives full internal marks."
+    },
+    {
+        "id": "664de829e19980085db960ab",
+        "name": "Swayam B Mishra",
+        "likes": 6,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "average teacher, just reads out the PPts, roams in the class while doing so",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Average Teacher",
+            "PPT Reader"
+        ],
+        "tagline": "An average teacher who is known for just reading out the PPTs in class."
+    },
+    {
+        "id": "664de829e19980085db960ac",
+        "name": "Prasanta Ku. Mohanty",
+        "likes": 40,
+        "dislikes": 20,
+        "reviews": [
+            {
+                "comments": "Has very good grasp on the subject. Teaches very good. Just pay attention in his class. Maintain healthy attendance and will give very good in internals. Even if attendance is less than 75 still everyone got 25+ in internals.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "teaches really well",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Follow his notes, exams are a cakewalk",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65b7558f47ab2137a3346d7a"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Good Internals"
+        ],
+        "tagline": "A great teacher with a good grasp of the subject who gives very good internal marks."
+    },
+    {
+        "id": "664de829e19980085db960ad",
+        "name": "S. Chaudhuri",
+        "likes": 14,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is very positive."
+    },
+    {
+        "id": "664de829e19980085db960ae",
+        "name": "Bikash Kumar Behera",
+        "likes": 15,
+        "dislikes": 15,
+        "reviews": [
+            {
+                "comments": "Teaches well, but he checks very strictly in mid-sem and end-sem. Also takes quizzes on Moodle, with so many questions that you'll barely have time to complete the test. Only take if you're willing to work hard and learn, and getting an O is not your main concern.",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "662d194aad6e7bd16c844009"
+            },
+            {
+                "comments": "Best teacher for DSD and COA.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d8afb40fb947f5b2547f21"
+            },
+            {
+                "comments": "Kafiii mast teacher hey padata bhii accha hey marks bhi deta hey",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "669224e41f723588baa4a5"
+            },
+            {
+                "comments": "Bohot ghatiya teacher hai! sala bilkul acche se nahi padhata...pdfs bhi nahi deta ..exam se ek din pehle moodle pe sab chupchap upload kar deta hai..ise lo agar tum apna acche cgpa ka dhajiya udana chahte ho..sala mera 9+ cgpa iske chakkar mein 8.8 pe chala aya..so take this as a warning guys",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "6639b25b1cc9557b148661a0"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Strict Checking"
+        ],
+        "tagline": "Extremely polarized reviews; called both the 'best teacher' and one of the 'worst'."
+    },
+    {
+        "id": "664de829e19980085db960af",
+        "name": "Basanta Kumar Rana",
+        "likes": 5,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "664de829e19980085db960b0",
+        "name": "Arjun Kumar Paul",
+        "likes": 28,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "Best teacher, doesn't take full attendance,easy proxy, gives you full marks if you score good marks in central quiz and submit all assignments. Very polite teacker",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Best teacher and mentor of KIIT University.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Described as one of the best and most polite teachers, known for giving full marks."
+    },
+    {
+        "id": "664de829e19980085db960b1",
+        "name": "Sunil Kumar Gouda",
+        "likes": 24,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "Good teacher and gives good marks.",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Great teacher..gives good marks..lenient checking",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "6644f41a1cc9557b1486644c"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Lenient Marking"
+        ],
+        "tagline": "A popular teacher who is known for being good and giving good marks with lenient checking."
+    },
+    {
+        "id": "664de829e19980085db960b2",
+        "name": "Jitendra Ku. Patel",
+        "likes": 3,
+        "dislikes": 14,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Very Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is very negative."
+    },
+    {
+        "id": "664de829e19980085db960b3",
+        "name": "Biswajit Sahoo",
+        "likes": 221,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "He is a very good teacher. Maintain give and take relation. If you want to learn just select him",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "One of the most chill teacher in KIIT, hamare C lab ke teacher the",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "best concept clear and gives more marks",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "66118e7630641ad00aae8b1c"
+            },
+            {
+                "comments": "Mast hai bhai bhar bhar ke marks deta hai",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "mat lena bhai internals kaam dega aur paper strict checking krega iske internals me cheat krke bhi score nhi krpoage ye upar ke review ignore kro sab juth he kasam se bol rha hu mat lo isko \n",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "664eeec6d14af87f4424ffb6"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Chill"
+        ],
+        "tagline": "Extremely popular and considered chill, though one review warns of strict marking."
+    },
+    {
+        "id": "664de829e19980085db960b4",
+        "name": "K. B. Ray",
+        "likes": 27,
+        "dislikes": 19,
+        "reviews": [
+            {
+                "comments": "Very good teacher",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Doesn't teach good but gives very good internal and exam marks, linient ",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65e934cacc176893883e48f3"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "He doesn't teach well but is very lenient and gives very good internal and exam marks."
+    },
+    {
+        "id": "664de829e19980085db960b5",
+        "name": "Manoranjan Sahoo",
+        "likes": 31,
+        "dislikes": 13,
+        "reviews": [
+            {
+                "comments": "Very good teacher, explains well, gives good internals. Only one thing is that never use phone in his class or you are gone!",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Very good teacher, explains well, gives good internals. Only one thing is that never use phone in his class or you are gone!",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Strict"
+        ],
+        "tagline": "A very good teacher who explains well, but is extremely strict about not using phones in class."
+    },
+    {
+        "id": "664de829e19980085db960b6",
+        "name": "M. M. Acharya",
+        "likes": 20,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "Padhati badhiya hai but marks dene mai thodi kanjoosi krti hai.. overall ok ok",
+                "rating": 3,
+                "internalScore": 21,
+                "userId": "663872d41cc9557b14866143"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Strict Marking"
+        ],
+        "tagline": "She teaches well but is known for being strict with marking."
+    },
+    {
+        "id": "664de829e19980085db960b7",
+        "name": "Avinash Chaudhary",
+        "likes": 9,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "Excellent teacher iff your handwriting is excellent.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Biased"
+        ],
+        "tagline": "An excellent teacher, but one review notes that good marks depend on having good handwriting."
+    },
+    {
+        "id": "664de829e19980085db960b8",
+        "name": "Promod Mallick",
+        "likes": 7,
+        "dislikes": 7,
+        "reviews": [
+            {
+                "comments": "Internal nahi deta ",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65fad0dbece362a62c15d4c0"
+            }
+        ],
+        "tags": [
+            "Low Internals",
+            "Strict Marking"
+        ],
+        "tagline": "The single review claims he does not give internal marks."
+    },
+    {
+        "id": "664de829e19980085db960b9",
+        "name": "Laxmipriya Nayak",
+        "likes": 192,
+        "dislikes": 11,
+        "reviews": [
+            {
+                "comments": "best",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "if we want good mark then select.\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "30",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6693521ce41f723588baa52f"
+            },
+            {
+                "comments": "best teacher ever ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "669214a8e41f723588baa47f"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Overwhelmingly popular and praised as one of the best teachers for getting good marks."
+    },
+    {
+        "id": "664de829e19980085db960ba",
+        "name": "Nayan Kumar S. Behera",
+        "likes": 39,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "28",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Doesn't teach good, also gave very bad marks in internal to everyone in the class\n",
+                "rating": 2,
+                "internalScore": 23,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": ".",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d225724d8381f50c551b5e"
+            },
+            {
+                "comments": "Strictly NOT recommended",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65d34b715e6adfcd7bc0c152"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative reviews state he doesn't teach well and gives very bad internal marks."
+    },
+    {
+        "id": "664de829e19980085db960bb",
+        "name": "Arun Kumar Gupta",
+        "likes": 28,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "best faculty",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Thik thak hi he ...\nAttendance me thoda strict hein sir",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Internal bahat kam dete hain but mid sem mein thik thak dete hain",
+                "rating": 4,
+                "internalScore": 24,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Bohot achha padhata hai. Internals mein full nehi deta, par bohot lenient checking karta hai.",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Lenient Marking"
+        ],
+        "tagline": "A good teacher with lenient checking, but is known for giving low internal marks."
+    },
+    {
+        "id": "664de829e19980085db960bc",
+        "name": "S. K. Badi",
+        "likes": 31,
+        "dislikes": 19,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio suggests a divided student opinion."
+    },
+    {
+        "id": "664de829e19980085db960bd",
+        "name": "Spandan Guha",
+        "likes": 6,
+        "dislikes": 17,
+        "reviews": [
+            {
+                "comments": "Internal pura class ko gharab diye tha",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65fad0dbece362a62c15d4c0"
+            }
+        ],
+        "tags": [
+            "Low Internals",
+            "Unpopular"
+        ],
+        "tagline": "Known for giving bad internal marks to the entire class."
+    },
+    {
+        "id": "664de829e19980085db960be",
+        "name": "S. Padhy",
+        "likes": 8,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960bf",
+        "name": "Rakesh Kumar Rai",
+        "likes": 15,
+        "dislikes": 8,
+        "reviews": [
+            {
+                "comments": "chillest teacher, very student-friendly. ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d62c84cbccf4670b3ca14c"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Student-Friendly"
+        ],
+        "tagline": "Described as the 'chillest teacher' and very student-friendly."
+    },
+    {
+        "id": "664de829e19980085db960c0",
+        "name": "Swarup K. Nayak",
+        "likes": 5,
+        "dislikes": 4,
+        "reviews": [
+            {
+                "comments": "Very practical teacher.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            }
+        ],
+        "tags": [
+            "Practical Teacher",
+            "Good Teacher"
+        ],
+        "tagline": "Described as a very practical teacher."
+    },
+    {
+        "id": "664de829e19980085db960c1",
+        "name": "Akshaya Kumar Panda",
+        "likes": 16,
+        "dislikes": 18,
+        "reviews": [
+            {
+                "comments": "Number nhi dega",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Bhai aankh band kr k paper check kr deta h not in a good sense like tmhare answers shi h to b 0 de dega kyuki vo check hi nhi krta",
+                "rating": 5,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Bhai aankh band kr k paper check krega not in a good sense. Shi answer pe bhi 0 de dega kyuki vo paper check hi nhi krta",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "internals mey full milna pakka hai but sir doesnt check",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65d65bcacbccf4670b3ca171"
+            }
+        ],
+        "tags": [
+            "Generous Internals",
+            "Careless Marking"
+        ],
+        "tagline": "Gives full internals but is known for careless paper checking, sometimes giving zero for correct answers."
+    },
+    {
+        "id": "664de829e19980085db960c2",
+        "name": "Mitali Routaray",
+        "likes": 19,
+        "dislikes": 25,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "664de829e19980085db960c3",
+        "name": "Banishree Misra",
+        "likes": 4,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "Good",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Mixed Reviews"
+        ],
+        "tagline": "Despite a negative like/dislike ratio, the single review is positive."
+    },
+    {
+        "id": "664de829e19980085db960c4",
+        "name": "Suvasis Nayak",
+        "likes": 52,
+        "dislikes": 1,
+        "reviews": [
+            {
+                "comments": "Best Teacher, Internal, marks sab aache milenge. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65fad0dbece362a62c15d4c0"
+            },
+            {
+                "comments": "He teaches very well",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65da25870fb947f5b2548009"
+            },
+            {
+                "comments": "He's good, calm, very understanding and teaches very well",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6604e9d9ece362a62c15d4ef"
+            },
+            {
+                "comments": "acha padhate hai or ache marks dete hai",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668e4e4897969283509b082e"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Unanimously praised as one of the best teachers who teaches well and gives excellent marks."
+    },
+    {
+        "id": "664de829e19980085db960c5",
+        "name": "Sriparna Roy Ghatak",
+        "likes": 4,
+        "dislikes": 8,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "664de829e19980085db960c6",
+        "name": "Joydeb Pal",
+        "likes": 62,
+        "dislikes": 33,
+        "reviews": [
+            {
+                "comments": "He is very good and very chill teacher and also teaches very well. He'll try to give as much as possible internals. You can choose him blindly. ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Great teaching style.",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": ".",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Average",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "god",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6638ae0e1cc9557b1486617c"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Chill"
+        ],
+        "tagline": "A very good and chill teacher who teaches well and is generous with internal marks."
+    },
+    {
+        "id": "664de829e19980085db960c7",
+        "name": "Alivarani Mohapatra",
+        "likes": 10,
+        "dislikes": 11,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "664de829e19980085db960c8",
+        "name": "Ranjeeta Patel",
+        "likes": 5,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960c9",
+        "name": "Manas Ranjan Mohapatra",
+        "likes": 13,
+        "dislikes": 11,
+        "reviews": [
+            {
+                "comments": "Teaches pretty good if you're attentive in class and internals bhi ache dete h....sem exams me jitna deserve krte ho ekdm utna hi dete\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5f8da47ab2137a3346d52"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Deserving Marks"
+        ],
+        "tagline": "Teaches well and gives good internals, but gives deserving marks in exams."
+    },
+    {
+        "id": "664de829e19980085db960ca",
+        "name": "Anil Kumar Behera",
+        "likes": 6,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "Will give you andha dun marks on paper and teacher. Very young teacher, toh memes se joke bhi karta hai, aur acha khasa roast karega toh be alert",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Generous Marking",
+            "Fun"
+        ],
+        "tagline": "A young, fun teacher who is known for being extremely generous with marks."
+    },
+    {
+        "id": "664de829e19980085db960cb",
+        "name": "P. Biswal",
+        "likes": 43,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "very good",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Excellent and cool minded teacher.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            }
+        ],
+        "tags": [
+            "Excellent Teacher",
+            "Cool-minded"
+        ],
+        "tagline": "Praised as an excellent and cool-minded teacher."
+    },
+    {
+        "id": "664de829e19980085db960cc",
+        "name": "Subarna Bhattacharya",
+        "likes": 13,
+        "dislikes": 7,
+        "reviews": [
+            {
+                "comments": "Lenient in correction.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "663ce2e91cc9557b148661f4"
+            },
+            {
+                "comments": "Very friendly teacher and also gives good marks in semester exams and internals as well.",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65d067440985a524b12d0498"
+            }
+        ],
+        "tags": [
+            "Lenient Marking",
+            "Friendly"
+        ],
+        "tagline": "Known for being a friendly teacher with lenient correction."
+    },
+    {
+        "id": "664de829e19980085db960cd",
+        "name": "Sudeshna Datta Chaudhuri",
+        "likes": 14,
+        "dislikes": 5,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960ce",
+        "name": "Ruby Mishra",
+        "likes": 17,
+        "dislikes": 12,
+        "reviews": [
+            {
+                "comments": "teaches good,helps students,friendly",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "672b82905a965de869c4344b"
+            },
+            {
+                "comments": "She was the best teacher in my 3rd semester. If you are attentive in class, you don't need to study at home or in the hostel. Your marks will depend on how much you have written. You can easily get full marks in her subject.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "6693d917a71c72f2ca335dab"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Helpful"
+        ],
+        "tagline": "Described as a good, friendly, and helpful teacher who makes learning easy."
+    },
+    {
+        "id": "664de829e19980085db960cf",
+        "name": "Sudipta Kumar Ghosh",
+        "likes": 22,
+        "dislikes": 59,
+        "reviews": [
+            {
+                "comments": "badhiya understanding teacher hai",
+                "rating": 4,
+                "internalScore": 25,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Student-friendly hai but is kinda biased",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "663323e87d32b4eadcd5c2a0"
+            },
+            {
+                "comments": "Sirf ladki log ko number deta hai ye madarchod ",
+                "rating": 2,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Biased"
+        ],
+        "tagline": "Known for being student-friendly but is unpopular due to allegations of being biased."
+    },
+    {
+        "id": "664de829e19980085db960d0",
+        "name": "Suman Sarkar",
+        "likes": 37,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "gives excellent marks; teaches pretty well",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Gives excellent marks ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65fad0dbece362a62c15d4c0"
+            },
+            {
+                "comments": "Very humble teacher and the questions he suggest to practice ACTUALLY come in exams directly. Very lenient checking in exams and you get half marks for just writing the formula and full marks if u leave the answer unsimplified too. ALways gives extra time to submit assignments and you can submit hard copy even after months and he won't mind. Just always write whatever he writes on the board as he dislikes if you are not attentive. ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6695688042841c454a166bea"
+            }
+        ],
+        "tags": [
+            "Excellent Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "A humble teacher who teaches well and is very lenient with marking and deadlines."
+    },
+    {
+        "id": "664de829e19980085db960d1",
+        "name": "Arpita Goswami",
+        "likes": 37,
+        "dislikes": 7,
+        "reviews": [
+            {
+                "comments": "Best teacher, very sweet 10/10 recommended ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65e934cacc176893883e48f3"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Friendly"
+        ],
+        "tagline": "Described as the 'best teacher' and 'very sweet'; 10/10 recommended."
+    },
+    {
+        "id": "664de829e19980085db960d2",
+        "name": "Arijit Patra",
+        "likes": 26,
+        "dislikes": 1,
+        "reviews": [
+            {
+                "comments": "Best",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "GOD\nHe's man of a kind, jus maintain a decent attendance , play ML in his class or doze off np...marks toh bhhar k denge likh k lelo",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "BEST",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cce2d60985a524b12d0486"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Praised as a 'GOD' level teacher who is very chill and gives marks generously."
+    },
+    {
+        "id": "664de829e19980085db960d3",
+        "name": "Shruti",
+        "likes": 12,
+        "dislikes": 43,
+        "reviews": [
+            {
+                "comments": "neither teaches, nor gives marks -- be it internal or sem exams; highest internal score from our sec was about 27-29/50",
+                "rating": 1,
+                "internalScore": 12,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": " ",
+                "rating": 1,
+                "internalScore": 32,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "worst",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "66118e7630641ad00aae8b1c"
+            },
+            {
+                "comments": "doesnt give deserving marks, got additional 16 marks  when i applied for recheck in end sems. try to avoid this teacher.",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "663676d41cc9557b14866098"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Strict Marking"
+        ],
+        "tagline": "Negative reviews state she neither teaches well nor gives deserving marks."
+    },
+    {
+        "id": "664de829e19980085db960d4",
+        "name": "J. R. Panda",
+        "likes": 5,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960d5",
+        "name": "Anil Kumar Swain",
+        "likes": 46,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "Teaches very well but you have to be attentive in class to understand what he's speaking...gives good marks only if your answer is fully correct, otherwise he will place you on B or C grade easily",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Awesome personality, really fun and engaging but when it comes to marks u only getvwhat u deaerve\n",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "a really great teacher. i enjoyed being in his class. teaches really well, gives good marks and always there to help you.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "teacher bhot mehnt krte h smjhane pe,and exam se aak din phle upcoming question bhi discuss kr dete h ,chill teacher h agr class mae attendence acha rkhoge toh jyada acha rhega",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "668fdca397969283509b08fb"
+            },
+            {
+                "comments": "overall best teacher pdhate bhi thik h marks bhi thik dete h\n",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "668fdca397969283509b08fb"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Deserving Marks"
+        ],
+        "tagline": "A great, fun, and engaging teacher who gives deserving marks."
+    },
+    {
+        "id": "664de829e19980085db960d6",
+        "name": "Vishal Pradhan",
+        "likes": 49,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "Great teaching style.\n",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "bestttttttt",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "very good teacher. always try to give good marks in paper as well as in internal also. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663f38091cc9557b14866374"
+            },
+            {
+                "comments": "gave one mark extra to each student of his class in internals just to show his love for us",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6691ee1497969283509b0b67"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Praised as one of the best teachers with a great teaching style and generous marking."
+    },
+    {
+        "id": "664de829e19980085db960d7",
+        "name": "Debdulal Ghosh",
+        "likes": 34,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "best teacher",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Gives Maximum internal Marks..Don't scold.. Give good marks also..",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "doesn't teach that well but: 1. gives good marks 2. attendance doesn't matter 3. never scolds",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": " Silent, calm never irritates students , gives full internal to almost everyone , give marks little bit extra from deserving, gives good notes, but cannot explain the concept nicely.",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "6649ca791cc9557b14866460"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "He doesn't teach well but is known for being calm and giving full internal marks to almost everyone."
+    },
+    {
+        "id": "664de829e19980085db960d8",
+        "name": "Sunil Kr. Mishra",
+        "likes": 12,
+        "dislikes": 4,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960d9",
+        "name": "Swati Swayamsiddha",
+        "likes": 24,
+        "dislikes": 1,
+        "reviews": [
+            {
+                "comments": "Very chill ma'am, give good marks in both internals and exam. Higly Recommended",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Goat, class bht boring hoga but marks expected se jyada milega.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Generous Marking"
+        ],
+        "tagline": "A very chill teacher who gives good marks, though her classes can be boring."
+    },
+    {
+        "id": "664de829e19980085db960da",
+        "name": "Srikanta Behera",
+        "likes": 22,
+        "dislikes": 12,
+        "reviews": [
+            {
+                "comments": "Excellent teacher!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            },
+            {
+                "comments": "Teaching skill is okaish...not too good nor too bad.He will give marks in midsems but in endsems you will not get good marks if you are not regularly practicising maths ..you have to be too good",
+                "rating": 1,
+                "internalScore": 29,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "Very good teacher. Follow his notes and questions practiced in class then you will get a very decent score",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "664ef206d14af87f4424ffe2"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Tough Exams"
+        ],
+        "tagline": "An excellent teacher whose notes are very helpful, but end-semester exams are tough."
+    },
+    {
+        "id": "664de829e19980085db960db",
+        "name": "Pragma Kar",
+        "likes": 6,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "Good teacher!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Highly Rated"
+        ],
+        "tagline": "Praised as a 'Good teacher!' with a perfect rating and high internal score."
+    },
+    {
+        "id": "664de829e19980085db960dc",
+        "name": "Mamita Dash",
+        "likes": 40,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "good teacher",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "strict but provide very good notes. Good teacher . Provide deserving marks ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Very good teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Pura PPT class mai likhwati hai ",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Excellent teacher!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b5c24247ab2137a3346d48"
+            },
+            {
+                "comments": "Best teacher for economics ..she take class tests for chapterwise for internals..You will study for these tests and your concepts will be revised by time. You have to write notes in class ..If you study you can get O grade easily",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "Acchi teacher hain just be a bit disciplined and u're good to go.",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "664ebeb137a2080992d76a40"
+            },
+            {
+                "comments": "best teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663ef2bf1cc9557b14866337"
+            },
+            {
+                "comments": "She explains everything very well and gives great notes. Everything in the exams came exactly as she taught. As long as you attend the classes, you should have zero trouble in economics. She's not super friendly or sociable but she's very professional and willing to answer any genuine doubts you have.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "662d194aad6e7bd16c844009"
+            }
+        ],
+        "tags": [
+            "Excellent Teaching",
+            "Strict"
+        ],
+        "tagline": "An excellent and professional teacher who explains well, but is strict about discipline."
+    },
+    {
+        "id": "664de829e19980085db960dd",
+        "name": "Kartikeswar Mahalik",
+        "likes": 9,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "He is indeed one hellish guy(mostly at the begining of the semester) but if you be absolutely pin drop silence in his class and submit quiz,assignment before hand he will give you good internal marks ,teaches okayish",
+                "rating": 2,
+                "internalScore": 29,
+                "userId": "65d1029cafa614e831481bd0"
+            },
+            {
+                "comments": "Very average teacher, doesn't know the subject, doesn't give attendance, attending his class is very irritating ",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "65e934cacc176893883e48f3"
+            },
+            {
+                "comments": "Very strict teacher...internal marks pura kat denge...",
+                "rating": 3,
+                "internalScore": 18,
+                "userId": "665ff625814ee23b7a2e70b6"
+            },
+            {
+                "comments": "Split checking ",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "66826fd7b73d79e426242d59"
+            },
+            {
+                "comments": "Strict checking. ",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "665ffcb1814ee23b7a2e70b7"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Very Strict"
+        ],
+        "tagline": "Known for being very strict and irritating, with poor subject knowledge and strict marking."
+    },
+    {
+        "id": "664de829e19980085db960de",
+        "name": "S. K. Mohapatra",
+        "likes": 7,
+        "dislikes": 15,
+        "reviews": [
+            {
+                "comments": "Doesn't teach anything, bad marksin midsem also",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative review claims he doesn't teach anything and gives bad marks."
+    },
+    {
+        "id": "664de829e19980085db960df",
+        "name": "Ananda Meher",
+        "likes": 29,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "\n\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "He's a very calm person. he wont mess with you, gives very decent marks in mids, end and internals as well.",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65b7558f47ab2137a3346d7a"
+            },
+            {
+                "comments": "doesnt teach well, but gives amazing marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663676d41cc9557b14866098"
+            },
+            {
+                "comments": "god teacher h\n",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "663f61371cc9557b14866388"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "A calm teacher who doesn't teach well but gives very decent marks."
+    },
+    {
+        "id": "664de829e19980085db960e0",
+        "name": "Ganaraj P. S.",
+        "likes": 11,
+        "dislikes": 29,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "664de829e19980085db960e1",
+        "name": "Bapuji Sahoo",
+        "likes": 58,
+        "dislikes": 23,
+        "reviews": [
+            {
+                "comments": "Major positive points are\nIsn't strict in terms of attendance\nTeaches well\nGives good internals to almost everyone ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Best teacher full marks in internals and no issue with attendence everyone got 95%",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "attendance ko leke koi tension nhi hai, marks bhi bohot achhe dete hain, agar thoda bhi aayega toh achha mil jayega",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "nice teacher he was our mentor last year",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6640f8221cc9557b1486641f"
+            },
+            {
+                "comments": "best teacher, gives a lot of markss",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663676d41cc9557b14866098"
+            },
+            {
+                "comments": "best teacher ,bhai agr mile toh le le na atendence ka dikkat na hi internal marks ka na hi exam mae marks ka mujhe 100 out of 100 mila tha math mae .\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668fdca397969283509b08fb"
+            },
+            {
+                "comments": "Major positive points are\\nIsn't strict in terms of attendance\\nTeaches well\\nGives good internals to almost everyone ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Best teacher full marks in internals and no issue with attendence everyone got 95%",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "attendance ko leke koi tension nhi hai, marks bhi bohot achhe dete hain, agar thoda bhi aayega toh achha mil jayega",
+                "rating": 4,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "\"Best at teaching, super chill, interactive classes, linient\"",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "66334c237d32b4eadcd5c2af"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Praised as one of the best teachers; teaches well, is lenient with attendance, and gives great marks."
+    },
+    {
+        "id": "664de829e19980085db960e2",
+        "name": "Abhijit Sutradhar",
+        "likes": 11,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "He isn't very good at teaching; he makes mistakes way too frequently and often takes a long time to solve problems. That said, he is a very chill and friendly teacher and is extremely lenient in marking. If you're able and willing to learn your concepts from YouTube, go for him.",
+                "rating": 3,
+                "internalScore": 29,
+                "userId": "662d194aad6e7bd16c844009"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Lenient Marking"
+        ],
+        "tagline": "A chill and friendly teacher who is very lenient with marking but not very good at teaching."
+    },
+    {
+        "id": "664de829e19980085db960e3",
+        "name": "Rohit Kumar Tiwari",
+        "likes": 17,
+        "dislikes": 14,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "664de829e19980085db960e4",
+        "name": "Satish Kumar Gannamaneni",
+        "likes": 21,
+        "dislikes": 26,
+        "reviews": [
+            {
+                "comments": "idk why so many dislikes...but marks acha deta hai...expectation se zyada. Han bas thoda strict hai aur paka ta bhi hai.\n",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Isko class lo Mt lo frk nhi padhta .. bs end mai exam Dene jitni attendance ho .. internal Chadha deta hai sahi aur checking bhi acchi krta hai. Overall theek hai class etiquettes ke bare mai bohot lecture deta hai",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "He gives decent marks, but his demeanor is just absolutely unbearable. He will often spend half an hour or more just lecturing you about etiquette (some real, some of which is just his subjective feelings and opinions), talking about completely random things and cracking silly jokes. He will go off on the wildest tangents imaginable while in the middle of teaching something else. On top of this, he always keeps a strict watch over everyone, so if you're on your phone he'll do his best to spot you and confiscate it for the duration of the class, so don't expect to be able to alleviate your boredom that way. Additionally, he also does not let anyone enter after 5 min of his class has elapsed or without their identity card, so keep this in mind or you'll be made to go back.\n\nOh, and he'll also sometimes make everyone do weird stuff like clap in unison, smile (forcefully), do weird yoga stuff, etc. in an attempt to get everyone motivated. Take him only if your main concern is marks and you're willing to sit through eons of pointless nonsense.",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "662d194aad6e7bd16c844009"
+            }
+        ],
+        "tags": [
+            "Good Marks",
+            "Strict"
+        ],
+        "tagline": "He gives decent marks but is known for being strict and having an unbearable demeanor in class."
+    },
+    {
+        "id": "664de829e19980085db960e5",
+        "name": "Kumar Biswal",
+        "likes": 13,
+        "dislikes": 16,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "664de829e19980085db960e6",
+        "name": "Habibul Islam",
+        "likes": 15,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "excellent",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Highly recommended ",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "VERY FRIENDLY ",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "663872e01cc9557b14866144"
+            }
+        ],
+        "tags": [
+            "Excellent",
+            "Friendly"
+        ],
+        "tagline": "Highly recommended as an excellent and very friendly teacher."
+    },
+    {
+        "id": "664de829e19980085db960e7",
+        "name": "Sarbeswar Mohanty",
+        "likes": 29,
+        "dislikes": 4,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Very Popular"
+        ],
+        "tagline": "No detailed reviews are available, but has an overwhelmingly positive like/dislike ratio."
+    },
+    {
+        "id": "664de829e19980085db960e8",
+        "name": "Rachita Panda",
+        "likes": 10,
+        "dislikes": 8,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "664de829e19980085db960e9",
+        "name": "Amalesh Kumar Manna",
+        "likes": 15,
+        "dislikes": 22,
+        "reviews": [
+            {
+                "comments": "Don't go by the WhatsApp screenshots you are seeing everywhere. He's not that bad. Teaching is fine. Math internals depend on quizzes. ",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "65d4ae04aa980c579a71daa5"
+            },
+            {
+                "comments": "Mat lena isko, galti se bhi mat lena. end sem aur mid sem mein bahut bekar marks diya tha. internals okayish tha. extra classes schedule karega baad mein agar syllabus khatm nhi hua which I guarantee kabhi nhi hoga. he yaps too much. phone bhi chalane nhi deta. bilkul mat lena.",
+                "rating": 2,
+                "internalScore": 22,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Bhai ye banda mujhe mile. BKL na padhayega aur itni gandi checking karta hai. Isko 3rd year vaalo ne dhamki bhi di thi ki maar dunga. Pata nahi saala abhi tk pita kaise nhi ye. Kabhi mat lena isko KASAM SE.",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "good",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "663302057d32b4eadcd5c287"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Strict Marking"
+        ],
+        "tagline": "Overwhelmingly negative feedback for bad teaching, strict marking, and poor behavior."
+    },
+    {
+        "id": "664de829e19980085db960ea",
+        "name": "Sushree S. Panda",
+        "likes": 3,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "she has a few behaviour issues and won't give marks at the start but in the mark sheets, you are straight up O somehow.",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "66601b7b814ee23b7a2e70c5"
+            }
+        ],
+        "tags": [
+            "Behavior Issues",
+            "Good Grades"
+        ],
+        "tagline": "Has behavior issues but is known for giving 'O' grades in the final marksheet."
+    },
+    {
+        "id": "664de829e19980085db960eb",
+        "name": "Kumar Surjeet Chaudhury",
+        "likes": 16,
+        "dislikes": 11,
+        "reviews": [
+            {
+                "comments": "Will take few tests but internal me last tak accha de he deta hai, excellent teaching. Bass checking thoda strick karta hai. Overall accha teacher hai , class me bore nahi honge. concepts clear acche se karta hai ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667eaf0e3c448e32cdf1a3a1"
+            }
+        ],
+        "tags": [
+            "Excellent Teaching",
+            "Strict Checking"
+        ],
+        "tagline": "An excellent teacher who gives good internals, but is a bit strict with exam checking."
+    },
+    {
+        "id": "664de829e19980085db960ec",
+        "name": "Seba Mohanty",
+        "likes": 45,
+        "dislikes": 19,
+        "reviews": [
+            {
+                "comments": "Internals me sbko 27 k uper di thi. Marks acha hi deti hai.",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Good ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "She's pretty lenient and friendly; marks graciously in both internals as well as mid and end sem exams",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Gives good marks, also is lenient with attendance",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Best teacher, very friendly, gives internal full and gives excellent marks in mid as well as end. Go for it",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65fad0dbece362a62c15d4c0"
+            },
+            {
+                "comments": "gives good internal marks if u just be present. got 50 in mid and 48 in end. Go for her!",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d0be76afa614e831481b70"
+            },
+            {
+                "comments": "teaches well, gives excellent marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "663ef2bf1cc9557b14866337"
+            },
+            {
+                "comments": "Very Good in giving marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "667fa7bd77b386dd00629872"
+            }
+        ],
+        "tags": [
+            "Generous Marking",
+            "Lenient"
+        ],
+        "tagline": "A very popular teacher known for being friendly, lenient, and giving excellent marks."
+    },
+    {
+        "id": "664de829e19980085db960ed",
+        "name": "Utkal Keshari Dutta",
+        "likes": 75,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "Best Teacher, for marks as well as in Teaching. ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Marks milta hai bohot\n",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Best Maths Teacher in KIIT!! Very much Student Friendly. Gives good marks in internals to everyone. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "bahut achchha padhate hai",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d8afb40fb947f5b2547f21"
+            },
+            {
+                "comments": "Lenient copy checking, good notes , gives good marks in internals ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "669355ace41f723588baa533"
+            },
+            {
+                "comments": "goat",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "668e693697969283509b086b"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Student-Friendly"
+        ],
+        "tagline": "Praised as the best Math teacher; very student-friendly and gives good marks."
+    },
+    {
+        "id": "664de829e19980085db960ee",
+        "name": "Nazia T. Imran",
+        "likes": 5,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960ef",
+        "name": "P. Dutta",
+        "likes": 9,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Gave marks even to students who barely submitted assignments",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Lenient Marking",
+            "Popular"
+        ],
+        "tagline": "Known for being lenient, giving marks even to students who barely submit assignments."
+    },
+    {
+        "id": "664de829e19980085db960f0",
+        "name": "Asif Uddin Khan",
+        "likes": 23,
+        "dislikes": 23,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is evenly split."
+    },
+    {
+        "id": "664de829e19980085db960f1",
+        "name": "A. Bakshi",
+        "likes": 15,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "Teaches below average,kind of irritating teacher",
+                "rating": 2,
+                "internalScore": 28,
+                "userId": "65d1029cafa614e831481bd0"
+            },
+            {
+                "comments": "chutiya hai , padhane nhi aata isko . Itna chutiya jaisa bolta hai ki kuch samajh nhi aayega tumko khud se hi padhna padega.\n",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65dae5f00fb947f5b2548046"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative reviews describe him as an irritating teacher with very poor teaching skills."
+    },
+    {
+        "id": "664de829e19980085db960f2",
+        "name": "Satya Champati Rai",
+        "likes": 15,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "Give internals based on knowledge. I will highly recommend this teacher because teacher is very nice. Even if you get low internals, you will learn something for sure. Very sweet teacher. No partiality.",
+                "rating": 4,
+                "internalScore": 23,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Fair Marking"
+        ],
+        "tagline": "A very nice and fair teacher who is recommended for students who want to learn."
+    },
+    {
+        "id": "664de829e19980085db960f3",
+        "name": "Suvendu Barik",
+        "likes": 24,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "Awesome chill teacher.\nGreenest flag ever\nU can trust him blindly ",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "Best teacher ever",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65ec7b99c25f0eb2966fea47"
+            },
+            {
+                "comments": "He is one of the best teachers you will get in economics development,teaches quite good,notes are amazing(more than enough for mid and end sem),just be sincere and obidient in his class ,submit assigments ,quiz before hand or on time,he will give very good internal marks ,Marking in paper is also very lineage checking so no need to worry\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d1029cafa614e831481bd0"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Good Marks"
+        ],
+        "tagline": "Described as an awesome, chill teacher who is the 'greenest flag ever'."
+    },
+    {
+        "id": "664de829e19980085db960f4",
+        "name": "Swapnomayee Palit",
+        "likes": 8,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "664de829e19980085db960f5",
+        "name": "Smrutirekha Mohanty",
+        "likes": 26,
+        "dislikes": 14,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532a8",
+        "name": "Sricheta Parui",
+        "likes": 15,
+        "dislikes": 17,
+        "reviews": [
+            {
+                "comments": "She is very helpful to toppers, but if you are average or below average toh tumara kuch nahi ho sakta.",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "65d0e2a2afa614e831481b9f"
+            }
+        ],
+        "tags": [
+            "Biased",
+            "Unhelpful"
+        ],
+        "tagline": "Known for being helpful only to toppers and not to average or below-average students."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532a9",
+        "name": "Kamalesh Karmakar",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532aa",
+        "name": "Subhranshu Sekhar Tripathy",
+        "likes": 54,
+        "dislikes": 71,
+        "reviews": [
+            {
+                "comments": "Ekdum harami teacher hein , sala padai k naam paar english to hindi translate karta hey ppt ko dekhkar. Humesa akar demotivate karega . Bolega ki \"Ayesa karega toh manager tumko company se nikal dega .\" Marks vi nahi deta , Software Engineering jaise subject mein vi bahot ko backlog lagwadiya hein. Class mein kuch vi karlo , lekin agar haste vakth daat dekhliya toh tumhari maarlega . Class mein khud toh kuch  numerical karwayega nahi lekin exams mein tough qns dekar bolega ki class mein attentive nahi the .Bhai maar jana , Kiit Xoddena lekin iss harami ko maat lena",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "667ec73f3c448e32cdf1a445"
+            },
+            {
+                "comments": "Ekdum mtt Lena . Agar liya hai toh marks bhul jao ye kuch nahi padhayenge ..bass apne notes se padha denge....exam me bhi sahi likhne se full marks nhi dete. Class ka average 8 tha cn me",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "Doesn't teach well. Doesn't complete syllabus. When you confront him, he'll just say he gave that part in some assignment. Marks bhi nahi dete. Internals bhi nahi dete. Mat lena",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "6676c56158823a77565cd36f"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Extremely negative reviews for poor teaching, bad attitude, and strict marking."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532ab",
+        "name": "Debachudamani Prusti",
+        "likes": 22,
+        "dislikes": 41,
+        "reviews": [
+            {
+                "comments": "isko toh me padha du",
+                "rating": 2,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Doesn't know anything about the subject. He will teach only easy topics and he is also not linient in internal marks.",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Checking deserving krta hai and internals RIP if test me kharap krte ho, direct chada denge and u can't argue to increase marks as he will claim he gave deserving marks and will claim he checked liniently!",
+                "rating": 2,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative reviews claim he has no subject knowledge and gives low internal marks."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532ac",
+        "name": "Uppada Gautami",
+        "likes": 2,
+        "dislikes": 16,
+        "reviews": [
+            {
+                "comments": "You can take ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65b74eb847ab2137a3346d72"
+            },
+            {
+                "comments": "Does not teach well but gives good marks in internal assessments, mid-term, and end-semester exams.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65b74eb847ab2137a3346d72"
+            },
+            {
+                "comments": "worst teacher ever bhai... sirf class main aake notes ready karke chali jaati hai.. college ko school jaisa samjha hua hai issne.. and bilkul bhi accha nhi padhati hai.. kabhi kabhi iske muh se telegu nikal jaata hai because she is South Indian",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "She will get down the sgpa",
+                "rating": 3,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Known for poor teaching, though some say she gives good marks."
+    },
+    {
+        "id": "664e15b5cf0d61ef01c532ad",
+        "name": "Ganga Bishnu Mund",
+        "likes": 34,
+        "dislikes": 31,
+        "reviews": [
+            {
+                "comments": "best teacher , no attendence required",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Hasn't given internals till now,talks to few first benchers and leaves,dont expect to learn from his class,no idea about internals but in exams even if you right correct answer,wnt give marks,will only give if it totally matches with official answer key.Expecting 20",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Poor Teaching",
+            "Strict Marking"
+        ],
+        "tagline": "Feedback criticizes his teaching and states he is very strict with marking."
+    },
+    {
+        "id": "667ed50b33241d6f49cc5b87",
+        "name": "Ankit Raj",
+        "likes": 4,
+        "dislikes": 2,
+        "reviews": [
+            {
+                "comments": "padhana nhi aata but marks me linient hai",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "6667ccfa182c6fb152acc2e4"
+            }
+        ],
+        "tags": [
+            "Lenient Marking",
+            "Poor Teaching"
+        ],
+        "tagline": "He is lenient with marks but does not know how to teach."
+    },
+    {
+        "id": "667ed56133241d6f49cc5b88",
+        "name": "Bijoy Das",
+        "likes": 19,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "Good teacher chill about attendence and gives you marks",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Good Marks"
+        ],
+        "tagline": "A good teacher who is chill about attendance and gives good marks."
+    },
+    {
+        "id": "667ed57633241d6f49cc5b89",
+        "name": "Supriyo Mandal",
+        "likes": 4,
+        "dislikes": 6,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "667ed65133241d6f49cc5b8b",
+        "name": "Amit Kumar",
+        "likes": 2,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "Doesn't teach well, his class is very confusing , gives very less internals to everyone. Leaves the syllabus incomplete. And also checks the copy very strictly . Just makes the semester a hell.",
+                "rating": 1,
+                "internalScore": 21,
+                "userId": "669355ace41f723588baa533"
+            },
+            {
+                "comments": "Worst teacher you will only get trauma!!",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "66433fb71cc9557b14866434"
+            }
+        ],
+        "tags": [
+            "Avoid",
+            "Poor Teaching"
+        ],
+        "tagline": "Overwhelmingly negative reviews for confusing teaching, low marks, and creating a 'hellish' semester."
+    },
+    {
+        "id": "667ed66333241d6f49cc5b8c",
+        "name": "Krishnendu Maity",
+        "likes": 3,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "Neither teaches well nor give marks",
+                "rating": 4,
+                "internalScore": 20,
+                "userId": "667edcee3c448e32cdf1a4a5"
+            },
+            {
+                "comments": "Neither teaches well nor give marks",
+                "rating": 4,
+                "internalScore": 20,
+                "userId": "667edcee3c448e32cdf1a4a5"
+            }
+        ],
+        "tags": [
+            "Avoid",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative reviews claim he neither teaches well nor gives marks."
+    },
+    {
+        "id": "667ed67b33241d6f49cc5b8d",
+        "name": "Rishi Raj",
+        "likes": 2,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "667ed68c33241d6f49cc5b8e",
+        "name": "Sambit Praharaj",
+        "likes": 6,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "Good for Internals gives good for average if good attendance",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65bb037a47ab2137a3346dc4"
+            }
+        ],
+        "tags": [
+            "Good Internals",
+            "Attendance Focused"
+        ],
+        "tagline": "Gives good internal marks to students with good attendance."
+    },
+    {
+        "id": "667ed85a33241d6f49cc5b8f",
+        "name": "Sujoy Madhab Roy",
+        "likes": 7,
+        "dislikes": 8,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "667f5c9ea5c50ae2af6118bb",
+        "name": "Soumya Sanket Patra",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "667f89dc5802626362b22094",
+        "name": "Biswajeet Sethi",
+        "likes": 4,
+        "dislikes": 22,
+        "reviews": [
+            {
+                "comments": "haramii hey gay hey ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d4abe4aa980c579a71daa1"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Overwhelmingly unpopular, with a single profane comment."
+    },
+    {
+        "id": "667f8c4c5802626362b22095",
+        "name": "Shubhangi Shreya",
+        "likes": 28,
+        "dislikes": 8,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is very positive."
+    },
+    {
+        "id": "667f8c5f5802626362b22096",
+        "name": "Swati Priyambada Satpathy",
+        "likes": 31,
+        "dislikes": 8,
+        "reviews": [
+            {
+                "comments": "If you study,and she knows you then you will get good marks. Try to study that subject and ask doubts in the class. Once she knows you you can score easily",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "iternal achha deti hai",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65ba835547ab2137a3346dbf"
+            },
+            {
+                "comments": "Khadoos hai thodasa but behave well with her and she will be  in return well behaved. Jyada backch*** mat karo unke saath then she will make it hell.",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65ba835547ab2137a3346dbf"
+            }
+        ],
+        "tags": [
+            "Good Internals",
+            "Strict"
+        ],
+        "tagline": "Gives good internals but can be strict; good for students who interact in class."
+    },
+    {
+        "id": "667f8e1b5802626362b22097",
+        "name": "Nikhilanand Arya",
+        "likes": 7,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "very bad teacher doesnot teach in the class even gives wrong information takes surprise quizzes offline with different paper codes .. just makes the class a hell never take this teacher\n",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "664f31a6d14af87f44250066"
+            },
+            {
+                "comments": "just  a  hell ",
+                "rating": 1,
+                "internalScore": 28,
+                "userId": "664f31a6d14af87f44250066"
+            },
+            {
+                "comments": "Skip a lot of topics in the classroom. Don't choose if you are beginners ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "isne mere dost ko ds pdhaya tha ,topic ko skip kr deta hae,aur bolta h ki gfg se,and youtube  pdh lo ,and surprise test le leta h with different sets ,overall le skte ho agr option nhi h toh",
+                "rating": 2,
+                "internalScore": 28,
+                "userId": "668fdca397969283509b08fb"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Teaching"
+        ],
+        "tagline": "Negative reviews describe him as a 'hell' teacher who skips topics and gives surprise quizzes."
+    },
+    {
+        "id": "667f8e335802626362b22098",
+        "name": "Abir Sen",
+        "likes": 21,
+        "dislikes": 9,
+        "reviews": [
+            {
+                "comments": "Super chill.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65b7558f47ab2137a3346d7a"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Popular"
+        ],
+        "tagline": "Described as 'Super chill' and has a positive like/dislike ratio."
+    },
+    {
+        "id": "667f8e415802626362b22099",
+        "name": "Komal Naaz",
+        "likes": 2,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "best\n",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d983500fb947f5b2547fbe"
+            }
+        ],
+        "tags": [
+            "Mixed Reviews",
+            "Unpopular"
+        ],
+        "tagline": "Despite a negative like/dislike ratio, the single review calls her the 'best'."
+    },
+    {
+        "id": "667f90355802626362b2209a",
+        "name": "Himanshu Ranjan",
+        "likes": 8,
+        "dislikes": 15,
+        "reviews": [
+            {
+                "comments": "No notes pdf being shared ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Poor Resources"
+        ],
+        "tagline": "Negative like/dislike ratio, with a comment stating he doesn't provide notes."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84c8",
+        "name": "Subhra Debdas",
+        "likes": 18,
+        "dislikes": 6,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84c9",
+        "name": "Pampa Sinha",
+        "likes": 17,
+        "dislikes": 7,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84ca",
+        "name": "Shubhasri Kundu",
+        "likes": 25,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Good teacher",
+                "rating": 1,
+                "internalScore": 30,
+                "userId": "65dcb2560fb947f5b254810f"
+            },
+            {
+                "comments": "Good teaching and gives good marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65dcb2560fb947f5b254810f"
+            },
+            {
+                "comments": "She is good in terms of teaching. Little strict about attendence",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66920e00e41f723588baa468"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Good Marks"
+        ],
+        "tagline": "Praised for good teaching and giving good marks, though a bit strict on attendance."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84cb",
+        "name": "Ankit Kumar Soni",
+        "likes": 16,
+        "dislikes": 5,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84cc",
+        "name": "Manoj Kumar Moharana",
+        "likes": 5,
+        "dislikes": 17,
+        "reviews": [
+            {
+                "comments": "Gives less marks in written paper",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "66920f78e41f723588baa470"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Strict Marking"
+        ],
+        "tagline": "Negative like/dislike ratio, with a comment that he gives less marks on written papers."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84cd",
+        "name": "Sanhita Mishra",
+        "likes": 4,
+        "dislikes": 13,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Very Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is very negative."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84ce",
+        "name": "Subodh Kumar Mohanty",
+        "likes": 2,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84cf",
+        "name": "Snehalika",
+        "likes": 34,
+        "dislikes": 12,
+        "reviews": [
+            {
+                "comments": "She is good",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66920e00e41f723588baa468"
+            }
+        ],
+        "tags": [
+            "Popular",
+            "Good Teacher"
+        ],
+        "tagline": "Praised as a 'good' teacher with a positive like/dislike ratio."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d0",
+        "name": "Tapaswini Biswal",
+        "likes": 16,
+        "dislikes": 9,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d1",
+        "name": "Deepak Kumar Gupta",
+        "likes": 19,
+        "dislikes": 12,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d2",
+        "name": "Swagat Das",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d3",
+        "name": "Satyabrata Sahoo",
+        "likes": 24,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Was in my elective. Gives good marks and chill teacher ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65dcb2560fb947f5b254810f"
+            },
+            {
+                "comments": "Was in my elective. Gives good marks and chill teacher",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65dcb2560fb947f5b254810f"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Good Marks"
+        ],
+        "tagline": "Described as a chill teacher who gives good marks."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d4",
+        "name": "Subrat Behera",
+        "likes": 3,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d5",
+        "name": "R. Lenka",
+        "likes": 16,
+        "dislikes": 13,
+        "reviews": [
+            {
+                "comments": "Class me bakwas karta hai bhot par marks dedeta hai",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "667eb9713c448e32cdf1a3f6"
+            },
+            {
+                "comments": "Average teacher, gives okayish marks, shouts a lot",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65e934cacc176893883e48f3"
+            }
+        ],
+        "tags": [
+            "Gives Marks",
+            "Strict"
+        ],
+        "tagline": "He gives good marks but is known for being loud and shouting in class."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d6",
+        "name": "P. Sunil",
+        "likes": 28,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "Best teacher na attendance ka natak na kuch number v deta hai",
+                "rating": 3,
+                "internalScore": 30,
+                "userId": "65d2d02e5e6adfcd7bc0c10a"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Good Marks"
+        ],
+        "tagline": "A chill teacher who is good with marks and not strict about attendance."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d7",
+        "name": "Deepak Kumar Rout",
+        "likes": 3,
+        "dislikes": 56,
+        "reviews": [
+            {
+                "comments": "Not recommended",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Very Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Extremely unpopular, with the single review saying 'Not recommended'."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d8",
+        "name": "Akshaya Kumar Pati",
+        "likes": 52,
+        "dislikes": 26,
+        "reviews": [
+            {
+                "comments": "He was in our b etc lab ,gave marks to us.He was very lineant .If you focus on the subjecct and listen to him ,you can story easily",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "he was our IND4.0 professor....the internals says it all....",
+                "rating": 1,
+                "internalScore": 16,
+                "userId": "663869941cc9557b14866120"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Lenient"
+        ],
+        "tagline": "Reviews are conflicting, with some saying he's lenient and others citing very low internals."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84d9",
+        "name": "Makireddi Ramana",
+        "likes": 24,
+        "dislikes": 25,
+        "reviews": [
+            {
+                "comments": "Makireddi is madharchod",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Controversial",
+            "Poorly Rated"
+        ],
+        "tagline": "Has a neutral like/dislike ratio but a single, extremely negative and profane comment."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84da",
+        "name": "D. Mukherjee",
+        "likes": 21,
+        "dislikes": 10,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84db",
+        "name": "B. Surekha",
+        "likes": 6,
+        "dislikes": 12,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84dc",
+        "name": "Bijaya Bijeta Nayak",
+        "likes": 35,
+        "dislikes": 1,
+        "reviews": [
+            {
+                "comments": "aankh band karke lelo. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65b7353547ab2137a3346d6a"
+            }
+        ],
+        "tags": [
+            "Popular",
+            "Best Teacher"
+        ],
+        "tagline": "Overwhelmingly positive feedback; students say to choose her without a second thought."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84dd",
+        "name": "Manoj Ukamanal",
+        "likes": 6,
+        "dislikes": 7,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84de",
+        "name": "Rahul",
+        "likes": 14,
+        "dislikes": 10,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84df",
+        "name": "Ram Kumar Kesharwani",
+        "likes": 6,
+        "dislikes": 33,
+        "reviews": [
+            {
+                "comments": "very bad teacher comes late and then deducted 6 marks for late assignment submission .. asks out of syllabus questions in exam (bhai tum pagal ho jaoge mat lena)",
+                "rating": 1,
+                "internalScore": 18,
+                "userId": "6690bf4097969283509b092a"
+            },
+            {
+                "comments": "Bhai galti se bhi maat lena, 2nd sem mee mera BME leta thaa aur isse ghatiya teacher mene aaj tak nahi dekha",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "6692b0c2e41f723588baa4f5"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Very negative reviews describe him as a 'ghatiya' (terrible) teacher to be avoided."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e0",
+        "name": "Abhilas Swain",
+        "likes": 23,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "Was in my ind4. Very Chill teacher and gives no headache.",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65dcb2560fb947f5b254810f"
+            }
+        ],
+        "tags": [
+            "Popular",
+            "Chill"
+        ],
+        "tagline": "A very chill teacher who gives no headaches and good marks."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e1",
+        "name": "Md. Ehtesham Hasan",
+        "likes": 25,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "Exam se pehle thoda padho...and inke class me baat mtt karna strict hai .Baat karte hue ya phone chalate hue inhone pakad liya toh sabke samne tumhe jabardasti class se nikal denge.Aur haan yeh marks de dete hai",
+                "rating": 4,
+                "internalScore": 26,
+                "userId": "65d07085afa614e831481aeb"
+            }
+        ],
+        "tags": [
+            "Strict",
+            "Good Marks"
+        ],
+        "tagline": "He is strict about discipline in class but gives good marks."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e2",
+        "name": "Smitirupa Pradhan",
+        "likes": 2,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e3",
+        "name": "Anish Pandey",
+        "likes": 23,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Very friendly teacher, internal mai sabko full mila tha aur paper mai v udake number dete hai... ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d2d02e5e6adfcd7bc0c10a"
+            },
+            {
+                "comments": "Best Teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66396b2a1cc9557b1486619c"
+            },
+            {
+                "comments": "Gives good marks in the exam. ",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65cfaed50985a524b12d0492"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Praised as the best teacher; friendly and very generous with marks."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e4",
+        "name": "Suchismita Satapathy",
+        "likes": 2,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "6691040f26d0bb7f589c84e5",
+        "name": "Sanjib Kumar Jaypuria",
+        "likes": 6,
+        "dislikes": 16,
+        "reviews": [
+            {
+                "comments": "very bad teacher does not give internal",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "6632f7557d32b4eadcd5c274"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Low Internals"
+        ],
+        "tagline": "Negative feedback indicates he is a very bad teacher who does not give internal marks."
+    },
+    {
+        "id": "66910849da6847b7ed617fff",
+        "name": "R. K. Khanna",
+        "likes": 6,
+        "dislikes": 17,
+        "reviews": [
+            {
+                "comments": "Average teacher, gives average marks",
+                "rating": 3,
+                "internalScore": 25,
+                "userId": "65e934cacc176893883e48f3"
+            }
+        ],
+        "tags": [
+            "Average Teacher",
+            "Average Marks"
+        ],
+        "tagline": "Described as an average teacher who gives average marks."
+    },
+    {
+        "id": "66910849da6847b7ed618000",
+        "name": "Sukanta Sabut",
+        "likes": 5,
+        "dislikes": 29,
+        "reviews": [
+            {
+                "comments": "Never take this old man as your teacher, worst teaching, doens't know 1% dsd , cuts internal marks and marks during exam, avoid choosing him",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65e934cacc176893883e48f3"
+            },
+            {
+                "comments": "i write every possible ans from his ppt but still he didn't give me marks in end sem",
+                "rating": 1,
+                "internalScore": 24,
+                "userId": "664d7d951cc9557b14866474"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Extremely negative reviews for poor teaching and strict marking."
+    },
+    {
+        "id": "66910849da6847b7ed618001",
+        "name": "Niten Kumar Panda",
+        "likes": 3,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "Worst teacher",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "66914a3d97969283509b0ab3"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Single review calls him the 'Worst teacher'."
+    },
+    {
+        "id": "66910849da6847b7ed618002",
+        "name": "Sruti S. Singh",
+        "likes": 33,
+        "dislikes": 51,
+        "reviews": [
+            {
+                "comments": "Bohot kharap teacher hai. Mera lab mai thi yea. Kuch nhi ata isko or number bhi nhi deti and she is biased towards odiya student.",
+                "rating": 1,
+                "internalScore": 22,
+                "userId": "65c21e2f0985a524b12d043a"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Biased"
+        ],
+        "tagline": "Negative review claims she doesn't teach well and is biased towards certain students."
+    },
+    {
+        "id": "66910849da6847b7ed618003",
+        "name": "Wriddhi Bhowmick",
+        "likes": 3,
+        "dislikes": 41,
+        "reviews": [
+            {
+                "comments": "Do not take him ever. You get good internals but your end semester marks will also look like it. No matter what you write, he isn’t giving good marks. Also, he is very strict in class and doesn’t tolerate students being 5 minutes late",
+                "rating": 1,
+                "internalScore": 29,
+                "userId": "65e32a41cc176893883e48ce"
+            },
+            {
+                "comments": "Knowledgeable but 0 teaching skills.Behaves badly with the students and give poor marking even if you write the correct answer ",
+                "rating": 1,
+                "internalScore": 28,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Bad Behavior"
+        ],
+        "tagline": "Known for being knowledgeable but has 0 teaching skills, bad behavior, and gives poor marks."
+    },
+    {
+        "id": "66910849da6847b7ed618004",
+        "name": "Ayaskanta Mishra",
+        "likes": 4,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "66910849da6847b7ed618005",
+        "name": "S. K. Behera",
+        "likes": 5,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618006",
+        "name": "A. Gorai",
+        "likes": 5,
+        "dislikes": 26,
+        "reviews": [
+            {
+                "comments": "Padhata acha hai and marks vi deserving deta h aur internal vi.",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "667eb3dc3c448e32cdf1a3d5"
+            }
+        ],
+        "tags": [
+            "Deserving Marks",
+            "Good Teaching"
+        ],
+        "tagline": "Despite a very negative like/dislike ratio, the single review is positive, calling him a good teacher."
+    },
+    {
+        "id": "66910849da6847b7ed618007",
+        "name": "A. Basak",
+        "likes": 21,
+        "dislikes": 8,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618008",
+        "name": "Amit Kumar V.Jha",
+        "likes": 3,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618009",
+        "name": "Pradeep Kumar Parhi",
+        "likes": 11,
+        "dislikes": 14,
+        "reviews": [
+            {
+                "comments": "He is a new teacher in kiit  bahat attitude hai, initially he didn't give internals then we had to talk to dean so then internal got increased. Padhata utna khas hai nhi aur jitna likhoge utna hi dega ya usse v kam",
+                "rating": 1,
+                "internalScore": 26,
+                "userId": "65d2d02e5e6adfcd7bc0c10a"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Bad Attitude"
+        ],
+        "tagline": "Described as a new teacher with a bad attitude and strict marking."
+    },
+    {
+        "id": "66910849da6847b7ed61800a",
+        "name": "Abhijit Deuri",
+        "likes": 13,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "Best teacher full marks, end sem + mid sem me bhar bhar ke marks dega",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "6642cad91cc9557b1486642e"
+            }
+        ],
+        "tags": [
+            "Generous Marking",
+            "Best Teacher"
+        ],
+        "tagline": "Praised as the 'Best teacher' who gives excellent marks."
+    },
+    {
+        "id": "66910849da6847b7ed61800b",
+        "name": "Saswata Roy",
+        "likes": 28,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "God level teacher. Increased 8 marks in internal as I was regular in class. Just because of him got 9 gpa in 4 credit subject COA.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65dcb2560fb947f5b254810f"
+            },
+            {
+                "comments": "good",
+                "rating": 5,
+                "internalScore": 22,
+                "userId": "65d3007d5e6adfcd7bc0c12a"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Generous Marking"
+        ],
+        "tagline": "Described as a 'God level' teacher who is extremely helpful with marks."
+    },
+    {
+        "id": "66910849da6847b7ed61800c",
+        "name": "Lipsa Subhadarshini",
+        "likes": 22,
+        "dislikes": 5,
+        "reviews": [],
+        "tags": [
+            "Popular",
+            "No Reviews"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is very positive."
+    },
+    {
+        "id": "66910849da6847b7ed61800d",
+        "name": "Chitralekha Jena",
+        "likes": 29,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "She is one of the best teachers at KIIT. She teaches really well.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65d8afb40fb947f5b2547f21"
+            },
+            {
+                "comments": "She is a great teacher \nShe is strict but great teacher",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65da25870fb947f5b2548009"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Strict"
+        ],
+        "tagline": "Praised as one of the best teachers at KIIT; she teaches well but is strict."
+    },
+    {
+        "id": "66910849da6847b7ed61800e",
+        "name": "Babita Panda",
+        "likes": 20,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "she donates marks....simple",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "66601b7b814ee23b7a2e70c5"
+            }
+        ],
+        "tags": [
+            "Generous Marking",
+            "Popular"
+        ],
+        "tagline": "Known for 'donating' marks; very lenient with grading."
+    },
+    {
+        "id": "66910849da6847b7ed61800f",
+        "name": "KVVSR Chowdary",
+        "likes": 22,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "very good teaching and gives very nice internal marks",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "6632f7557d32b4eadcd5c274"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Good Internals"
+        ],
+        "tagline": "Praised for very good teaching and giving very nice internal marks."
+    },
+    {
+        "id": "66910849da6847b7ed618010",
+        "name": "Srikanta Mohapatra",
+        "likes": 19,
+        "dislikes": 7,
+        "reviews": [
+            {
+                "comments": "gives good end sem and mid sem marks",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "6632f7557d32b4eadcd5c274"
+            }
+        ],
+        "tags": [
+            "Good Exam Marks",
+            "Popular"
+        ],
+        "tagline": "Known for giving good marks in mid-semester and end-semester exams."
+    },
+    {
+        "id": "66910849da6847b7ed618011",
+        "name": "Geetanjali Dei",
+        "likes": 4,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "66910849da6847b7ed618012",
+        "name": "Samita Rani Pani",
+        "likes": 4,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618013",
+        "name": "Suchismita Roy",
+        "likes": 2,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618014",
+        "name": "Deepanjali Mishra",
+        "likes": 25,
+        "dislikes": 17,
+        "reviews": [
+            {
+                "comments": "agr tum english mae ache ho toh hi ye teacher lena.",
+                "rating": 3,
+                "internalScore": 26,
+                "userId": "668fdca397969283509b08fb"
+            }
+        ],
+        "tags": [
+            "Controversial",
+            "Biased"
+        ],
+        "tagline": "Recommended only for students who are good at English."
+    },
+    {
+        "id": "66910849da6847b7ed618015",
+        "name": "Amit Kumar Das",
+        "likes": 24,
+        "dislikes": 5,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618016",
+        "name": "Kalpana Sahoo",
+        "likes": 21,
+        "dislikes": 35,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Controversial"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is negative."
+    },
+    {
+        "id": "66910849da6847b7ed618017",
+        "name": "B. Paikaray",
+        "likes": 2,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618018",
+        "name": "Aparupa Pani",
+        "likes": 3,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618019",
+        "name": "Paromita Chakraborty",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66910849da6847b7ed61801a",
+        "name": "M I Nayyer",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66910849da6847b7ed61801b",
+        "name": "Manas Chandan Mishra",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66910849da6847b7ed61801c",
+        "name": "P. Nanda",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66910849da6847b7ed61801d",
+        "name": "S. R. Samal",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66910849da6847b7ed61801e",
+        "name": "Ramanuj Kumar",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66910849da6847b7ed61801f",
+        "name": "Amlana Panda",
+        "likes": 34,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Student friendly. Teaches very well. Gives good marks in mid and end both. ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65b51ea871212d151fedf6b8"
+            },
+            {
+                "comments": "Best teacher. He interacts with his students and helps them to get grades.",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "669214a8e41f723588baa47f"
+            }
+        ],
+        "tags": [
+            "Excellent Teacher",
+            "Student-Friendly"
+        ],
+        "tagline": "A very popular and friendly teacher who teaches well and gives good marks."
+    },
+    {
+        "id": "66910849da6847b7ed618020",
+        "name": "Sambit K. Mohapatra",
+        "likes": 2,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618021",
+        "name": "Asit Behera",
+        "likes": 27,
+        "dislikes": 9,
+        "reviews": [
+            {
+                "comments": "Teacher is good, Daily class activities (we had 9 activity, 4 assignments and 2 quizzes) , You might receive less marks compared to other friends in other sections. Attendance isn't too important (No internal marks on the basis of attendance but activities hoga, you need to submit)",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cfaed50985a524b12d0492"
+            }
+        ],
+        "tags": [
+            "Good Teacher",
+            "Heavy Workload"
+        ],
+        "tagline": "A good teacher, but known for giving many class activities, assignments, and quizzes."
+    },
+    {
+        "id": "66910849da6847b7ed618022",
+        "name": "P. K. Samanta",
+        "likes": 59,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "He teaches really well and will give marks too",
+                "rating": 3,
+                "internalScore": 28,
+                "userId": "65d2d02e5e6adfcd7bc0c10a"
+            },
+            {
+                "comments": "He teaches really well and will give marks too",
+                "rating": 5,
+                "internalScore": 20,
+                "userId": "65d2d02e5e6adfcd7bc0c10a"
+            },
+            {
+                "comments": "best",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66396b2a1cc9557b1486619c"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Good Marks"
+        ],
+        "tagline": "A popular teacher who teaches well and gives good marks."
+    },
+    {
+        "id": "66910849da6847b7ed618023",
+        "name": "Arighna Deb",
+        "likes": 3,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618024",
+        "name": "Mamata Panigrahy",
+        "likes": 27,
+        "dislikes": 9,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66910849da6847b7ed618025",
+        "name": "S. Kund",
+        "likes": 14,
+        "dislikes": 24,
+        "reviews": [
+            {
+                "comments": "Marks dedenge exam me,but strict hai.Assignments and quiz ka pressure rahega through out the semester.But at the end marks dedenge",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65d07085afa614e831481aeb"
+            }
+        ],
+        "tags": [
+            "Strict",
+            "Gives Marks"
+        ],
+        "tagline": "Strict and gives a lot of assignments, but gives good marks in the end."
+    },
+    {
+        "id": "66910849da6847b7ed618026",
+        "name": "R. Prasad",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66910849da6847b7ed618027",
+        "name": "B. P. De",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66910849da6847b7ed618028",
+        "name": "Vimal Ku Shrivastava",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66910849da6847b7ed618029",
+        "name": "S. Roy",
+        "likes": 6,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "The best teacher I have ever seen in my life. I have had this great experience. Please tum log ye experience kabhi bhi mat lena",
+                "rating": 1,
+                "internalScore": 2,
+                "userId": "665663acd14af87f44250122"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Extremely negative review sarcastically recommends against taking him."
+    },
+    {
+        "id": "66910849da6847b7ed61802a",
+        "name": "B. V. V. S. Kumar",
+        "likes": 1,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "66910849da6847b7ed61802b",
+        "name": "T. M. Behera",
+        "likes": 10,
+        "dislikes": 21,
+        "reviews": [
+            {
+                "comments": "Just skip her in first go, very bad at internal, subj paper & even in lab too..... often take class-tests in pen paper [with usually no option for supplementary], takes presentation in finals.... very strict n mkc!!! ",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65b7353547ab2137a3346d6a"
+            },
+            {
+                "comments": "Best teacher. Class chale jao bass\nMarks bhar bhar ke degi",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d676c9a226064c68a248b0"
+            }
+        ],
+        "tags": [
+            "Polarizing",
+            "Strict"
+        ],
+        "tagline": "Polarizing reviews describe her as both the 'best teacher' and a very strict one to be avoided."
+    },
+    {
+        "id": "66910c20da6847b7ed61802c",
+        "name": "Prasanta Ku. Das",
+        "likes": 5,
+        "dislikes": 48,
+        "reviews": [
+            {
+                "comments": "class me kuch nahi padhata hai ye",
+                "rating": 1,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Bahut madarchod faculty hai😂",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Unpopular",
+            "Avoid"
+        ],
+        "tagline": "Extremely negative reviews claim he doesn't teach anything."
+    },
+    {
+        "id": "66910c32da6847b7ed61802d",
+        "name": "Subhadarshan Sahoo",
+        "likes": 31,
+        "dislikes": 10,
+        "reviews": [
+            {
+                "comments": "Chill teacher h, sb kuch time pe karoge toh internal me accha number deta h and jitna exam me likh ke aayoge utha hi number dega",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66338bdc7d32b4eadcd5c2b9"
+            }
+        ],
+        "tags": [
+            "Chill",
+            "Deserving Marks"
+        ],
+        "tagline": "A chill teacher who gives good internals for timely work and deserving exam marks."
+    }
+  ]
+
+  const details=
+[
+    {
+        "id": "66910c42da6847b7ed61802e",
+        "name": "Madhusudan Bera",
+        "likes": 41,
+        "dislikes": 13,
+        "reviews": [
+            {
+                "comments": "if dont have better option then go with him",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Teaches well also good with internals.",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "65d74c3b0fb947f5b2547e7b"
+            },
+            {
+                "comments": "Gave full marks in the internals to the whole class.Gives grace marks,teaches well,lineant.Go with him he will give you marks in exam also",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d07085afa614e831481aeb"
+            },
+            {
+                "comments": "Bad teaching bad marks/deserving marks\nInternal dedega par endsem midsem me strict hai",
+                "rating": 1,
+                "internalScore": 29,
+                "userId": "667eb9713c448e32cdf1a3f6"
+            },
+            {
+                "comments": "he's a bit slow for teaching things but gives a detailed note, specially useful for exams and good internal marks too, avg >26. ",
+                "rating": 5,
+                "internalScore": 27,
+                "userId": "65b7353547ab2137a3346d6a"
+            },
+            {
+                "comments": "Teaches really well and gives good marks",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66823bb4b73d79e426242bc5"
+            }
+        ],
+        "tags": [
+            "Good Teaching",
+            "Generous Marking"
+        ],
+        "tagline": "Praised for good teaching and lenient marking, but some reviews criticize his teaching and strictness."
+    },
+    {
+        "id": "66910c51da6847b7ed61802f",
+        "name": "Vijil Kumar",
+        "likes": 10,
+        "dislikes": 15,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "66911c1ec815a93324b1708f",
+        "name": "S.S. Singh",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17090",
+        "name": "Anita Nayak",
+        "likes": 14,
+        "dislikes": 5,
+        "reviews": [
+            {
+                "comments": "lenient checking",
+                "rating": 5,
+                "internalScore": 28,
+                "userId": "665e9276814ee23b7a2e7051"
+            },
+            {
+                "comments": "not bad, but syllabus time pe khatam nhi karti",
+                "rating": 4,
+                "internalScore": 27,
+                "userId": "65cbb1f40985a524b12d0481"
+            }
+        ],
+        "tags": [
+            "Lenient Checking",
+            "Poor Time Management"
+        ],
+        "tagline": "Known for lenient checking but doesn't finish the syllabus on time."
+    },
+    {
+        "id": "66911c1ec815a93324b17091",
+        "name": "Shweta Alpna",
+        "likes": 4,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66911c1ec815a93324b17092",
+        "name": "Santosh Kumar Hotta",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "66911c1ec815a93324b17093",
+        "name": "P. Chandrasekhar",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17094",
+        "name": "Tarak Kumar Sahoo",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17095",
+        "name": "Smita Rani Panda",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17096",
+        "name": "A. Samui",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17097",
+        "name": "M. Behera",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17098",
+        "name": "M. K. Beuria",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b17099",
+        "name": "Mrutyunjay Das",
+        "likes": 5,
+        "dislikes": 0,
+        "reviews": [
+            {
+                "comments": "Best",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65d983500fb947f5b2547fbe"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Highly Rated"
+        ],
+        "tagline": "Praised simply as the 'Best' teacher with a perfect rating."
+    },
+    {
+        "id": "66911c1ec815a93324b1709a",
+        "name": "A. K. Behera",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b1709b",
+        "name": "Ashish Panda",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "66911c1ec815a93324b1709c",
+        "name": "Malaya Mohanty",
+        "likes": 2,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "66911c1ec815a93324b1709d",
+        "name": "Sunil Kumar Sawant",
+        "likes": 39,
+        "dislikes": 13,
+        "reviews": [
+            {
+                "comments": "A very good, friendly, and understanding teacher. Teaches very well and also gives marks. He is very chill. Proxy bhi chalta h more or less but don't overdo it. Internal me bhi sabko acha hi marks diya h... Thoda sa khud se karna assignment wagera and be honest with him. Best teacher. ",
+                "rating": 4,
+                "internalScore": 30,
+                "userId": "66839790f6aabfe19cf4fcd5"
+            },
+            {
+                "comments": "Really cool professor 😎 gives you marks and teaches well",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Best teacher for Discrete Mathematics ",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "Chill hai and marks bhi denge, parhaate bhi time leke h",
+                "rating": 4,
+                "internalScore": 28,
+                "userId": "66914ab597969283509b0ab8"
+            },
+            {
+                "comments": "Knowledge good but marks dene mai utna achhe nahi hai",
+                "rating": 1,
+                "internalScore": 25,
+                "userId": "65b5267847ab2137a3346d2c"
+            },
+            {
+                "comments": "one of the best teacher in kiit regarding study and understanding both... very chill guy.. just don't try for proxy he will roast you like anythinh.. overall greenest teacher of whole kiit",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "6644f2201cc9557b1486644b"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Chill"
+        ],
+        "tagline": "Overwhelmingly praised as one of the best, most chill, and friendly teachers who teaches well and gives good marks."
+    },
+    {
+        "id": "66912366c815a93324b1709e",
+        "name": "Debdulal Panda",
+        "likes": 1,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "67453ce0c4d49d9f4f961565",
+        "name": "B.V.V. S. Subhramanyam",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "67453ce0c4d49d9f4f961566",
+        "name": "S Ramavath",
+        "likes": 1,
+        "dislikes": 3,
+        "reviews": [
+            {
+                "comments": "Suicide is a better option.",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "65d676c9a226064c68a248b0"
+            },
+            {
+                "comments": "worst mistake of my life for choosing him,na padhana aata hai na marks dena",
+                "rating": 1,
+                "internalScore": 17,
+                "userId": "667ea2513c448e32cdf1a319"
+            },
+            {
+                "comments": "Bilkul padhana nahi aata. Agar answer thoda bhi different hua answer script se to 0. Step marking to bhul jao.",
+                "rating": 1,
+                "internalScore": 19,
+                "userId": "6734b2f55a965de869c434c3"
+            },
+            {
+                "comments": "BILKUL MAT LENA!!!",
+                "rating": 1,
+                "internalScore": 14,
+                "userId": "6734b2f55a965de869c434c3"
+            },
+            {
+                "comments": "Isko lene ke baad cgpa bhul jao",
+                "rating": 1,
+                "internalScore": 15,
+                "userId": "6734b2f55a965de869c434c3"
+            }
+        ],
+        "tags": [
+            "Avoid",
+            "Unpopular"
+        ],
+        "tagline": "Overwhelmingly negative reviews describe him as one of the worst teachers to be avoided at all costs."
+    },
+    {
+        "id": "67453ce0c4d49d9f4f961567",
+        "name": "Priyanka Panigrahi",
+        "likes": 3,
+        "dislikes": 4,
+        "reviews": [
+            {
+                "comments": "Written most of the assignments but still didn't give good internal, the rest midsem and endsem should be deserving.",
+                "rating": 3,
+                "internalScore": 20,
+                "userId": "668256efb73d79e426242d1e"
+            },
+            {
+                "comments": "she has joined kiit recently ,and will give u deserving marks ",
+                "rating": 5,
+                "internalScore": 42,
+                "userId": "65d5849dcbccf4670b3ca0d4"
+            }
+        ],
+        "tags": [
+            "Deserving Marks",
+            "Low Internals"
+        ],
+        "tagline": "Reviews are conflicting, mentioning both deserving marks and poor internals."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b465",
+        "name": "Ananya Mitra",
+        "likes": 8,
+        "dislikes": 10,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b470",
+        "name": "Sushma Singh",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b473",
+        "name": "Sananda Kumar",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b45d",
+        "name": "Nishikant Mishra",
+        "likes": 0,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the single dislike suggests a negative opinion."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46b",
+        "name": "NSA",
+        "likes": 0,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the single dislike suggests a negative opinion."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46e",
+        "name": "Sugyanta Priyadarshini",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b469",
+        "name": "Priyanka Koner",
+        "likes": 46,
+        "dislikes": 6,
+        "reviews": [
+            {
+                "comments": "𝙱𝚎𝚜𝚝 𝚝𝚎𝚊𝚌𝚑𝚎𝚛",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "662031a6ad6e7bd16c843f3f"
+            },
+            {
+                "comments": "She gives good internal marks. If you want beauty with brains please select her..",
+                "rating": 5,
+                "internalScore": 29,
+                "userId": "66768d3a58823a77565cd342"
+            },
+            {
+                "comments": "very recommended for engineering student\n",
+                "rating": 5,
+                "internalScore": 50,
+                "userId": "66179559a909c6db59a41f78"
+            }
+        ],
+        "tags": [
+            "Best Teacher",
+            "Good Internals"
+        ],
+        "tagline": "Highly recommended and praised as the 'Best teacher' who gives good internal marks."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46a",
+        "name": "Saurav Shil",
+        "likes": 5,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b460",
+        "name": "Tulasi Malini Maharatha",
+        "likes": 7,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b461",
+        "name": "Ipsita Mohapatra",
+        "likes": 4,
+        "dislikes": 4,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b463",
+        "name": "Muhammed Najeeb K. K",
+        "likes": 4,
+        "dislikes": 3,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b472",
+        "name": "Sanjaya Kumar Lenka",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b464",
+        "name": "Lopamudra Lenka",
+        "likes": 4,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b468",
+        "name": "Rajashree Mishra",
+        "likes": 22,
+        "dislikes": 16,
+        "reviews": [
+            {
+                "comments": "Not a good subject knowledge but give you marks",
+                "rating": 3,
+                "internalScore": 27,
+                "userId": "65cbb1f40985a524b12d0481"
+            },
+            {
+                "comments": "gives full internal. gives good mark in mid and end sem too. ",
+                "rating": 5,
+                "internalScore": 30,
+                "userId": "66764e0d58823a77565cd2bd"
+            }
+        ],
+        "tags": [
+            "Generous Marking",
+            "Poor Teaching"
+        ],
+        "tagline": "Known for giving good marks and full internals, though her subject knowledge is questioned."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b45f",
+        "name": "Motiniva Nayak",
+        "likes": 3,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b466",
+        "name": "Sheikh Masud",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46f",
+        "name": "Subhrajit Rath",
+        "likes": 1,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Positive Feedback"
+        ],
+        "tagline": "No detailed reviews are available; a single like suggests a positive student opinion."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b45e",
+        "name": "Arvind Kumar Yadav",
+        "likes": 1,
+        "dislikes": 2,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Unpopular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is negative."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46d",
+        "name": "JKM",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b471",
+        "name": "Archana Senapati",
+        "likes": 0,
+        "dislikes": 0,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "No Feedback"
+        ],
+        "tagline": "There is no student feedback available for this faculty member."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b46c",
+        "name": "Manas Ranjan Tripathy",
+        "likes": 3,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b462",
+        "name": "Manas Kumar Pedi",
+        "likes": 3,
+        "dislikes": 1,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Popular"
+        ],
+        "tagline": "No detailed reviews are available, but the like/dislike ratio is positive."
+    },
+    {
+        "id": "674bd3384ed51c6699a4b467",
+        "name": "Arpita Nayak",
+        "likes": 4,
+        "dislikes": 4,
+        "reviews": [],
+        "tags": [
+            "No Reviews",
+            "Neutral Feedback"
+        ],
+        "tagline": "No detailed reviews are available; the like/dislike ratio is neutral."
+    }
+]
+
+      for (let i = 0; i < details.length; i++) {
+        const faculty = details[i];
+
+        await this.prisma.facultiesDetails.update({
+          where: { id: faculty.id },
+          data: {
+            tags: faculty.tags,
+            tagline: faculty.tagline
+          }
+        })
+
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Adding a delay of 1 second between updates
+        console.log(`Updated faculty: ${faculty.name} with tags: ${faculty.tags.join(', ')}, tagline: ${faculty.tagline}`);
+      }
+
+    } catch (error) {
+      console.error("Error updating faculty details:", error);
+      throw new Error("Failed to update faculty details");
+    }
+
+  }
+
+
 }

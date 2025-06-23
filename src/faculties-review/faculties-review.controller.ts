@@ -205,6 +205,14 @@ console.log(data)
     return this.facultiesReviewService.countNoOfPremiumUsers();
   }
 
- 
+  @Post('getAllFaculties')
+  async getAllFaculties() {
+    return this.facultiesReviewService.getAllFaculty();
+  }
+
+  @Post('addTagsAndTagline')
+  async addTagsAndTagline() {
+    return this.facultiesReviewService.addTagsAndTagline();
+  }
 }
 
