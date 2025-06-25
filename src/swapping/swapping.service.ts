@@ -232,29 +232,29 @@ export class SwappingService {
 
       // console.log(remoteUser.name,remoteUser.email,remoteUser.contact,currentUser.name,currentUser.alloted,currentUser.lookingFor,remoteUser.alloted,remoteUser.lookingFor)
 
-      //  this.mailService.sendMailToSwapFound(
-      //   remoteUser.name,
-      //   isRemoteUserExist.email,
-      //   remoteUser.contact,
-      //   currentUser.name,
-      //   currentUser.alloted,
-      //   currentUser.lookingFor,
-      //   remoteUser.alloted,
-      //   remoteUser.lookingFor,
-      // isCurrentUserExist.email
-      // );
+       this.mailService.sendMailToSwapFound(
+        remoteUser.name,
+        isRemoteUserExist.email,
+        remoteUser.contact,
+        currentUser.name,
+        currentUser.alloted,
+        currentUser.lookingFor,
+        remoteUser.alloted,
+        remoteUser.lookingFor,
+      isCurrentUserExist.email
+      );
 
-      //  this.mailService.sendMailToSwapFound(
-      //   currentUser.name,
-      //   isCurrentUserExist.email,
-      //   currentUser.contact,
-      //   remoteUser.name,
-      //   remoteUser.alloted,
-      //   remoteUser.lookingFor,
-      //   currentUser.alloted,
-      //   currentUser.lookingFor,
-      //   isRemoteUserExist.email
-      // );
+       this.mailService.sendMailToSwapFound(
+        currentUser.name,
+        isCurrentUserExist.email,
+        currentUser.contact,
+        remoteUser.name,
+        remoteUser.alloted,
+        remoteUser.lookingFor,
+        currentUser.alloted,
+        currentUser.lookingFor,
+        isRemoteUserExist.email
+      );
 
       return update;
     } catch (error) {
