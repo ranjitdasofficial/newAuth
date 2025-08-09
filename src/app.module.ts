@@ -35,7 +35,7 @@ import { FacultiesReviewController } from './faculties-review/faculties-review.c
 import { FacultiesReviewModule } from './faculties-review/faculties-review.module';
 import { FacultiesReviewService } from './faculties-review/faculties-review.service';
 
-import { CacheModule } from '@nestjs/cache-manager';  
+import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { GivewayController } from './giveway/giveway.controller';
 import { GivewayModule } from './giveway/giveway.module';
@@ -54,26 +54,41 @@ import { PaymentService } from './payment/payment.service';
 import { YoutubePlaylistController } from './youtube-playlist/youtube-playlist.controller';
 import { YoutubePlaylistModule } from './youtube-playlist/youtube-playlist.module';
 import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.service';
+import { AnalyticsModule } from './PlacementsModule/analytics2/analytics.module';
+import { StudyMaterialsModule } from './PlacementsModule/study-materials2/study-materials.module';
+import { ResourcesModule } from './PlacementsModule/resources2/resources.module';
+import { RolesModule } from './PlacementsModule/roles2/roles.module';
+import { CompaniesModule } from './PlacementsModule/companies2/companies.module';
+import { EventsModule } from './PlacementsModule/events/events.module';
+import { EventsController } from './PlacementsModule/events/events.controller';
+import { SettingsModule } from './PlacementsModule/settings/settings.module';
+import { SettingsController } from './PlacementsModule/settings/settings.controller';
+import { TimelineModule } from './PlacementsModule/timeline/timeline.module';
+import { TimelineController } from './PlacementsModule/timeline/timeline.controller';
 
 
 @Module({
-  imports: [CacheModule.register({ 
-    store: redisStore, 
-    isGlobal:true,
+  imports: [CacheModule.register({
+    store: redisStore,
+    isGlobal: true,
     host: 'localhost', //default host
     port: 6379, //default port,
     ttl: 100000000000, // seconds
-  }),UserModule, AuthModule,ConfigModule.forRoot(), TeacherModule, PremiumModule,MulterModule.register({
+  }), UserModule, AuthModule, ConfigModule.forRoot(
+    {
+      isGlobal: true,
+    }
+  ), TeacherModule, PremiumModule, MulterModule.register({
     dest: './uploads', // Set your upload directory
   }), MailerModule.forRoot({
     transport: {
-    pool: true,
-    host: 'smtp.gmail.com',
-    // host: 'smtp.mailgun.com',
-    // host:"rdmails.me",
-    // port: 25,
-    port:587,
-      auth: { 
+      pool: true,
+      // host: 'smtp.gmail.com',
+      host: 'smtp.mailgun.com',
+      // host:"rdmails.me",
+      // port: 25,
+      port: 587,
+      auth: {
         user: `${process.env.MAIL_USERNAME}`,
         pass: `${process.env.MAIL_PASSWORD}`,
 
@@ -81,14 +96,14 @@ import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.serv
         // user: `postmaster@kiitconnect.live`,
         // pass: `ee2d617b16ea7116cb06a66ca6d223a2-408f32f3-2dc250bf`,
 
-
+ 
         //  user: `support@rdmails.me`,
         // pass: `Hijecked@#98`,
-      
-      }, 
-      // tls:{ 
-      //   rejectUnauthorized:false
-      // }
+
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
     },
     defaults: {
       // from:"KIIT-CONNECT<mail@technicalranjit.com.np"
@@ -96,29 +111,37 @@ import { YoutubePlaylistService } from './youtube-playlist/youtube-playlist.serv
       // from: 'KIIT-CONNECT<newuser@kiitconnect.live>',
       // from: 'KIIT-CONNECT<postmaster@kiitconnect.live>',
 
-      from: 'KIIT-CONNECT<support@kiitconnect.com>',
+      // from: 'KIIT-CONNECT<support@kiitconnect.com>',
 
       // from: 'KIIT-CONNECT <notify@kiitconnect.com>',
       // from: 'KIIT-CONNECT <support@notification.kiitconnect.com>',
-      // from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
+      from: 'KIIT-CONNECT <noreply@notice.kiitconnect.com',
       // from: 'KIIT-CONNECT <noreply@alert.kiitconnect.com>',
       // from: 'KIIT-CONNECT <noreply@notify.kiitconnect.com',
       // from: 'KIIT-CONNECT <support@rdmails.me>',
       // from: 'KIIT-CONNECT<account@kiitconnect.live>', 
-      
+
       // from: 'KIIT-CONNECT<reminder@kiitconnect.live>',
     },
     template: {
-      dir: path.join(__dirname , '../src/template'), // Replace with the actual path to your templates
+      dir: path.join(__dirname, '../src/template'), // Replace with the actual path to your templates
       adapter: new EjsAdapter(), // Use the appropriate adapter for your templating engine
       options: {
         strict: false,
       },
     },
-  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule, YoutubePlaylistModule],
-  controllers: [UserController,AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController],
-  providers: [AuthService,PrismaService,UserService,JwtService,PremiumService,DriveService,MyMailService,KiitsocialService, StorageService, WhatsappService, NotesService,AdminService, FacultiesReviewService,GivewayService, MyperfecticeService,SwappingService,PlacementsService,PaymentService,YoutubePlaylistService],
-  exports:[CacheModule]
-  
-}) 
-export class AppModule {}
+  }), KiitsocialModule, KiitUsersModule, NotesModule, AdminModule, FacultiesReviewModule, GivewayModule, MyperfecticeModule, SwappingModule, PlacementsModule, PaymentModule, YoutubePlaylistModule, CompaniesModule,
+    RolesModule,
+    ResourcesModule,
+    StudyMaterialsModule,
+    AnalyticsModule,
+    EventsModule,
+    SettingsModule,
+    TimelineModule
+  ],
+  controllers: [UserController, AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController,EventsController,SettingsController,TimelineController],
+  providers: [AuthService, PrismaService, UserService, JwtService, PremiumService, DriveService, MyMailService, KiitsocialService, StorageService, WhatsappService, NotesService, AdminService, FacultiesReviewService, GivewayService, MyperfecticeService, SwappingService, PlacementsService, PaymentService, YoutubePlaylistService],
+  exports: [CacheModule]
+
+})
+export class AppModule { }
