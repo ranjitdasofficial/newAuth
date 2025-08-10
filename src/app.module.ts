@@ -65,6 +65,7 @@ import { SettingsModule } from './PlacementsModule/settings/settings.module';
 import { SettingsController } from './PlacementsModule/settings/settings.controller';
 import { TimelineModule } from './PlacementsModule/timeline/timeline.module';
 import { TimelineController } from './PlacementsModule/timeline/timeline.controller';
+import { MaintenanceModule } from './maintenance/maintenance.module';
 
 
 @Module({
@@ -137,7 +138,8 @@ import { TimelineController } from './PlacementsModule/timeline/timeline.control
     AnalyticsModule,
     EventsModule,
     SettingsModule,
-    TimelineModule
+    TimelineModule,
+    MaintenanceModule
   ],
   controllers: [UserController, AuthController, PremiumController, KiitsocialController, NotesController, AdminController, FacultiesReviewController, GivewayController, MyperfecticeController, SwappingController, PaymentController, YoutubePlaylistController,EventsController,SettingsController,TimelineController],
   providers: [AuthService, PrismaService, UserService, JwtService, PremiumService, DriveService, MyMailService, KiitsocialService, StorageService, WhatsappService, NotesService, AdminService, FacultiesReviewService, GivewayService, MyperfecticeService, SwappingService, PlacementsService, PaymentService, YoutubePlaylistService],

@@ -5,8 +5,9 @@ import { KiitUsersService } from 'src/kiit-users/kiit-users.service';
 import { StorageService } from 'src/storage/storage.service';
 import { MyMailService } from 'src/mail.service';
 import { JwtService } from '@nestjs/jwt';
+import { MaintenanceService } from 'src/maintenance/maintenance.service';
 
 @Module({
-  providers: [PaymentService,PrismaService,MyMailService]
+  providers: [PaymentService, PrismaService, MyMailService, MaintenanceService]
 })
 export class PaymentModule {}

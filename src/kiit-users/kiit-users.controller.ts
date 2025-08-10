@@ -10,6 +10,8 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { KiitUsersService } from './kiit-users.service';
 import {
@@ -20,6 +22,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { exit } from 'process';
 import { JwtService } from '@nestjs/jwt';
+import { JWTGuard } from '../auth/guard/jtw.guard';
 
 const secure = 'Ranjit';
 
@@ -44,6 +47,11 @@ export class KiitUsersController {
   async getUserById(@Param('email') email: string) {
     console.log(email);
     return this.kiitUserService.getUserByEmail(email);
+  }
+
+  @Get('user/:id')
+  async getUserByIdParam(@Param('id') id: string) {
+    return this.kiitUserService.getUserById(id);
   }
 
   @Post('getUserByEmailByPassword')
@@ -350,7 +358,7 @@ export class KiitUsersController {
   }
 
   @Post('changeYear')
-  async changeYear(@Body() dto: { userId: string; year: string }) {
+  async changeYear(@Body() dto: { userId: string; year: string,branch?: string }) {
     return this.kiitUserService.changeYear(dto);
   }
 
@@ -404,10 +412,10 @@ export class KiitUsersController {
   }
 
 
-  // @Post("transferFile")
-  // async transferFile() {
-  //   return this.kiitUserService.transferFilesNotesFromGdriveToR2();
-  // }
+  @Post("transferFile")
+  async transferFile() {
+    return this.kiitUserService.transferFilesNotesFromGdriveToR2();
+  }
 
   @Post('securityViolated')
   async securityViolated(@Body() data: { userId: string }) {
@@ -433,5 +441,17 @@ export class KiitUsersController {
   async expireUserHard() {
     return this.kiitUserService.expireMonthlyUsersByHard();
   }
+
+  @Post('filterNepaliStudentsByRoll')
+  async filterNepaliStudentsByRoll() {
+    return this.kiitUserService.filterUsersByEmail();
+  }
+
+
+  @Post('getUsersDetails')
+  async getUsersDetails(@Body() dto: { email: string }) {
+    return this.kiitUserService.getUsersDetails(dto.email);
+  }
+
 
 }
