@@ -2563,7 +2563,8 @@ export class KiitUsersService {
         isPremium: user.isPremium,
         maintenanceFeeDue: user.maintenanceFeeDue || 0,
         lastMaintenancePayment: user.lastMaintenancePayment,
-        paymentHistory: paymentHistory
+        paymentHistory: paymentHistory,
+        premiumMember: user.PremiumMember?true:false,
       };
     } catch (error) {
       if (error instanceof NotFoundException) {
