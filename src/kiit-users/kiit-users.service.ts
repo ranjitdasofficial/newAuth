@@ -1167,6 +1167,17 @@ async getDeviceDetails(email: string, deviceId: string) {
     }
   }
 
+  async removeSession(email: string) {
+    try {
+      await this.cacheService.del(email);
+      return true;
+    } catch (error) {
+      console.log(error);
+
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
   async removeSiginToken(dto: { email: string; deviceId: string }) {
     try {
       const token: string = await this.cacheService.get(dto.email);

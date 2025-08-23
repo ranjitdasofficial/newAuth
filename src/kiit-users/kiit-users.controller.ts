@@ -107,6 +107,11 @@ export class KiitUsersController {
   }
 
 
+  @Post('removeSession')
+  async removeSession(@Body() dto: { email: string }) {
+    return this.kiitUserService.removeSession(dto.email);
+  }
+
   @Get("clearCache")
   async clearCache() {
     return this.kiitUserService.clearCache();
