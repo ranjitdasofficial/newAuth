@@ -40,6 +40,33 @@ export class KiitUsersController {
   }
 
 
+  @Post('createUserIfNotExist')
+  async createUserIfNotExist(@Body() dto: { email: string,name:string,profileImage:string }) {
+    return this.kiitUserService.createUserIfNotExist(dto);
+  }
+
+
+  @Get('getDeviceDetailsByEmail')
+  async getDeviceDetailsByEmail(@Query('email') email: string) {
+    return this.kiitUserService.getDeviceDetailsByEmail(email);
+  }
+
+  @Get('getDeviceDetails')
+  async getDeviceDetails(@Query('email') email: string, @Query('deviceId') deviceId: string) {
+    return this.kiitUserService.getDeviceDetails(email, deviceId);
+  }
+
+  @Post('registerDevice')
+  async registerDevice(@Body() dto: { deviceId: string, email: string ,registerDevice:{
+    deviceType: string,
+    browser: string,
+    hardware: string,
+    system: string,
+    timestamp: string  }}) {
+    console.log("registerDevice", dto.deviceId, dto.email);
+    return this.kiitUserService.registerDevice({ deviceId: dto.deviceId, email: dto.email, registerDevice: dto.registerDevice});
+  }
+
 
   
 
@@ -79,8 +106,21 @@ export class KiitUsersController {
     return this.kiitUserService.verifyToken(dto.token, dto.email);
   }
 
+
+  @Get("clearCache")
+  async clearCache() {
+    return this.kiitUserService.clearCache();
+  }
+
+
+  @Get('checkSession')
+  async getDeviceCount(@Query('email') email: string, @Query('deviceId') deviceId: string) {
+    console.log("checkSession", email, deviceId);
+    return this.kiitUserService.checkSession(email, deviceId);
+  }
+
   @Post('removeSiginToken')
-  async removeSiginToken(@Body() dto: { email: string; token: string }) {
+  async removeSiginToken(@Body() dto: { email: string; deviceId: string }) {
     console.log(dto);
     return this.kiitUserService.removeSiginToken(dto);
   }

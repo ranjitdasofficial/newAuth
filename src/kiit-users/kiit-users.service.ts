@@ -75,6 +75,119 @@ export class KiitUsersService {
     }
   }
 
+async getDeviceDetails(email: string, deviceId: string) {
+  try {
+    const user = await this.cacheService.get(email);
+    if (!user) throw new NotFoundException('User not found');
+    const userData = JSON.parse(user as string);
+    if(!userData[deviceId]) throw new NotFoundException('Device not found');
+    return userData[deviceId];
+  }
+  catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+}
+
+
+  async registerDevice(dto: { deviceId: string, email: string, registerDevice: {
+    deviceType: string,
+    browser: string,
+    hardware: string,
+    system: string,
+    timestamp: string  } }) {
+    try {
+      const user = await this.cacheService.get(dto.email);
+      if (!user){
+        const newUser = {
+          [dto.deviceId]: dto.registerDevice
+        }
+        console.log("New user", newUser);
+        await this.cacheService.set(dto.email, JSON.stringify(newUser));
+        return newUser;
+      }
+
+      console.log("Registering device", dto.registerDevice);
+
+
+      //mydata is like this 
+      // const demoData = {
+      //   "deviceId1":{
+      //     deviceType: string,
+      //     browser: string,
+      //     hardware: string,
+      //     system: string,
+      //     timestamp: string
+      //   },
+      //   "deviceId2":{
+      //     deviceType: string,
+      //     browser: string,
+      //     hardware: string,
+      //     system: string,
+      //     timestamp: string
+      //   }
+      // }
+
+      const userData = JSON.parse(user as string) as {
+        [key: string]: {
+          deviceType: string,
+          browser: string,
+          hardware: string,
+          system: string,
+          timestamp: string
+        }
+      };
+      console.log("Device details", userData);
+      if(userData[dto.deviceId]) {
+        return {
+          status: "success",
+          message: "Device already registered",
+          data: userData[dto.deviceId]
+        }
+      }
+      if(Object.keys(userData).length >= 2) {
+        throw new ConflictException('You have reached the maximum number of devices');
+      }
+      userData[dto.deviceId] = dto.registerDevice;
+      await this.cacheService.set(dto.email, JSON.stringify(userData));
+      return {
+        status: "success",
+        message: "Device registered successfully",
+      }
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async createUserIfNotExist(dto: { email: string, name: string, profileImage: string }) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: dto.email,
+        },
+      });
+      if (!user){
+      const newUser = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          name: dto.name,
+          profileImage: dto.profileImage,
+          isPremium: false,
+          refrealCode: this.generateReferralCode(6),
+          totalEarned: 0,
+        },
+      });
+      if (!newUser) throw new Error('Something went wrong!');
+      return newUser; 
+    }
+    return user;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
   async getUserByEmail(email: string) {
     try {
       const user = await this.prisma.user.findUnique({
@@ -188,41 +301,41 @@ export class KiitUsersService {
         };
       }
 
-      const getEmailSession: string = await this.cacheService.get(email);
-      console.log(getEmailSession);
-      let getSessionData = [];
+      // const getEmailSession: string = await this.cacheService.get(email);
+      // console.log(getEmailSession);
+      // let getSessionData = [];
 
-      if (!this.exceptionUser.includes(email) && getEmailSession) {
-        getSessionData = JSON.parse(getEmailSession);
-        console.log(getSessionData, getSessionData.length);
-        if (getSessionData.length >= 2) {
-          throw new ConflictException(
-            'Already two users are using with this id',
-          );
-        }
-      }
-      const uniqueCode = await this.generateMediaId();
+      // if (!this.exceptionUser.includes(email) && getEmailSession) {
+      //   getSessionData = JSON.parse(getEmailSession);
+      //   console.log(getSessionData, getSessionData.length);
+      //   if (getSessionData.length >= 2) {
+      //     throw new ConflictException(
+      //       'Already two users are using with this id',
+      //     );
+      //   }
+      // }
+      // const uniqueCode = await this.generateMediaId();
 
-      getSessionData.push(uniqueCode);
-      await this.cacheService.set(email, JSON.stringify(getSessionData));
-      console.log(getSessionData);
+      // getSessionData.push(uniqueCode);
+      // await this.cacheService.set(email, JSON.stringify(getSessionData));
+      // console.log(getSessionData);
 
-      const iat = Math.floor(Date.now() / 1000);
-      const exp = iat + 60; // seconds
-      const tokens = await this.jwtService.signAsync(
-        { email: email },
+      // const iat = Math.floor(Date.now() / 1000);
+      // const exp = iat + 60; // seconds
+      // const tokens = await this.jwtService.signAsync(
+      //   { email: email },
 
-        {
-          expiresIn: '1m',
+      //   {
+      //     expiresIn: '1m',
 
-          secret: 'Ranjit',
-        },
-      );
-      this.tokens[email] = tokens;
+      //     secret: 'Ranjit',
+      //   },
+      // );
+      // this.tokens[email] = tokens;
       return {
         user: { ...user, isActive: true },
-        tokens: tokens,
-        uniqueCode: uniqueCode,
+        // tokens: tokens,
+        // uniqueCode: uniqueCode,
       };
     } catch (error) {
       if (
@@ -1017,15 +1130,64 @@ export class KiitUsersService {
     }
   }
 
-  async removeSiginToken(dto: { email: string; token: string }) {
+  async clearCache() {
+    try {
+      await this.cacheService.reset();
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+
+  async getDeviceDetailsByEmail(email: string) {
+    try {
+      const user = await this.cacheService.get(email);
+      if (!user) throw new NotFoundException('User not found');
+      const userData = JSON.parse(user as string);
+      return userData;
+    }
+    catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async checkSession(email: string, deviceId: string) {
+    try {
+      const user = await this.cacheService.get(email);
+      if (!user) throw new NotFoundException('User not found');
+      const userData = JSON.parse(user as string);
+      return userData[deviceId];
+    } catch (error) {
+      console.log(error);
+
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+  }
+
+  async removeSiginToken(dto: { email: string; deviceId: string }) {
     try {
       const token: string = await this.cacheService.get(dto.email);
       if (token) {
-        const decode: string[] = await JSON.parse(token);
-        if (decode.includes(dto.token)) {
-          const newToken = decode.filter((item) => item !== dto.token);
-          await this.cacheService.set(dto.email, JSON.stringify(newToken));
-          return true;
+        const decode: {
+          [key: string]: {
+            deviceType: string,
+            browser: string,
+            hardware: string,
+            system: string,
+            timestamp: string
+          }
+        } = await JSON.parse(token);
+        if (decode[dto.deviceId]) {
+          delete decode[dto.deviceId];
+          await this.cacheService.set(dto.email, JSON.stringify(decode));
+          return {
+            status: "success",
+            message: "Device removed successfully",
+            data: decode
+          }
         }
       }
       return false;
