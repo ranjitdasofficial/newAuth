@@ -98,7 +98,7 @@ async getDeviceDetails(email: string, deviceId: string) {
     timestamp: string  } }) {
     try {
       const user = await this.cacheService.get(dto.email);
-      if (!user){
+      if (!user || Object.keys(user).length === 0){
         const newUser = {
           [dto.deviceId]: dto.registerDevice
         }
@@ -1150,6 +1150,10 @@ async getDeviceDetails(email: string, deviceId: string) {
     }
     catch (error) {
       console.log(error);
+      if(error instanceof NotFoundException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
@@ -1157,11 +1161,19 @@ async getDeviceDetails(email: string, deviceId: string) {
   async checkSession(email: string, deviceId: string) {
     try {
       const user = await this.cacheService.get(email);
-      if (!user) throw new NotFoundException('User not found');
+      if (!user || Object.keys(user).length === 0) throw new NotFoundException('User not found');
       const userData = JSON.parse(user as string);
+      console.log(userData, deviceId,userData[deviceId]);
+      if(!userData[deviceId]) {
+        throw new NotFoundException('Device not found');
+      }
       return userData[deviceId];
     } catch (error) {
       console.log(error);
+
+      if(error instanceof NotFoundException) {
+        throw error;
+      }
 
       throw new InternalServerErrorException('Internal Server Error');
     }
@@ -1193,17 +1205,29 @@ async getDeviceDetails(email: string, deviceId: string) {
         } = await JSON.parse(token);
         if (decode[dto.deviceId]) {
           delete decode[dto.deviceId];
-          await this.cacheService.set(dto.email, JSON.stringify(decode));
+          if(Object.keys(decode).length > 0) {
+            await this.cacheService.set(dto.email, JSON.stringify(decode));
+          } else {
+            await this.cacheService.del(dto.email);
+          }
           return {
             status: "success",
             message: "Device removed successfully",
             data: decode
           }
+        }else{
+          return{
+            "status":"not deleted"
+          }
         }
       }
-      return false;
+      await this.cacheService.del(dto.email);
+      return true;
     } catch (error) {
       console.log(error);
+      if(error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Internal server Error');
     }
   }
