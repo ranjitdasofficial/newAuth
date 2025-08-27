@@ -230,41 +230,41 @@ async getDeviceDetails(email: string, deviceId: string) {
         };
       }
 
-      const getEmailSession: string = await this.cacheService.get(email);
-      console.log(getEmailSession);
-      let getSessionData = [];
+      // const getEmailSession: string = await this.cacheService.get(email);
+      // console.log(getEmailSession);
+      // let getSessionData = [];
 
-      if (!this.exceptionUser.includes(email) && getEmailSession) {
-        getSessionData = JSON.parse(getEmailSession);
-        console.log(getSessionData, getSessionData.length);
-        if (getSessionData.length >= 2) {
-          throw new ConflictException(
-            'Already two users are using with this id',
-          );
-        }
-      }
-      const uniqueCode = await this.generateMediaId();
+      // if (!this.exceptionUser.includes(email) && getEmailSession) {
+      //   getSessionData = JSON.parse(getEmailSession);
+      //   console.log(getSessionData, getSessionData.length);
+      //   if (getSessionData.length >= 2) {
+      //     throw new ConflictException(
+      //       'Already two users are using with this id',
+      //     );
+      //   }
+      // }
+      // const uniqueCode = await this.generateMediaId();
 
-      getSessionData.push(uniqueCode);
-      await this.cacheService.set(email, JSON.stringify(getSessionData));
-      console.log(getSessionData);
+      // getSessionData.push(uniqueCode);
+      // await this.cacheService.set(email, JSON.stringify(getSessionData));
+      // console.log(getSessionData);
 
-      const iat = Math.floor(Date.now() / 1000);
-      const exp = iat + 60; // seconds
-      const tokens = await this.jwtService.signAsync(
-        { email: email },
+      // const iat = Math.floor(Date.now() / 1000);
+      // const exp = iat + 60; // seconds
+      // const tokens = await this.jwtService.signAsync(
+      //   { email: email },
 
-        {
-          expiresIn: '1m',
+      //   {
+      //     expiresIn: '1m',
 
-          secret: 'Ranjit',
-        },
-      );
-      this.tokens[email] = tokens;
+      //     secret: 'Ranjit',
+      //   },
+      // );
+      // this.tokens[email] = tokens;
       return {
         user: { ...user, isActive: true },
-        tokens: tokens,
-        uniqueCode: uniqueCode,
+        // tokens: tokens,
+        // uniqueCode: uniqueCode,
       };
     } catch (error) {
       console.log(error);
