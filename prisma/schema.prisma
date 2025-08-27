@@ -24,6 +24,12 @@ model User {
   expiryDate     DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  
+  // Authenticator (2FA) fields
+  authenticatorSecret    String?
+  authenticatorEnabled   Boolean  @default(false)
+  authenticatorBackupCodes String[] // Backup codes for account recovery
+  
   PremiumMember  PremiumMember?
   Comments       Comments[]
   kiitsocial     kiitsocial[]

@@ -160,6 +160,21 @@ async getDeviceDetails(email: string, deviceId: string) {
     }
   }
 
+
+  async removePremiumStatus(email: string) {
+    try {
+      const user = await this.prisma.user.update({
+        where: { email: email },
+        data: { isPremium: false }
+      });
+      return user;
+  }
+  catch (error) {
+    console.log(error);
+    throw new InternalServerErrorException('Internal Server Error');
+  }
+}
+
   async createUserIfNotExist(dto: { email: string, name: string, profileImage: string }) {
     try {
       const user = await this.prisma.user.findUnique({

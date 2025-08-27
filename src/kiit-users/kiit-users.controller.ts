@@ -51,6 +51,11 @@ export class KiitUsersController {
     return this.kiitUserService.getDeviceDetailsByEmail(email);
   }
 
+  @Post('removePremiumStatus')
+  async removePremiumStatus(@Body() dto: { email: string }) {
+    return this.kiitUserService.removePremiumStatus(dto.email);
+  }
+
   @Get('getDeviceDetails')
   async getDeviceDetails(@Query('email') email: string, @Query('deviceId') deviceId: string) {
     return this.kiitUserService.getDeviceDetails(email, deviceId);

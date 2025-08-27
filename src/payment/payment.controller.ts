@@ -27,6 +27,7 @@ export class PaymentController {
             userId: string;
         };
     }) {
+        console.log("createRazorpayOrder",reqData);
         return this.paymentService.createRazorpayOrder(reqData);
     }
 
